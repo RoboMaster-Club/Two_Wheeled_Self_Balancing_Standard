@@ -27,30 +27,39 @@ void MF9025_Chassis_Get_Data(CAN_Export_Data_t RxMessage)
 		case MF9025_CHASSIS_LEFT_ID:
 			MF9025_Chassis[0].Prev_Angle = MF9025_Chassis[0].Actual_Angle;
 			MF9025_Chassis[0].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Export_RxMessage[6];
+			MF9025_Chassis[0].Prev_Speed = MF9025_Chassis[0].Actual_Speed;
 			MF9025_Chassis[0].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Export_RxMessage[4];
+		  MF9025_Chassis[0].Angular_Acceleration = (float)(MF9025_Chassis[0].Prev_Speed - MF9025_Chassis[0].Actual_Speed)/MF9025_Chassis[0].Sample.Period/180.0f*PI;
 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Export_RxMessage[2];
+			MF9025_Chassis[0].Calculated_Current = (float)MF9025_Chassis[0].Actual_Current/2048.0f*16.5f;
 			MF9025_Chassis[0].Temperature = RxMessage.CANx_Export_RxMessage[1];
 			if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) < -50000)
 			MF9025_Chassis[0].Turn_Count++;
 			else if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) > 50000)
 			MF9025_Chassis[0].Turn_Count--;
 			MF9025_Chassis[0].Total_Turn = ((float)MF9025_Chassis[0].Actual_Angle / (float)MF9025_MECH_ANGLE_MAX) + MF9025_Chassis[0].Turn_Count;
-		
+			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+			MF9025_Chassis[0].Sample.Period = MF9025_Chassis[0].Sample.Now_Time - MF9025_Chassis[0].Sample.Prev_Time;
+			MF9025_Chassis[0].Sample.Prev_Time = MF9025_Chassis[0].Sample.Now_Time;
 			MF9025_Chassis[0].Info_Update_Frame++;
 			break;
 		case MF9025_CHASSIS_RIGHT_ID:
 			MF9025_Chassis[1].Prev_Angle = MF9025_Chassis[1].Actual_Angle;
 			MF9025_Chassis[1].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Export_RxMessage[6];
+			MF9025_Chassis[1].Prev_Speed = MF9025_Chassis[1].Actual_Speed;
 			MF9025_Chassis[1].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Export_RxMessage[4];
+			MF9025_Chassis[1].Angular_Acceleration = (float)(MF9025_Chassis[1].Prev_Speed - MF9025_Chassis[1].Actual_Speed)/MF9025_Chassis[1].Sample.Period/180.0f*PI;
 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Export_RxMessage[2];
+			MF9025_Chassis[1].Calculated_Current = (float)MF9025_Chassis[1].Actual_Current/2048.0f*16.5f;
 			MF9025_Chassis[1].Temperature = RxMessage.CANx_Export_RxMessage[1];
 			if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) < -50000)
 			MF9025_Chassis[1].Turn_Count++;
 			else if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) > 50000)
 			MF9025_Chassis[1].Turn_Count--;
-			
 			MF9025_Chassis[1].Total_Turn = ((float)MF9025_Chassis[1].Actual_Angle / (float)MF9025_MECH_ANGLE_MAX) + MF9025_Chassis[1].Turn_Count;
-			
+			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+			MF9025_Chassis[1].Sample.Period = MF9025_Chassis[1].Sample.Now_Time - MF9025_Chassis[1].Sample.Prev_Time;
+			MF9025_Chassis[1].Sample.Prev_Time = MF9025_Chassis[1].Sample.Now_Time;
 			MF9025_Chassis[1].Info_Update_Frame++;
 			break;
 	}

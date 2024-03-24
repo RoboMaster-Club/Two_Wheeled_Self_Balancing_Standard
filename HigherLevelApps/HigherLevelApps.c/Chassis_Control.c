@@ -46,6 +46,9 @@ void Chassis_Get_Data(Chassis_t *Chassis)
 	Chassis->Chassis_Coord.Yaw_Angle = Control_Board_A.Rec.Yaw;
 	Chassis->Chassis_Coord.Prev_Yaw_Angular_Rate = Chassis->Chassis_Coord.Yaw_Angular_Rate;
 	Chassis->Chassis_Coord.Yaw_Angular_Rate = Control_Board_A.Rec.Gyro_Yaw; //* 0.7f + Chassis->Chassis_Coord.Prev_Yaw_Angular_Rate * (1-0.7f);
+	
+	Chassis->Slip_Detection.Friction_Force_Left = ((0.3058f*MF9025_Chassis[0].Calculated_Current+0.1071f) - 0.01f*MF9025_Chassis[0].Angular_Acceleration)/0.11f;
+	Chassis->Slip_Detection.Friction_Force_Right = ((0.3058f*MF9025_Chassis[1].Calculated_Current+0.1071f) - 0.01f*MF9025_Chassis[1].Angular_Acceleration)/0.11f;
 }
 
 void Chassis_State_Update(Chassis_t *Chassis)
@@ -66,6 +69,15 @@ void Chassis_State_Update(Chassis_t *Chassis)
 				Chassis->Current_State = Braking;
 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+				break;
+			}
+			else if(Chassis->Gimbal_Coord.Vy == 0 && Chassis->Gimbal_Coord.Wz == 0 && fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 10)
+			{
+				if((abs(MF9025_Chassis[0].Actual_Speed) > 2000 || abs(MF9025_Chassis[1].Actual_Speed) > 2000) && Chassis->Off_Ground_Detection.Off_Ground_Flag == 0)
+					Chassis->Off_Ground_Detection.Counter++;
+				
+				if(Chassis->Off_Ground_Detection.Counter > 50)
+					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
 				break;
 			}
       break;
@@ -106,6 +118,16 @@ void Chassis_State_Update(Chassis_t *Chassis)
 				Chassis->Chassis_Coord.Forward_Distance = 0;
 				break;
 			}
+			
+			if(Chassis->Gimbal_Coord.Vy == 0 && Chassis->Gimbal_Coord.Wz == 0 && fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 10)
+			{
+				if((abs(MF9025_Chassis[0].Actual_Speed) > 2000 || abs(MF9025_Chassis[1].Actual_Speed) > 2000) && Chassis->Off_Ground_Detection.Off_Ground_Flag == 0)
+					Chassis->Off_Ground_Detection.Counter++;
+				
+				if(Chassis->Off_Ground_Detection.Counter > 50)
+					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+				break;
+			}
 			break;
 		}
 	}
@@ -124,20 +146,75 @@ void Chassis_Processing(Chassis_t *Chassis)
 				Chassis->Chassis_Coord.Wz = 0;
 			Chassis_Func.Chassis_State_Update(Chassis);
 			Control_Strategy_Func.Expert_PID_LQR_Combined();
-			MF9025_Chassis[0].Target_Speed = VAL_LIMIT(100*Chassis->Target.Left_Wheel,MF9025_SPEED_MAX,-MF9025_SPEED_MAX);
-			MF9025_Chassis[1].Target_Speed = VAL_LIMIT(100*-Chassis->Target.Right_Wheel,MF9025_SPEED_MAX,-MF9025_SPEED_MAX);
-			if(abs(MF9025_Chassis[0].Target_Speed) < 3000)
-				MF9025_Chassis[0].Target_Speed = 0;
-			if(abs(MF9025_Chassis[1].Target_Speed) < 3000)
-				MF9025_Chassis[1].Target_Speed = 0;	
 			
-			if(State_Machine.Swing_Flag && Chassis->Chassis_Coord.Vy == 0)
-				State_Machine.Mode = Swing;
-			else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0 && Chassis->Current_State == Balancing && 
-			fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 1.0f && Chassis->Chassis_Coord.Yaw_Angular_Rate < 1.0f)
-				State_Machine.Mode = Spin_Top;
-			else if(State_Machine.Follow_Wheel_Flag && Chassis->Chassis_Coord.Vy == 0)
-				State_Machine.Mode = Follow_Wheel;
+			if(fabs(Chassis->Slip_Detection.Friction_Force_Left) > 100)
+				Chassis->Slip_Detection.Left_Counter = 250;
+	
+			if(fabs(Chassis->Slip_Detection.Friction_Force_Right) > 100)
+				Chassis->Slip_Detection.Right_Counter = 250;
+			
+			if(Chassis->Slip_Detection.Left_Counter > 0)
+			{
+				Chassis->Slip_Detection.Max_Speed_Left = 100000;
+				Chassis->Slip_Detection.Left_Counter--;
+			}
+			else
+				Chassis->Slip_Detection.Max_Speed_Left = 300000;
+			
+			if(Chassis->Slip_Detection.Right_Counter > 0)
+			{
+				Chassis->Slip_Detection.Max_Speed_Right = 100000;
+				Chassis->Slip_Detection.Right_Counter--;
+			}
+			else
+				Chassis->Slip_Detection.Max_Speed_Right = 300000;
+			
+			if(Chassis->Off_Ground_Detection.Off_Ground_Flag)
+			{
+				MF9025_Chassis[0].Target_Speed = 0;
+				MF9025_Chassis[1].Target_Speed = 0;
+				
+				if(abs(MF9025_Chassis[0].Actual_Speed) < 100 && abs(MF9025_Chassis[1].Actual_Speed) < 100 && Chassis->Off_Ground_Detection.Counter > 0)
+					Chassis->Off_Ground_Detection.Counter--;
+				
+				if(Chassis->Off_Ground_Detection.Counter == 0 && (fabs(Chassis->Slip_Detection.Friction_Force_Right) > 25 || fabs(Chassis->Slip_Detection.Friction_Force_Left) > 25))
+					Chassis->Off_Ground_Detection.Off_Ground_Flag = 0;
+			}
+			else
+			{
+				MF9025_Chassis[0].Target_Speed = VAL_LIMIT(100*Chassis->Target.Left_Wheel,Chassis->Slip_Detection.Max_Speed_Left,-Chassis->Slip_Detection.Max_Speed_Left);
+				MF9025_Chassis[1].Target_Speed = VAL_LIMIT(100*-Chassis->Target.Right_Wheel,Chassis->Slip_Detection.Max_Speed_Right,-Chassis->Slip_Detection.Max_Speed_Right);
+				if(abs(MF9025_Chassis[0].Target_Speed) < 3000)
+					MF9025_Chassis[0].Target_Speed = 0;
+				if(abs(MF9025_Chassis[1].Target_Speed) < 3000)
+					MF9025_Chassis[1].Target_Speed = 0;	
+				
+				if(State_Machine.Swing_Flag && Chassis->Chassis_Coord.Vy == 0)
+					State_Machine.Mode = Swing;
+				else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0 && Chassis->Current_State == Balancing && 
+				fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 1.0f && Chassis->Chassis_Coord.Yaw_Angular_Rate < 1.0f)
+					State_Machine.Mode = Spin_Top;
+				else if(State_Machine.Follow_Wheel_Flag && Chassis->Chassis_Coord.Vy == 0)
+					State_Machine.Mode = Follow_Wheel;
+			}
+			
+//			Chassis->Open_Loop_Speed = 10000;
+//			
+//			if((Chassis->Chassis_Coord.Pitch_Angle + CHASSIS_TARGET_ANGLE) < -3.0f)
+//			{
+//				MF9025_Chassis[0].Target_Speed = -Chassis->Open_Loop_Speed;
+//				MF9025_Chassis[1].Target_Speed = Chassis->Open_Loop_Speed;;
+//			}
+//			else if((Chassis->Chassis_Coord.Pitch_Angle + CHASSIS_TARGET_ANGLE) > 3.0f)
+//			{
+//				MF9025_Chassis[0].Target_Speed = Chassis->Open_Loop_Speed;;
+//				MF9025_Chassis[1].Target_Speed = -Chassis->Open_Loop_Speed;;
+//			}
+//			else
+//			{
+//				MF9025_Chassis[0].Target_Speed = 0;
+//				MF9025_Chassis[1].Target_Speed = 0;
+//			}
 			break;
 		}	
 		

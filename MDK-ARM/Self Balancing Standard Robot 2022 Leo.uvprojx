@@ -190,7 +190,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -387,7 +387,7 @@
             <File>
               <FileName>startup_stm32f427xx.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\RTE\Device\STM32F427IIHx\startup_stm32f427xx.s</FilePath>
+              <FilePath>.\startup_stm32f427xx.s</FilePath>
             </File>
           </Files>
         </Group>

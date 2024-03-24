@@ -286,9 +286,9 @@ void Board_A_IMU_Read_Data(Board_A_IMU_t *Board_A_IMU)
 	
 	if(Board_A_IMU->Calibrated_Flag == 1) //If calibration is done, offset should be deducted
 	{
-		Board_A_IMU->Calc_Data.Ax -= Board_A_IMU->Offset.Ax;
-		Board_A_IMU->Calc_Data.Ay -= Board_A_IMU->Offset.Ay;
-		Board_A_IMU->Calc_Data.Az -= Board_A_IMU->Offset.Az;
+//		Board_A_IMU->Calc_Data.Ax -= Board_A_IMU->Offset.Ax;
+//		Board_A_IMU->Calc_Data.Ay -= Board_A_IMU->Offset.Ay;
+//		Board_A_IMU->Calc_Data.Az -= Board_A_IMU->Offset.Az;
 		Board_A_IMU->Calc_Data.Gx -= Board_A_IMU->Offset.Gx;
 		Board_A_IMU->Calc_Data.Gy -= Board_A_IMU->Offset.Gy;
 		Board_A_IMU->Calc_Data.Gz -= Board_A_IMU->Offset.Gz;

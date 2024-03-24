@@ -42,16 +42,16 @@ void Referee_Set_Robot_State(void)
 	switch(Referee_Robot_State.Bullet_Speed_Max)
 	{
 		case 15:
-			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_15;
+			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
 			break;
 		case 18:
-			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_18;
+			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
 			break;
 		case 30:
 			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
 			break;
 		default:
-			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_10;
+			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
 			break;
 	}
 	

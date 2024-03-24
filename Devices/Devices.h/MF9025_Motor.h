@@ -14,6 +14,7 @@
 #include "can.h"
 #include "CAN_Setup.h"
 #include "Motor_Init.h"
+#include "User_Defined_Math.h"
 #include <stdint.h>
 #include <stdio.h>
 
@@ -21,7 +22,7 @@
 #define MF9025_CHASSIS_LEFT_ID 0x01 //Starting ID for chassis motors
 #define MF9025_CHASSIS_RIGHT_ID	0x02 //Ending ID for chassis motors
 #define MF9025_MECH_ANGLE_MAX 65536.0f //16 bit encoder
-#define MF9025_SPEED_MAX 330000.0f //MF9025 maximum speed (0.01 degree per second)
+#define MF9025_SPEED_MAX 300000.0f //MF9025 maximum speed (0.01 degree per second)
 
 #define MF9025_Func_GroundInit					    \
 		{																	   		\
@@ -35,13 +36,23 @@ typedef struct
 	 uint16_t Actual_Angle;
 	 uint16_t Prev_Angle;
 	 int16_t Actual_Speed;
+	 int16_t Prev_Speed;
 	 int16_t Actual_Current;
+	 float Calculated_Current;
+	 float Angular_Acceleration;
 	 int8_t Temperature;
 	 
 	 int32_t Target_Angle;
 	 int32_t Target_Speed;
 	 float Total_Turn;
 	 int16_t Turn_Count;
+	
+	 struct
+	 {
+		 float Now_Time;
+		 float Prev_Time;
+		 float Period;
+	 }Sample;
 	 
 	 uint16_t Info_Update_Frame;
 	 uint8_t Offline_Flag;

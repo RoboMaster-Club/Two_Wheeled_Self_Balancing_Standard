@@ -38,6 +38,7 @@
 #include "Referee_System.h"
 #include "Jetson_Tx2.h"
 #include "User_Interface.h"
+#include "Serial.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,6 +67,7 @@ osThreadId Task_CAN1_ReceiHandle;
 osThreadId Task_CAN2_ReceiHandle;
 osThreadId Robot_ControlHandle;
 osThreadId Task_UIHandle;
+osThreadId Task_SerialHandle;
 osMessageQId CAN_SendHandle;
 osMessageQId CAN1_ReceiveHandle;
 osMessageQId CAN2_ReceiveHandle;
@@ -82,6 +84,7 @@ void CAN1_Rec(void const * argument);
 void CAN2_Rec(void const * argument);
 void Robot_Control_All(void const * argument);
 void UI_Draw(void const * argument);
+void Serial_Send(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -169,6 +172,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(Task_UI, UI_Draw, osPriorityNormal, 0, 256);
   Task_UIHandle = osThreadCreate(osThread(Task_UI), NULL);
 
+  /* definition and creation of Task_Serial */
+  osThreadDef(Task_Serial, Serial_Send, osPriorityNormal, 0, 128);
+  Task_SerialHandle = osThreadCreate(osThread(Task_Serial), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -188,13 +195,13 @@ void IMU_Tasks(void const * argument)
 	portTickType xLastWakeTime;
   xLastWakeTime = xTaskGetTickCount();
 
-  const TickType_t TimeIncrement = pdMS_TO_TICKS(1);
+  const TickType_t TimeIncrement = pdMS_TO_TICKS(2);
   /* Infinite loop */
   for(;;)
   {
 		Board_A_IMU_Func.Board_A_IMU_Read_Data(&Board_A_IMU);
 		Board_A_IMU_Func.Board_A_IMU_Calc_Angle(&Board_A_IMU);
-		//Board_A_IMU_Func.Board_A_IMU_Calibrate(&Board_A_IMU);
+		Board_A_IMU_Func.Board_A_IMU_Calibrate(&Board_A_IMU);
 		IMU_Temp_Control_Func.Board_A_IMU_Temp_Control();
 		
 		Control_Board_A_Func.Board_A_Send_Data();
@@ -227,6 +234,8 @@ void General_Initialization(void const * argument)
 	Tx2_Func.Jetson_Tx2_Initialization();
 	Gimbal_Func.Gimbal_Init();
 	Shooting_Func.Shooting_Init();
+	Chassis.Slip_Detection.Max_Speed_Left = 300000;
+	Chassis.Slip_Detection.Max_Speed_Right = 300000;
 	vTaskDelete(NULL);
 	
   /* USER CODE END General_Initialization */
@@ -414,6 +423,32 @@ void UI_Draw(void const * argument)
 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
   }
   /* USER CODE END UI_Draw */
+}
+
+/* USER CODE BEGIN Header_Serial_Send */
+/**
+* @brief Function implementing the Task_Serial thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Serial_Send */
+void Serial_Send(void const * argument)
+{
+  /* USER CODE BEGIN Serial_Send */
+	portTickType xLastWakeTime;
+  xLastWakeTime = xTaskGetTickCount();
+
+  const TickType_t TimeIncrement = pdMS_TO_TICKS(10);
+  /* Infinite loop */
+  for(;;)
+  {	
+    printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Target_Pitch_Angle,Chassis.Chassis_Coord.Pitch_Angle);
+//		printf("/*%f,%f,%d,%d,%f,%f,%f,%f*/\n",Chassis.Slip_Detection.Friction_Force_Left,Chassis.Slip_Detection.Friction_Force_Right,
+//		MF9025_Chassis[0].Actual_Speed,MF9025_Chassis[1].Actual_Speed,MF9025_Chassis[0].Calculated_Current,MF9025_Chassis[1].Calculated_Current,
+//		MF9025_Chassis[0].Angular_Acceleration,MF9025_Chassis[1].Angular_Acceleration);
+		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
+  }
+  /* USER CODE END Serial_Send */
 }
 
 /* Private application code --------------------------------------------------*/

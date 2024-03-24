@@ -29,7 +29,7 @@
 #define CHASSIS_SPINTOP_RATE_POWER_100 250.0f //Chassis spintop rate
 #define CHASSIS_SPINTOP_RATE_POWER_150 300.0f //Chassis spintop rate
 #define CHASSIS_TARGET_SPEED 0.0f //Balance speed
-#define CHASSIS_TARGET_ANGLE 2.0f //Balance angle
+#define CHASSIS_TARGET_ANGLE 0.0f //Balance angle
 
 #define Chassis_Func_GroundInit		\
 {																	\
@@ -58,6 +58,7 @@ typedef struct
 		float Forward_Speed; //m/s
 		float Prev_Forward_Speed; //m/s
 		float Forward_Distance;	//m
+		float Target_Pitch_Angle; //degree
 		float Pitch_Angle;	//degree
 		float Prev_Pitch_Angle; //degree
 		float Pitch_Angular_Rate;	//degree/s
@@ -93,7 +94,26 @@ typedef struct
 		float Turning_Loop;
 	}PID_Output;
 
+	int Open_Loop_Speed;
+
 	uint8_t Chassis_Offline_Flag;
+	
+	struct
+	{
+		float Friction_Force_Left;
+		float Friction_Force_Right;
+		uint16_t Left_Counter;
+		uint16_t Right_Counter;
+		int Max_Speed_Left;
+		int Max_Speed_Right;
+	}Slip_Detection;
+	
+	struct
+	{
+		uint16_t Counter;
+		uint8_t Off_Ground_Flag;
+	}Off_Ground_Detection;
+	
 }Chassis_t;
 
 typedef struct
