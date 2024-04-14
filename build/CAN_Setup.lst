@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
   28:BSP/BSP.c/CAN_Setup.c **** #undef CAN_Data_GroundInit
   29:BSP/BSP.c/CAN_Setup.c **** 
   30:BSP/BSP.c/CAN_Setup.c **** CAN_Devices_t *Monitor_CAN[] = {&Monitor_CAN1, &Monitor_CAN2};
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 2
 
 
   31:BSP/BSP.c/CAN_Setup.c **** CAN_Devices_t Monitor_CAN1, Monitor_CAN2;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
   85:BSP/BSP.c/CAN_Setup.c **** 
   86:BSP/BSP.c/CAN_Setup.c ****     memcpy(CAN_Send_Data.CANx_Send_RxMessage,data,sizeof(uint8_t[8]));
   87:BSP/BSP.c/CAN_Setup.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 3
 
 
   88:BSP/BSP.c/CAN_Setup.c ****     xQueueSend(CANx_Handle, &CAN_Send_Data, 0);
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  142:BSP/BSP.c/CAN_Setup.c **** 
  143:BSP/BSP.c/CAN_Setup.c **** //Specified identifier 0x2FF package
  144:BSP/BSP.c/CAN_Setup.c **** void CAN_0x2FF_Send_Data(CAN_HandleTypeDef *hcanx, int16_t Output_1, int16_t Output_2, int16_t Outp
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 4
 
 
  145:BSP/BSP.c/CAN_Setup.c **** {
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
   46 0004 0020     		movs	r0, #0
   47 0006 1071     		strb	r0, [r2, #4]
   48              	.L4:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 5
 
 
  182:BSP/BSP.c/CAN_Setup.c ****         }
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
   90              	.LFE147:
   92              		.section	.text.CAN_FILTER_Init,"ax",%progbits
   93              		.align	1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 6
 
 
   94              		.syntax unified
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  134              		.loc 1 41 34 is_stmt 0 view .LVU34
  135 0014 1962     		str	r1, [r3, #32]
   43:BSP/BSP.c/CAN_Setup.c ****     CAN_Filter->FilterIdLow = 0x0000;                 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 7
 
 
  136              		.loc 1 43 5 is_stmt 1 view .LVU35
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  179              		.loc 1 53 13 is_stmt 0 view .LVU48
  180 0004 4B1E     		subs	r3, r1, #1
  181 0006 DBB2     		uxtb	r3, r3
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 8
 
 
  182              	.LVL9:
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  229 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
  230              	.LCFI2:
  231              		.cfi_def_cfa_offset 28
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 9
 
 
  232              		.cfi_offset 4, -28
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  276 0044 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
  277 0048 0FC4     		stmia	r4!, {r0, r1, r2, r3}
  278 004a 9CE80700 		ldm	ip, {r0, r1, r2}
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 10
 
 
  279 004e 84E80700 		stm	r4, {r0, r1, r2}
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  327              		.cfi_startproc
  328              		@ args = 4, pretend = 0, frame = 40
  329              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 11
 
 
   74:BSP/BSP.c/CAN_Setup.c ****     CAN_Send_Data_t CAN_Send_Data;
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
   84:BSP/BSP.c/CAN_Setup.c **** 
  367              		.loc 1 84 51 is_stmt 0 view .LVU93
  368 0018 8DF81C30 		strb	r3, [sp, #28]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 12
 
 
   86:BSP/BSP.c/CAN_Setup.c **** 
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  416              	.LCFI9:
  417              		.cfi_def_cfa_offset 24
   95:BSP/BSP.c/CAN_Setup.c **** 	
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 13
 
 
  418              		.loc 1 95 2 is_stmt 1 view .LVU103
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  454 0040 01F5A073 		add	r3, r1, #320
  455 0044 0022     		movs	r2, #0
  456              	.LVL32:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 14
 
 
  106:BSP/BSP.c/CAN_Setup.c **** }
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  505              		.loc 1 112 2 is_stmt 1 view .LVU129
  114:BSP/BSP.c/CAN_Setup.c **** 	data[1] = Output_1;
  506              		.loc 1 114 2 view .LVU130
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 15
 
 
  114:BSP/BSP.c/CAN_Setup.c **** 	data[1] = Output_1;
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  542 0036 0093     		str	r3, [sp]
  543 0038 40F2FF13 		movw	r3, #511
  544 003c 0022     		movs	r2, #0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 16
 
 
  545 003e 0146     		mov	r1, r0
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  593 0008 4FEA212E 		asr	lr, r1, #8
  594 000c 8DF808E0 		strb	lr, [sp, #8]
  132:BSP/BSP.c/CAN_Setup.c **** 	data[2] = Output_2 >> 8;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 17
 
 
  595              		.loc 1 132 2 is_stmt 1 view .LVU158
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  632              	.LVL48:
  140:BSP/BSP.c/CAN_Setup.c **** }
  633              		.loc 1 140 2 is_stmt 0 view .LVU176
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 18
 
 
  634 0042 0068     		ldr	r0, [r0]
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  681              		.loc 1 149 10 is_stmt 0 view .LVU185
  682 0010 8DF80910 		strb	r1, [sp, #9]
  150:BSP/BSP.c/CAN_Setup.c **** 	data[3] = Output_2;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 19
 
 
  683              		.loc 1 150 2 is_stmt 1 view .LVU186
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  721              	.LVL56:
  158:BSP/BSP.c/CAN_Setup.c **** 
  722              		.loc 1 158 1 view .LVU203
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 20
 
 
  723 0048 05B0     		add	sp, sp, #20
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  770 0012 4FF40473 		mov	r3, #528
  771 0016 0022     		movs	r2, #0
  772 0018 0146     		mov	r1, r0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 21
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 21
 
 
  773              	.LVL59:
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  829 0000 00000000 		.word	CAN_IT_Init
  830 0004 00000000 		.word	CAN_RxMessage_Export_Data
  831 0008 00000000 		.word	CAN_0x140_Send_Data
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 22
 
 
  832 000c 00000000 		.word	CAN_0x1FF_Send_Data
@@ -1280,49 +1280,49 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 1
  848              		.file 11 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
  849              		.file 12 "BSP/BSP.h/CAN_Setup.h"
  850              		.file 13 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\string.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s 			page 23
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s 			page 23
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 CAN_Setup.c
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:21     .text.Check_CAN:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:27     .text.Check_CAN:00000000 Check_CAN
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:88     .text.Check_CAN:00000030 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:813    .data.Monitor_CAN:00000000 Monitor_CAN
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:93     .text.CAN_FILTER_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:98     .text.CAN_FILTER_Init:00000000 CAN_FILTER_Init
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:158    .text.CAN_IT_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:164    .text.CAN_IT_Init:00000000 CAN_IT_Init
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:210    .text.CAN_IT_Init:00000028 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:821    .bss.CAN_Data:00000000 CAN_Data
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:215    .text.CAN_RxMessage_Export_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:221    .text.CAN_RxMessage_Export_Data:00000000 CAN_RxMessage_Export_Data
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:312    .text.CAN_RxMessage_Export_Data:0000007c $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:317    .text.CAN_SendData:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:323    .text.CAN_SendData:00000000 CAN_SendData
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:397    .text.CAN_0x140_Send_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:403    .text.CAN_0x140_Send_Data:00000000 CAN_0x140_Send_Data
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:478    .text.CAN_0x140_Send_Data:00000058 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:483    .text.CAN_0x1FF_Send_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:489    .text.CAN_0x1FF_Send_Data:00000000 CAN_0x1FF_Send_Data
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:563    .text.CAN_0x1FF_Send_Data:00000050 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:568    .text.CAN_0x200_Send_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:574    .text.CAN_0x200_Send_Data:00000000 CAN_0x200_Send_Data
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:648    .text.CAN_0x200_Send_Data:00000050 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:653    .text.CAN_0x2FF_Send_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:659    .text.CAN_0x2FF_Send_Data:00000000 CAN_0x2FF_Send_Data
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:733    .text.CAN_0x2FF_Send_Data:00000050 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:738    .text.CAN_0x210_Send_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:744    .text.CAN_0x210_Send_Data:00000000 CAN_0x210_Send_Data
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:790    .text.CAN_0x210_Send_Data:00000028 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:799    .bss.Monitor_CAN2:00000000 Monitor_CAN2
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:796    .bss.Monitor_CAN2:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:806    .bss.Monitor_CAN1:00000000 Monitor_CAN1
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:803    .bss.Monitor_CAN1:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:810    .data.Monitor_CAN:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:818    .bss.CAN_Data:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:828    .data.CAN_Func:00000000 CAN_Func
-C:\Users\purdu\AppData\Local\Temp\ccmaNVYX.s:825    .data.CAN_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:21     .text.Check_CAN:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:27     .text.Check_CAN:00000000 Check_CAN
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:88     .text.Check_CAN:00000030 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:813    .data.Monitor_CAN:00000000 Monitor_CAN
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:93     .text.CAN_FILTER_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:98     .text.CAN_FILTER_Init:00000000 CAN_FILTER_Init
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:158    .text.CAN_IT_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:164    .text.CAN_IT_Init:00000000 CAN_IT_Init
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:210    .text.CAN_IT_Init:00000028 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:821    .bss.CAN_Data:00000000 CAN_Data
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:215    .text.CAN_RxMessage_Export_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:221    .text.CAN_RxMessage_Export_Data:00000000 CAN_RxMessage_Export_Data
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:312    .text.CAN_RxMessage_Export_Data:0000007c $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:317    .text.CAN_SendData:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:323    .text.CAN_SendData:00000000 CAN_SendData
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:397    .text.CAN_0x140_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:403    .text.CAN_0x140_Send_Data:00000000 CAN_0x140_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:478    .text.CAN_0x140_Send_Data:00000058 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:483    .text.CAN_0x1FF_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:489    .text.CAN_0x1FF_Send_Data:00000000 CAN_0x1FF_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:563    .text.CAN_0x1FF_Send_Data:00000050 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:568    .text.CAN_0x200_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:574    .text.CAN_0x200_Send_Data:00000000 CAN_0x200_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:648    .text.CAN_0x200_Send_Data:00000050 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:653    .text.CAN_0x2FF_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:659    .text.CAN_0x2FF_Send_Data:00000000 CAN_0x2FF_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:733    .text.CAN_0x2FF_Send_Data:00000050 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:738    .text.CAN_0x210_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:744    .text.CAN_0x210_Send_Data:00000000 CAN_0x210_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:790    .text.CAN_0x210_Send_Data:00000028 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:799    .bss.Monitor_CAN2:00000000 Monitor_CAN2
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:796    .bss.Monitor_CAN2:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:806    .bss.Monitor_CAN1:00000000 Monitor_CAN1
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:803    .bss.Monitor_CAN1:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:810    .data.Monitor_CAN:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:818    .bss.CAN_Data:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:828    .data.CAN_Func:00000000 CAN_Func
+C:\Users\purdu\AppData\Local\Temp\ccJgP4L0.s:825    .data.CAN_Func:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_CAN_ConfigFilter

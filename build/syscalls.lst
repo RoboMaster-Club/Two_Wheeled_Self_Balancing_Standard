@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
   49              		.thumb_func
   51              	_fstat:
   52              	.LVL2:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 2
 
 
   53              	.LFB1:
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
  101              		.thumb_func
  103              	_lseek:
  104              	.LVL6:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 3
 
 
  105              	.LFB3:
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
   27:Core/Src/syscalls.c **** int _write(int file, char *ptr, int len) {
  154              		.loc 1 27 42 is_stmt 1 view -0
  155              		.cfi_startproc
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 4
 
 
  156              		@ args = 0, pretend = 0, frame = 0
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
   40:Core/Src/syscalls.c ****     heap_end += incr;
  200              		.loc 1 40 5 is_stmt 1 view .LVU36
  201              		.loc 1 40 14 is_stmt 0 view .LVU37
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 5
 
 
  202 000c 0344     		add	r3, r3, r0
@@ -248,14 +248,14 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
   41:Core/Src/syscalls.c **** 
   42:Core/Src/syscalls.c ****     return (void *)prev_heap_end;
  206              		.loc 1 42 5 is_stmt 1 view .LVU39
-  43:Core/Src/syscalls.c **** }...
+  43:Core/Src/syscalls.c **** }
  207              		.loc 1 43 1 is_stmt 0 view .LVU40
  208 0010 7047     		bx	lr
  209              	.LVL15:
  210              	.L9:
-  37:Core/Src/syscalls.c ****         heap_end = &_end;
+  37:Core/Src/syscalls.c ****     }
  211              		.loc 1 37 9 is_stmt 1 view .LVU41
-  37:Core/Src/syscalls.c ****         heap_end = &_end;
+  37:Core/Src/syscalls.c ****     }
  212              		.loc 1 37 18 is_stmt 0 view .LVU42
  213 0012 024A     		ldr	r2, .L10
  214 0014 0249     		ldr	r1, .L10+4
@@ -268,40 +268,139 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
  221 0020 00000000 		.word	_end
  222              		.cfi_endproc
  223              	.LFE6:
- 225              		.section	.bss.heap_end.0,"aw",%nobits
- 226              		.align	2
- 229              	heap_end.0:
- 230 0000 00000000 		.space	4
- 231              		.text
- 232              	.Letext0:
- 233              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
- 234              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_types.h"
- 235              		.file 4 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_timeval.h"
- 236              		.file 5 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_timespec.h"
- 237              		.file 6 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\types.h"
- 238              		.file 7 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\stat.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 6
+ 225              		.section	.text._exit,"ax",%progbits
+ 226              		.align	1
+ 227              		.global	_exit
+ 228              		.syntax unified
+ 229              		.thumb
+ 230              		.thumb_func
+ 232              	_exit:
+ 233              	.LFB7:
+  44:Core/Src/syscalls.c **** 
+  45:Core/Src/syscalls.c **** void _exit(int status) {
+ 234              		.loc 1 45 24 is_stmt 1 view -0
+ 235              		.cfi_startproc
+ 236              		@ Volatile: function does not return.
+ 237              		@ args = 0, pretend = 0, frame = 0
+ 238              		@ frame_needed = 0, uses_anonymous_args = 0
+ 239              		@ link register save eliminated.
+ 240              	.LVL16:
+ 241              	.L13:
+  46:Core/Src/syscalls.c ****     while (1) { }  // Hang if exit is called
+ 242              		.loc 1 46 5 discriminator 1 view .LVU44
+ 243              		.loc 1 46 17 discriminator 1 view .LVU45
+ 244              		.loc 1 46 11 discriminator 1 view .LVU46
+ 245 0000 FEE7     		b	.L13
+ 246              		.cfi_endproc
+ 247              	.LFE7:
+ 249              		.section	.text._kill,"ax",%progbits
+ 250              		.align	1
+ 251              		.global	_kill
+ 252              		.syntax unified
+ 253              		.thumb
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 6
+
+
+ 254              		.thumb_func
+ 256              	_kill:
+ 257              	.LVL17:
+ 258              	.LFB8:
+  47:Core/Src/syscalls.c **** }
+  48:Core/Src/syscalls.c **** 
+  49:Core/Src/syscalls.c **** int _kill(int pid, int sig) {
+ 259              		.loc 1 49 29 view -0
+ 260              		.cfi_startproc
+ 261              		@ args = 0, pretend = 0, frame = 0
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		@ link register save eliminated.
+  50:Core/Src/syscalls.c ****     errno = EINVAL;
+ 264              		.loc 1 50 5 view .LVU48
+ 265              		.loc 1 50 11 is_stmt 0 view .LVU49
+ 266 0000 024B     		ldr	r3, .L15
+ 267 0002 1622     		movs	r2, #22
+ 268 0004 1A60     		str	r2, [r3]
+  51:Core/Src/syscalls.c ****     return -1;  // Error, signal handling not implemented
+ 269              		.loc 1 51 5 is_stmt 1 view .LVU50
+  52:Core/Src/syscalls.c **** }
+ 270              		.loc 1 52 1 is_stmt 0 view .LVU51
+ 271 0006 4FF0FF30 		mov	r0, #-1
+ 272              	.LVL18:
+ 273              		.loc 1 52 1 view .LVU52
+ 274 000a 7047     		bx	lr
+ 275              	.L16:
+ 276              		.align	2
+ 277              	.L15:
+ 278 000c 00000000 		.word	errno
+ 279              		.cfi_endproc
+ 280              	.LFE8:
+ 282              		.section	.text._getpid,"ax",%progbits
+ 283              		.align	1
+ 284              		.global	_getpid
+ 285              		.syntax unified
+ 286              		.thumb
+ 287              		.thumb_func
+ 289              	_getpid:
+ 290              	.LFB9:
+  53:Core/Src/syscalls.c **** 
+  54:Core/Src/syscalls.c **** int _getpid(void) {
+ 291              		.loc 1 54 19 is_stmt 1 view -0
+ 292              		.cfi_startproc
+ 293              		@ args = 0, pretend = 0, frame = 0
+ 294              		@ frame_needed = 0, uses_anonymous_args = 0
+ 295              		@ link register save eliminated.
+  55:Core/Src/syscalls.c ****     return 1;  // Return a dummy process ID
+ 296              		.loc 1 55 5 view .LVU54
+  56:Core/Src/syscalls.c **** }...
+ 297              		.loc 1 56 1 is_stmt 0 view .LVU55
+ 298 0000 0120     		movs	r0, #1
+ 299 0002 7047     		bx	lr
+ 300              		.cfi_endproc
+ 301              	.LFE9:
+ 303              		.section	.bss.heap_end.0,"aw",%nobits
+ 304              		.align	2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 7
+
+
+ 307              	heap_end.0:
+ 308 0000 00000000 		.space	4
+ 309              		.text
+ 310              	.Letext0:
+ 311              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 312              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_types.h"
+ 313              		.file 4 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_timeval.h"
+ 314              		.file 5 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_timespec.h"
+ 315              		.file 6 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\types.h"
+ 316              		.file 7 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\stat.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s 			page 8
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 syscalls.c
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:21     .text._close:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:27     .text._close:00000000 _close
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:45     .text._fstat:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:51     .text._fstat:00000000 _fstat
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:73     .text._isatty:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:79     .text._isatty:00000000 _isatty
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:97     .text._lseek:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:103    .text._lseek:00000000 _lseek
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:121    .text._read:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:127    .text._read:00000000 _read
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:145    .text._write:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:151    .text._write:00000000 _write
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:169    .text._sbrk:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:175    .text._sbrk:00000000 _sbrk
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:220    .text._sbrk:0000001c $d
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:229    .bss.heap_end.0:00000000 heap_end.0
-C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:226    .bss.heap_end.0:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:21     .text._close:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:27     .text._close:00000000 _close
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:45     .text._fstat:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:51     .text._fstat:00000000 _fstat
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:73     .text._isatty:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:79     .text._isatty:00000000 _isatty
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:97     .text._lseek:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:103    .text._lseek:00000000 _lseek
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:121    .text._read:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:127    .text._read:00000000 _read
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:145    .text._write:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:151    .text._write:00000000 _write
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:169    .text._sbrk:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:175    .text._sbrk:00000000 _sbrk
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:220    .text._sbrk:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:307    .bss.heap_end.0:00000000 heap_end.0
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:226    .text._exit:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:232    .text._exit:00000000 _exit
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:250    .text._kill:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:256    .text._kill:00000000 _kill
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:278    .text._kill:0000000c $d
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:283    .text._getpid:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:289    .text._getpid:00000000 _getpid
+C:\Users\purdu\AppData\Local\Temp\ccp2Bg2j.s:304    .bss.heap_end.0:00000000 $d
 
 UNDEFINED SYMBOLS
 _end
+errno

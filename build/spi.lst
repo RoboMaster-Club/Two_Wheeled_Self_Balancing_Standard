@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
   28:Core/Src/spi.c **** 
   29:Core/Src/spi.c **** /* SPI5 init function */
   30:Core/Src/spi.c **** void MX_SPI5_Init(void)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 2
 
 
   31:Core/Src/spi.c **** {
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
   66 001e 2822     		movs	r2, #40
   67 0020 C261     		str	r2, [r0, #28]
   48:Core/Src/spi.c ****   hspi5.Init.FirstBit = SPI_FIRSTBIT_MSB;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 3
 
 
   68              		.loc 1 48 3 is_stmt 1 view .LVU17
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
  111              	HAL_SPI_MspInit:
  112              	.LVL2:
  113              	.LFB131:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 4
 
 
   61:Core/Src/spi.c **** 
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
   86:Core/Src/spi.c **** 
   87:Core/Src/spi.c ****   /* USER CODE BEGIN SPI5_MspInit 1 */
   88:Core/Src/spi.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 5
 
 
   89:Core/Src/spi.c ****   /* USER CODE END SPI5_MspInit 1 */
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
   74:Core/Src/spi.c ****     /**SPI5 GPIO Configuration
  184              		.loc 1 74 5 view .LVU49
  185 004a 029B     		ldr	r3, [sp, #8]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 6
 
 
  186              	.LBE3:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
  230              	.LVL7:
  231              	.LFB132:
   92:Core/Src/spi.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 7
 
 
   93:Core/Src/spi.c **** void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
  261 0016 4FF46071 		mov	r1, #896
  262 001a 0448     		ldr	r0, .L17+8
  263              	.LVL10:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 8
 
 
  109:Core/Src/spi.c **** 
@@ -455,22 +455,22 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 1
  293              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h"
  294              		.file 9 "Core/Inc/spi.h"
  295              		.file 10 "Core/Inc/main.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 spi.c
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:21     .text.MX_SPI5_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:27     .text.MX_SPI5_Init:00000000 MX_SPI5_Init
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:99     .text.MX_SPI5_Init:0000003c $d
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:283    .bss.hspi5:00000000 hspi5
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:105    .text.HAL_SPI_MspInit:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:111    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:217    .text.HAL_SPI_MspInit:00000068 $d
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:223    .text.HAL_SPI_MspDeInit:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:229    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:272    .text.HAL_SPI_MspDeInit:00000024 $d
-C:\Users\purdu\AppData\Local\Temp\cc7PNLnO.s:280    .bss.hspi5:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:21     .text.MX_SPI5_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:27     .text.MX_SPI5_Init:00000000 MX_SPI5_Init
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:99     .text.MX_SPI5_Init:0000003c $d
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:283    .bss.hspi5:00000000 hspi5
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:105    .text.HAL_SPI_MspInit:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:111    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:217    .text.HAL_SPI_MspInit:00000068 $d
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:223    .text.HAL_SPI_MspDeInit:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:229    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:272    .text.HAL_SPI_MspDeInit:00000024 $d
+C:\Users\purdu\AppData\Local\Temp\ccrlbyie.s:280    .bss.hspi5:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_SPI_Init

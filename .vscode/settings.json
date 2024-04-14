@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "dm_motor.h": "c",
+        "bsp_can.h": "c",
+        "freertos.h": "c",
+        "mf_motor.h": "c",
+        "user_math.h": "c",
+        "remote.h": "c",
+        "robot.h": "c"
+    }
+}

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
   27:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   Subject to the specific hardware characteristics of each I/O port listed in the datasheet, each
   28:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   port bit of the General Purpose IO (GPIO) Ports, can be individually configured by software
   29:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   in several modes:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 2
 
 
   30:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   (+) Input mode 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
   84:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****             
   85:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****     (#) To set/reset the level of a pin configured in output mode use 
   86:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         HAL_GPIO_WritePin()/HAL_GPIO_TogglePin().
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 3
 
 
   87:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****     
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  141:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   *  @brief    Initialization and Configuration functions
  142:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   *
  143:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c **** @verbatim    
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 4
 
 
  144:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****  ===============================================================================
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
   49 0008 70B5     		push	{r4, r5, r6, lr}
   50              	.LCFI0:
   51              		.cfi_def_cfa_offset 16
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 5
 
 
   52              		.cfi_offset 4, -16
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
   86 0026 8460     		str	r4, [r0, #8]
  198:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c **** 
  199:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         /* Configure the IO Output Type */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 6
 
 
  200:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         temp = GPIOx->OTYPER;
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  116              		.loc 1 224 14 view .LVU39
  117 003e 0834     		adds	r4, r4, #8
  118 0040 50F82420 		ldr	r2, [r0, r4, lsl #2]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 7
 
 
  119              	.LVL11:
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  152              		.loc 1 245 52 discriminator 40 view .LVU53
  153 006a 02FA0EF2 		lsl	r2, r2, lr
  154              		.loc 1 245 14 discriminator 40 view .LVU54
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 8
 
 
  155 006e 2A43     		orrs	r2, r2, r5
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  196              	.LVL21:
  259:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         if((GPIO_Init->Mode & TRIGGER_FALLING) != 0x00U)
  197              		.loc 1 259 9 is_stmt 1 view .LVU73
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 9
 
 
  198              		.loc 1 259 11 is_stmt 0 view .LVU74
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  275:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         temp &= ~((uint32_t)iocurrent);
  237              		.loc 1 275 9 is_stmt 1 view .LVU91
  238              		.loc 1 275 14 is_stmt 0 view .LVU92
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 10
 
 
  239 00c2 2240     		ands	r2, r2, r4
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  279 00e6 32EA0404 		bics	r4, r2, r4
  280 00ea F3D1     		bne	.L3
  188:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****           (GPIO_Init->Mode & GPIO_MODE) == MODE_AF)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 11
 
 
  281              		.loc 1 188 7 is_stmt 1 view .LVU109
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  214:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         GPIOx->PUPDR = temp;
  318              		.loc 1 214 36 view .LVU127
  319 0110 AA40     		lsls	r2, r2, r5
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 12
 
 
  214:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         GPIOx->PUPDR = temp;
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  233:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****       GPIOx->MODER = temp;
  357              		.loc 1 233 12 view .LVU145
  358 013a 2243     		orrs	r2, r2, r4
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 13
 
 
  359              	.LVL41:
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  244:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         temp |= ((uint32_t)(GPIO_GET_INDEX(GPIOx)) << (4U * (position & 0x03U)));
  398              		.loc 1 244 44 is_stmt 0 view .LVU161
  399 0168 03F0030E 		and	lr, r3, #3
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 14
 
 
  244:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         temp |= ((uint32_t)(GPIO_GET_INDEX(GPIOx)) << (4U * (position & 0x03U)));
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  441              		.loc 1 245 29 discriminator 15 view .LVU174
  442 01ba 02F58062 		add	r2, r2, #1024
  443 01be 9042     		cmp	r0, r2
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 15
 
 
  444 01c0 14D0     		beq	.L21
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  490              	.LCFI3:
  491              		.cfi_def_cfa_offset 0
  492              		.cfi_restore 4
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 16
 
 
  493              		.cfi_restore 5
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  528              		.loc 1 305 16 is_stmt 0 view .LVU188
  529 0000 0023     		movs	r3, #0
  530              	.LVL51:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 17
 
 
  531              		.loc 1 305 31 is_stmt 1 view .LVU189
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  330:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****       }
  331:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c **** 
  332:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****       /*------------------------- GPIO Mode Configuration --------------------*/
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 18
 
 
  333:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****       /* Configure IO Direction in Input Floating Mode */
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  600              		.loc 1 346 7 is_stmt 1 view .LVU213
  601              		.loc 1 346 12 is_stmt 0 view .LVU214
  602 005a 8268     		ldr	r2, [r0, #8]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 19
 
 
  603              		.loc 1 346 22 view .LVU215
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  642 008c 0F25     		movs	r5, #15
  643 008e 05FA0CF7 		lsl	r7, r5, ip
  316:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****       if(tmp == ((uint32_t)(GPIO_GET_INDEX(GPIOx)) << (4U * (position & 0x03U))))
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 20
 
 
  644              		.loc 1 316 11 view .LVU231
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  687 00e0 94D0     		beq	.L55
  317:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****       {
  688              		.loc 1 317 29 view .LVU243
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 21
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 21
 
 
  689 00e2 0A25     		movs	r5, #10
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  324:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****         EXTI->RTSR &= ~((uint32_t)iocurrent);
  734              		.loc 1 324 20 view .LVU253
  735 011a 25EA0605 		bic	r5, r5, r6
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 22
 
 
  736 011e E560     		str	r5, [r4, #12]
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  780              		.section	.text.HAL_GPIO_ReadPin,"ax",%progbits
  781              		.align	1
  782              		.global	HAL_GPIO_ReadPin
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 23
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 23
 
 
  783              		.syntax unified
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  803              		.loc 1 384 15 view .LVU270
  804 0006 0120     		movs	r0, #1
  805              	.LVL67:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 24
 
 
  806              		.loc 1 384 15 view .LVU271
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  413:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   assert_param(IS_GPIO_PIN(GPIO_Pin));
  834              		.loc 1 413 3 view .LVU276
  414:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   assert_param(IS_GPIO_PIN_ACTION(PinState));
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 25
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 25
 
 
  835              		.loc 1 414 3 view .LVU277
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  870              		.loc 1 435 3 view .LVU287
  436:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c **** 
  437:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   /* Check the parameters */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 26
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 26
 
 
  438:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   assert_param(IS_GPIO_PIN(GPIO_Pin));
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  905              		@ link register save eliminated.
  906              		.loc 1 459 1 is_stmt 0 view .LVU298
  907 0000 82B0     		sub	sp, sp, #8
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 27
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 27
 
 
  908              	.LCFI6:
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  942              		.loc 1 479 12 view .LVU316
  943 0024 0020     		movs	r0, #0
  944              	.LVL76:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 28
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 28
 
 
  945              	.L66:
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  504:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   * @param  GPIO_Pin Specifies the pins connected EXTI line
  505:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   * @retval None
  506:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****   */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 29
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 29
 
 
  507:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c **** __weak void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  1017              	.LVL82:
  1018              	.L73:
  497:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c ****     HAL_GPIO_EXTI_Callback(GPIO_Pin);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 30
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 30
 
 
  1019              		.loc 1 497 5 is_stmt 1 view .LVU329
@@ -1765,29 +1765,29 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 1
  1039              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
  1040              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
  1041              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s 			page 31
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s 			page 31
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_hal_gpio.c
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:21     .text.HAL_GPIO_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:27     .text.HAL_GPIO_Init:00000000 HAL_GPIO_Init
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:501    .text.HAL_GPIO_Init:000001f8 $d
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:509    .text.HAL_GPIO_DeInit:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:515    .text.HAL_GPIO_DeInit:00000000 HAL_GPIO_DeInit
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:774    .text.HAL_GPIO_DeInit:00000140 $d
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:781    .text.HAL_GPIO_ReadPin:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:787    .text.HAL_GPIO_ReadPin:00000000 HAL_GPIO_ReadPin
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:820    .text.HAL_GPIO_WritePin:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:826    .text.HAL_GPIO_WritePin:00000000 HAL_GPIO_WritePin
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:856    .text.HAL_GPIO_TogglePin:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:862    .text.HAL_GPIO_TogglePin:00000000 HAL_GPIO_TogglePin
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:892    .text.HAL_GPIO_LockPin:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:898    .text.HAL_GPIO_LockPin:00000000 HAL_GPIO_LockPin
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:966    .text.HAL_GPIO_EXTI_Callback:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:972    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:987    .text.HAL_GPIO_EXTI_IRQHandler:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:993    .text.HAL_GPIO_EXTI_IRQHandler:00000000 HAL_GPIO_EXTI_IRQHandler
-C:\Users\purdu\AppData\Local\Temp\ccEae2Pi.s:1030   .text.HAL_GPIO_EXTI_IRQHandler:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:21     .text.HAL_GPIO_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:27     .text.HAL_GPIO_Init:00000000 HAL_GPIO_Init
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:501    .text.HAL_GPIO_Init:000001f8 $d
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:509    .text.HAL_GPIO_DeInit:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:515    .text.HAL_GPIO_DeInit:00000000 HAL_GPIO_DeInit
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:774    .text.HAL_GPIO_DeInit:00000140 $d
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:781    .text.HAL_GPIO_ReadPin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:787    .text.HAL_GPIO_ReadPin:00000000 HAL_GPIO_ReadPin
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:820    .text.HAL_GPIO_WritePin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:826    .text.HAL_GPIO_WritePin:00000000 HAL_GPIO_WritePin
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:856    .text.HAL_GPIO_TogglePin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:862    .text.HAL_GPIO_TogglePin:00000000 HAL_GPIO_TogglePin
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:892    .text.HAL_GPIO_LockPin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:898    .text.HAL_GPIO_LockPin:00000000 HAL_GPIO_LockPin
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:966    .text.HAL_GPIO_EXTI_Callback:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:972    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:987    .text.HAL_GPIO_EXTI_IRQHandler:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:993    .text.HAL_GPIO_EXTI_IRQHandler:00000000 HAL_GPIO_EXTI_IRQHandler
+C:\Users\purdu\AppData\Local\Temp\cc0WBjSB.s:1030   .text.HAL_GPIO_EXTI_IRQHandler:00000018 $d
 
 NO UNDEFINED SYMBOLS

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
   28:Core/Src/can.c **** CAN_HandleTypeDef hcan1;
   29:Core/Src/can.c **** CAN_HandleTypeDef hcan2;
   30:Core/Src/can.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 2
 
 
   31:Core/Src/can.c **** /* CAN1 init function */
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
   49:Core/Src/can.c ****   hcan1.Init.AutoBusOff = ENABLE;
   65              		.loc 1 49 3 is_stmt 1 view .LVU15
   66              		.loc 1 49 25 is_stmt 0 view .LVU16
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 3
 
 
   67 0020 0122     		movs	r2, #1
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  108              		.thumb
  109              		.thumb_func
  111              	MX_CAN2_Init:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 4
 
 
  112              	.LFB131:
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  148 001e 0376     		strb	r3, [r0, #24]
   81:Core/Src/can.c ****   hcan2.Init.AutoBusOff = ENABLE;
  149              		.loc 1 81 3 is_stmt 1 view .LVU46
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 5
 
 
  150              		.loc 1 81 25 is_stmt 0 view .LVU47
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  191              		.syntax unified
  192              		.thumb
  193              		.thumb_func
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 6
 
 
  195              	HAL_CAN_MspInit:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  118:Core/Src/can.c ****     GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
  119:Core/Src/can.c ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
  120:Core/Src/can.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 7
 
 
  121:Core/Src/can.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  237              		.cfi_def_cfa_offset 8
  238              		@ sp needed
  239 0020 10BD     		pop	{r4, pc}
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 8
 
 
  240              	.LVL6:
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  279              		.loc 1 119 26 is_stmt 0 discriminator 1 view .LVU86
  280 004a 0222     		movs	r2, #2
  281 004c 0692     		str	r2, [sp, #24]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 9
 
 
  120:Core/Src/can.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  323 0082 0093     		str	r3, [sp]
  110:Core/Src/can.c ****     }
  324              		.loc 1 110 7 view .LVU100
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 10
 
 
  325 0084 009B     		ldr	r3, [sp]
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  365 00b0 194B     		ldr	r3, .L23+12
  366 00b2 1A6B     		ldr	r2, [r3, #48]
  367 00b4 42F00202 		orr	r2, r2, #2
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 11
 
 
  368 00b8 1A63     		str	r2, [r3, #48]
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  158:Core/Src/can.c ****   /* USER CODE BEGIN CAN2_MspInit 1 */
  407              		.loc 1 158 5 discriminator 1 view .LVU130
  408 00e8 4020     		movs	r0, #64
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 12
 
 
  409 00ea FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  457              		@ args = 0, pretend = 0, frame = 0
  458              		@ frame_needed = 0, uses_anonymous_args = 0
  459              		.loc 1 166 1 is_stmt 0 view .LVU138
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 13
 
 
  460 0000 08B5     		push	{r3, lr}
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  202:Core/Src/can.c **** 
  203:Core/Src/can.c ****     /**CAN2 GPIO Configuration
  204:Core/Src/can.c ****     PB12     ------> CAN2_RX
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 14
 
 
  205:Core/Src/can.c ****     PB13     ------> CAN2_TX
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  513 0036 02F5E832 		add	r2, r2, #118784
  514 003a 136C     		ldr	r3, [r2, #64]
  515 003c 23F08063 		bic	r3, r3, #67108864
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 15
 
 
  516 0040 1364     		str	r3, [r2, #64]
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  565              		.align	2
  568              	hcan2:
  569 0000 00000000 		.space	40
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 16
 
 
  569      00000000 
@@ -944,33 +944,33 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 1
  600              		.file 9 "Core/Inc/can.h"
  601              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
  602              		.file 11 "Core/Inc/main.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s 			page 17
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 can.c
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:21     .text.MX_CAN1_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:27     .text.MX_CAN1_Init:00000000 MX_CAN1_Init
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:99     .text.MX_CAN1_Init:0000003c $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:575    .bss.hcan1:00000000 hcan1
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:105    .text.MX_CAN2_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:111    .text.MX_CAN2_Init:00000000 MX_CAN2_Init
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:183    .text.MX_CAN2_Init:0000003c $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:568    .bss.hcan2:00000000 hcan2
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:189    .text.HAL_CAN_MspInit:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:195    .text.HAL_CAN_MspInit:00000000 HAL_CAN_MspInit
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:435    .text.HAL_CAN_MspInit:0000010c $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:561    .bss.HAL_RCC_CAN1_CLK_ENABLED:00000000 HAL_RCC_CAN1_CLK_ENABLED
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:446    .text.HAL_CAN_MspDeInit:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:452    .text.HAL_CAN_MspDeInit:00000000 HAL_CAN_MspDeInit
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:548    .text.HAL_CAN_MspDeInit:00000068 $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:558    .bss.HAL_RCC_CAN1_CLK_ENABLED:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:565    .bss.hcan2:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:572    .bss.hcan1:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:582    .bss.CAN_RxHeader:00000000 CAN_RxHeader
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:579    .bss.CAN_RxHeader:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:589    .bss.CAN_TxHeader:00000000 CAN_TxHeader
-C:\Users\purdu\AppData\Local\Temp\ccfUO64L.s:586    .bss.CAN_TxHeader:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:21     .text.MX_CAN1_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:27     .text.MX_CAN1_Init:00000000 MX_CAN1_Init
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:99     .text.MX_CAN1_Init:0000003c $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:575    .bss.hcan1:00000000 hcan1
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:105    .text.MX_CAN2_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:111    .text.MX_CAN2_Init:00000000 MX_CAN2_Init
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:183    .text.MX_CAN2_Init:0000003c $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:568    .bss.hcan2:00000000 hcan2
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:189    .text.HAL_CAN_MspInit:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:195    .text.HAL_CAN_MspInit:00000000 HAL_CAN_MspInit
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:435    .text.HAL_CAN_MspInit:0000010c $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:561    .bss.HAL_RCC_CAN1_CLK_ENABLED:00000000 HAL_RCC_CAN1_CLK_ENABLED
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:446    .text.HAL_CAN_MspDeInit:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:452    .text.HAL_CAN_MspDeInit:00000000 HAL_CAN_MspDeInit
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:548    .text.HAL_CAN_MspDeInit:00000068 $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:558    .bss.HAL_RCC_CAN1_CLK_ENABLED:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:565    .bss.hcan2:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:572    .bss.hcan1:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:582    .bss.CAN_RxHeader:00000000 CAN_RxHeader
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:579    .bss.CAN_RxHeader:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:589    .bss.CAN_TxHeader:00000000 CAN_TxHeader
+C:\Users\purdu\AppData\Local\Temp\ccTLR5se.s:586    .bss.CAN_TxHeader:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_CAN_Init

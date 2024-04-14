@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
   27:Drivers/CMSIS/Include/core_cm4.h **** #elif defined (__clang__)
   28:Drivers/CMSIS/Include/core_cm4.h ****   #pragma clang system_header   /* treat file as system include file */
   29:Drivers/CMSIS/Include/core_cm4.h **** #endif
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 2
 
 
   30:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
   84:Drivers/CMSIS/Include/core_cm4.h ****   #else
   85:Drivers/CMSIS/Include/core_cm4.h ****     #define __FPU_USED         0U
   86:Drivers/CMSIS/Include/core_cm4.h ****   #endif
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 3
 
 
   87:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  141:Drivers/CMSIS/Include/core_cm4.h ****       #error "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
  142:Drivers/CMSIS/Include/core_cm4.h ****       #define __FPU_USED       0U
  143:Drivers/CMSIS/Include/core_cm4.h ****     #endif
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 4
 
 
  144:Drivers/CMSIS/Include/core_cm4.h ****   #else
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  198:Drivers/CMSIS/Include/core_cm4.h ****     #define __NVIC_PRIO_BITS          3U
  199:Drivers/CMSIS/Include/core_cm4.h ****     #warning "__NVIC_PRIO_BITS not defined in device header file; using default!"
  200:Drivers/CMSIS/Include/core_cm4.h ****   #endif
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 5
 
 
  201:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  255:Drivers/CMSIS/Include/core_cm4.h **** 
  256:Drivers/CMSIS/Include/core_cm4.h **** /**
  257:Drivers/CMSIS/Include/core_cm4.h ****   \brief  Union type to access the Application Program Status Register (APSR).
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 6
 
 
  258:Drivers/CMSIS/Include/core_cm4.h ****  */
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  312:Drivers/CMSIS/Include/core_cm4.h **** 
  313:Drivers/CMSIS/Include/core_cm4.h **** /**
  314:Drivers/CMSIS/Include/core_cm4.h ****   \brief  Union type to access the Special-Purpose Program Status Registers (xPSR).
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 7
 
 
  315:Drivers/CMSIS/Include/core_cm4.h ****  */
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  369:Drivers/CMSIS/Include/core_cm4.h ****   \brief  Union type to access the Control Registers (CONTROL).
  370:Drivers/CMSIS/Include/core_cm4.h ****  */
  371:Drivers/CMSIS/Include/core_cm4.h **** typedef union
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 8
 
 
  372:Drivers/CMSIS/Include/core_cm4.h **** {
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  426:Drivers/CMSIS/Include/core_cm4.h **** 
  427:Drivers/CMSIS/Include/core_cm4.h **** /*@} end of group CMSIS_NVIC */
  428:Drivers/CMSIS/Include/core_cm4.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 9
 
 
  429:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  483:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_ICSR_NMIPENDSET_Msk            (1UL << SCB_ICSR_NMIPENDSET_Pos)               /*!< SCB 
  484:Drivers/CMSIS/Include/core_cm4.h **** 
  485:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_ICSR_PENDSVSET_Pos             28U                                            /*!< SCB 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 10
 
 
  486:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_ICSR_PENDSVSET_Msk             (1UL << SCB_ICSR_PENDSVSET_Pos)                /*!< SCB 
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  540:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_SCR_SEVONPEND_Msk              (1UL << SCB_SCR_SEVONPEND_Pos)                 /*!< SCB 
  541:Drivers/CMSIS/Include/core_cm4.h **** 
  542:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_SCR_SLEEPDEEP_Pos               2U                                            /*!< SCB 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 11
 
 
  543:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_SCR_SLEEPDEEP_Msk              (1UL << SCB_SCR_SLEEPDEEP_Pos)                 /*!< SCB 
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  597:Drivers/CMSIS/Include/core_cm4.h **** 
  598:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_SHCSR_SVCALLACT_Pos             7U                                            /*!< SCB 
  599:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_SHCSR_SVCALLACT_Msk            (1UL << SCB_SHCSR_SVCALLACT_Pos)               /*!< SCB 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 12
 
 
  600:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  654:Drivers/CMSIS/Include/core_cm4.h **** 
  655:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_CFSR_PRECISERR_Pos            (SCB_CFSR_BUSFAULTSR_Pos + 1U)                  /*!< SCB 
  656:Drivers/CMSIS/Include/core_cm4.h **** #define SCB_CFSR_PRECISERR_Msk            (1UL << SCB_CFSR_PRECISERR_Pos)                 /*!< SCB 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 13
 
 
  657:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  711:Drivers/CMSIS/Include/core_cm4.h ****   \defgroup CMSIS_SCnSCB System Controls not in SCB (SCnSCB)
  712:Drivers/CMSIS/Include/core_cm4.h ****   \brief    Type definitions for the System Control and ID Register not in the SCB
  713:Drivers/CMSIS/Include/core_cm4.h ****   @{
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 14
 
 
  714:Drivers/CMSIS/Include/core_cm4.h ****  */
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  768:Drivers/CMSIS/Include/core_cm4.h **** #define SysTick_CTRL_COUNTFLAG_Pos         16U                                            /*!< SysT
  769:Drivers/CMSIS/Include/core_cm4.h **** #define SysTick_CTRL_COUNTFLAG_Msk         (1UL << SysTick_CTRL_COUNTFLAG_Pos)            /*!< SysT
  770:Drivers/CMSIS/Include/core_cm4.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 15
 
 
  771:Drivers/CMSIS/Include/core_cm4.h **** #define SysTick_CTRL_CLKSOURCE_Pos          2U                                            /*!< SysT
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  825:Drivers/CMSIS/Include/core_cm4.h ****         uint32_t RESERVED3[29U];
  826:Drivers/CMSIS/Include/core_cm4.h ****   __OM  uint32_t IWR;                    /*!< Offset: 0xEF8 ( /W)  ITM Integration Write Register *
  827:Drivers/CMSIS/Include/core_cm4.h ****   __IM  uint32_t IRR;                    /*!< Offset: 0xEFC (R/ )  ITM Integration Read Register */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 16
 
 
  828:Drivers/CMSIS/Include/core_cm4.h ****   __IOM uint32_t IMCR;                   /*!< Offset: 0xF00 (R/W)  ITM Integration Mode Control Reg
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  882:Drivers/CMSIS/Include/core_cm4.h **** 
  883:Drivers/CMSIS/Include/core_cm4.h **** /* ITM Integration Read Register Definitions */
  884:Drivers/CMSIS/Include/core_cm4.h **** #define ITM_IRR_ATREADYM_Pos                0U                                            /*!< ITM 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 17
 
 
  885:Drivers/CMSIS/Include/core_cm4.h **** #define ITM_IRR_ATREADYM_Msk               (1UL /*<< ITM_IRR_ATREADYM_Pos*/)              /*!< ITM 
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  939:Drivers/CMSIS/Include/core_cm4.h **** } DWT_Type;
  940:Drivers/CMSIS/Include/core_cm4.h **** 
  941:Drivers/CMSIS/Include/core_cm4.h **** /* DWT Control Register Definitions */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 18
 
 
  942:Drivers/CMSIS/Include/core_cm4.h **** #define DWT_CTRL_NUMCOMP_Pos               28U                                         /*!< DWT CTR
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  996:Drivers/CMSIS/Include/core_cm4.h **** /* DWT CPI Count Register Definitions */
  997:Drivers/CMSIS/Include/core_cm4.h **** #define DWT_CPICNT_CPICNT_Pos               0U                                         /*!< DWT CPI
  998:Drivers/CMSIS/Include/core_cm4.h **** #define DWT_CPICNT_CPICNT_Msk              (0xFFUL /*<< DWT_CPICNT_CPICNT_Pos*/)       /*!< DWT CPI
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 19
 
 
  999:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1053:Drivers/CMSIS/Include/core_cm4.h ****   \defgroup CMSIS_TPI     Trace Port Interface (TPI)
 1054:Drivers/CMSIS/Include/core_cm4.h ****   \brief    Type definitions for the Trace Port Interface (TPI)
 1055:Drivers/CMSIS/Include/core_cm4.h ****   @{
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 20
 
 
 1056:Drivers/CMSIS/Include/core_cm4.h ****  */
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1110:Drivers/CMSIS/Include/core_cm4.h **** /* TPI Formatter and Flush Control Register Definitions */
 1111:Drivers/CMSIS/Include/core_cm4.h **** #define TPI_FFCR_TrigIn_Pos                 8U                                         /*!< TPI FFC
 1112:Drivers/CMSIS/Include/core_cm4.h **** #define TPI_FFCR_TrigIn_Msk                (0x1UL << TPI_FFCR_TrigIn_Pos)              /*!< TPI FFC
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 21
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 21
 
 
 1113:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1167:Drivers/CMSIS/Include/core_cm4.h **** #define TPI_FIFO1_ITM1_Msk                 (0xFFUL << TPI_FIFO1_ITM1_Pos)              /*!< TPI FIF
 1168:Drivers/CMSIS/Include/core_cm4.h **** 
 1169:Drivers/CMSIS/Include/core_cm4.h **** #define TPI_FIFO1_ITM0_Pos                  0U                                         /*!< TPI FIF
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 22
 
 
 1170:Drivers/CMSIS/Include/core_cm4.h **** #define TPI_FIFO1_ITM0_Msk                 (0xFFUL /*<< TPI_FIFO1_ITM0_Pos*/)          /*!< TPI FIF
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1224:Drivers/CMSIS/Include/core_cm4.h **** {
 1225:Drivers/CMSIS/Include/core_cm4.h ****   __IM  uint32_t TYPE;                   /*!< Offset: 0x000 (R/ )  MPU Type Register */
 1226:Drivers/CMSIS/Include/core_cm4.h ****   __IOM uint32_t CTRL;                   /*!< Offset: 0x004 (R/W)  MPU Control Register */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 23
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 23
 
 
 1227:Drivers/CMSIS/Include/core_cm4.h ****   __IOM uint32_t RNR;                    /*!< Offset: 0x008 (R/W)  MPU Region RNRber Register */
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1281:Drivers/CMSIS/Include/core_cm4.h **** #define MPU_RASR_AP_Pos                    24U                                            /*!< MPU 
 1282:Drivers/CMSIS/Include/core_cm4.h **** #define MPU_RASR_AP_Msk                    (0x7UL << MPU_RASR_AP_Pos)                     /*!< MPU 
 1283:Drivers/CMSIS/Include/core_cm4.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 24
 
 
 1284:Drivers/CMSIS/Include/core_cm4.h **** #define MPU_RASR_TEX_Pos                   19U                                            /*!< MPU 
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1338:Drivers/CMSIS/Include/core_cm4.h **** 
 1339:Drivers/CMSIS/Include/core_cm4.h **** #define FPU_FPCCR_BFRDY_Pos                 6U                                            /*!< FPCC
 1340:Drivers/CMSIS/Include/core_cm4.h **** #define FPU_FPCCR_BFRDY_Msk                (1UL << FPU_FPCCR_BFRDY_Pos)                   /*!< FPCC
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 25
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 25
 
 
 1341:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1395:Drivers/CMSIS/Include/core_cm4.h **** 
 1396:Drivers/CMSIS/Include/core_cm4.h **** #define FPU_MVFR0_A_SIMD_registers_Pos      0U                                            /*!< MVFR
 1397:Drivers/CMSIS/Include/core_cm4.h **** #define FPU_MVFR0_A_SIMD_registers_Msk     (0xFUL /*<< FPU_MVFR0_A_SIMD_registers_Pos*/)  /*!< MVFR
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 26
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 26
 
 
 1398:Drivers/CMSIS/Include/core_cm4.h **** 
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1452:Drivers/CMSIS/Include/core_cm4.h **** #define CoreDebug_DHCSR_S_REGRDY_Pos       16U                                            /*!< Core
 1453:Drivers/CMSIS/Include/core_cm4.h **** #define CoreDebug_DHCSR_S_REGRDY_Msk       (1UL << CoreDebug_DHCSR_S_REGRDY_Pos)          /*!< Core
 1454:Drivers/CMSIS/Include/core_cm4.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 27
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 27
 
 
 1455:Drivers/CMSIS/Include/core_cm4.h **** #define CoreDebug_DHCSR_C_SNAPSTALL_Pos     5U                                            /*!< Core
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1509:Drivers/CMSIS/Include/core_cm4.h **** #define CoreDebug_DEMCR_VC_NOCPERR_Msk     (1UL << CoreDebug_DEMCR_VC_NOCPERR_Pos)        /*!< Core
 1510:Drivers/CMSIS/Include/core_cm4.h **** 
 1511:Drivers/CMSIS/Include/core_cm4.h **** #define CoreDebug_DEMCR_VC_MMERR_Pos        4U                                            /*!< Core
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 28
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 28
 
 
 1512:Drivers/CMSIS/Include/core_cm4.h **** #define CoreDebug_DEMCR_VC_MMERR_Msk       (1UL << CoreDebug_DEMCR_VC_MMERR_Pos)          /*!< Core
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1566:Drivers/CMSIS/Include/core_cm4.h **** #define NVIC                ((NVIC_Type      *)     NVIC_BASE     )   /*!< NVIC configuration struc
 1567:Drivers/CMSIS/Include/core_cm4.h **** #define ITM                 ((ITM_Type       *)     ITM_BASE      )   /*!< ITM configuration struct
 1568:Drivers/CMSIS/Include/core_cm4.h **** #define DWT                 ((DWT_Type       *)     DWT_BASE      )   /*!< DWT configuration struct
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 29
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 29
 
 
 1569:Drivers/CMSIS/Include/core_cm4.h **** #define TPI                 ((TPI_Type       *)     TPI_BASE      )   /*!< TPI configuration struct
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1623:Drivers/CMSIS/Include/core_cm4.h ****   #define NVIC_SystemReset            __NVIC_SystemReset
 1624:Drivers/CMSIS/Include/core_cm4.h **** #endif /* CMSIS_NVIC_VIRTUAL */
 1625:Drivers/CMSIS/Include/core_cm4.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 30
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 30
 
 
 1626:Drivers/CMSIS/Include/core_cm4.h **** #ifdef CMSIS_VECTAB_VIRTUAL
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1680:Drivers/CMSIS/Include/core_cm4.h **** 
 1681:Drivers/CMSIS/Include/core_cm4.h **** 
 1682:Drivers/CMSIS/Include/core_cm4.h **** /**
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 31
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 31
 
 
 1683:Drivers/CMSIS/Include/core_cm4.h ****   \brief   Enable Interrupt
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
   40 0002 0CDB     		blt	.L1
 1727:Drivers/CMSIS/Include/core_cm4.h ****   {
 1728:Drivers/CMSIS/Include/core_cm4.h ****     NVIC->ICER[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 32
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 32
 
 
   41              		.loc 2 1728 5 is_stmt 1 view .LVU4
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
   38:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   39:Drivers/CMSIS/Include/cmsis_gcc.h **** /* CMSIS compiler specific defines */
   40:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ASM
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 33
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 33
 
 
   41:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
   95:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
   96:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
   97:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 34
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 34
 
 
   98:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  152:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  153:Drivers/CMSIS/Include/cmsis_gcc.h ****   uint32_t result;
  154:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 35
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 35
 
 
  155:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MRS %0, control" : "=r" (result) );
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  209:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MRS %0, ipsr" : "=r" (result) );
  210:Drivers/CMSIS/Include/cmsis_gcc.h ****   return(result);
  211:Drivers/CMSIS/Include/cmsis_gcc.h **** }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 36
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 36
 
 
  212:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  266:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MRS %0, psp_ns"  : "=r" (result) );
  267:Drivers/CMSIS/Include/cmsis_gcc.h ****   return(result);
  268:Drivers/CMSIS/Include/cmsis_gcc.h **** }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 37
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 37
 
 
  269:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  323:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  324:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  325:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 38
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 38
 
 
  326:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  380:Drivers/CMSIS/Include/cmsis_gcc.h ****   \return               Priority Mask value
  381:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
  382:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE uint32_t __get_PRIMASK(void)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 39
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 39
 
 
  383:Drivers/CMSIS/Include/cmsis_gcc.h **** {
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  437:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
  438:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
  439:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __enable_fault_irq(void)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 40
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 40
 
 
  440:Drivers/CMSIS/Include/cmsis_gcc.h **** {
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  494:Drivers/CMSIS/Include/cmsis_gcc.h **** }
  495:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  496:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 41
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 41
 
 
  497:Drivers/CMSIS/Include/cmsis_gcc.h **** #if (defined (__ARM_FEATURE_CMSE ) && (__ARM_FEATURE_CMSE == 3))
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  551:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  552:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
  553:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Set Fault Mask
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 42
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 42
 
 
  554:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Assigns the given value to the Fault Mask register.
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  608:Drivers/CMSIS/Include/cmsis_gcc.h ****   Devices without ARMv8-M Main Extensions (i.e. Cortex-M23) lack the non-secure
  609:Drivers/CMSIS/Include/cmsis_gcc.h ****   Stack Pointer Limit register hence zero is returned always.
  610:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 43
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 43
 
 
  611:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Returns the current value of the non-secure Process Stack Pointer Limit (PSPLIM) when in
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  665:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  666:Drivers/CMSIS/Include/cmsis_gcc.h **** }
  667:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 44
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 44
 
 
  668:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  722:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Assigns the given value to the Main Stack Pointer Limit (MSPLIM).
  723:Drivers/CMSIS/Include/cmsis_gcc.h ****   \param [in]    MainStackPtrLimit  Main Stack Pointer Limit value to set
  724:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 45
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 45
 
 
  725:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __set_MSPLIM(uint32_t MainStackPtrLimit)
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  779:Drivers/CMSIS/Include/cmsis_gcc.h ****   return(result);
  780:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  781:Drivers/CMSIS/Include/cmsis_gcc.h **** #else
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 46
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 46
 
 
  782:Drivers/CMSIS/Include/cmsis_gcc.h ****   return(0U);
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  836:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __NOP()                             __ASM volatile ("nop")
  837:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  838:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 47
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 47
 
 
  839:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Wait For Interrupt
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
   69              	.LBB40:
   70              	.LBI40:
  866:Drivers/CMSIS/Include/cmsis_gcc.h **** {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 48
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 48
 
 
   71              		.loc 3 866 27 view .LVU13
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1756:Drivers/CMSIS/Include/core_cm4.h **** /**
 1757:Drivers/CMSIS/Include/core_cm4.h ****   \brief   Set Pending Interrupt
 1758:Drivers/CMSIS/Include/core_cm4.h ****   \details Sets the pending bit of a device specific interrupt in the NVIC pending register.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 49
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 49
 
 
 1759:Drivers/CMSIS/Include/core_cm4.h ****   \param [in]      IRQn  Device specific interrupt number.
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1813:Drivers/CMSIS/Include/core_cm4.h ****   \param [in]  priority  Priority to set.
 1814:Drivers/CMSIS/Include/core_cm4.h ****   \note    The priority cannot be set for every processor exception.
 1815:Drivers/CMSIS/Include/core_cm4.h ****  */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 50
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 50
 
 
 1816:Drivers/CMSIS/Include/core_cm4.h **** __STATIC_INLINE void __NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  145              		.section	.text.__NVIC_GetPriority,"ax",%progbits
  146              		.align	1
  147              		.syntax unified
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 51
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 51
 
 
  148              		.thumb
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1848:Drivers/CMSIS/Include/core_cm4.h ****   }
 1849:Drivers/CMSIS/Include/core_cm4.h **** }
  182              		.loc 2 1849 1 view .LVU41
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 52
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 52
 
 
  183 001e 7047     		bx	lr
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  219 000a BCF1040F 		cmp	ip, #4
  220 000e 28BF     		it	cs
  221 0010 4FF0040C 		movcs	ip, #4
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 53
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 53
 
 
  222              	.LVL11:
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1880:Drivers/CMSIS/Include/core_cm4.h ****   \brief   Decode Priority
 1881:Drivers/CMSIS/Include/core_cm4.h ****   \details Decodes an interrupt priority value with a given priority group to
 1882:Drivers/CMSIS/Include/core_cm4.h ****            preemptive priority value and subpriority value.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 54
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 54
 
 
 1883:Drivers/CMSIS/Include/core_cm4.h ****            In case of a conflict between priority grouping and available
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  304              	.LVL21:
  305              		.loc 2 1899 53 discriminator 4 view .LVU77
  306 0020 4FF0FF3E 		mov	lr, #-1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 55
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 55
 
 
  307 0024 0EFA0CFC 		lsl	ip, lr, ip
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1921:Drivers/CMSIS/Include/core_cm4.h ****   \brief   Get Interrupt Vector
 1922:Drivers/CMSIS/Include/core_cm4.h ****   \details Reads an interrupt vector from interrupt vector table.
 1923:Drivers/CMSIS/Include/core_cm4.h ****            The interrupt number can be positive to specify a device specific interrupt,
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 56
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 56
 
 
 1924:Drivers/CMSIS/Include/core_cm4.h ****            or negative to specify a processor exception.
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  370 0010 CB60     		str	r3, [r1, #12]
 1945:Drivers/CMSIS/Include/core_cm4.h ****                             SCB_AIRCR_SYSRESETREQ_Msk    );         /* Keep priority group unchange
 1946:Drivers/CMSIS/Include/core_cm4.h ****   __DSB();                                                          /* Ensure completion of memory 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 57
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 57
 
 
  371              		.loc 2 1946 3 is_stmt 1 view .LVU95
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
    8:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *           + Initialization and de-initialization functions
    9:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *           + Peripheral Control functions 
   10:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 58
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 58
 
 
   11:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   @verbatim  
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
   65:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****        (++) Reload Value should not exceed 0xFFFFFF
   66:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****    
   67:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   @endverbatim
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 59
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 59
 
 
   68:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   ******************************************************************************
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  122:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** /**
  123:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   * @brief  Sets the priority grouping field (preemption priority and subpriority)
  124:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         using the required unlock sequence.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 60
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 60
 
 
  125:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   * @param  PriorityGroup The priority grouping bits length. 
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  437 0008 1B04     		lsls	r3, r3, #16
  438 000a 1B0C     		lsrs	r3, r3, #16
  439              	.LVL29:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 61
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 61
 
 
 1664:Drivers/CMSIS/Include/core_cm4.h ****                 ((uint32_t)0x5FAUL << SCB_AIRCR_VECTKEY_Pos) |
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  157:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         A lower priority value indicates a higher priority 
  158:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   * @param  SubPriority the subpriority level for the IRQ channel.
  159:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         This parameter can be a value between 0 and 15
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 62
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 62
 
 
  160:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         A lower priority value indicates a higher priority.          
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  515 0012 2046     		mov	r0, r4
  516 0014 FFF7FEFF 		bl	__NVIC_SetPriority
  517              	.LVL39:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 63
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 63
 
 
  174:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** }
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  552              		.loc 2 1690 6 view .LVU141
  553 0002 07DB     		blt	.L34
 1692:Drivers/CMSIS/Include/core_cm4.h ****   }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 64
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 64
 
 
  554              		.loc 2 1692 5 is_stmt 1 view .LVU142
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  594 0000 08B5     		push	{r3, lr}
  595              	.LCFI3:
  596              		.cfi_def_cfa_offset 8
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 65
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 65
 
 
  597              		.cfi_offset 3, -8
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  640              	HAL_SYSTICK_Config:
  641              	.LVL46:
  642              	.LFB135:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 66
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 66
 
 
  218:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** }
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1985:Drivers/CMSIS/Include/core_cm4.h ****   mvfr0 = FPU->MVFR0;
 1986:Drivers/CMSIS/Include/core_cm4.h ****   if      ((mvfr0 & (FPU_MVFR0_Single_precision_Msk | FPU_MVFR0_Double_precision_Msk)) == 0x020U)
 1987:Drivers/CMSIS/Include/core_cm4.h ****   {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 67
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 67
 
 
 1988:Drivers/CMSIS/Include/core_cm4.h ****     return 1U;           /* Single precision FPU */
@@ -4018,7 +4018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  663 000c 5861     		str	r0, [r3, #20]
 2030:Drivers/CMSIS/Include/core_cm4.h ****   NVIC_SetPriority (SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL); /* set Priority for Systick Int
  664              		.loc 2 2030 3 is_stmt 1 view .LVU164
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 68
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 68
 
 
  665              	.LVL48:
@@ -4078,7 +4078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  706              		.cfi_endproc
  707              	.LFE135:
  709              		.section	.text.HAL_MPU_Disable,"ax",%progbits
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 69
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 69
 
 
  710              		.align	1
@@ -4138,7 +4138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  727              	.LBB57:
  889:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  890:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("dmb 0xF":::"memory");
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 70
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 70
 
 
  728              		.loc 3 890 3 view .LVU183
@@ -4198,7 +4198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  277:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   * @retval None
  278:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   */
  279:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** void HAL_MPU_Enable(uint32_t MPU_Control)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 71
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 71
 
 
  280:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** {
@@ -4258,7 +4258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  807 0016 BFF36F8F 		isb 0xF
  808              	@ 0 "" 2
  809              		.thumb
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 72
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 72
 
 
  810              		.syntax unified
@@ -4318,7 +4318,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  848              		.loc 1 307 6 view .LVU212
  849 000a FBB1     		cbz	r3, .L54
  308:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 73
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 73
 
 
  309:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****     /* Check the parameters */
@@ -4378,7 +4378,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  884 002c 43EA4143 		orr	r3, r3, r1, lsl #17
  325:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****                 ((uint32_t)MPU_Init->IsBufferable            << MPU_RASR_B_Pos)    |
  885              		.loc 1 325 36 view .LVU235
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 74
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 74
 
 
  886 0030 C17B     		ldrb	r1, [r0, #15]	@ zero_extendqisi2
@@ -4438,7 +4438,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  926              		.thumb
  927              		.thumb_func
  929              	HAL_NVIC_GetPriorityGrouping:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 75
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 75
 
 
  930              	.LFB139:
@@ -4498,7 +4498,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  352:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         (For the complete STM32 Devices IRQ Channels list, please refer to the appropriate CMSI
  353:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   * @param   PriorityGroup the priority grouping bits length.
  354:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         This parameter can be one of the following values:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 76
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 76
 
 
  355:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *           @arg NVIC_PRIORITYGROUP_0: 0 bits for preemption priority
@@ -4558,7 +4558,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  1001              		.syntax unified
  1002              		.thumb
  1003              		.thumb_func
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 77
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 77
 
 
  1005              	HAL_NVIC_SetPendingIRQ:
@@ -4618,7 +4618,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  1035 0010 014A     		ldr	r2, .L65
  1036 0012 42F82030 		str	r3, [r2, r0, lsl #2]
  1037              	.LVL60:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 78
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 78
 
 
  1038              	.L63:
@@ -4678,7 +4678,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
 1745:Drivers/CMSIS/Include/core_cm4.h ****   {
  1073              		.loc 2 1745 6 is_stmt 0 view .LVU281
  1074 0000 0028     		cmp	r0, #0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 79
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 79
 
 
  1075              	.LVL62:
@@ -4738,7 +4738,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  413:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   * @param  IRQn External interrupt number.
  414:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         This parameter can be an enumerator of IRQn_Type enumeration
  415:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   *         (For the complete STM32 Devices IRQ Channels list, please refer to the appropriate CMSI
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 80
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 80
 
 
  416:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   * @retval None
@@ -4798,7 +4798,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  1152              		.loc 1 425 1 view .LVU305
  1153 0016 7047     		bx	lr
  1154              	.L75:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 81
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 81
 
 
  1155              		.align	2
@@ -4858,7 +4858,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  1189              		.loc 2 1798 54 is_stmt 0 view .LVU314
  1190 0004 4309     		lsrs	r3, r0, #5
 1798:Drivers/CMSIS/Include/core_cm4.h ****   }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 82
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 82
 
 
  1191              		.loc 2 1798 35 view .LVU315
@@ -4918,7 +4918,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  1230              		@ args = 0, pretend = 0, frame = 0
  1231              		@ frame_needed = 0, uses_anonymous_args = 0
  1232              		@ link register save eliminated.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 83
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 83
 
 
  454:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   /* Check the parameters */
@@ -4978,7 +4978,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  472:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c ****   HAL_SYSTICK_Callback();
  473:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** }
  474:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 84
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 84
 
 
  475:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c **** /**
@@ -5034,77 +5034,77 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 1
  1308              		.file 6 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
  1309              		.file 7 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
  1310              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 85
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 85
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_hal_cortex.c
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:21     .text.__NVIC_DisableIRQ:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:26     .text.__NVIC_DisableIRQ:00000000 __NVIC_DisableIRQ
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:88     .text.__NVIC_DisableIRQ:00000020 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:93     .text.__NVIC_SetPriority:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:98     .text.__NVIC_SetPriority:00000000 __NVIC_SetPriority
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:141    .text.__NVIC_SetPriority:00000024 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:146    .text.__NVIC_GetPriority:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:151    .text.__NVIC_GetPriority:00000000 __NVIC_GetPriority
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:187    .text.__NVIC_GetPriority:00000020 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:192    .text.NVIC_EncodePriority:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:197    .text.NVIC_EncodePriority:00000000 NVIC_EncodePriority
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:259    .text.NVIC_DecodePriority:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:264    .text.NVIC_DecodePriority:00000000 NVIC_DecodePriority
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:333    .text.__NVIC_SystemReset:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:338    .text.__NVIC_SystemReset:00000000 __NVIC_SystemReset
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:399    .text.__NVIC_SystemReset:0000001c $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:405    .text.HAL_NVIC_SetPriorityGrouping:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:411    .text.HAL_NVIC_SetPriorityGrouping:00000000 HAL_NVIC_SetPriorityGrouping
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:465    .text.HAL_NVIC_SetPriorityGrouping:00000020 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:470    .text.HAL_NVIC_SetPriority:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:476    .text.HAL_NVIC_SetPriority:00000000 HAL_NVIC_SetPriority
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:523    .text.HAL_NVIC_SetPriority:0000001c $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:528    .text.HAL_NVIC_EnableIRQ:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:534    .text.HAL_NVIC_EnableIRQ:00000000 HAL_NVIC_EnableIRQ
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:575    .text.HAL_NVIC_EnableIRQ:00000018 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:580    .text.HAL_NVIC_DisableIRQ:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:586    .text.HAL_NVIC_DisableIRQ:00000000 HAL_NVIC_DisableIRQ
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:609    .text.HAL_NVIC_SystemReset:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:615    .text.HAL_NVIC_SystemReset:00000000 HAL_NVIC_SystemReset
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:634    .text.HAL_SYSTICK_Config:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:640    .text.HAL_SYSTICK_Config:00000000 HAL_SYSTICK_Config
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:705    .text.HAL_SYSTICK_Config:00000024 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:710    .text.HAL_MPU_Disable:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:716    .text.HAL_MPU_Disable:00000000 HAL_MPU_Disable
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:753    .text.HAL_MPU_Disable:00000018 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:758    .text.HAL_MPU_Enable:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:764    .text.HAL_MPU_Enable:00000000 HAL_MPU_Enable
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:818    .text.HAL_MPU_Enable:0000001c $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:823    .text.HAL_MPU_ConfigRegion:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:829    .text.HAL_MPU_ConfigRegion:00000000 HAL_MPU_ConfigRegion
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:918    .text.HAL_MPU_ConfigRegion:0000005c $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:923    .text.HAL_NVIC_GetPriorityGrouping:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:929    .text.HAL_NVIC_GetPriorityGrouping:00000000 HAL_NVIC_GetPriorityGrouping
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:953    .text.HAL_NVIC_GetPriorityGrouping:0000000c $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:958    .text.HAL_NVIC_GetPriority:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:964    .text.HAL_NVIC_GetPriority:00000000 HAL_NVIC_GetPriority
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:999    .text.HAL_NVIC_SetPendingIRQ:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1005   .text.HAL_NVIC_SetPendingIRQ:00000000 HAL_NVIC_SetPendingIRQ
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1047   .text.HAL_NVIC_SetPendingIRQ:00000018 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1052   .text.HAL_NVIC_GetPendingIRQ:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1058   .text.HAL_NVIC_GetPendingIRQ:00000000 HAL_NVIC_GetPendingIRQ
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1104   .text.HAL_NVIC_GetPendingIRQ:00000020 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1109   .text.HAL_NVIC_ClearPendingIRQ:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1115   .text.HAL_NVIC_ClearPendingIRQ:00000000 HAL_NVIC_ClearPendingIRQ
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1157   .text.HAL_NVIC_ClearPendingIRQ:00000018 $d
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s 			page 86
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:21     .text.__NVIC_DisableIRQ:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:26     .text.__NVIC_DisableIRQ:00000000 __NVIC_DisableIRQ
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:88     .text.__NVIC_DisableIRQ:00000020 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:93     .text.__NVIC_SetPriority:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:98     .text.__NVIC_SetPriority:00000000 __NVIC_SetPriority
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:141    .text.__NVIC_SetPriority:00000024 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:146    .text.__NVIC_GetPriority:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:151    .text.__NVIC_GetPriority:00000000 __NVIC_GetPriority
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:187    .text.__NVIC_GetPriority:00000020 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:192    .text.NVIC_EncodePriority:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:197    .text.NVIC_EncodePriority:00000000 NVIC_EncodePriority
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:259    .text.NVIC_DecodePriority:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:264    .text.NVIC_DecodePriority:00000000 NVIC_DecodePriority
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:333    .text.__NVIC_SystemReset:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:338    .text.__NVIC_SystemReset:00000000 __NVIC_SystemReset
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:399    .text.__NVIC_SystemReset:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:405    .text.HAL_NVIC_SetPriorityGrouping:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:411    .text.HAL_NVIC_SetPriorityGrouping:00000000 HAL_NVIC_SetPriorityGrouping
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:465    .text.HAL_NVIC_SetPriorityGrouping:00000020 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:470    .text.HAL_NVIC_SetPriority:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:476    .text.HAL_NVIC_SetPriority:00000000 HAL_NVIC_SetPriority
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:523    .text.HAL_NVIC_SetPriority:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:528    .text.HAL_NVIC_EnableIRQ:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:534    .text.HAL_NVIC_EnableIRQ:00000000 HAL_NVIC_EnableIRQ
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:575    .text.HAL_NVIC_EnableIRQ:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:580    .text.HAL_NVIC_DisableIRQ:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:586    .text.HAL_NVIC_DisableIRQ:00000000 HAL_NVIC_DisableIRQ
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:609    .text.HAL_NVIC_SystemReset:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:615    .text.HAL_NVIC_SystemReset:00000000 HAL_NVIC_SystemReset
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:634    .text.HAL_SYSTICK_Config:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:640    .text.HAL_SYSTICK_Config:00000000 HAL_SYSTICK_Config
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:705    .text.HAL_SYSTICK_Config:00000024 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:710    .text.HAL_MPU_Disable:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:716    .text.HAL_MPU_Disable:00000000 HAL_MPU_Disable
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:753    .text.HAL_MPU_Disable:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:758    .text.HAL_MPU_Enable:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:764    .text.HAL_MPU_Enable:00000000 HAL_MPU_Enable
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:818    .text.HAL_MPU_Enable:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:823    .text.HAL_MPU_ConfigRegion:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:829    .text.HAL_MPU_ConfigRegion:00000000 HAL_MPU_ConfigRegion
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:918    .text.HAL_MPU_ConfigRegion:0000005c $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:923    .text.HAL_NVIC_GetPriorityGrouping:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:929    .text.HAL_NVIC_GetPriorityGrouping:00000000 HAL_NVIC_GetPriorityGrouping
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:953    .text.HAL_NVIC_GetPriorityGrouping:0000000c $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:958    .text.HAL_NVIC_GetPriority:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:964    .text.HAL_NVIC_GetPriority:00000000 HAL_NVIC_GetPriority
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:999    .text.HAL_NVIC_SetPendingIRQ:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1005   .text.HAL_NVIC_SetPendingIRQ:00000000 HAL_NVIC_SetPendingIRQ
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1047   .text.HAL_NVIC_SetPendingIRQ:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1052   .text.HAL_NVIC_GetPendingIRQ:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1058   .text.HAL_NVIC_GetPendingIRQ:00000000 HAL_NVIC_GetPendingIRQ
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1104   .text.HAL_NVIC_GetPendingIRQ:00000020 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1109   .text.HAL_NVIC_ClearPendingIRQ:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1115   .text.HAL_NVIC_ClearPendingIRQ:00000000 HAL_NVIC_ClearPendingIRQ
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1157   .text.HAL_NVIC_ClearPendingIRQ:00000018 $d
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s 			page 86
 
 
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1162   .text.HAL_NVIC_GetActive:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1168   .text.HAL_NVIC_GetActive:00000000 HAL_NVIC_GetActive
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1214   .text.HAL_NVIC_GetActive:00000020 $d
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1219   .text.HAL_SYSTICK_CLKSourceConfig:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1225   .text.HAL_SYSTICK_CLKSourceConfig:00000000 HAL_SYSTICK_CLKSourceConfig
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1260   .text.HAL_SYSTICK_Callback:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1266   .text.HAL_SYSTICK_Callback:00000000 HAL_SYSTICK_Callback
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1279   .text.HAL_SYSTICK_IRQHandler:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccomRlIu.s:1285   .text.HAL_SYSTICK_IRQHandler:00000000 HAL_SYSTICK_IRQHandler
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1162   .text.HAL_NVIC_GetActive:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1168   .text.HAL_NVIC_GetActive:00000000 HAL_NVIC_GetActive
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1214   .text.HAL_NVIC_GetActive:00000020 $d
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1219   .text.HAL_SYSTICK_CLKSourceConfig:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1225   .text.HAL_SYSTICK_CLKSourceConfig:00000000 HAL_SYSTICK_CLKSourceConfig
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1260   .text.HAL_SYSTICK_Callback:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1266   .text.HAL_SYSTICK_Callback:00000000 HAL_SYSTICK_Callback
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1279   .text.HAL_SYSTICK_IRQHandler:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjOQlPf.s:1285   .text.HAL_SYSTICK_IRQHandler:00000000 HAL_SYSTICK_IRQHandler
 
 NO UNDEFINED SYMBOLS

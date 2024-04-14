@@ -41,3 +41,16 @@ void *_sbrk(int incr) {
 
     return (void *)prev_heap_end;
 }
+
+void _exit(int status) {
+    while (1) { }  // Hang if exit is called
+}
+
+int _kill(int pid, int sig) {
+    errno = EINVAL;
+    return -1;  // Error, signal handling not implemented
+}
+
+int _getpid(void) {
+    return 1;  // Return a dummy process ID
+}

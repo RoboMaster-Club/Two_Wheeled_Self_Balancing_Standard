@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
   27:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
   28:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
   29:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** /** @defgroup RCCEx RCCEx
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 2
 
 
   30:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @brief RCCEx HAL module driver
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
   84:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *
   85:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @retval HAL status
   86:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 3
 
 
   87:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  141:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_SAI1_CONFIG(PeriphClkInit->Sai1ClockSelection);
  142:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Enable the PLLI2S when it's used as clock source for SAI */
  143:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if(PeriphClkInit->Sai1ClockSelection == RCC_SAI1CLKSOURCE_PLLI2S)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 4
 
 
  144:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  198:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
  199:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Reset the Backup domain only if the RTC Clock source selection is modified from reset value 
  200:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tmpreg1 = (RCC->BDCR & RCC_BDCR_RTCSEL);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 5
 
 
  201:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if((tmpreg1 != 0x00000000U) && ((tmpreg1) != (PeriphClkInit->RTCClockSelection & RCC_BDCR_RTCSE
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  255:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  256:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Configure the CEC clock source */
  257:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_CEC_CONFIG(PeriphClkInit->CecClockSelection);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 6
 
 
  258:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  312:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Get tick */
  313:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tickstart = HAL_GetTick();
  314:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Wait till PLLI2S is disabled */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 7
 
 
  315:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     while(__HAL_RCC_GET_FLAG(RCC_FLAG_PLLI2SRDY)  != RESET)
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  369:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* check for Parameters */
  370:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       assert_param(IS_RCC_PLLI2SP_VALUE(PeriphClkInit->PLLI2S.PLLI2SP));
  371:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Read PLLI2SR value from PLLI2SCFGR register (this value is not need for SAI configuration)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 8
 
 
  372:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       plli2sq = ((((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SP) >> RCC_PLLI2SCFGR_PLLI2SP_Pos) + 1U) 
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  426:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  427:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Check the PLLSAI division factors */
  428:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     assert_param(IS_RCC_PLLSAIM_VALUE(PeriphClkInit->PLLSAI.PLLSAIM));
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 9
 
 
  429:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     assert_param(IS_RCC_PLLSAIN_VALUE(PeriphClkInit->PLLSAI.PLLSAIN));
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  483:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @brief  Get the RCC_PeriphCLKInitTypeDef according to the internal
  484:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         RCC configuration registers.
  485:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @param  PeriphClkInit pointer to an RCC_PeriphCLKInitTypeDef structure that
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 10
 
 
  486:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *         will be configured.
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  540:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  541:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the SDIO clock configuration ----------------------------------------*/
  542:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->SdioClockSelection = __HAL_RCC_GET_SDIO_SOURCE();
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 11
 
 
  543:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  597:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             vcoinput = (HSI_VALUE / (uint32_t)(RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIM));
  598:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
  599:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           else
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 12
 
 
  600:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  654:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
  655:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  656:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* PLL_VCO Output = PLL_VCO Input * PLLN */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 13
 
 
  657:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* SAI_CLK_x = PLL_VCO Output/PLLR */
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  711:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           else
  712:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
  713:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             /* Get the I2S source clock value */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 14
 
 
  714:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             vcoinput = (uint32_t)(HSI_VALUE / (uint32_t)(RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SM))
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  768:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
  769:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Get the current I2S source */
  770:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       srcclk = __HAL_RCC_GET_I2S_APB2_SOURCE();
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 15
 
 
  771:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       switch (srcclk)
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  825:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       case RCC_I2SAPB2CLKSOURCE_PLLSRC:
  826:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
  827:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           if((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLSOURCE_HSE)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 16
 
 
  828:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  882:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  883:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Configure the CLK48 clock source */
  884:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_CLK48_CONFIG(PeriphClkInit->Clk48ClockSelection);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 17
 
 
  885:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  939:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****        be added only for SAI configuration */
  940:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_SAI_PLLI2S) == (RCC_PERIPHCLK_SAI_PLL
  941:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 18
 
 
  942:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Check the PLLI2S division factors */
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  996:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Disable PLLSAI Clock */
  997:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_PLLSAI_DISABLE();
  998:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Get tick */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 19
 
 
  999:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tickstart = HAL_GetTick();
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1053:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       assert_param(IS_RCC_PLLSAIP_VALUE(PeriphClkInit->PLLSAI.PLLSAIP));
 1054:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1055:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Read PLLSAIQ value from PLLSAICFGR register (this value is not need for SAI configuration)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 20
 
 
 1056:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       pllsaiq = ((RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIQ) >> RCC_PLLSAICFGR_PLLSAIQ_Pos);
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1110:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* RTC Clock selection can be changed only if the Backup Domain is reset */
 1111:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_BACKUPRESET_FORCE();
 1112:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_BACKUPRESET_RELEASE();
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 21
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 21
 
 
 1113:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Restore the Content of BDCR register */
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1167:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PLLSAI.PLLSAIR = (uint32_t)((RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIR) >> RCC_PLLS
 1168:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PLLSAI.PLLSAIQ = (uint32_t)((RCC->PLLSAICFGR & RCC_PLLSAICFGR_PLLSAIQ) >> RCC_PLLS
 1169:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the PLLSAI/PLLI2S division factors ----------------------------------*/
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 22
 
 
 1170:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->PLLI2SDivQ = (uint32_t)((RCC->DCKCFGR & RCC_DCKCFGR_PLLI2SDIVQ) >> RCC_DCKCFGR_PLL
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1224:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         }
 1225:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Check if I2S clock selection is PLLI2S VCO output clock divided by PLLI2SR used as I2S clo
 1226:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       case RCC_I2SCLKSOURCE_PLLI2S:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 23
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 23
 
 
 1227:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1281:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t plli2sq = 0U;
 1282:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #endif /* STM32F413xx || STM32F423xx */
 1283:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t plli2sused = 0U;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 24
 
 
 1284:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1338:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       assert_param(IS_RCC_PLL_DIVR_VALUE(PeriphClkInit->PLLDivR));
 1339:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1340:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* SAI_CLK_x = SAI_CLK(first level)/PLLDIVR */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 25
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 25
 
 
 1341:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_PLL_PLLSAICLKDIVR_CONFIG(PeriphClkInit->PLLDivR);
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1395:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     tmpreg1 = (RCC->BDCR & RCC_BDCR_RTCSEL);
 1396:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if((tmpreg1 != 0x00000000U) && ((tmpreg1) != (PeriphClkInit->RTCClockSelection & RCC_BDCR_RTCSE
 1397:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 26
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 26
 
 
 1398:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Store the content of BDCR register before the reset of Backup Domain */
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1452:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_CLK48_CONFIG(PeriphClkInit->Clk48ClockSelection);
 1453:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1454:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Enable the PLLI2S when it's used as clock source for CLK48 */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 27
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 27
 
 
 1455:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if(PeriphClkInit->Clk48ClockSelection == RCC_CLK48CLKSOURCE_PLLI2SQ)
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1509:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Configure the PLLI2S division factors */
 1510:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* PLLI2S_VCO = f(VCO clock) = f(PLLI2S clock input) * (PLLI2SN/PLLI2SM)*/
 1511:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* I2SCLK = f(PLLI2S clock output) = f(VCO clock) / PLLI2SR */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 28
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 28
 
 
 1512:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_PLLI2S_CONFIG(PeriphClkInit->PLLI2S.PLLI2SM, PeriphClkInit->PLLI2S.PLLI2SN , Periph
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1566:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1567:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /*-------------------- DFSDM1 clock source configuration -------------------*/
 1568:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_DFSDM1) == RCC_PERIPHCLK_DFSDM1)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 29
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 29
 
 
 1569:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1623:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1624:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   return HAL_OK;
 1625:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 30
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 30
 
 
 1626:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1680:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 1681:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the CLK48 clock configuration ---------------------------------------*/
 1682:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->Clk48ClockSelection = __HAL_RCC_GET_CLK48_SOURCE();
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 31
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 31
 
 
 1683:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1737:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* This variable used to store the VCO Output (value in Hz) */
 1738:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t vcooutput = 0U;
 1739:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   switch (PeriphClk)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 32
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 32
 
 
 1740:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1794:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
 1795:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             /* Get the I2S source clock value */
 1796:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             vcoinput = (uint32_t)(HSI_VALUE / (uint32_t)(RCC->PLLCFGR & RCC_PLLCFGR_PLLM));
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 33
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 33
 
 
 1797:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1851:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             /* PLLI2S_VCO Input  = PLL_SOURCE/PLLI2SM */
 1852:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             if((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLSOURCE_HSE)
 1853:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 34
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 34
 
 
 1854:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****               /* Get the I2S source clock value */
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1908:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           break;
 1909:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         }
 1910:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 35
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 35
 
 
 1911:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       break;
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 1965:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Store the content of BDCR register before the reset of Backup Domain */
 1966:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       tmpreg1 = (RCC->BDCR & ~(RCC_BDCR_RTCSEL));
 1967:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* RTC Clock selection can be changed only if the Backup Domain is reset */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 36
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 36
 
 
 1968:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_BACKUPRESET_FORCE();
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2022:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_I2S) == RCC_PERIPHCLK_I2S)
 2023:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
 2024:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Check the parameters */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 37
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 37
 
 
 2025:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     assert_param(IS_RCC_I2SAPBCLKSOURCE(PeriphClkInit->I2SClockSelection));
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2079:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* This variable used to store the VCO Input (value in Hz) */
 2080:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t vcoinput = 0U;
 2081:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   uint32_t srcclk = 0U;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 38
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 38
 
 
 2082:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* This variable used to store the VCO Output (value in Hz) */
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2136:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
 2137:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           frequency = 0U;
 2138:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           break;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 39
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 39
 
 
 2139:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         }
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2174:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****      factor is common parameters for both peripherals */
 2175:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   if((((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_I2S) == RCC_PERIPHCLK_I2S) ||
   49              		.loc 1 2175 3 view .LVU5
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 40
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 40
 
 
 2176:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****      (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_SAI_PLLI2S) == RCC_PERIPHCLK_SAI_PLLI2
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2222:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* PLLI2S_VCO Output = PLLI2S_VCO Input * PLLI2SN */
 2223:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* SAI_CLK(first level) = PLLI2S_VCO Output/PLLI2SQ */
 2224:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       __HAL_RCC_PLLI2S_SAICLK_CONFIG(PeriphClkInit->PLLI2S.PLLI2SN , PeriphClkInit->PLLI2S.PLLI2SQ 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 41
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 41
 
 
 2225:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* SAI_CLK_x = SAI_CLK(first level)/PLLI2SDIVQ */
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2272:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
 2273:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       if((HAL_GetTick() - tickstart ) > PLLSAI_TIMEOUT_VALUE)
 2274:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 42
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 42
 
 
 2275:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         /* return in case of Timeout detected */
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2329:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /*---------------------------- RTC configuration ---------------------------*/
 2330:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_RTC) == (RCC_PERIPHCLK_RTC))
   64              		.loc 1 2330 3 is_stmt 1 view .LVU11
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 43
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 43
 
 
   65              		.loc 1 2330 21 is_stmt 0 view .LVU12
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2379:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     __HAL_RCC_RTC_CONFIG(PeriphClkInit->RTCClockSelection);
   71              		.loc 1 2379 5 is_stmt 1 discriminator 5 view .LVU14
 2380:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 44
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 44
 
 
 2381:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /*--------------------------------------------------------------------------*/
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  110              		.loc 1 2187 51 view .LVU27
 2187:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
  111              		.loc 1 2187 11 is_stmt 0 view .LVU28
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 45
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 45
 
 
  112 0046 8D4B     		ldr	r3, .L42+8
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  151              		.loc 1 2215 7 is_stmt 1 view .LVU43
 2216:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  152              		.loc 1 2216 7 view .LVU44
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 46
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 46
 
 
 2219:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Configure the PLLI2S division factors */
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  195              		.loc 1 2241 5 view .LVU56
  196 00c8 6B4B     		ldr	r3, .L42+4
  197 00ca 0122     		movs	r2, #1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 47
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 47
 
 
  198 00cc 9A66     		str	r2, [r3, #104]
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  237 00f6 0546     		mov	r5, r0
  238              	.LVL15:
 2271:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 48
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 48
 
 
  239              		.loc 1 2271 5 is_stmt 1 view .LVU72
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  277 0122 1B06     		lsls	r3, r3, #24
  278 0124 43EA8013 		orr	r3, r3, r0, lsl #6
  279 0128 01F0E041 		and	r1, r1, #1879048192
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 49
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 49
 
 
  280              	.LVL18:
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  322              	.L15:
 2314:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     /* Get tick */
  323              		.loc 1 2314 5 view .LVU101
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 50
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 50
 
 
  324 0178 3F4B     		ldr	r3, .L42+4
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  363 01a2 364B     		ldr	r3, .L42+8
  364 01a4 1A6C     		ldr	r2, [r3, #64]
  365 01a6 42F08052 		orr	r2, r2, #268435456
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 51
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 51
 
 
  366 01aa 1A64     		str	r2, [r3, #64]
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  404 01d6 0228     		cmp	r0, #2
  405 01d8 F5D9     		bls	.L19
 2348:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 52
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 52
 
 
  406              		.loc 1 2348 16 view .LVU133
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2361:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
  445              		.loc 1 2361 17 is_stmt 0 view .LVU149
  446 0208 1A67     		str	r2, [r3, #112]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 53
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 53
 
 
 2364:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       {
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  488 023e 0F4B     		ldr	r3, .L42+8
  489 0240 1B6F     		ldr	r3, [r3, #112]
 2370:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 54
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 54
 
 
  490              		.loc 1 2370 51 view .LVU163
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  539              	HAL_RCCEx_GetPeriphCLKConfig:
  540              	.LVL41:
  541              	.LFB131:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 55
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 55
 
 
 2390:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  575              		.loc 1 2410 50 is_stmt 0 view .LVU188
  576 0024 D3F88820 		ldr	r2, [r3, #136]
  577              		.loc 1 2410 35 view .LVU189
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 56
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 56
 
 
  578 0028 C2F38812 		ubfx	r2, r2, #6, #9
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  623              		.loc 1 2419 65 is_stmt 0 view .LVU215
  624 0066 1A6F     		ldr	r2, [r3, #112]
  625              		.loc 1 2419 72 view .LVU216
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 57
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 57
 
 
  626 0068 02F44072 		and	r2, r2, #768
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2436:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   *            @arg RCC_PERIPHCLK_I2S: I2S peripheral clock
 2437:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @retval Frequency in KHz
 2438:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 58
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 58
 
 
 2439:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** uint32_t HAL_RCCEx_GetPeriphCLKFreq(uint32_t PeriphClk)
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  702              	.L51:
 2455:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       {
 2456:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Check if I2S clock selection is External clock mapped on the I2S_CKIN pin used as I2S cloc
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 59
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 59
 
 
 2457:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       case RCC_I2SCLKSOURCE_EXT:
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2481:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           /* I2S_CLK = PLLI2S_VCO Output/PLLI2SR */
 2482:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           frequency = (uint32_t)(vcooutput /(((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SR) >> 28U) & 
  733              		.loc 1 2482 11 is_stmt 1 view .LVU252
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 60
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 60
 
 
  734              		.loc 1 2482 51 is_stmt 0 view .LVU253
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  769 0064 00380240 		.word	1073887232
  770 0068 0080BB00 		.word	12288000
  771 006c 001BB700 		.word	12000000
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 61
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 61
 
 
  772 0070 0024F400 		.word	16000000
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2539:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       {
 2540:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         /* return in case of Timeout detected */
 2541:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****         return HAL_TIMEOUT;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 62
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 62
 
 
 2542:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       }
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2596:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if((tmpreg1 != 0x00000000U) && ((tmpreg1) != (PeriphClkInit->RTCClockSelection & RCC_BDCR_RTCSE
 2597:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
 2598:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       /* Store the content of BDCR register before the reset of Backup Domain */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 63
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 63
 
 
 2599:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       tmpreg1 = (RCC->BDCR & ~(RCC_BDCR_RTCSEL));
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2653:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #endif /* STM32F411xE */
 2654:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Get the RTC Clock configuration -----------------------------------------*/
 2655:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   tempreg = (RCC->CFGR & RCC_CFGR_RTCPRE);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 64
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 64
 
 
 2656:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   PeriphClkInit->RTCClockSelection = (uint32_t)((tempreg) | (RCC->BDCR & RCC_BDCR_RTCSEL));
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2710:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           {
 2711:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             /* Get the I2S source clock value */
 2712:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****             vcoinput = (uint32_t)(HSE_VALUE / (uint32_t)(RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SM))
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 65
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 65
 
 
 2713:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****           }
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2767:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** {
 2768:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Check the parameters */
 2769:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   assert_param(IS_RCC_LSE_MODE(Mode));
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 66
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 66
 
 
 2770:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   if(Mode == RCC_LSE_HIGHDRIVE_MODE)
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2809:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   assert_param(IS_RCC_PLLI2SR_VALUE(PLLI2SInit->PLLI2SR));
  801              		.loc 1 2809 3 view .LVU269
 2810:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #if defined(RCC_PLLI2SCFGR_PLLI2SM)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 67
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 67
 
 
 2811:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   assert_param(IS_RCC_PLLI2SM_VALUE(PLLI2SInit->PLLI2SM));
@@ -4018,7 +4018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2832:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
 2833:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 2834:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Configure the PLLI2S division factors */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 68
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 68
 
 
 2835:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #if defined(STM32F446xx)
@@ -4078,7 +4078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  842 002c 1B06     		lsls	r3, r3, #24
  843 002e 43EA8213 		orr	r3, r3, r2, lsl #6
  844 0032 6A68     		ldr	r2, [r5, #4]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 69
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 69
 
 
  845 0034 43EA0273 		orr	r3, r3, r2, lsl #28
@@ -4138,7 +4138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  886 0068 00004742 		.word	1111949312
  887 006c 00380240 		.word	1073887232
  888              		.cfi_endproc
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 70
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 70
 
 
  889              	.LFE133:
@@ -4198,7 +4198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2897:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if((HAL_GetTick() - tickstart) > PLLI2S_TIMEOUT_VALUE)
  929              		.loc 1 2897 5 is_stmt 1 view .LVU308
  930              		.loc 1 2897 9 is_stmt 0 view .LVU309
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 71
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 71
 
 
  931 0018 FFF7FEFF 		bl	HAL_GetTick
@@ -4258,7 +4258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  967              		.loc 1 2917 1 is_stmt 1 view -0
  968              		.cfi_startproc
  969              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 72
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 72
 
 
  970              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -4318,7 +4318,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1003 0018 06D0     		beq	.L90
 2939:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
 2940:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     if((HAL_GetTick() - tickstart ) > PLLSAI_TIMEOUT_VALUE)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 73
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 73
 
 
  1004              		.loc 1 2940 5 is_stmt 1 view .LVU330
@@ -4378,7 +4378,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 2983:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****  return HAL_OK;
 2984:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** }
  1016              		.loc 1 2984 1 view .LVU335
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 74
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 74
 
 
  1017 0026 38BD     		pop	{r3, r4, r5, pc}
@@ -4438,7 +4438,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1058 005e 0320     		movs	r0, #3
  1059 0060 E1E7     		b	.L83
  1060              	.L91:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 75
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 75
 
 
 2983:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** }
@@ -4498,7 +4498,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1101              		.loc 1 2999 3 is_stmt 1 view .LVU355
  1102              	.L95:
  1103              		.loc 1 2999 37 view .LVU356
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 76
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 76
 
 
  1104              		.loc 1 2999 9 is_stmt 0 view .LVU357
@@ -4558,7 +4558,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 3013:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** /**
 3014:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @}
 3015:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 77
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 77
 
 
 3016:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
@@ -4618,7 +4618,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 3070:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****       break;
 3071:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     }
 3072:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     case RCC_CFGR_SWS_PLL:  /* PLL/PLLP used as system clock  source */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 78
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 78
 
 
 3073:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
@@ -4678,7 +4678,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 3127:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   * @}
 3128:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   */
 3129:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 79
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 79
 
 
 3130:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** /**
@@ -4738,7 +4738,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1176 0014 1B68     		ldr	r3, [r3]
  1177              		.loc 1 3154 43 view .LVU375
  1178 0016 13F0020F 		tst	r3, #2
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 80
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 80
 
 
  1179 001a 06D1     		bne	.L124
@@ -4798,7 +4798,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 3196:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   tickstart = HAL_GetTick();
 3197:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 3198:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Clear PLLON bit */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 81
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 81
 
 
 3199:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   CLEAR_BIT(RCC->CR, RCC_CR_PLLON);
@@ -4858,7 +4858,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 3253:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
 3254:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   /* Reset PLLI2SCFGR register to default value */
 3255:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #if defined(STM32F412Cx) || defined(STM32F412Rx) || defined(STM32F412Vx) || defined(STM32F412Zx) ||
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 82
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 82
 
 
 3256:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     defined(STM32F423xx) || defined(STM32F446xx)
@@ -4918,7 +4918,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 3310:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
 3311:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     return HAL_OK;
 3312:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 83
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 83
 
 
 3313:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** }
@@ -4978,7 +4978,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1232 0058 E6E7     		b	.L105
  1233              	.L125:
 3181:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 84
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 84
 
 
  1234              		.loc 1 3181 3 is_stmt 1 view .LVU395
@@ -5038,7 +5038,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1274              		.loc 1 3199 3 is_stmt 1 view .LVU409
  1275 0088 364A     		ldr	r2, .L130
  1276 008a 1368     		ldr	r3, [r2]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 85
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 85
 
 
  1277 008c 23F08073 		bic	r3, r3, #16777216
@@ -5098,7 +5098,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
 3218:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****   {
  1317              		.loc 1 3218 10 is_stmt 0 view .LVU424
  1318 00ba 2A4B     		ldr	r3, .L130
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 86
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 86
 
 
  1319 00bc 1B68     		ldr	r3, [r3]
@@ -5158,7 +5158,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1358              		.loc 1 3237 10 is_stmt 0 view .LVU439
  1359 00ec FFF7FEFF 		bl	HAL_GetTick
  1360              	.LVL108:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 87
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 87
 
 
 3237:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c ****     {
@@ -5218,7 +5218,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1401 0130 DA60     		str	r2, [r3, #12]
 3292:Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c **** #endif /* RCC_CIR_PLLSAIRDYC */
  1402              		.loc 1 3292 3 view .LVU454
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 88
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 88
 
 
  1403 0132 DA68     		ldr	r2, [r3, #12]
@@ -5278,38 +5278,38 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 1
  1450              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h"
  1451              		.file 8 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
  1452              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 89
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 89
 
 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s 			page 90
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s 			page 90
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32f4xx_hal_rcc_ex.c
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:21     .text.HAL_RCCEx_PeriphCLKConfig:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:27     .text.HAL_RCCEx_PeriphCLKConfig:00000000 HAL_RCCEx_PeriphCLKConfig
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:525    .text.HAL_RCCEx_PeriphCLKConfig:00000274 $d
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:533    .text.HAL_RCCEx_GetPeriphCLKConfig:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:539    .text.HAL_RCCEx_GetPeriphCLKConfig:00000000 HAL_RCCEx_GetPeriphCLKConfig
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:652    .text.HAL_RCCEx_GetPeriphCLKConfig:0000008c $d
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:657    .text.HAL_RCCEx_GetPeriphCLKFreq:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:663    .text.HAL_RCCEx_GetPeriphCLKFreq:00000000 HAL_RCCEx_GetPeriphCLKFreq
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:769    .text.HAL_RCCEx_GetPeriphCLKFreq:00000064 $d
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:777    .text.HAL_RCCEx_EnablePLLI2S:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:783    .text.HAL_RCCEx_EnablePLLI2S:00000000 HAL_RCCEx_EnablePLLI2S
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:886    .text.HAL_RCCEx_EnablePLLI2S:00000068 $d
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:892    .text.HAL_RCCEx_DisablePLLI2S:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:898    .text.HAL_RCCEx_DisablePLLI2S:00000000 HAL_RCCEx_DisablePLLI2S
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:952    .text.HAL_RCCEx_DisablePLLI2S:0000002c $d
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:958    .text.HAL_RCCEx_EnablePLLSAI:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:964    .text.HAL_RCCEx_EnablePLLSAI:00000000 HAL_RCCEx_EnablePLLSAI
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:1067   .text.HAL_RCCEx_EnablePLLSAI:00000068 $d
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:1073   .text.HAL_RCCEx_DisablePLLSAI:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:1079   .text.HAL_RCCEx_DisablePLLSAI:00000000 HAL_RCCEx_DisablePLLSAI
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:1133   .text.HAL_RCCEx_DisablePLLSAI:0000002c $d
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:1139   .text.HAL_RCC_DeInit:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:1145   .text.HAL_RCC_DeInit:00000000 HAL_RCC_DeInit
-C:\Users\purdu\AppData\Local\Temp\ccxDzSJ2.s:1434   .text.HAL_RCC_DeInit:00000164 $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:21     .text.HAL_RCCEx_PeriphCLKConfig:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:27     .text.HAL_RCCEx_PeriphCLKConfig:00000000 HAL_RCCEx_PeriphCLKConfig
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:525    .text.HAL_RCCEx_PeriphCLKConfig:00000274 $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:533    .text.HAL_RCCEx_GetPeriphCLKConfig:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:539    .text.HAL_RCCEx_GetPeriphCLKConfig:00000000 HAL_RCCEx_GetPeriphCLKConfig
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:652    .text.HAL_RCCEx_GetPeriphCLKConfig:0000008c $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:657    .text.HAL_RCCEx_GetPeriphCLKFreq:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:663    .text.HAL_RCCEx_GetPeriphCLKFreq:00000000 HAL_RCCEx_GetPeriphCLKFreq
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:769    .text.HAL_RCCEx_GetPeriphCLKFreq:00000064 $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:777    .text.HAL_RCCEx_EnablePLLI2S:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:783    .text.HAL_RCCEx_EnablePLLI2S:00000000 HAL_RCCEx_EnablePLLI2S
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:886    .text.HAL_RCCEx_EnablePLLI2S:00000068 $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:892    .text.HAL_RCCEx_DisablePLLI2S:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:898    .text.HAL_RCCEx_DisablePLLI2S:00000000 HAL_RCCEx_DisablePLLI2S
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:952    .text.HAL_RCCEx_DisablePLLI2S:0000002c $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:958    .text.HAL_RCCEx_EnablePLLSAI:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:964    .text.HAL_RCCEx_EnablePLLSAI:00000000 HAL_RCCEx_EnablePLLSAI
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:1067   .text.HAL_RCCEx_EnablePLLSAI:00000068 $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:1073   .text.HAL_RCCEx_DisablePLLSAI:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:1079   .text.HAL_RCCEx_DisablePLLSAI:00000000 HAL_RCCEx_DisablePLLSAI
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:1133   .text.HAL_RCCEx_DisablePLLSAI:0000002c $d
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:1139   .text.HAL_RCC_DeInit:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:1145   .text.HAL_RCC_DeInit:00000000 HAL_RCC_DeInit
+C:\Users\purdu\AppData\Local\Temp\ccqGsSyo.s:1434   .text.HAL_RCC_DeInit:00000164 $d
 
 UNDEFINED SYMBOLS
 HAL_GetTick

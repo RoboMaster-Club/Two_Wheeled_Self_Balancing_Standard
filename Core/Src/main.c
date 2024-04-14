@@ -29,7 +29,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+extern int testtinympc(void);
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -106,6 +106,7 @@ int main(void)
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 
+  testtinympc();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

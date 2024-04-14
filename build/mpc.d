@@ -1,4 +1,5 @@
-build/mpc.o: HigherLevelApps/HigherLevelApps.c/mpc.cpp Eigen/Dense \
+build/mpc.o: HigherLevelApps/HigherLevelApps.c/mpc.cpp \
+ thirdparty/tinympc/admm.hpp thirdparty/tinympc/types.hpp Eigen/Eigen.h \
  Eigen/Core Eigen/src/Core/util/DisableStupidWarnings.h \
  Eigen/src/Core/util/Macros.h \
  Eigen/src/Core/util/ConfigureVectorization.h \
@@ -81,42 +82,12 @@ build/mpc.o: HigherLevelApps/HigherLevelApps.c/mpc.cpp Eigen/Dense \
  Eigen/src/Core/Replicate.h Eigen/src/Core/Reverse.h \
  Eigen/src/Core/ArrayWrapper.h Eigen/src/Core/StlIterators.h \
  Eigen/src/Core/GlobalFunctions.h \
- Eigen/src/Core/util/ReenableStupidWarnings.h Eigen/LU \
- Eigen/src/misc/Kernel.h Eigen/src/misc/Image.h Eigen/src/LU/FullPivLU.h \
- Eigen/src/LU/PartialPivLU.h Eigen/src/LU/Determinant.h \
- Eigen/src/LU/InverseImpl.h Eigen/Cholesky Eigen/Jacobi \
- Eigen/src/Jacobi/Jacobi.h Eigen/src/Cholesky/LLT.h \
- Eigen/src/Cholesky/LDLT.h Eigen/QR Eigen/Householder \
- Eigen/src/Householder/Householder.h \
- Eigen/src/Householder/HouseholderSequence.h \
- Eigen/src/Householder/BlockHouseholder.h Eigen/src/QR/HouseholderQR.h \
- Eigen/src/QR/FullPivHouseholderQR.h Eigen/src/QR/ColPivHouseholderQR.h \
- Eigen/src/QR/CompleteOrthogonalDecomposition.h Eigen/SVD \
- Eigen/src/misc/RealSvd2x2.h Eigen/src/SVD/UpperBidiagonalization.h \
- Eigen/src/SVD/SVDBase.h Eigen/src/SVD/JacobiSVD.h Eigen/src/SVD/BDCSVD.h \
- Eigen/Geometry Eigen/src/Geometry/OrthoMethods.h \
- Eigen/src/Geometry/EulerAngles.h Eigen/src/Geometry/Homogeneous.h \
- Eigen/src/Geometry/RotationBase.h Eigen/src/Geometry/Rotation2D.h \
- Eigen/src/Geometry/Quaternion.h Eigen/src/Geometry/AngleAxis.h \
- Eigen/src/Geometry/Transform.h Eigen/src/Geometry/Translation.h \
- Eigen/src/Geometry/Scaling.h Eigen/src/Geometry/Hyperplane.h \
- Eigen/src/Geometry/ParametrizedLine.h Eigen/src/Geometry/AlignedBox.h \
- Eigen/src/Geometry/Umeyama.h Eigen/Eigenvalues \
- Eigen/src/Eigenvalues/Tridiagonalization.h \
- Eigen/src/Eigenvalues/RealSchur.h \
- Eigen/src/Eigenvalues/./HessenbergDecomposition.h \
- Eigen/src/Eigenvalues/EigenSolver.h Eigen/src/Eigenvalues/./RealSchur.h \
- Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
- Eigen/src/Eigenvalues/./Tridiagonalization.h \
- Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
- Eigen/src/Eigenvalues/HessenbergDecomposition.h \
- Eigen/src/Eigenvalues/ComplexSchur.h \
- Eigen/src/Eigenvalues/ComplexEigenSolver.h \
- Eigen/src/Eigenvalues/./ComplexSchur.h Eigen/src/Eigenvalues/RealQZ.h \
- Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
- Eigen/src/Eigenvalues/./RealQZ.h \
- Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
-Eigen/Dense:
+ Eigen/src/Core/util/ReenableStupidWarnings.h \
+ thirdparty/tinympc/glob_opts.hpp \
+ thirdparty/problem_data/quadrotor_20hz_params.hpp
+thirdparty/tinympc/admm.hpp:
+thirdparty/tinympc/types.hpp:
+Eigen/Eigen.h:
 Eigen/Core:
 Eigen/src/Core/util/DisableStupidWarnings.h:
 Eigen/src/Core/util/Macros.h:
@@ -241,62 +212,5 @@ Eigen/src/Core/ArrayWrapper.h:
 Eigen/src/Core/StlIterators.h:
 Eigen/src/Core/GlobalFunctions.h:
 Eigen/src/Core/util/ReenableStupidWarnings.h:
-Eigen/LU:
-Eigen/src/misc/Kernel.h:
-Eigen/src/misc/Image.h:
-Eigen/src/LU/FullPivLU.h:
-Eigen/src/LU/PartialPivLU.h:
-Eigen/src/LU/Determinant.h:
-Eigen/src/LU/InverseImpl.h:
-Eigen/Cholesky:
-Eigen/Jacobi:
-Eigen/src/Jacobi/Jacobi.h:
-Eigen/src/Cholesky/LLT.h:
-Eigen/src/Cholesky/LDLT.h:
-Eigen/QR:
-Eigen/Householder:
-Eigen/src/Householder/Householder.h:
-Eigen/src/Householder/HouseholderSequence.h:
-Eigen/src/Householder/BlockHouseholder.h:
-Eigen/src/QR/HouseholderQR.h:
-Eigen/src/QR/FullPivHouseholderQR.h:
-Eigen/src/QR/ColPivHouseholderQR.h:
-Eigen/src/QR/CompleteOrthogonalDecomposition.h:
-Eigen/SVD:
-Eigen/src/misc/RealSvd2x2.h:
-Eigen/src/SVD/UpperBidiagonalization.h:
-Eigen/src/SVD/SVDBase.h:
-Eigen/src/SVD/JacobiSVD.h:
-Eigen/src/SVD/BDCSVD.h:
-Eigen/Geometry:
-Eigen/src/Geometry/OrthoMethods.h:
-Eigen/src/Geometry/EulerAngles.h:
-Eigen/src/Geometry/Homogeneous.h:
-Eigen/src/Geometry/RotationBase.h:
-Eigen/src/Geometry/Rotation2D.h:
-Eigen/src/Geometry/Quaternion.h:
-Eigen/src/Geometry/AngleAxis.h:
-Eigen/src/Geometry/Transform.h:
-Eigen/src/Geometry/Translation.h:
-Eigen/src/Geometry/Scaling.h:
-Eigen/src/Geometry/Hyperplane.h:
-Eigen/src/Geometry/ParametrizedLine.h:
-Eigen/src/Geometry/AlignedBox.h:
-Eigen/src/Geometry/Umeyama.h:
-Eigen/Eigenvalues:
-Eigen/src/Eigenvalues/Tridiagonalization.h:
-Eigen/src/Eigenvalues/RealSchur.h:
-Eigen/src/Eigenvalues/./HessenbergDecomposition.h:
-Eigen/src/Eigenvalues/EigenSolver.h:
-Eigen/src/Eigenvalues/./RealSchur.h:
-Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h:
-Eigen/src/Eigenvalues/./Tridiagonalization.h:
-Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h:
-Eigen/src/Eigenvalues/HessenbergDecomposition.h:
-Eigen/src/Eigenvalues/ComplexSchur.h:
-Eigen/src/Eigenvalues/ComplexEigenSolver.h:
-Eigen/src/Eigenvalues/./ComplexSchur.h:
-Eigen/src/Eigenvalues/RealQZ.h:
-Eigen/src/Eigenvalues/GeneralizedEigenSolver.h:
-Eigen/src/Eigenvalues/./RealQZ.h:
-Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h:
+thirdparty/tinympc/glob_opts.hpp:
+thirdparty/problem_data/quadrotor_20hz_params.hpp:

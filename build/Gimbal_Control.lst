@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
   32              		@ frame_needed = 0, uses_anonymous_args = 0
   33              		@ link register save eliminated.
   25:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	//Set the origin for yaw and pitch
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 2
 
 
   26:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	GM6020_Yaw.Target_Angle = Board_A_IMU.Export_Data.Total_Yaw;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
   48:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Current_Yaw = YAW_DIRECTION * Board_A_IMU.Export_Data.Total_Yaw;
   49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= 0.01f * (float)DR16_Export_Data.Mouse.x;
   50:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 3
 
 
   51:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Current_Pitch = PITCH_DIRECTION * Board_A_IMU.Export_Data.Pitch;
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  106 002a 7048     		ldr	r0, .L16+8
  107              	.LVL1:
  108              		.loc 1 66 32 view .LVU15
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 4
 
 
  109 002c 9847     		blx	r3
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
   87:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
   88:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
   89:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 5
 
 
   90:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  155              	.LVL6:
   75:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
  156              		.loc 1 75 32 view .LVU30
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 6
 
 
  157 0074 9847     		blx	r3
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  198 00b2 D0ED020A 		vldr.32	s1, [r0, #8]
  199 00b6 90ED010A 		vldr.32	s0, [r0, #4]
  200 00ba 4C48     		ldr	r0, .L16+8
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 7
 
 
  201              	.LVL11:
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  242 00f8 2B68     		ldr	r3, [r5]
   93:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
  243              		.loc 1 93 32 view .LVU57
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 8
 
 
  244 00fa D0ED020A 		vldr.32	s1, [r0, #8]
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  102:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
  286              		.loc 1 102 40 is_stmt 0 view .LVU70
  287 013e 2A4D     		ldr	r5, .L16+4
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 9
 
 
  288 0140 2B68     		ldr	r3, [r5]
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  330              	.L8:
  111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
  331              		.loc 1 111 4 view .LVU83
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 10
 
 
  111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  373              		.loc 1 115 4 is_stmt 1 view .LVU96
  374 01cc 4AE7     		b	.L4
  375              	.LVL30:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 11
 
 
  376              	.L6:
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  422              	.LFB163:
   31:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	//The multiplying/dividing constant are tested value and can be changed
  423              		.loc 1 31 1 is_stmt 1 view -0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 12
 
 
  424              		.cfi_startproc
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  463              		.loc 1 49 22 view .LVU123
  464 0032 77EE677A 		vsub.f32	s15, s14, s15
  465 0036 C0ED017A 		vstr.32	s15, [r0, #4]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 13
 
 
   51:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  507              		.loc 1 55 6 is_stmt 1 view .LVU136
   55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
  508              		.loc 1 55 12 is_stmt 0 view .LVU137
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 14
 
 
  509 008e D4ED037A 		vldr.32	s15, [r4, #12]
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
   36:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
  549              		.loc 1 36 75 view .LVU152
  550 00da B8EEC77A 		vcvt.f32.s32	s14, s14
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 15
 
 
  551 00de 9FED2C6A 		vldr.32	s12, .L43+20
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
   42:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
  592              		.loc 1 42 80 view .LVU166
  593 0138 B8EEC77A 		vcvt.f32.s32	s14, s14
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 16
 
 
  594 013c 9FED156A 		vldr.32	s12, .L43+24
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  641              		.align	2
  644              	Gimbal:
  645 0000 00000000 		.space	36
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 17
 
 
  645      00000000 
@@ -984,26 +984,26 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
  664              		.file 9 "HigherLevelApps/HigherLevelApps.h/State_Machine.h"
  665              		.file 10 "HigherLevelApps/HigherLevelApps.h/Gimbal_Control.h"
  666              		.file 11 "Algorithms/Algorithms.h/User_Defined_Math.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s 			page 18
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 Gimbal_Control.c
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:21     .text.Gimbal_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:27     .text.Gimbal_Init:00000000 Gimbal_Init
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:51     .text.Gimbal_Init:00000010 $d
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:59     .text.Gimbal_Processing:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:65     .text.Gimbal_Processing:00000000 Gimbal_Processing
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:90     .text.Gimbal_Processing:00000010 $d
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:97     .text.Gimbal_Processing:0000001e $t
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:402    .text.Gimbal_Processing:000001e4 $d
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:414    .text.Gimbal_Control_Get_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:420    .text.Gimbal_Control_Get_Data:00000000 Gimbal_Control_Get_Data
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:629    .text.Gimbal_Control_Get_Data:0000017c $d
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:644    .bss.Gimbal:00000000 Gimbal
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:641    .bss.Gimbal:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:651    .data.Gimbal_Func:00000000 Gimbal_Func
-C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:648    .data.Gimbal_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:21     .text.Gimbal_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:27     .text.Gimbal_Init:00000000 Gimbal_Init
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:51     .text.Gimbal_Init:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:59     .text.Gimbal_Processing:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:65     .text.Gimbal_Processing:00000000 Gimbal_Processing
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:90     .text.Gimbal_Processing:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:97     .text.Gimbal_Processing:0000001e $t
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:402    .text.Gimbal_Processing:000001e4 $d
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:414    .text.Gimbal_Control_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:420    .text.Gimbal_Control_Get_Data:00000000 Gimbal_Control_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:629    .text.Gimbal_Control_Get_Data:0000017c $d
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:644    .bss.Gimbal:00000000 Gimbal
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:641    .bss.Gimbal:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:651    .data.Gimbal_Func:00000000 Gimbal_Func
+C:\Users\purdu\AppData\Local\Temp\ccJ4TP5h.s:648    .data.Gimbal_Func:00000000 $d
 
 UNDEFINED SYMBOLS
 Board_A_IMU

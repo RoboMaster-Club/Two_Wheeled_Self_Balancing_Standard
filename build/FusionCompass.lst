@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
   28:BSP/BSP.h/FusionMath.h ****         float y;
   29:BSP/BSP.h/FusionMath.h ****         float z;
   30:BSP/BSP.h/FusionMath.h ****     } axis;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 2
 
 
   31:BSP/BSP.h/FusionMath.h **** } FusionVector;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
   85:BSP/BSP.h/FusionMath.h **** 
   86:BSP/BSP.h/FusionMath.h **** /**
   87:BSP/BSP.h/FusionMath.h ****  * @brief Vector of ones.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 3
 
 
   88:BSP/BSP.h/FusionMath.h ****  */
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  142:BSP/BSP.h/FusionMath.h **** 
  143:BSP/BSP.h/FusionMath.h **** /**
  144:BSP/BSP.h/FusionMath.h ****  * @brief Returns the arc sine of the value.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 4
 
 
  145:BSP/BSP.h/FusionMath.h ****  * @param value Value.
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  199:BSP/BSP.h/FusionMath.h ****  * @return Sum of two vectors.
  200:BSP/BSP.h/FusionMath.h ****  */
  201:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorAdd(const FusionVector vectorA, const FusionVector vectorB) 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 5
 
 
  202:BSP/BSP.h/FusionMath.h ****     FusionVector result;
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  256:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z * vectorB.axis.z;
  257:BSP/BSP.h/FusionMath.h ****     return result;
  258:BSP/BSP.h/FusionMath.h **** }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 6
 
 
  259:BSP/BSP.h/FusionMath.h **** 
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
   69              		.loc 2 272 19 view .LVU16
   70 0046 8DED0C2A 		vstr.32	s4, [sp, #48]
  273:BSP/BSP.h/FusionMath.h ****     return result;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 7
 
 
   71              		.loc 2 273 5 is_stmt 1 view .LVU17
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  254:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y * vectorB.axis.y;
  114              		.loc 2 254 5 view .LVU24
  254:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y * vectorB.axis.y;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 8
 
 
  115              		.loc 2 254 36 is_stmt 0 view .LVU25
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  156              	.LFE11:
  158              		.section	.text.FusionVectorNormalise,"ax",%progbits
  159              		.align	1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 9
 
 
  160              		.syntax unified
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  195              	.LBI16:
  169:BSP/BSP.h/FusionMath.h **** 
  196              		.loc 2 169 21 is_stmt 1 view .LVU42
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 10
 
 
  197              	.LBB17:
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  233              		.loc 2 241 5 is_stmt 1 view .LVU59
  241:BSP/BSP.h/FusionMath.h ****     result.axis.z = vector.axis.z * scalar;
  234              		.loc 2 241 35 is_stmt 0 view .LVU60
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 11
 
 
  235 0056 68EEA78A 		vmul.f32	s17, s17, s15
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  282              		.global	FusionCompassCalculateHeading
  283              		.syntax unified
  284              		.thumb
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 12
 
 
  285              		.thumb_func
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
   25:BSP/BSP.c/FusionCompass.c ****     // Compute direction of magnetic west (Earth's y axis)
   26:BSP/BSP.c/FusionCompass.c ****     const FusionVector magneticWest = FusionVectorNormalise(FusionVectorCrossProduct(accelerometer,
  316              		.loc 1 26 5 view .LVU70
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 13
 
 
  317              		.loc 1 26 39 is_stmt 0 view .LVU71
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  361 0090 13B0     		add	sp, sp, #76
  362              	.LCFI12:
  363              		.cfi_def_cfa_offset 20
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 14
 
 
  364              		@ sp needed
@@ -801,21 +801,21 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 1
  382              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
  383              		.file 4 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
  384              		.file 5 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\math.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s 			page 15
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 FusionCompass.c
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:21     .text.FusionVectorCrossProduct:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:26     .text.FusionVectorCrossProduct:00000000 FusionVectorCrossProduct
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:90     .text.FusionVectorMagnitudeSquared:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:95     .text.FusionVectorMagnitudeSquared:00000000 FusionVectorMagnitudeSquared
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:159    .text.FusionVectorNormalise:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:164    .text.FusionVectorNormalise:00000000 FusionVectorNormalise
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:274    .text.FusionVectorNormalise:00000090 $d
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:281    .text.FusionCompassCalculateHeading:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:287    .text.FusionCompassCalculateHeading:00000000 FusionCompassCalculateHeading
-C:\Users\purdu\AppData\Local\Temp\ccOSehKX.s:376    .text.FusionCompassCalculateHeading:0000009c $d
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:21     .text.FusionVectorCrossProduct:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:26     .text.FusionVectorCrossProduct:00000000 FusionVectorCrossProduct
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:90     .text.FusionVectorMagnitudeSquared:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:95     .text.FusionVectorMagnitudeSquared:00000000 FusionVectorMagnitudeSquared
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:159    .text.FusionVectorNormalise:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:164    .text.FusionVectorNormalise:00000000 FusionVectorNormalise
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:274    .text.FusionVectorNormalise:00000090 $d
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:281    .text.FusionCompassCalculateHeading:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:287    .text.FusionCompassCalculateHeading:00000000 FusionCompassCalculateHeading
+C:\Users\purdu\AppData\Local\Temp\ccEj5Zon.s:376    .text.FusionCompassCalculateHeading:0000009c $d
 
 UNDEFINED SYMBOLS
 atan2f

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   28:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Init(void)
   29:Devices/Devices.c/MPU6050_IMU.c **** {
   29              		.loc 1 29 1 view -0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 2
 
 
   30              		.cfi_startproc
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   41:Devices/Devices.c/MPU6050_IMU.c **** 	Temp_Data = 0x00;
   73              		.loc 1 41 2 view .LVU10
   74              		.loc 1 41 12 is_stmt 0 view .LVU11
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 3
 
 
   75 0038 0025     		movs	r5, #0
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   54:Devices/Devices.c/MPU6050_IMU.c **** }
  117              		.loc 1 54 1 view .LVU24
  118 0082 03B0     		add	sp, sp, #12
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 4
 
 
  119              	.LCFI2:
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
   80:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
   81:Devices/Devices.c/MPU6050_IMU.c **** 		
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 5
 
 
   82:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calibrated_Flag = 1;
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  188 0032 3B21     		movs	r1, #59
  189 0034 6820     		movs	r0, #104
  190 0036 FFF7FEFF 		bl	I2C_Read_8_Bytes
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 6
 
 
  191              	.LVL8:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  239 0074 0FFA8EFE 		sxth	lr, lr
  240              		.loc 1 102 27 view .LVU65
  241 0078 A4F806E0 		strh	lr, [r4, #6]	@ movhi
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 7
 
 
  103:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  289 00da 86EE254A 		vdiv.f32	s8, s12, s11
  290              		.loc 1 109 28 view .LVU87
  291 00de 84ED0D4A 		vstr.32	s8, [r4, #52]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 8
 
 
  110:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Gy = MPU6050_IMU->Raw_Data.Gy / 131.0f;
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  330 0128 94ED046A 		vldr.32	s12, [r4, #16]
  116:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Ay -= MPU6050_IMU->Offset.Ay;
  331              		.loc 1 116 29 view .LVU104
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 9
 
 
  332 012c 76EEC66A 		vsub.f32	s13, s13, s12
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  371 017c 00008038 		.word	947912704
  372 0180 00000343 		.word	1124270080
  373 0184 0000AA43 		.word	1135214592
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 10
 
 
  374 0188 B81E1242 		.word	1108483768
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  420              		.loc 1 67 39 is_stmt 0 discriminator 3 view .LVU130
  421 0020 94ED0B7A 		vldr.32	s14, [r4, #44]
   67:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[2] += MPU6050_IMU->Calc_Data.Az;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 11
 
 
  422              		.loc 1 67 14 discriminator 3 view .LVU131
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   63:Devices/Devices.c/MPU6050_IMU.c **** 		{
  462              		.loc 1 63 20 discriminator 1 view .LVU146
  463 0078 B5F57A7F 		cmp	r5, #1000
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 12
 
 
  464 007c C5DB     		blt	.L17
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
  500              		.loc 1 79 38 view .LVU165
  501 00be 86EEA77A 		vdiv.f32	s14, s13, s15
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 13
 
 
   79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  546 00e6 00BF     		.align	2
  547              	.L22:
  548 00e8 00007A44 		.word	1148846080
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 14
 
 
  549              	.LBE10:
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   42:BSP/BSP.h/FusionMath.h ****         float y;
   43:BSP/BSP.h/FusionMath.h ****         float z;
   44:BSP/BSP.h/FusionMath.h ****     } element;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 15
 
 
   45:BSP/BSP.h/FusionMath.h **** } FusionQuaternion;
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
   99:BSP/BSP.h/FusionMath.h **** #define FUSION_IDENTITY_MATRIX ((FusionMatrix){ .array = {{1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {
  100:BSP/BSP.h/FusionMath.h **** 
  101:BSP/BSP.h/FusionMath.h **** /**
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 16
 
 
  102:BSP/BSP.h/FusionMath.h ****  * @brief Euler angles of zero.
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  570 0000 FFEE007A 		vmov.f32	s15, #-1.0e+0
  571 0004 B4EEE70A 		vcmpe.f32	s0, s15
  572 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 17
 
 
  573 000c 0DD9     		bls	.L26
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  615              		.cfi_endproc
  616              	.LFE140:
  618              		.section	.text.FusionQuaternionToEuler,"ax",%progbits
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 18
 
 
  619              		.align	1
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  205:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z + vectorB.axis.z;
  206:BSP/BSP.h/FusionMath.h ****     return result;
  207:BSP/BSP.h/FusionMath.h **** }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 19
 
 
  208:BSP/BSP.h/FusionMath.h **** 
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  262:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
  263:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
  264:BSP/BSP.h/FusionMath.h ****  * @return Cross product.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 20
 
 
  265:BSP/BSP.h/FusionMath.h ****  */
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  319:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionAdd(const FusionQuaternion quaternionA, const Fusion
  320:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
  321:BSP/BSP.h/FusionMath.h ****     result.element.w = quaternionA.element.w + quaternionB.element.w;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 21
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 21
 
 
  322:BSP/BSP.h/FusionMath.h ****     result.element.x = quaternionA.element.x + quaternionB.element.x;
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  376:BSP/BSP.h/FusionMath.h **** #ifdef FUSION_USE_NORMAL_SQRT
  377:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = 1.0f / sqrtf(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z * Q.z);
  378:BSP/BSP.h/FusionMath.h **** #else
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 22
 
 
  379:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = FusionFastInverseSqrt(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  433:BSP/BSP.h/FusionMath.h ****     matrix.element.zx = 2.0f * (qxqz - qwqy);
  434:BSP/BSP.h/FusionMath.h ****     matrix.element.zy = 2.0f * (qyqz + qwqx);
  435:BSP/BSP.h/FusionMath.h ****     matrix.element.zz = 2.0f * (qwqw - 0.5f + Q.z * Q.z);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 23
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 23
 
 
  436:BSP/BSP.h/FusionMath.h ****     return matrix;
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  666 0038 61EE217A 		vmul.f32	s15, s2, s3
  667              		.loc 2 449 102 view .LVU197
  668 003c 60EEA00A 		vmul.f32	s1, s1, s1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 24
 
 
  669              		.loc 2 449 24 view .LVU198
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  713              		.loc 2 451 57 is_stmt 0 view .LVU215
  714 0074 29EE280A 		vmul.f32	s0, s18, s17
  715              		.loc 2 451 69 view .LVU216
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 25
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 25
 
 
  716 0078 28EE298A 		vmul.f32	s16, s16, s19
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  763              	.LVL30:
  764              	.L38:
  765              		.loc 2 454 1 view .LVU228
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 26
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 26
 
 
  766 00b6 00BF     		.align	2
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  816 0026 D0ED0E0A 		vldr.32	s1, [r0, #56]
  817              		.loc 1 129 21 view .LVU242
  818 002a CDED050A 		vstr.32	s1, [sp, #20]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 27
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 27
 
 
  819              		.loc 1 129 117 view .LVU243
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  862              		.loc 1 140 64 view .LVU260
  863 0080 B1EE087A 		vmov.f32	s14, #6.0e+0
  864 0084 C6EE076A 		vdiv.f32	s13, s12, s14
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 28
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 28
 
 
  865              		.loc 1 140 36 view .LVU261
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  908              		.loc 1 151 68 view .LVU282
  909 00d6 31EE271A 		vadd.f32	s2, s2, s15
  910              		.loc 1 151 37 view .LVU283
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 29
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 29
 
 
  911 00da 84ED151A 		vstr.32	s2, [r4, #84]
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  962      00000000 
  962      0000
  963              		.global	MPU6050_IMU_AHRS
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 30
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 30
 
 
  964              		.section	.bss.MPU6050_IMU_AHRS,"aw",%nobits
@@ -1767,37 +1767,37 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
  983              		.file 7 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\math.h"
  984              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
  985              		.file 9 "BSP/BSP.h/I2C_Setup.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 31
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s 			page 31
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 MPU6050_IMU.c
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:21     .text.MPU6050_IMU_Init:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:27     .text.MPU6050_IMU_Init:00000000 MPU6050_IMU_Init
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:135    .text.MPU6050_IMU_Init:00000090 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:975    .bss.MPU6050_IMU:00000000 MPU6050_IMU
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:140    .text.MPU6050_IMU_Read_Data:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:146    .text.MPU6050_IMU_Read_Data:00000000 MPU6050_IMU_Read_Data
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:369    .text.MPU6050_IMU_Read_Data:00000174 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:961    .bss.Buffer:00000000 Buffer
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:379    .text.MPU6050_IMU_Calibrate:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:385    .text.MPU6050_IMU_Calibrate:00000000 MPU6050_IMU_Calibrate
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:548    .text.MPU6050_IMU_Calibrate:000000e8 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:555    .text.FusionAsin:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:560    .text.FusionAsin:00000000 FusionAsin
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:613    .text.FusionAsin:00000030 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:619    .text.FusionQuaternionToEuler:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:624    .text.FusionQuaternionToEuler:00000000 FusionQuaternionToEuler
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:768    .text.FusionQuaternionToEuler:000000b8 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:773    .text.MPU6050_IMU_Calc_Angle:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:779    .text.MPU6050_IMU_Calc_Angle:00000000 MPU6050_IMU_Calc_Angle
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:940    .text.MPU6050_IMU_Calc_Angle:00000104 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:968    .bss.MPU6050_IMU_AHRS:00000000 MPU6050_IMU_AHRS
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:952    .data.MPU6050_IMU_Func:00000000 MPU6050_IMU_Func
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:949    .data.MPU6050_IMU_Func:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:958    .bss.Buffer:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:965    .bss.MPU6050_IMU_AHRS:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:972    .bss.MPU6050_IMU:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:21     .text.MPU6050_IMU_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:27     .text.MPU6050_IMU_Init:00000000 MPU6050_IMU_Init
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:135    .text.MPU6050_IMU_Init:00000090 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:975    .bss.MPU6050_IMU:00000000 MPU6050_IMU
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:140    .text.MPU6050_IMU_Read_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:146    .text.MPU6050_IMU_Read_Data:00000000 MPU6050_IMU_Read_Data
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:369    .text.MPU6050_IMU_Read_Data:00000174 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:961    .bss.Buffer:00000000 Buffer
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:379    .text.MPU6050_IMU_Calibrate:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:385    .text.MPU6050_IMU_Calibrate:00000000 MPU6050_IMU_Calibrate
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:548    .text.MPU6050_IMU_Calibrate:000000e8 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:555    .text.FusionAsin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:560    .text.FusionAsin:00000000 FusionAsin
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:613    .text.FusionAsin:00000030 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:619    .text.FusionQuaternionToEuler:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:624    .text.FusionQuaternionToEuler:00000000 FusionQuaternionToEuler
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:768    .text.FusionQuaternionToEuler:000000b8 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:773    .text.MPU6050_IMU_Calc_Angle:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:779    .text.MPU6050_IMU_Calc_Angle:00000000 MPU6050_IMU_Calc_Angle
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:940    .text.MPU6050_IMU_Calc_Angle:00000104 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:968    .bss.MPU6050_IMU_AHRS:00000000 MPU6050_IMU_AHRS
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:952    .data.MPU6050_IMU_Func:00000000 MPU6050_IMU_Func
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:949    .data.MPU6050_IMU_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:958    .bss.Buffer:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:965    .bss.MPU6050_IMU_AHRS:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccwwyR2Q.s:972    .bss.MPU6050_IMU:00000000 $d
 
 UNDEFINED SYMBOLS
 I2C_Read_8_Bytes

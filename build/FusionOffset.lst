@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
   27:BSP/BSP.c/FusionOffset.c **** /**
   28:BSP/BSP.c/FusionOffset.c ****  * @brief Threshold in degrees per second.
   29:BSP/BSP.c/FusionOffset.c ****  */
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 2
 
 
   30:BSP/BSP.c/FusionOffset.c **** #define THRESHOLD (3.0f)
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
   68 0030 FDAD003E 		.word	1040231933
   69              		.cfi_endproc
   70              	.LFE21:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 3
 
 
   72              		.section	.text.FusionOffsetUpdate,"ax",%progbits
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
    7:BSP/BSP.h/FusionMath.h **** #ifndef FUSION_MATH_H
    8:BSP/BSP.h/FusionMath.h **** #define FUSION_MATH_H
    9:BSP/BSP.h/FusionMath.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 4
 
 
   10:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
   64:BSP/BSP.h/FusionMath.h ****     } element;
   65:BSP/BSP.h/FusionMath.h **** } FusionMatrix;
   66:BSP/BSP.h/FusionMath.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 5
 
 
   67:BSP/BSP.h/FusionMath.h **** /**
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  121:BSP/BSP.h/FusionMath.h **** 
  122:BSP/BSP.h/FusionMath.h **** /**
  123:BSP/BSP.h/FusionMath.h ****  * @brief Converts degrees to radians.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 6
 
 
  124:BSP/BSP.h/FusionMath.h ****  * @param degrees Degrees.
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  178:BSP/BSP.h/FusionMath.h ****     return union32.f * (1.69000231f - 0.714158168f * x * union32.f * union32.f);
  179:BSP/BSP.h/FusionMath.h **** }
  180:BSP/BSP.h/FusionMath.h **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 7
 
 
  181:BSP/BSP.h/FusionMath.h **** #endif
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  125 0034 CDED0C0A 		vstr.32	s1, [sp, #48]
  219:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z - vectorB.axis.z;
  126              		.loc 2 219 5 is_stmt 1 view .LVU28
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 8
 
 
  127              		.loc 2 219 50 is_stmt 0 view .LVU29
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  171 0090 53D3     		bcc	.L12
   67:BSP/BSP.c/FusionOffset.c ****         offset->timer++;
   68:BSP/BSP.c/FusionOffset.c ****         return gyroscope;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 9
 
 
   69:BSP/BSP.c/FusionOffset.c ****     }
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  200 00ae CDED0D7A 		vstr.32	s15, [sp, #52]
  243:BSP/BSP.h/FusionMath.h ****     return result;
  201              		.loc 2 243 5 is_stmt 1 view .LVU59
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 10
 
 
  202              		.loc 2 243 12 is_stmt 0 view .LVU60
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  242              		.loc 2 205 19 view .LVU76
  243 00f4 CDED0D7A 		vstr.32	s15, [sp, #52]
  206:BSP/BSP.h/FusionMath.h **** }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 11
 
 
  244              		.loc 2 206 5 is_stmt 1 view .LVU77
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  290              	.L12:
  291              	.LCFI3:
  292              		.cfi_restore_state
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 12
 
 
   67:BSP/BSP.c/FusionOffset.c ****         return gyroscope;
@@ -684,15 +684,15 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 1
  309              		.text
  310              	.Letext0:
  311              		.file 3 "BSP/BSP.h/FusionOffset.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s 			page 13
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 FusionOffset.c
-C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s:21     .text.FusionOffsetInitialise:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s:27     .text.FusionOffsetInitialise:00000000 FusionOffsetInitialise
-C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s:68     .text.FusionOffsetInitialise:00000030 $d
-C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s:73     .text.FusionOffsetUpdate:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccugqs1a.s:79     .text.FusionOffsetUpdate:00000000 FusionOffsetUpdate
+C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s:21     .text.FusionOffsetInitialise:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s:27     .text.FusionOffsetInitialise:00000000 FusionOffsetInitialise
+C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s:68     .text.FusionOffsetInitialise:00000030 $d
+C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s:73     .text.FusionOffsetUpdate:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccU9kAlm.s:79     .text.FusionOffsetUpdate:00000000 FusionOffsetUpdate
 
 NO UNDEFINED SYMBOLS

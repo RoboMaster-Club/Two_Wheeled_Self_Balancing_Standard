@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
   27:BSP/BSP.c/CRC_Verification.c **** 	0x00, 0x5e, 0xbc, 0xe2, 0x61, 0x3f, 0xdd, 0x83, 0xc2, 0x9c, 0x7e, 0x20, 0xa3, 0xfd, 0x1f, 0x41,
   28:BSP/BSP.c/CRC_Verification.c **** 	0x9d, 0xc3, 0x21, 0x7f, 0xfc, 0xa2, 0x40, 0x1e, 0x5f, 0x01, 0xe3, 0xbd, 0x3e, 0x60, 0x82, 0xdc,
   29:BSP/BSP.c/CRC_Verification.c **** 	0x23, 0x7d, 0x9f, 0xc1, 0x42, 0x1c, 0xfe, 0xa0, 0xe1, 0xbf, 0x5d, 0x03, 0x80, 0xde, 0x3c, 0x62,
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 2
 
 
   30:BSP/BSP.c/CRC_Verification.c **** 	0xbe, 0xe0, 0x02, 0x5c, 0xdf, 0x81, 0x63, 0x3d, 0x7c, 0x22, 0xc0, 0x9e, 0x1d, 0x43, 0xa1, 0xff,
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
   61              	.LVL7:
   62              	.L2:
   48:BSP/BSP.c/CRC_Verification.c **** 	while (dwLength--)
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 3
 
 
   63              		.loc 1 48 9 is_stmt 1 view .LVU12
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  103              		.cfi_offset 4, -12
  104              		.cfi_offset 5, -8
  105              		.cfi_offset 14, -4
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 4
 
 
  106 0004 0546     		mov	r5, r0
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  155 0024 0020     		movs	r0, #0
  156              	.LVL17:
   64:BSP/BSP.c/CRC_Verification.c **** 	ucExpected = Get_CRC8_Check_Sum (pchMessage, dwLength-1, CRC8_INIT);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 5
 
 
  157              		.loc 1 64 51 view .LVU34
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
   79:BSP/BSP.c/CRC_Verification.c **** 	pchMessage[dwLength-1] = ucCRC;
  201              		.loc 1 79 2 is_stmt 1 view .LVU44
  202              		.loc 1 79 25 is_stmt 0 view .LVU45
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 6
 
 
  203 0014 2855     		strb	r0, [r5, r4]
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  108:BSP/BSP.c/CRC_Verification.c **** 	0x39c3, 0x284a, 0x1ad1, 0x0b58, 0x7fe7, 0x6e6e, 0x5cf5, 0x4d7c,
  109:BSP/BSP.c/CRC_Verification.c **** 	0xc60c, 0xd785, 0xe51e, 0xf497, 0x8028, 0x91a1, 0xa33a, 0xb2b3,
  110:BSP/BSP.c/CRC_Verification.c **** 	0x4a44, 0x5bcd, 0x6956, 0x78df, 0x0c60, 0x1de9, 0x2f72, 0x3efb,
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 7
 
 
  111:BSP/BSP.c/CRC_Verification.c **** 	0xd68d, 0xc704, 0xf59f, 0xe416, 0x90a9, 0x8120, 0xb3bb, 0xa232,
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  260 000e 5140     		eors	r1, r1, r2
  261              	.LVL27:
  262              		.loc 1 134 89 view .LVU60
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 8
 
 
  263 0010 C9B2     		uxtb	r1, r1
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  309              		.thumb
  310              		.thumb_func
  312              	Verify_CRC16_Check_Sum:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 9
 
 
  313              	.LVL34:
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  351 001c 9A42     		cmp	r2, r3
  352 001e 01D0     		beq	.L44
  353 0020 0020     		movs	r0, #0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 10
 
 
  354              	.LVL37:
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  400 0040 EFE7     		b	.L33
  401              	.L46:
  402 0042 00BF     		.align	2
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 11
 
 
  403              	.L45:
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  444 0012 3146     		mov	r1, r6
  445              	.LVL45:
  446              		.loc 1 168 9 view .LVU100
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 12
 
 
  447 0014 FFF7FEFF 		bl	Get_CRC16_Check_Sum
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  501 001a E5DB     		.short	-9243
  502 001c 7EE9     		.short	-5762
  503 001e F7F8     		.short	-1801
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 13
 
 
  504 0020 8110     		.short	4225
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  558 008c 3227     		.short	10034
  559 008e BB36     		.short	14011
  560 0090 4CCE     		.short	-12724
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 14
 
 
  561 0092 C5DF     		.short	-8251
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  615 00fe 708B     		.short	-29840
  616 0100 0884     		.short	-31736
  617 0102 8195     		.short	-27263
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 15
 
 
  618 0104 1AA7     		.short	-22758
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  672 0170 C339     		.short	14787
  673 0172 4A28     		.short	10314
  674 0174 D11A     		.short	6865
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 16
 
 
  675 0176 580B     		.short	2904
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  729 01e2 06E6     		.short	-6650
  730 01e4 9DD4     		.short	-11107
  731 01e6 14C5     		.short	-15084
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 17
 
 
  732 01e8 ABB1     		.short	-20053
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  763      7B3A6486 
  763      D85B05E7 
  764 007f B98CD230 		.ascii	"\271\214\3220n\355\263Q\017N\020\362\254/q\223\315\021"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 18
 
 
  764      6EEDB351 
@@ -1074,35 +1074,35 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
  792              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
  793              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
  794              		.file 4 "BSP/BSP.h/CRC_Verification.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s 			page 19
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 CRC_Verification.c
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:21     .text.Get_CRC8_Check_Sum:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:27     .text.Get_CRC8_Check_Sum:00000000 Get_CRC8_Check_Sum
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:76     .text.Get_CRC8_Check_Sum:0000001c $d
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:756    .rodata.CRC8_TAB:00000000 CRC8_TAB
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:81     .text.Verify_CRC8_Check_Sum:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:87     .text.Verify_CRC8_Check_Sum:00000000 Verify_CRC8_Check_Sum
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:163    .text.Append_CRC8_Check_Sum:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:169    .text.Append_CRC8_Check_Sum:00000000 Append_CRC8_Check_Sum
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:222    .text.Get_CRC16_Check_Sum:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:228    .text.Get_CRC16_Check_Sum:00000000 Get_CRC16_Check_Sum
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:301    .text.Get_CRC16_Check_Sum:00000034 $d
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:487    .rodata.wCRC_Table:00000000 wCRC_Table
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:306    .text.Verify_CRC16_Check_Sum:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:312    .text.Verify_CRC16_Check_Sum:00000000 Verify_CRC16_Check_Sum
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:404    .text.Verify_CRC16_Check_Sum:00000044 $d
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:749    .data.CRC_INIT:00000000 CRC_INIT
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:409    .text.Append_CRC16_Check_Sum:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:415    .text.Append_CRC16_Check_Sum:00000000 Append_CRC16_Check_Sum
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:478    .text.Append_CRC16_Check_Sum:00000028 $d
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:484    .rodata.wCRC_Table:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:746    .data.CRC_INIT:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:753    .rodata.CRC8_TAB:00000000 $d
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:776    .rodata.CRC8_INIT:00000000 CRC8_INIT
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:783    .data.CRC_Verif_Func:00000000 CRC_Verif_Func
-C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:780    .data.CRC_Verif_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:21     .text.Get_CRC8_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:27     .text.Get_CRC8_Check_Sum:00000000 Get_CRC8_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:76     .text.Get_CRC8_Check_Sum:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:756    .rodata.CRC8_TAB:00000000 CRC8_TAB
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:81     .text.Verify_CRC8_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:87     .text.Verify_CRC8_Check_Sum:00000000 Verify_CRC8_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:163    .text.Append_CRC8_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:169    .text.Append_CRC8_Check_Sum:00000000 Append_CRC8_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:222    .text.Get_CRC16_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:228    .text.Get_CRC16_Check_Sum:00000000 Get_CRC16_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:301    .text.Get_CRC16_Check_Sum:00000034 $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:487    .rodata.wCRC_Table:00000000 wCRC_Table
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:306    .text.Verify_CRC16_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:312    .text.Verify_CRC16_Check_Sum:00000000 Verify_CRC16_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:404    .text.Verify_CRC16_Check_Sum:00000044 $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:749    .data.CRC_INIT:00000000 CRC_INIT
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:409    .text.Append_CRC16_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:415    .text.Append_CRC16_Check_Sum:00000000 Append_CRC16_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:478    .text.Append_CRC16_Check_Sum:00000028 $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:484    .rodata.wCRC_Table:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:746    .data.CRC_INIT:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:753    .rodata.CRC8_TAB:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:776    .rodata.CRC8_INIT:00000000 CRC8_INIT
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:783    .data.CRC_Verif_Func:00000000 CRC_Verif_Func
+C:\Users\purdu\AppData\Local\Temp\ccBYs8fk.s:780    .data.CRC_Verif_Func:00000000 $d
 
 NO UNDEFINED SYMBOLS

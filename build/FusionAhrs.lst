@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
   28:BSP/BSP.h/FusionMath.h ****         float y;
   29:BSP/BSP.h/FusionMath.h ****         float z;
   30:BSP/BSP.h/FusionMath.h ****     } axis;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 2
 
 
   31:BSP/BSP.h/FusionMath.h **** } FusionVector;
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
   85:BSP/BSP.h/FusionMath.h **** 
   86:BSP/BSP.h/FusionMath.h **** /**
   87:BSP/BSP.h/FusionMath.h ****  * @brief Vector of ones.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 3
 
 
   88:BSP/BSP.h/FusionMath.h ****  */
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  142:BSP/BSP.h/FusionMath.h **** 
  143:BSP/BSP.h/FusionMath.h **** /**
  144:BSP/BSP.h/FusionMath.h ****  * @brief Returns the arc sine of the value.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 4
 
 
  145:BSP/BSP.h/FusionMath.h ****  * @param value Value.
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  199:BSP/BSP.h/FusionMath.h ****  * @return Sum of two vectors.
  200:BSP/BSP.h/FusionMath.h ****  */
  201:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorAdd(const FusionVector vectorA, const FusionVector vectorB) 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 5
 
 
  202:BSP/BSP.h/FusionMath.h ****     FusionVector result;
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  256:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z * vectorB.axis.z;
  257:BSP/BSP.h/FusionMath.h ****     return result;
  258:BSP/BSP.h/FusionMath.h **** }
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 6
 
 
  259:BSP/BSP.h/FusionMath.h **** 
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
   69              		.loc 2 272 19 view .LVU16
   70 0046 8DED0C2A 		vstr.32	s4, [sp, #48]
  273:BSP/BSP.h/FusionMath.h ****     return result;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 7
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 7
 
 
   71              		.loc 2 273 5 is_stmt 1 view .LVU17
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  254:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y * vectorB.axis.y;
  114              		.loc 2 254 5 view .LVU24
  254:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y * vectorB.axis.y;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 8
 
 
  115              		.loc 2 254 36 is_stmt 0 view .LVU25
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  156              	.LFE11:
  158              		.section	.text.FusionVectorNormalise,"ax",%progbits
  159              		.align	1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 9
 
 
  160              		.syntax unified
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  195              	.LBI50:
  169:BSP/BSP.h/FusionMath.h **** 
  196              		.loc 2 169 21 is_stmt 1 view .LVU42
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 10
 
 
  197              	.LBB51:
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  233              		.loc 2 241 5 is_stmt 1 view .LVU59
  241:BSP/BSP.h/FusionMath.h ****     result.axis.z = vector.axis.z * scalar;
  234              		.loc 2 241 35 is_stmt 0 view .LVU60
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 11
 
 
  235 0056 68EEA78A 		vmul.f32	s17, s17, s15
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  282              		.syntax unified
  283              		.thumb
  284              		.thumb_func
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 12
 
 
  286              	FusionQuaternionMultiply:
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  310              		.loc 2 338 34 view .LVU74
  311 002a 77EEC77A 		vsub.f32	s15, s15, s14
  312              		.loc 2 338 52 view .LVU75
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 13
 
 
  313 002e 21EE037A 		vmul.f32	s14, s2, s6
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  364 008e 62EE812A 		vmul.f32	s5, s5, s2
  365              		.loc 2 341 46 view .LVU103
  366 0092 70EE622A 		vsub.f32	s5, s0, s5
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 14
 
 
  367              		.loc 2 341 64 view .LVU104
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  408 0002 8DED080A 		vstr.32	s0, [sp, #32]
  409 0006 CDED090A 		vstr.32	s1, [sp, #36]
  410 000a 8DED0A1A 		vstr.32	s2, [sp, #40]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 15
 
 
  411 000e CDED0B1A 		vstr.32	s3, [sp, #44]
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  458              		.loc 2 363 40 view .LVU135
  459 006a 60EEA20A 		vmul.f32	s1, s1, s5
  460              		.loc 2 363 34 view .LVU136
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 16
 
 
  461 006e 33EE203A 		vadd.f32	s6, s6, s1
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  506 000e CDED071A 		vstr.32	s3, [sp, #28]
  375:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
  376:BSP/BSP.h/FusionMath.h **** #ifdef FUSION_USE_NORMAL_SQRT
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 17
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 17
 
 
  377:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = 1.0f / sqrtf(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z * Q.z);
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  548              	.LVL5:
  178:BSP/BSP.h/FusionMath.h **** }
  549              		.loc 2 178 22 view .LVU162
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 18
 
 
  550              	.LBE55:
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  595              		.cfi_endproc
  596              	.LFE17:
  598              		.section	.text.FusionVectorMagnitude,"ax",%progbits
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 19
 
 
  599              		.align	1
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  649              		.loc 2 149 8 is_stmt 0 view .LVU185
  650 0000 FFEE007A 		vmov.f32	s15, #-1.0e+0
  651 0004 B4EEE70A 		vcmpe.f32	s0, s15
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 20
 
 
  652 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  696              	.LFE2:
  698              		.section	.text.FusionAhrsReset,"ax",%progbits
  699              		.align	1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 21
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 21
 
 
  700              		.global	FusionAhrsReset
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
   48:BSP/BSP.c/FusionAhrs.c ****  * @brief Resets the AHRS algorithm.  This is equivalent to reinitialising the
   49:BSP/BSP.c/FusionAhrs.c ****  * algorithm while maintaining the current settings.
   50:BSP/BSP.c/FusionAhrs.c ****  * @param ahrs AHRS algorithm structure.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 22
 
 
   51:BSP/BSP.c/FusionAhrs.c ****  */
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  751              		.loc 1 61 5 is_stmt 1 view .LVU213
  752              		.loc 1 61 40 is_stmt 0 view .LVU214
  753 0032 80F85830 		strb	r3, [r0, #88]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 23
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 23
 
 
   62:BSP/BSP.c/FusionAhrs.c ****     ahrs->magnetometerIgnored = false;
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  799 0006 0446     		mov	r4, r0
  800 0008 0D46     		mov	r5, r1
   73:BSP/BSP.c/FusionAhrs.c ****     ahrs->settings.gain = settings->gain;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 24
 
 
  801              		.loc 1 73 5 is_stmt 1 view .LVU224
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  844              		.loc 1 84 37 view .LVU243
  845 0040 E360     		str	r3, [r4, #12]
   85:BSP/BSP.c/FusionAhrs.c ****     if (ahrs->initialising == false) {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 25
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 25
 
 
  846              		.loc 1 85 5 is_stmt 1 view .LVU244
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  890              		.loc 1 77 48 view .LVU259
  891 0072 F0EE000A 		vmov.f32	s1, #2.0e+0
  892 0076 F6EE007A 		vmov.f32	s15, #5.0e-1
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 26
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 26
 
 
  893 007a 20EE270A 		vmul.f32	s0, s0, s15
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  941              	.LFB21:
   36:BSP/BSP.c/FusionAhrs.c ****     const FusionAhrsSettings settings = {
  942              		.loc 1 36 51 is_stmt 1 view -0
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 27
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 27
 
 
  943              		.cfi_startproc
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  990              		.global	FusionAhrsGetQuaternion
  991              		.syntax unified
  992              		.thumb
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 28
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 28
 
 
  993              		.thumb_func
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  140:BSP/BSP.c/FusionAhrs.c ****         // Ignore accelerometer if acceleration distortion detected
  141:BSP/BSP.c/FusionAhrs.c ****         if ((ahrs->initialising == true) || (FusionVectorMagnitudeSquared(ahrs->halfAccelerometerFe
  142:BSP/BSP.c/FusionAhrs.c ****             halfAccelerometerFeedback = ahrs->halfAccelerometerFeedback;
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 29
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 29
 
 
  143:BSP/BSP.c/FusionAhrs.c ****             ahrs->accelerometerIgnored = false;
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  197:BSP/BSP.c/FusionAhrs.c **** /**
  198:BSP/BSP.c/FusionAhrs.c ****  * @brief Updates the AHRS algorithm using the gyroscope and accelerometer
  199:BSP/BSP.c/FusionAhrs.c ****  * measurements only.
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 30
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 30
 
 
  200:BSP/BSP.c/FusionAhrs.c ****  * @param ahrs AHRS algorithm structure.
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1001              		@ frame_needed = 0, uses_anonymous_args = 0
  1002              		@ link register save eliminated.
  1003              		.loc 1 250 72 is_stmt 0 view .LVU278
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 31
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 31
 
 
  1004 0000 88B0     		sub	sp, sp, #32
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  262:BSP/BSP.c/FusionAhrs.c ****     const FusionVector gravity = {
  1049              		.loc 1 262 5 is_stmt 1 view .LVU286
  263:BSP/BSP.c/FusionAhrs.c ****             .axis.x = 2.0f * (Q.x * Q.z - Q.w * Q.y),
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 32
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 32
 
 
  1050              		.loc 1 263 32 is_stmt 0 view .LVU287
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1097              	.LVL33:
  1098              		.loc 1 267 5 view .LVU309
  1099 005c 83E80700 		stm	r3, {r0, r1, r2}
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 33
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 33
 
 
  1100              	.LBB60:
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1137              		.loc 1 268 12 is_stmt 0 view .LVU327
  1138 0098 0DF1400C 		add	ip, sp, #64
  1139 009c 8CE80700 		stm	ip, {r0, r1, r2}
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 34
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 34
 
 
  269:BSP/BSP.c/FusionAhrs.c **** #undef Q
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1182              	.LVL36:
  283:BSP/BSP.c/FusionAhrs.c ****     const float qwqy = Q.w * Q.y;
  1183              		.loc 1 283 5 is_stmt 1 view .LVU337
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 35
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 35
 
 
  1184              		.loc 1 283 31 is_stmt 0 view .LVU338
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1232              		.loc 1 289 101 view .LVU361
  1233 005e 62EE852A 		vmul.f32	s5, s5, s10
  1234              		.loc 1 289 85 view .LVU362
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 36
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 36
 
 
  1235 0062 37EE227A 		vadd.f32	s14, s14, s5
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1285              		.loc 1 291 110 view .LVU386
  1286 00c2 F7EE007A 		vmov.f32	s15, #1.0e+0
  1287 00c6 76EEE76A 		vsub.f32	s13, s13, s15
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 37
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 37
 
 
  288:BSP/BSP.c/FusionAhrs.c ****             .axis.x = 2.0f * ((qwqw - 0.5f + Q.x * Q.x) * A.x + (qxqy - qwqz) * A.y + (qxqz + qwqy)
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1331              		.cfi_offset 4, -12
  1332              		.cfi_offset 5, -8
  1333              		.cfi_offset 14, -4
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 38
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 38
 
 
  1334 0002 0546     		mov	r5, r0
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  304:BSP/BSP.c/FusionAhrs.c ****             .accelerationError = FusionRadiansToDegrees(FusionAsin(2.0f * FusionVectorMagnitude(ahr
  1378              		.loc 1 304 36 view .LVU410
  1379 0048 85ED027A 		vstr.32	s14, [r5, #8]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 39
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 39
 
 
  308:BSP/BSP.c/FusionAhrs.c ****             .magneticError = FusionRadiansToDegrees(FusionAsin(2.0f * FusionVectorMagnitude(ahrs->h
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  311:BSP/BSP.c/FusionAhrs.c ****     };
  312:BSP/BSP.c/FusionAhrs.c ****     return internalStates;
  1424              		.loc 1 312 5 is_stmt 1 view .LVU427
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 40
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 40
 
 
  313:BSP/BSP.c/FusionAhrs.c **** }
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1469              		.loc 1 322 5 is_stmt 1 view .LVU435
  323:BSP/BSP.c/FusionAhrs.c ****             .initialising = ahrs->initialising,
  1470              		.loc 1 323 33 is_stmt 0 view .LVU436
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 41
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 41
 
 
  1471 0006 91F82C00 		ldrb	r0, [r1, #44]	@ zero_extendqisi2
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1513              		.cfi_def_cfa_offset 0
  1514              		@ sp needed
  1515 004a 7047     		bx	lr
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 42
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 42
 
 
  1516              		.cfi_endproc
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1561              		.loc 1 341 49 view .LVU459
  1562 001e D0ED067A 		vldr.32	s15, [r0, #24]
  1563              		.loc 1 341 46 view .LVU460
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 43
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 43
 
 
  1564 0022 27EE277A 		vmul.f32	s14, s14, s15
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  347:BSP/BSP.c/FusionAhrs.c ****             .element.z = -1.0f * sinf(halfYawMinusHeading),
  1608              		.loc 1 347 34 view .LVU476
  1609 006e B0EE480A 		vmov.f32	s0, s16
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 44
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 44
 
 
  1610 0072 FFF7FEFF 		bl	sinf
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1660              		.thumb
  1661              		.thumb_func
  1663              	FusionAhrsUpdate:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 45
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 45
 
 
  1664              	.LVL71:
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1710              		.loc 1 107 8 view .LVU491
  1711 0044 BBB1     		cbz	r3, .L69
  108:BSP/BSP.c/FusionAhrs.c ****         if (ahrs->rampedGain < ahrs->settings.gain) {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 46
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 46
 
 
  1712              		.loc 1 108 9 is_stmt 1 view .LVU492
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1748 0082 D4ED047A 		vldr.32	s15, [r4, #16]
  118:BSP/BSP.c/FusionAhrs.c ****             .axis.y = Q.y * Q.z + Q.w * Q.x,
  1749              		.loc 1 118 42 view .LVU511
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 47
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 47
 
 
  1750 0086 D4ED066A 		vldr.32	s13, [r4, #24]
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1787              	.LBB68:
  1788              	.LBI68:
  191:BSP/BSP.h/FusionMath.h ****     return (vector.axis.x == 0.0f) && (vector.axis.y == 0.0f) && (vector.axis.z == 0.0f);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 48
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 48
 
 
  1789              		.loc 2 191 20 view .LVU529
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1830              		.loc 1 138 9 is_stmt 1 view .LVU542
  138:BSP/BSP.c/FusionAhrs.c **** 
  1831              		.loc 1 138 43 is_stmt 0 view .LVU543
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 49
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 49
 
 
  1832 0108 9DED040A 		vldr.32	s0, [sp, #16]
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1874              		.loc 1 144 17 is_stmt 0 view .LVU555
  1875 016a 636D     		ldr	r3, [r4, #84]
  144:BSP/BSP.c/FusionAhrs.c ****         } else {
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 50
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 50
 
 
  1876              		.loc 1 144 93 view .LVU556
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  1916 01a6 F5EE407A 		vcmp.f32	s15, #0
  1917 01aa F1EE10FA 		vmrs	APSR_nzcv, FPSCR
  1918 01ae 00F07081 		beq	.L92
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 51
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 51
 
 
  1919 01b2 0023     		movs	r3, #0
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  134:BSP/BSP.c/FusionAhrs.c ****         }
  1962              		.loc 1 134 48 view .LVU582
  1963              	.LBE76:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 52
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 52
 
 
  144:BSP/BSP.c/FusionAhrs.c ****         } else {
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2003 020a D4ED067A 		vldr.32	s15, [r4, #24]
  165:BSP/BSP.c/FusionAhrs.c ****                 .axis.y = Q.w * Q.w - 0.5f + Q.y * Q.y,
  2004              		.loc 1 165 31 view .LVU598
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 53
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 53
 
 
  2005 020e 67EE279A 		vmul.f32	s19, s14, s15
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2043 0266 FFF7FEFF 		bl	FusionVectorCrossProduct
  2044              	.LVL79:
  2045 026a 8DED240A 		vstr.32	s0, [sp, #144]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 54
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 54
 
 
  2046 026e CDED250A 		vstr.32	s1, [sp, #148]
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2088 02ce E36D     		ldr	r3, [r4, #92]
  177:BSP/BSP.c/FusionAhrs.c ****         } else {
  2089              		.loc 1 177 85 view .LVU627
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 55
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 55
 
 
  2090 02d0 092B     		cmp	r3, #9
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  242:BSP/BSP.h/FusionMath.h ****     return result;
  2128              		.loc 2 242 19 view .LVU644
  2129 0302 85ED026A 		vstr.32	s12, [r5, #8]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 56
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 56
 
 
  243:BSP/BSP.h/FusionMath.h **** }
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2168              		.loc 2 206 5 is_stmt 1 view .LVU660
  206:BSP/BSP.h/FusionMath.h **** }
  2169              		.loc 2 206 12 is_stmt 0 view .LVU661
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 57
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 57
 
 
  2170 0348 48AB     		add	r3, sp, #288
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2209              		.loc 2 243 12 view .LVU676
  2210              	.LBE84:
  2211              	.LBE83:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 58
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 58
 
 
  2212              	.LBB85:
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  240:BSP/BSP.h/FusionMath.h ****     result.axis.y = vector.axis.y * scalar;
  2249              		.loc 2 240 35 is_stmt 0 view .LVU694
  2250 03b2 28EE077A 		vmul.f32	s14, s16, s14
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 59
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 59
 
 
  240:BSP/BSP.h/FusionMath.h ****     result.axis.y = vector.axis.y * scalar;
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2294              	.LBI89:
  319:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
  2295              		.loc 2 319 32 is_stmt 1 view .LVU706
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 60
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 60
 
 
  2296              	.LBB90:
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2331 0458 37AD     		add	r5, sp, #220
  2332 045a 85E80F00 		stm	r5, {r0, r1, r2, r3}
  2333              	.LBE90:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 61
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 61
 
 
  2334              	.LBE89:
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2381 0496 DDED011A 		vldr.32	s3, [sp, #4]
  2382 049a 9DED022A 		vldr.32	s4, [sp, #8]
  2383 049e DDED032A 		vldr.32	s5, [sp, #12]
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 62
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 62
 
 
  2384 04a2 9DED1E0A 		vldr.32	s0, [sp, #120]
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2431              		.loc 1 225 170 is_stmt 1 view -0
  2432              		.cfi_startproc
  2433              		@ args = 0, pretend = 0, frame = 40
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 63
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 63
 
 
  2434              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2478 0046 F6EE000A 		vmov.f32	s1, #5.0e-1
  2479 004a 70EEC70A 		vsub.f32	s1, s1, s14
  229:BSP/BSP.c/FusionAhrs.c **** 
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 64
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 64
 
 
  2480              		.loc 1 229 77 view .LVU752
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2520              		.loc 1 234 24 view .LVU766
  2521 0082 8DED070A 		vstr.32	s0, [sp, #28]
  236:BSP/BSP.c/FusionAhrs.c ****             .axis.z = sinHeadingRadians * sinf(roll),
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 65
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 65
 
 
  2522              		.loc 1 236 31 view .LVU767
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2568 00d6 10BD     		pop	{r4, pc}
  2569              	.LVL110:
  2570              	.L105:
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 66
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 66
 
 
  243:BSP/BSP.c/FusionAhrs.c **** 
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2620 003a FFF7FEFF 		bl	FusionAhrsUpdate
  2621              	.LVL113:
  211:BSP/BSP.c/FusionAhrs.c ****         FusionAhrsSetHeading(ahrs, 0.0f);
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 67
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 67
 
 
  2622              		.loc 1 211 5 is_stmt 1 view .LVU783
@@ -4017,67 +4017,67 @@ ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 1
  2669              		.file 5 "BSP/BSP.h/FusionAhrs.h"
  2670              		.file 6 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\math.h"
  2671              		.file 7 "BSP/BSP.h/FusionCompass.h"
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 68
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 68
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 FusionAhrs.c
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:21     .text.FusionVectorCrossProduct:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:26     .text.FusionVectorCrossProduct:00000000 FusionVectorCrossProduct
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:90     .text.FusionVectorMagnitudeSquared:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:95     .text.FusionVectorMagnitudeSquared:00000000 FusionVectorMagnitudeSquared
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:159    .text.FusionVectorNormalise:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:164    .text.FusionVectorNormalise:00000000 FusionVectorNormalise
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:274    .text.FusionVectorNormalise:00000090 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:281    .text.FusionQuaternionMultiply:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:286    .text.FusionQuaternionMultiply:00000000 FusionQuaternionMultiply
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:393    .text.FusionQuaternionMultiplyVector:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:398    .text.FusionQuaternionMultiplyVector:00000000 FusionQuaternionMultiplyVector
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:488    .text.FusionQuaternionNormalise:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:493    .text.FusionQuaternionNormalise:00000000 FusionQuaternionNormalise
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:592    .text.FusionQuaternionNormalise:00000098 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:599    .text.FusionVectorMagnitude:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:604    .text.FusionVectorMagnitude:00000000 FusionVectorMagnitude
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:636    .text.FusionAsin:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:641    .text.FusionAsin:00000000 FusionAsin
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:693    .text.FusionAsin:00000030 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:699    .text.FusionAhrsReset:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:705    .text.FusionAhrsReset:00000000 FusionAhrsReset
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:768    .text.FusionAhrsReset:00000044 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:773    .text.FusionAhrsSetSettings:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:779    .text.FusionAhrsSetSettings:00000000 FusionAhrsSetSettings
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:927    .text.FusionAhrsSetSettings:000000ac $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:933    .text.FusionAhrsInitialise:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:939    .text.FusionAhrsInitialise:00000000 FusionAhrsInitialise
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:984    .text.FusionAhrsInitialise:00000024 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:989    .text.FusionAhrsGetQuaternion:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:995    .text.FusionAhrsGetQuaternion:00000000 FusionAhrsGetQuaternion
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1031   .text.FusionAhrsGetLinearAcceleration:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1037   .text.FusionAhrsGetLinearAcceleration:00000000 FusionAhrsGetLinearAcceleration
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1153   .text.FusionAhrsGetEarthAcceleration:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1159   .text.FusionAhrsGetEarthAcceleration:00000000 FusionAhrsGetEarthAcceleration
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1313   .text.FusionAhrsGetInternalStates:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1319   .text.FusionAhrsGetInternalStates:00000000 FusionAhrsGetInternalStates
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1440   .text.FusionAhrsGetInternalStates:000000a4 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1446   .text.FusionAhrsGetFlags:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1452   .text.FusionAhrsGetFlags:00000000 FusionAhrsGetFlags
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1520   .text.FusionAhrsSetHeading:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1526   .text.FusionAhrsSetHeading:00000000 FusionAhrsSetHeading
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1651   .text.FusionAhrsSetHeading:000000b8 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1657   .text.FusionAhrsUpdate:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:1663   .text.FusionAhrsUpdate:00000000 FusionAhrsUpdate
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2416   .text.FusionAhrsUpdate:000004d0 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2422   .text.FusionAhrsUpdateExternalHeading:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2428   .text.FusionAhrsUpdateExternalHeading:00000000 FusionAhrsUpdateExternalHeading
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2574   .text.FusionAhrsUpdateExternalHeading:000000d8 $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2579   .text.FusionAhrsUpdateNoMagnetometer:00000000 $t
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2585   .text.FusionAhrsUpdateNoMagnetometer:00000000 FusionAhrsUpdateNoMagnetometer
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2653   .text.FusionAhrsUpdateNoMagnetometer:0000005c $d
-C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s:2658   .rodata:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:21     .text.FusionVectorCrossProduct:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:26     .text.FusionVectorCrossProduct:00000000 FusionVectorCrossProduct
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:90     .text.FusionVectorMagnitudeSquared:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:95     .text.FusionVectorMagnitudeSquared:00000000 FusionVectorMagnitudeSquared
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:159    .text.FusionVectorNormalise:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:164    .text.FusionVectorNormalise:00000000 FusionVectorNormalise
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:274    .text.FusionVectorNormalise:00000090 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:281    .text.FusionQuaternionMultiply:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:286    .text.FusionQuaternionMultiply:00000000 FusionQuaternionMultiply
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:393    .text.FusionQuaternionMultiplyVector:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:398    .text.FusionQuaternionMultiplyVector:00000000 FusionQuaternionMultiplyVector
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:488    .text.FusionQuaternionNormalise:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:493    .text.FusionQuaternionNormalise:00000000 FusionQuaternionNormalise
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:592    .text.FusionQuaternionNormalise:00000098 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:599    .text.FusionVectorMagnitude:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:604    .text.FusionVectorMagnitude:00000000 FusionVectorMagnitude
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:636    .text.FusionAsin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:641    .text.FusionAsin:00000000 FusionAsin
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:693    .text.FusionAsin:00000030 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:699    .text.FusionAhrsReset:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:705    .text.FusionAhrsReset:00000000 FusionAhrsReset
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:768    .text.FusionAhrsReset:00000044 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:773    .text.FusionAhrsSetSettings:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:779    .text.FusionAhrsSetSettings:00000000 FusionAhrsSetSettings
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:927    .text.FusionAhrsSetSettings:000000ac $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:933    .text.FusionAhrsInitialise:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:939    .text.FusionAhrsInitialise:00000000 FusionAhrsInitialise
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:984    .text.FusionAhrsInitialise:00000024 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:989    .text.FusionAhrsGetQuaternion:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:995    .text.FusionAhrsGetQuaternion:00000000 FusionAhrsGetQuaternion
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1031   .text.FusionAhrsGetLinearAcceleration:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1037   .text.FusionAhrsGetLinearAcceleration:00000000 FusionAhrsGetLinearAcceleration
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1153   .text.FusionAhrsGetEarthAcceleration:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1159   .text.FusionAhrsGetEarthAcceleration:00000000 FusionAhrsGetEarthAcceleration
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1313   .text.FusionAhrsGetInternalStates:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1319   .text.FusionAhrsGetInternalStates:00000000 FusionAhrsGetInternalStates
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1440   .text.FusionAhrsGetInternalStates:000000a4 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1446   .text.FusionAhrsGetFlags:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1452   .text.FusionAhrsGetFlags:00000000 FusionAhrsGetFlags
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1520   .text.FusionAhrsSetHeading:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1526   .text.FusionAhrsSetHeading:00000000 FusionAhrsSetHeading
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1651   .text.FusionAhrsSetHeading:000000b8 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1657   .text.FusionAhrsUpdate:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:1663   .text.FusionAhrsUpdate:00000000 FusionAhrsUpdate
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2416   .text.FusionAhrsUpdate:000004d0 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2422   .text.FusionAhrsUpdateExternalHeading:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2428   .text.FusionAhrsUpdateExternalHeading:00000000 FusionAhrsUpdateExternalHeading
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2574   .text.FusionAhrsUpdateExternalHeading:000000d8 $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2579   .text.FusionAhrsUpdateNoMagnetometer:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2585   .text.FusionAhrsUpdateNoMagnetometer:00000000 FusionAhrsUpdateNoMagnetometer
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2653   .text.FusionAhrsUpdateNoMagnetometer:0000005c $d
+C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s:2658   .rodata:00000000 $d
 
 UNDEFINED SYMBOLS
 sqrtf
-ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccctAXIX.s 			page 69
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc2fhkEd.s 			page 69
 
 
 asinf
