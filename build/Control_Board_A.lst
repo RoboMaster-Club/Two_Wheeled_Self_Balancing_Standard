@@ -1,0 +1,753 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Control_Board_A.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/Control_Board_A.c"
+  20              		.section	.text.Board_A_Handler,"ax",%progbits
+  21              		.align	1
+  22              		.global	Board_A_Handler
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Board_A_Handler:
+  28              	.LVL0:
+  29              	.LFB165:
+   1:Devices/Devices.c/Control_Board_A.c **** /**
+   2:Devices/Devices.c/Control_Board_A.c ****  * @file Control_Board_A.c
+   3:Devices/Devices.c/Control_Board_A.c ****  * @author Leo Liu
+   4:Devices/Devices.c/Control_Board_A.c ****  * @brief communication between two boards
+   5:Devices/Devices.c/Control_Board_A.c ****  * @version 1.0
+   6:Devices/Devices.c/Control_Board_A.c ****  * @date 2023-03-19
+   7:Devices/Devices.c/Control_Board_A.c ****  * 
+   8:Devices/Devices.c/Control_Board_A.c ****  * @copyright Copyright (c) 2023
+   9:Devices/Devices.c/Control_Board_A.c ****  * 
+  10:Devices/Devices.c/Control_Board_A.c ****  */
+  11:Devices/Devices.c/Control_Board_A.c ****  
+  12:Devices/Devices.c/Control_Board_A.c ****  #include "Control_Board_A.h"
+  13:Devices/Devices.c/Control_Board_A.c ****  
+  14:Devices/Devices.c/Control_Board_A.c ****  void Board_A_Send_Data(void);
+  15:Devices/Devices.c/Control_Board_A.c ****  void Board_A_Rec_Data(void);
+  16:Devices/Devices.c/Control_Board_A.c ****  void Board_A_Handler(UART_HandleTypeDef *huart);
+  17:Devices/Devices.c/Control_Board_A.c ****  void Board_A_USART_Receive_DMA(UART_HandleTypeDef *huartx);
+  18:Devices/Devices.c/Control_Board_A.c ****  static int USART_Receive_DMA_NO_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint32_t Size);
+  19:Devices/Devices.c/Control_Board_A.c ****  
+  20:Devices/Devices.c/Control_Board_A.c ****  Control_Board_A_Func_t Control_Board_A_Func = Control_Board_A_Func_GroundInit;
+  21:Devices/Devices.c/Control_Board_A.c ****  Control_Board_A_t Control_Board_A;
+  22:Devices/Devices.c/Control_Board_A.c ****  
+  23:Devices/Devices.c/Control_Board_A.c ****  #undef Control_Board_A_Func_GroundInit
+  24:Devices/Devices.c/Control_Board_A.c ****  
+  25:Devices/Devices.c/Control_Board_A.c ****  void Board_A_Send_Data(void)
+  26:Devices/Devices.c/Control_Board_A.c ****  {
+  27:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[0].data = Board_A_IMU.Export_Data.Yaw;
+  28:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[1].data = Board_A_IMU.Export_Data.Roll;
+  29:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[2].data = Board_A_IMU.Export_Data.Pitch;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 2
+
+
+  30:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[3].data = Board_A_IMU.Export_Data.Gyro_Yaw;
+  31:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[4].data = Board_A_IMU.Export_Data.Gyro_Roll;
+  32:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[5].data = Board_A_IMU.Export_Data.Gyro_Pitch;
+  33:Devices/Devices.c/Control_Board_A.c **** 	 
+  34:Devices/Devices.c/Control_Board_A.c **** 	 memcpy(&Control_Board_A.Tx_Buffer[0],&Control_Board_A.IMU_Data_Send[0].Data[0],24*sizeof(uint8_t)
+  35:Devices/Devices.c/Control_Board_A.c **** 	 HAL_UART_Transmit(&huart7, Control_Board_A.Tx_Buffer, sizeof(Control_Board_A.Tx_Buffer),10);
+  36:Devices/Devices.c/Control_Board_A.c ****  }
+  37:Devices/Devices.c/Control_Board_A.c ****  
+  38:Devices/Devices.c/Control_Board_A.c ****  void Board_A_Rec_Data(void)
+  39:Devices/Devices.c/Control_Board_A.c ****  {
+  40:Devices/Devices.c/Control_Board_A.c **** 	 memcpy(&Control_Board_A.IMU_Data_Rec.Data[0],&Control_Board_A.Rx_Buffer[0],24*sizeof(uint8_t));
+  41:Devices/Devices.c/Control_Board_A.c **** 	 
+  42:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Yaw = Control_Board_A.Rec.Yaw;
+  43:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Pitch = Control_Board_A.Rec.Roll;
+  44:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Roll = Control_Board_A.Rec.Pitch;
+  45:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[0]) <= 180)
+  46:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[0];
+  47:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[1]) <= 180)
+  48:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[1];
+  49:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[2]) <= 180)
+  50:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[2];
+  51:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[3];
+  52:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[4];
+  53:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[5];
+  54:Devices/Devices.c/Control_Board_A.c **** 	 
+  55:Devices/Devices.c/Control_Board_A.c **** 	 if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) < - 300)
+  56:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count++;
+  57:Devices/Devices.c/Control_Board_A.c **** 	else if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) > 300)
+  58:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count--;
+  59:Devices/Devices.c/Control_Board_A.c **** 	Control_Board_A.Rec.Total_Yaw = Control_Board_A.Rec.Yaw + 360.0f * Control_Board_A.Rec.Turn_Count;
+  60:Devices/Devices.c/Control_Board_A.c ****  }
+  61:Devices/Devices.c/Control_Board_A.c ****  
+  62:Devices/Devices.c/Control_Board_A.c ****  static int USART_Receive_DMA_NO_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint32_t Size)
+  63:Devices/Devices.c/Control_Board_A.c ****  {
+  64:Devices/Devices.c/Control_Board_A.c **** 	 if(huart->RxState == HAL_UART_STATE_READY)
+  65:Devices/Devices.c/Control_Board_A.c **** 	 {
+  66:Devices/Devices.c/Control_Board_A.c **** 		 if((pData == NULL) || (Size == 0))
+  67:Devices/Devices.c/Control_Board_A.c **** 			 return HAL_ERROR;
+  68:Devices/Devices.c/Control_Board_A.c **** 		 huart->pRxBuffPtr = pData;
+  69:Devices/Devices.c/Control_Board_A.c **** 		 huart->RxXferSize = Size;
+  70:Devices/Devices.c/Control_Board_A.c **** 		 huart->ErrorCode = HAL_UART_ERROR_NONE;
+  71:Devices/Devices.c/Control_Board_A.c **** 		 
+  72:Devices/Devices.c/Control_Board_A.c **** 		 HAL_DMA_Start(huart->hdmarx, (uint32_t)&huart->Instance->DR,(uint32_t)pData,Size);
+  73:Devices/Devices.c/Control_Board_A.c **** 		 SET_BIT(huart->Instance->CR3,USART_CR3_DMAR);
+  74:Devices/Devices.c/Control_Board_A.c **** 	 }
+  75:Devices/Devices.c/Control_Board_A.c **** 	 else
+  76:Devices/Devices.c/Control_Board_A.c **** 		 return HAL_BUSY;
+  77:Devices/Devices.c/Control_Board_A.c **** 	 return HAL_OK;
+  78:Devices/Devices.c/Control_Board_A.c ****  }
+  79:Devices/Devices.c/Control_Board_A.c ****  
+  80:Devices/Devices.c/Control_Board_A.c ****  //Receive data if pass verification
+  81:Devices/Devices.c/Control_Board_A.c ****  void Board_A_Handler(UART_HandleTypeDef *huart)
+  82:Devices/Devices.c/Control_Board_A.c ****  {
+  30              		.loc 1 82 2 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 3
+
+
+  34              		.loc 1 82 2 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0446     		mov	r4, r0
+  83:Devices/Devices.c/Control_Board_A.c **** 	 __HAL_DMA_DISABLE(huart->hdmarx);
+  41              		.loc 1 83 3 is_stmt 1 view .LVU2
+  42 0004 836B     		ldr	r3, [r0, #56]
+  43 0006 1A68     		ldr	r2, [r3]
+  44 0008 1368     		ldr	r3, [r2]
+  45 000a 23F00103 		bic	r3, r3, #1
+  46 000e 1360     		str	r3, [r2]
+  84:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A_Func.Board_A_Rec_Data();
+  47              		.loc 1 84 3 view .LVU3
+  48              		.loc 1 84 23 is_stmt 0 view .LVU4
+  49 0010 044B     		ldr	r3, .L3
+  50 0012 5B68     		ldr	r3, [r3, #4]
+  51              		.loc 1 84 3 view .LVU5
+  52 0014 9847     		blx	r3
+  53              	.LVL1:
+  85:Devices/Devices.c/Control_Board_A.c **** 	 __HAL_DMA_ENABLE(huart->hdmarx);
+  54              		.loc 1 85 3 is_stmt 1 view .LVU6
+  55 0016 A36B     		ldr	r3, [r4, #56]
+  56 0018 1A68     		ldr	r2, [r3]
+  57 001a 1368     		ldr	r3, [r2]
+  58 001c 43F00103 		orr	r3, r3, #1
+  59 0020 1360     		str	r3, [r2]
+  86:Devices/Devices.c/Control_Board_A.c ****  }
+  60              		.loc 1 86 2 is_stmt 0 view .LVU7
+  61 0022 10BD     		pop	{r4, pc}
+  62              	.LVL2:
+  63              	.L4:
+  64              		.loc 1 86 2 view .LVU8
+  65              		.align	2
+  66              	.L3:
+  67 0024 00000000 		.word	Control_Board_A_Func
+  68              		.cfi_endproc
+  69              	.LFE165:
+  71              		.section	.text.Board_A_Rec_Data,"ax",%progbits
+  72              		.align	1
+  73              		.global	Board_A_Rec_Data
+  74              		.syntax unified
+  75              		.thumb
+  76              		.thumb_func
+  78              	Board_A_Rec_Data:
+  79              	.LFB163:
+  39:Devices/Devices.c/Control_Board_A.c **** 	 memcpy(&Control_Board_A.IMU_Data_Rec.Data[0],&Control_Board_A.Rx_Buffer[0],24*sizeof(uint8_t));
+  80              		.loc 1 39 2 is_stmt 1 view -0
+  81              		.cfi_startproc
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84 0000 10B5     		push	{r4, lr}
+  85              	.LCFI1:
+  86              		.cfi_def_cfa_offset 8
+  87              		.cfi_offset 4, -8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 4
+
+
+  88              		.cfi_offset 14, -4
+  40:Devices/Devices.c/Control_Board_A.c **** 	 
+  89              		.loc 1 40 3 view .LVU10
+  90 0002 3E4C     		ldr	r4, .L23
+  91 0004 A446     		mov	ip, r4
+  92 0006 A4F1300E 		sub	lr, r4, #48
+  93 000a BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+  94 000e ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+  95 0012 9EE80300 		ldm	lr, {r0, r1}
+  96 0016 8CE80300 		stm	ip, {r0, r1}
+  42:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Pitch = Control_Board_A.Rec.Roll;
+  97              		.loc 1 42 3 view .LVU11
+  42:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Pitch = Control_Board_A.Rec.Roll;
+  98              		.loc 1 42 53 is_stmt 0 view .LVU12
+  99 001a A4F17403 		sub	r3, r4, #116
+ 100 001e 54ED1A7A 		vldr.32	s15, [r4, #-104]
+  42:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Pitch = Control_Board_A.Rec.Roll;
+ 101              		.loc 1 42 32 view .LVU13
+ 102 0022 44ED1D7A 		vstr.32	s15, [r4, #-116]
+  43:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Roll = Control_Board_A.Rec.Pitch;
+ 103              		.loc 1 43 3 is_stmt 1 view .LVU14
+  43:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Roll = Control_Board_A.Rec.Pitch;
+ 104              		.loc 1 43 55 is_stmt 0 view .LVU15
+ 105 0026 54F8642C 		ldr	r2, [r4, #-100]	@ float
+  43:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Prev_Roll = Control_Board_A.Rec.Pitch;
+ 106              		.loc 1 43 34 view .LVU16
+ 107 002a 44F8702C 		str	r2, [r4, #-112]	@ float
+  44:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[0]) <= 180)
+ 108              		.loc 1 44 3 is_stmt 1 view .LVU17
+  44:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[0]) <= 180)
+ 109              		.loc 1 44 54 is_stmt 0 view .LVU18
+ 110 002e 54F8602C 		ldr	r2, [r4, #-96]	@ float
+  44:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[0]) <= 180)
+ 111              		.loc 1 44 33 view .LVU19
+ 112 0032 44F86C2C 		str	r2, [r4, #-108]	@ float
+  45:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[0];
+ 113              		.loc 1 45 3 is_stmt 1 view .LVU20
+  45:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[0];
+ 114              		.loc 1 45 11 is_stmt 0 view .LVU21
+ 115 0036 93ED1D7A 		vldr.32	s14, [r3, #116]
+  45:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[0];
+ 116              		.loc 1 45 6 view .LVU22
+ 117 003a B0EEC76A 		vabs.f32	s12, s14
+  45:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[0];
+ 118              		.loc 1 45 5 view .LVU23
+ 119 003e DFED306A 		vldr.32	s13, .L23+4
+ 120 0042 B4EEE66A 		vcmpe.f32	s12, s13
+ 121 0046 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 122 004a 01D8     		bhi	.L6
+  46:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[1]) <= 180)
+ 123              		.loc 1 46 4 is_stmt 1 view .LVU24
+  46:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[1]) <= 180)
+ 124              		.loc 1 46 28 is_stmt 0 view .LVU25
+ 125 004c 83ED037A 		vstr.32	s14, [r3, #12]
+ 126              	.L6:
+  47:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[1];
+ 127              		.loc 1 47 3 is_stmt 1 view .LVU26
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 5
+
+
+  47:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[1];
+ 128              		.loc 1 47 11 is_stmt 0 view .LVU27
+ 129 0050 2C4B     		ldr	r3, .L23+8
+ 130 0052 93ED1E7A 		vldr.32	s14, [r3, #120]
+  47:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[1];
+ 131              		.loc 1 47 6 view .LVU28
+ 132 0056 B0EEC76A 		vabs.f32	s12, s14
+  47:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[1];
+ 133              		.loc 1 47 5 view .LVU29
+ 134 005a DFED296A 		vldr.32	s13, .L23+4
+ 135 005e B4EEE66A 		vcmpe.f32	s12, s13
+ 136 0062 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 137 0066 01D8     		bhi	.L8
+  48:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[2]) <= 180)
+ 138              		.loc 1 48 4 is_stmt 1 view .LVU30
+  48:Devices/Devices.c/Control_Board_A.c **** 	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[2]) <= 180)
+ 139              		.loc 1 48 30 is_stmt 0 view .LVU31
+ 140 0068 83ED057A 		vstr.32	s14, [r3, #20]
+ 141              	.L8:
+  49:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[2];
+ 142              		.loc 1 49 3 is_stmt 1 view .LVU32
+  49:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[2];
+ 143              		.loc 1 49 11 is_stmt 0 view .LVU33
+ 144 006c 254B     		ldr	r3, .L23+8
+ 145 006e 93ED1F7A 		vldr.32	s14, [r3, #124]
+  49:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[2];
+ 146              		.loc 1 49 6 view .LVU34
+ 147 0072 B0EEC76A 		vabs.f32	s12, s14
+  49:Devices/Devices.c/Control_Board_A.c **** 			Control_Board_A.Rec.Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[2];
+ 148              		.loc 1 49 5 view .LVU35
+ 149 0076 DFED226A 		vldr.32	s13, .L23+4
+ 150 007a B4EEE66A 		vcmpe.f32	s12, s13
+ 151 007e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 152 0082 01D8     		bhi	.L10
+  50:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[3];
+ 153              		.loc 1 50 4 is_stmt 1 view .LVU36
+  50:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[3];
+ 154              		.loc 1 50 29 is_stmt 0 view .LVU37
+ 155 0084 83ED047A 		vstr.32	s14, [r3, #16]
+ 156              	.L10:
+  51:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[4];
+ 157              		.loc 1 51 3 is_stmt 1 view .LVU38
+  51:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[4];
+ 158              		.loc 1 51 34 is_stmt 0 view .LVU39
+ 159 0088 1E4B     		ldr	r3, .L23+8
+ 160 008a D3F88020 		ldr	r2, [r3, #128]	@ float
+  51:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[4];
+ 161              		.loc 1 51 32 view .LVU40
+ 162 008e 9A61     		str	r2, [r3, #24]	@ float
+  52:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[5];
+ 163              		.loc 1 52 3 is_stmt 1 view .LVU41
+  52:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[5];
+ 164              		.loc 1 52 36 is_stmt 0 view .LVU42
+ 165 0090 D3F88420 		ldr	r2, [r3, #132]	@ float
+  52:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.Rec.Gyro_Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[5];
+ 166              		.loc 1 52 34 view .LVU43
+ 167 0094 DA61     		str	r2, [r3, #28]	@ float
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 6
+
+
+  53:Devices/Devices.c/Control_Board_A.c **** 	 
+ 168              		.loc 1 53 3 is_stmt 1 view .LVU44
+  53:Devices/Devices.c/Control_Board_A.c **** 	 
+ 169              		.loc 1 53 35 is_stmt 0 view .LVU45
+ 170 0096 D3F88820 		ldr	r2, [r3, #136]	@ float
+  53:Devices/Devices.c/Control_Board_A.c **** 	 
+ 171              		.loc 1 53 33 view .LVU46
+ 172 009a 1A62     		str	r2, [r3, #32]	@ float
+  55:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count++;
+ 173              		.loc 1 55 3 is_stmt 1 view .LVU47
+  55:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count++;
+ 174              		.loc 1 55 26 is_stmt 0 view .LVU48
+ 175 009c 93ED037A 		vldr.32	s14, [r3, #12]
+  55:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count++;
+ 176              		.loc 1 55 31 view .LVU49
+ 177 00a0 77EE677A 		vsub.f32	s15, s14, s15
+  55:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count++;
+ 178              		.loc 1 55 5 view .LVU50
+ 179 00a4 DFED186A 		vldr.32	s13, .L23+12
+ 180 00a8 F4EEE67A 		vcmpe.f32	s15, s13
+ 181 00ac F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 182 00b0 13D5     		bpl	.L21
+  56:Devices/Devices.c/Control_Board_A.c **** 	else if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) > 300)
+ 183              		.loc 1 56 3 is_stmt 1 view .LVU51
+  56:Devices/Devices.c/Control_Board_A.c **** 	else if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) > 300)
+ 184              		.loc 1 56 22 is_stmt 0 view .LVU52
+ 185 00b2 D3ED097A 		vldr.32	s15, [r3, #36]
+  56:Devices/Devices.c/Control_Board_A.c **** 	else if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) > 300)
+ 186              		.loc 1 56 33 view .LVU53
+ 187 00b6 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 188 00ba 77EEA67A 		vadd.f32	s15, s15, s13
+ 189 00be C3ED097A 		vstr.32	s15, [r3, #36]
+ 190              	.L14:
+  59:Devices/Devices.c/Control_Board_A.c ****  }
+ 191              		.loc 1 59 2 is_stmt 1 view .LVU54
+  59:Devices/Devices.c/Control_Board_A.c ****  }
+ 192              		.loc 1 59 88 is_stmt 0 view .LVU55
+ 193 00c2 104B     		ldr	r3, .L23+8
+ 194 00c4 D3ED097A 		vldr.32	s15, [r3, #36]
+  59:Devices/Devices.c/Control_Board_A.c ****  }
+ 195              		.loc 1 59 67 view .LVU56
+ 196 00c8 DFED106A 		vldr.32	s13, .L23+16
+ 197 00cc 67EEA67A 		vmul.f32	s15, s15, s13
+  59:Devices/Devices.c/Control_Board_A.c ****  }
+ 198              		.loc 1 59 58 view .LVU57
+ 199 00d0 37EE277A 		vadd.f32	s14, s14, s15
+  59:Devices/Devices.c/Control_Board_A.c ****  }
+ 200              		.loc 1 59 32 view .LVU58
+ 201 00d4 83ED0A7A 		vstr.32	s14, [r3, #40]
+  60:Devices/Devices.c/Control_Board_A.c ****  
+ 202              		.loc 1 60 2 view .LVU59
+ 203 00d8 10BD     		pop	{r4, pc}
+ 204              	.L21:
+  57:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count--;
+ 205              		.loc 1 57 7 is_stmt 1 view .LVU60
+  57:Devices/Devices.c/Control_Board_A.c **** 		Control_Board_A.Rec.Turn_Count--;
+ 206              		.loc 1 57 9 is_stmt 0 view .LVU61
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 7
+
+
+ 207 00da DFED0D6A 		vldr.32	s13, .L23+20
+ 208 00de F4EEE67A 		vcmpe.f32	s15, s13
+ 209 00e2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 210 00e6 ECDD     		ble	.L14
+  58:Devices/Devices.c/Control_Board_A.c **** 	Control_Board_A.Rec.Total_Yaw = Control_Board_A.Rec.Yaw + 360.0f * Control_Board_A.Rec.Turn_Count;
+ 211              		.loc 1 58 3 is_stmt 1 view .LVU62
+  58:Devices/Devices.c/Control_Board_A.c **** 	Control_Board_A.Rec.Total_Yaw = Control_Board_A.Rec.Yaw + 360.0f * Control_Board_A.Rec.Turn_Count;
+ 212              		.loc 1 58 22 is_stmt 0 view .LVU63
+ 213 00e8 064B     		ldr	r3, .L23+8
+ 214 00ea D3ED097A 		vldr.32	s15, [r3, #36]
+  58:Devices/Devices.c/Control_Board_A.c **** 	Control_Board_A.Rec.Total_Yaw = Control_Board_A.Rec.Yaw + 360.0f * Control_Board_A.Rec.Turn_Count;
+ 215              		.loc 1 58 33 view .LVU64
+ 216 00ee F7EE006A 		vmov.f32	s13, #1.0e+0
+ 217 00f2 77EEE67A 		vsub.f32	s15, s15, s13
+ 218 00f6 C3ED097A 		vstr.32	s15, [r3, #36]
+ 219 00fa E2E7     		b	.L14
+ 220              	.L24:
+ 221              		.align	2
+ 222              	.L23:
+ 223 00fc 74000000 		.word	Control_Board_A+116
+ 224 0100 00003443 		.word	1127481344
+ 225 0104 00000000 		.word	Control_Board_A
+ 226 0108 000096C3 		.word	-1013579776
+ 227 010c 0000B443 		.word	1135869952
+ 228 0110 00009643 		.word	1133903872
+ 229              		.cfi_endproc
+ 230              	.LFE163:
+ 232              		.section	.text.Board_A_Send_Data,"ax",%progbits
+ 233              		.align	1
+ 234              		.global	Board_A_Send_Data
+ 235              		.syntax unified
+ 236              		.thumb
+ 237              		.thumb_func
+ 239              	Board_A_Send_Data:
+ 240              	.LFB162:
+  26:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[0].data = Board_A_IMU.Export_Data.Yaw;
+ 241              		.loc 1 26 2 is_stmt 1 view -0
+ 242              		.cfi_startproc
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245 0000 10B5     		push	{r4, lr}
+ 246              	.LCFI2:
+ 247              		.cfi_def_cfa_offset 8
+ 248              		.cfi_offset 4, -8
+ 249              		.cfi_offset 14, -4
+  27:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[1].data = Board_A_IMU.Export_Data.Roll;
+ 250              		.loc 1 27 3 view .LVU66
+  27:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[1].data = Board_A_IMU.Export_Data.Roll;
+ 251              		.loc 1 27 66 is_stmt 0 view .LVU67
+ 252 0002 114A     		ldr	r2, .L27
+ 253 0004 516D     		ldr	r1, [r2, #84]	@ float
+  27:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[1].data = Board_A_IMU.Export_Data.Roll;
+ 254              		.loc 1 27 41 view .LVU68
+ 255 0006 114B     		ldr	r3, .L27+4
+ 256 0008 D965     		str	r1, [r3, #92]	@ float
+  28:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[2].data = Board_A_IMU.Export_Data.Pitch;
+ 257              		.loc 1 28 3 is_stmt 1 view .LVU69
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 8
+
+
+  28:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[2].data = Board_A_IMU.Export_Data.Pitch;
+ 258              		.loc 1 28 66 is_stmt 0 view .LVU70
+ 259 000a D16D     		ldr	r1, [r2, #92]	@ float
+  28:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[2].data = Board_A_IMU.Export_Data.Pitch;
+ 260              		.loc 1 28 41 view .LVU71
+ 261 000c 1966     		str	r1, [r3, #96]	@ float
+  29:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[3].data = Board_A_IMU.Export_Data.Gyro_Yaw;
+ 262              		.loc 1 29 3 is_stmt 1 view .LVU72
+  29:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[3].data = Board_A_IMU.Export_Data.Gyro_Yaw;
+ 263              		.loc 1 29 66 is_stmt 0 view .LVU73
+ 264 000e 916D     		ldr	r1, [r2, #88]	@ float
+  29:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[3].data = Board_A_IMU.Export_Data.Gyro_Yaw;
+ 265              		.loc 1 29 41 view .LVU74
+ 266 0010 5966     		str	r1, [r3, #100]	@ float
+  30:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[4].data = Board_A_IMU.Export_Data.Gyro_Roll;
+ 267              		.loc 1 30 3 is_stmt 1 view .LVU75
+  30:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[4].data = Board_A_IMU.Export_Data.Gyro_Roll;
+ 268              		.loc 1 30 66 is_stmt 0 view .LVU76
+ 269 0012 D16E     		ldr	r1, [r2, #108]	@ float
+  30:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[4].data = Board_A_IMU.Export_Data.Gyro_Roll;
+ 270              		.loc 1 30 41 view .LVU77
+ 271 0014 9966     		str	r1, [r3, #104]	@ float
+  31:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[5].data = Board_A_IMU.Export_Data.Gyro_Pitch;
+ 272              		.loc 1 31 3 is_stmt 1 view .LVU78
+  31:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[5].data = Board_A_IMU.Export_Data.Gyro_Pitch;
+ 273              		.loc 1 31 66 is_stmt 0 view .LVU79
+ 274 0016 516F     		ldr	r1, [r2, #116]	@ float
+  31:Devices/Devices.c/Control_Board_A.c **** 	 Control_Board_A.IMU_Data_Send[5].data = Board_A_IMU.Export_Data.Gyro_Pitch;
+ 275              		.loc 1 31 41 view .LVU80
+ 276 0018 D966     		str	r1, [r3, #108]	@ float
+  32:Devices/Devices.c/Control_Board_A.c **** 	 
+ 277              		.loc 1 32 3 is_stmt 1 view .LVU81
+  32:Devices/Devices.c/Control_Board_A.c **** 	 
+ 278              		.loc 1 32 66 is_stmt 0 view .LVU82
+ 279 001a 126F     		ldr	r2, [r2, #112]	@ float
+  32:Devices/Devices.c/Control_Board_A.c **** 	 
+ 280              		.loc 1 32 41 view .LVU83
+ 281 001c 1A67     		str	r2, [r3, #112]	@ float
+  34:Devices/Devices.c/Control_Board_A.c **** 	 HAL_UART_Transmit(&huart7, Control_Board_A.Tx_Buffer, sizeof(Control_Board_A.Tx_Buffer),10);
+ 282              		.loc 1 34 3 is_stmt 1 view .LVU84
+ 283 001e 03F12C04 		add	r4, r3, #44
+ 284 0022 A646     		mov	lr, r4
+ 285 0024 03F15C0C 		add	ip, r3, #92
+ 286 0028 BCE80F00 		ldmia	ip!, {r0, r1, r2, r3}
+ 287 002c AEE80F00 		stmia	lr!, {r0, r1, r2, r3}
+ 288 0030 9CE80300 		ldm	ip, {r0, r1}
+ 289 0034 8EE80300 		stm	lr, {r0, r1}
+  35:Devices/Devices.c/Control_Board_A.c ****  }
+ 290              		.loc 1 35 3 view .LVU85
+ 291 0038 0A23     		movs	r3, #10
+ 292 003a 1822     		movs	r2, #24
+ 293 003c 2146     		mov	r1, r4
+ 294 003e 0448     		ldr	r0, .L27+8
+ 295 0040 FFF7FEFF 		bl	HAL_UART_Transmit
+ 296              	.LVL3:
+  36:Devices/Devices.c/Control_Board_A.c ****  
+ 297              		.loc 1 36 2 is_stmt 0 view .LVU86
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 9
+
+
+ 298 0044 10BD     		pop	{r4, pc}
+ 299              	.L28:
+ 300 0046 00BF     		.align	2
+ 301              	.L27:
+ 302 0048 00000000 		.word	Board_A_IMU
+ 303 004c 00000000 		.word	Control_Board_A
+ 304 0050 00000000 		.word	huart7
+ 305              		.cfi_endproc
+ 306              	.LFE162:
+ 308              		.section	.text.USART_Receive_DMA_NO_IT,"ax",%progbits
+ 309              		.align	1
+ 310              		.syntax unified
+ 311              		.thumb
+ 312              		.thumb_func
+ 314              	USART_Receive_DMA_NO_IT:
+ 315              	.LVL4:
+ 316              	.LFB164:
+  63:Devices/Devices.c/Control_Board_A.c **** 	 if(huart->RxState == HAL_UART_STATE_READY)
+ 317              		.loc 1 63 2 is_stmt 1 view -0
+ 318              		.cfi_startproc
+ 319              		@ args = 0, pretend = 0, frame = 0
+ 320              		@ frame_needed = 0, uses_anonymous_args = 0
+  63:Devices/Devices.c/Control_Board_A.c **** 	 if(huart->RxState == HAL_UART_STATE_READY)
+ 321              		.loc 1 63 2 is_stmt 0 view .LVU88
+ 322 0000 38B5     		push	{r3, r4, r5, lr}
+ 323              	.LCFI3:
+ 324              		.cfi_def_cfa_offset 16
+ 325              		.cfi_offset 3, -16
+ 326              		.cfi_offset 4, -12
+ 327              		.cfi_offset 5, -8
+ 328              		.cfi_offset 14, -4
+ 329 0002 1346     		mov	r3, r2
+  64:Devices/Devices.c/Control_Board_A.c **** 	 {
+ 330              		.loc 1 64 3 is_stmt 1 view .LVU89
+  64:Devices/Devices.c/Control_Board_A.c **** 	 {
+ 331              		.loc 1 64 11 is_stmt 0 view .LVU90
+ 332 0004 90F83E20 		ldrb	r2, [r0, #62]	@ zero_extendqisi2
+ 333              	.LVL5:
+  64:Devices/Devices.c/Control_Board_A.c **** 	 {
+ 334              		.loc 1 64 11 view .LVU91
+ 335 0008 D2B2     		uxtb	r2, r2
+  64:Devices/Devices.c/Control_Board_A.c **** 	 {
+ 336              		.loc 1 64 5 view .LVU92
+ 337 000a 202A     		cmp	r2, #32
+ 338 000c 15D1     		bne	.L31
+ 339 000e 0446     		mov	r4, r0
+  66:Devices/Devices.c/Control_Board_A.c **** 			 return HAL_ERROR;
+ 340              		.loc 1 66 4 is_stmt 1 view .LVU93
+  66:Devices/Devices.c/Control_Board_A.c **** 			 return HAL_ERROR;
+ 341              		.loc 1 66 6 is_stmt 0 view .LVU94
+ 342 0010 A9B1     		cbz	r1, .L32
+  66:Devices/Devices.c/Control_Board_A.c **** 			 return HAL_ERROR;
+ 343              		.loc 1 66 23 discriminator 1 view .LVU95
+ 344 0012 0BB9     		cbnz	r3, .L35
+  67:Devices/Devices.c/Control_Board_A.c **** 		 huart->pRxBuffPtr = pData;
+ 345              		.loc 1 67 12 view .LVU96
+ 346 0014 0120     		movs	r0, #1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 10
+
+
+ 347              	.LVL6:
+  67:Devices/Devices.c/Control_Board_A.c **** 		 huart->pRxBuffPtr = pData;
+ 348              		.loc 1 67 12 view .LVU97
+ 349 0016 11E0     		b	.L29
+ 350              	.LVL7:
+ 351              	.L35:
+  68:Devices/Devices.c/Control_Board_A.c **** 		 huart->RxXferSize = Size;
+ 352              		.loc 1 68 4 is_stmt 1 view .LVU98
+  68:Devices/Devices.c/Control_Board_A.c **** 		 huart->RxXferSize = Size;
+ 353              		.loc 1 68 22 is_stmt 0 view .LVU99
+ 354 0018 8162     		str	r1, [r0, #40]
+  69:Devices/Devices.c/Control_Board_A.c **** 		 huart->ErrorCode = HAL_UART_ERROR_NONE;
+ 355              		.loc 1 69 4 is_stmt 1 view .LVU100
+  69:Devices/Devices.c/Control_Board_A.c **** 		 huart->ErrorCode = HAL_UART_ERROR_NONE;
+ 356              		.loc 1 69 22 is_stmt 0 view .LVU101
+ 357 001a 8385     		strh	r3, [r0, #44]	@ movhi
+  70:Devices/Devices.c/Control_Board_A.c **** 		 
+ 358              		.loc 1 70 4 is_stmt 1 view .LVU102
+  70:Devices/Devices.c/Control_Board_A.c **** 		 
+ 359              		.loc 1 70 21 is_stmt 0 view .LVU103
+ 360 001c 0025     		movs	r5, #0
+ 361 001e 0564     		str	r5, [r0, #64]
+  72:Devices/Devices.c/Control_Board_A.c **** 		 SET_BIT(huart->Instance->CR3,USART_CR3_DMAR);
+ 362              		.loc 1 72 4 is_stmt 1 view .LVU104
+  72:Devices/Devices.c/Control_Board_A.c **** 		 SET_BIT(huart->Instance->CR3,USART_CR3_DMAR);
+ 363              		.loc 1 72 49 is_stmt 0 view .LVU105
+ 364 0020 0068     		ldr	r0, [r0]
+ 365              	.LVL8:
+  72:Devices/Devices.c/Control_Board_A.c **** 		 SET_BIT(huart->Instance->CR3,USART_CR3_DMAR);
+ 366              		.loc 1 72 4 view .LVU106
+ 367 0022 0A46     		mov	r2, r1
+ 368 0024 011D     		adds	r1, r0, #4
+ 369              	.LVL9:
+  72:Devices/Devices.c/Control_Board_A.c **** 		 SET_BIT(huart->Instance->CR3,USART_CR3_DMAR);
+ 370              		.loc 1 72 4 view .LVU107
+ 371 0026 A06B     		ldr	r0, [r4, #56]
+ 372 0028 FFF7FEFF 		bl	HAL_DMA_Start
+ 373              	.LVL10:
+  73:Devices/Devices.c/Control_Board_A.c **** 	 }
+ 374              		.loc 1 73 4 is_stmt 1 view .LVU108
+ 375 002c 2268     		ldr	r2, [r4]
+ 376 002e 5369     		ldr	r3, [r2, #20]
+ 377 0030 43F04003 		orr	r3, r3, #64
+ 378 0034 5361     		str	r3, [r2, #20]
+  77:Devices/Devices.c/Control_Board_A.c ****  }
+ 379              		.loc 1 77 3 view .LVU109
+  77:Devices/Devices.c/Control_Board_A.c ****  }
+ 380              		.loc 1 77 10 is_stmt 0 view .LVU110
+ 381 0036 2846     		mov	r0, r5
+ 382 0038 00E0     		b	.L29
+ 383              	.LVL11:
+ 384              	.L31:
+  76:Devices/Devices.c/Control_Board_A.c **** 	 return HAL_OK;
+ 385              		.loc 1 76 11 view .LVU111
+ 386 003a 0220     		movs	r0, #2
+ 387              	.LVL12:
+ 388              	.L29:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 11
+
+
+  78:Devices/Devices.c/Control_Board_A.c ****  
+ 389              		.loc 1 78 2 view .LVU112
+ 390 003c 38BD     		pop	{r3, r4, r5, pc}
+ 391              	.LVL13:
+ 392              	.L32:
+  67:Devices/Devices.c/Control_Board_A.c **** 		 huart->pRxBuffPtr = pData;
+ 393              		.loc 1 67 12 view .LVU113
+ 394 003e 0120     		movs	r0, #1
+ 395              	.LVL14:
+  67:Devices/Devices.c/Control_Board_A.c **** 		 huart->pRxBuffPtr = pData;
+ 396              		.loc 1 67 12 view .LVU114
+ 397 0040 FCE7     		b	.L29
+ 398              		.cfi_endproc
+ 399              	.LFE164:
+ 401              		.section	.text.Board_A_USART_Receive_DMA,"ax",%progbits
+ 402              		.align	1
+ 403              		.global	Board_A_USART_Receive_DMA
+ 404              		.syntax unified
+ 405              		.thumb
+ 406              		.thumb_func
+ 408              	Board_A_USART_Receive_DMA:
+ 409              	.LVL15:
+ 410              	.LFB166:
+  87:Devices/Devices.c/Control_Board_A.c ****  
+  88:Devices/Devices.c/Control_Board_A.c ****  void Board_A_USART_Receive_DMA(UART_HandleTypeDef *huartx)
+  89:Devices/Devices.c/Control_Board_A.c ****  {
+ 411              		.loc 1 89 2 is_stmt 1 view -0
+ 412              		.cfi_startproc
+ 413              		@ args = 0, pretend = 0, frame = 8
+ 414              		@ frame_needed = 0, uses_anonymous_args = 0
+ 415              		.loc 1 89 2 is_stmt 0 view .LVU116
+ 416 0000 00B5     		push	{lr}
+ 417              	.LCFI4:
+ 418              		.cfi_def_cfa_offset 4
+ 419              		.cfi_offset 14, -4
+ 420 0002 83B0     		sub	sp, sp, #12
+ 421              	.LCFI5:
+ 422              		.cfi_def_cfa_offset 16
+  90:Devices/Devices.c/Control_Board_A.c **** 	 __HAL_UART_CLEAR_IDLEFLAG(huartx);
+ 423              		.loc 1 90 3 is_stmt 1 view .LVU117
+ 424              	.LBB2:
+ 425              		.loc 1 90 3 view .LVU118
+ 426 0004 0022     		movs	r2, #0
+ 427 0006 0192     		str	r2, [sp, #4]
+ 428              		.loc 1 90 3 view .LVU119
+ 429 0008 0268     		ldr	r2, [r0]
+ 430 000a 1168     		ldr	r1, [r2]
+ 431 000c 0191     		str	r1, [sp, #4]
+ 432              		.loc 1 90 3 view .LVU120
+ 433 000e 5168     		ldr	r1, [r2, #4]
+ 434 0010 0191     		str	r1, [sp, #4]
+ 435              		.loc 1 90 3 view .LVU121
+ 436 0012 0199     		ldr	r1, [sp, #4]
+ 437              	.LBE2:
+ 438              		.loc 1 90 3 view .LVU122
+  91:Devices/Devices.c/Control_Board_A.c **** 	 __HAL_UART_ENABLE(huartx);
+ 439              		.loc 1 91 3 view .LVU123
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 12
+
+
+ 440 0014 D168     		ldr	r1, [r2, #12]
+ 441 0016 41F40051 		orr	r1, r1, #8192
+ 442 001a D160     		str	r1, [r2, #12]
+  92:Devices/Devices.c/Control_Board_A.c **** 	 __HAL_UART_ENABLE_IT(huartx,UART_IT_IDLE);
+ 443              		.loc 1 92 3 view .LVU124
+ 444 001c 0268     		ldr	r2, [r0]
+ 445 001e D368     		ldr	r3, [r2, #12]
+ 446 0020 43F01003 		orr	r3, r3, #16
+ 447 0024 D360     		str	r3, [r2, #12]
+  93:Devices/Devices.c/Control_Board_A.c **** 	 USART_Receive_DMA_NO_IT(huartx,Control_Board_A.Rx_Buffer,sizeof(Control_Board_A.Rx_Buffer));
+ 448              		.loc 1 93 3 view .LVU125
+ 449 0026 1822     		movs	r2, #24
+ 450 0028 0249     		ldr	r1, .L38
+ 451 002a FFF7FEFF 		bl	USART_Receive_DMA_NO_IT
+ 452              	.LVL16:
+  94:Devices/Devices.c/Control_Board_A.c ****  }
+ 453              		.loc 1 94 2 is_stmt 0 view .LVU126
+ 454 002e 03B0     		add	sp, sp, #12
+ 455              	.LCFI6:
+ 456              		.cfi_def_cfa_offset 4
+ 457              		@ sp needed
+ 458 0030 5DF804FB 		ldr	pc, [sp], #4
+ 459              	.L39:
+ 460              		.align	2
+ 461              	.L38:
+ 462 0034 44000000 		.word	Control_Board_A+68
+ 463              		.cfi_endproc
+ 464              	.LFE166:
+ 466              		.global	Control_Board_A
+ 467              		.section	.bss.Control_Board_A,"aw",%nobits
+ 468              		.align	2
+ 471              	Control_Board_A:
+ 472 0000 00000000 		.space	140
+ 472      00000000 
+ 472      00000000 
+ 472      00000000 
+ 472      00000000 
+ 473              		.global	Control_Board_A_Func
+ 474              		.section	.data.Control_Board_A_Func,"aw"
+ 475              		.align	2
+ 478              	Control_Board_A_Func:
+ 479 0000 00000000 		.word	Board_A_Send_Data
+ 480 0004 00000000 		.word	Board_A_Rec_Data
+ 481 0008 00000000 		.word	Board_A_Handler
+ 482 000c 00000000 		.word	Board_A_USART_Receive_DMA
+ 483              		.text
+ 484              	.Letext0:
+ 485              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 486              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 487              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 488              		.file 5 "c:\\msys64\\mingw64\\lib\\gcc\\arm-none-eabi\\12.2.0\\include\\stddef.h"
+ 489              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 490              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 491              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 492              		.file 9 "Devices/Devices.h/Board_A_IMU.h"
+ 493              		.file 10 "Core/Inc/usart.h"
+ 494              		.file 11 "Devices/Devices.h/Control_Board_A.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 13
+
+
+ 495              		.file 12 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\string.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Control_Board_A.c
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:21     .text.Board_A_Handler:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:27     .text.Board_A_Handler:00000000 Board_A_Handler
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:67     .text.Board_A_Handler:00000024 $d
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:478    .data.Control_Board_A_Func:00000000 Control_Board_A_Func
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:72     .text.Board_A_Rec_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:78     .text.Board_A_Rec_Data:00000000 Board_A_Rec_Data
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:223    .text.Board_A_Rec_Data:000000fc $d
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:471    .bss.Control_Board_A:00000000 Control_Board_A
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:233    .text.Board_A_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:239    .text.Board_A_Send_Data:00000000 Board_A_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:302    .text.Board_A_Send_Data:00000048 $d
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:309    .text.USART_Receive_DMA_NO_IT:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:314    .text.USART_Receive_DMA_NO_IT:00000000 USART_Receive_DMA_NO_IT
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:402    .text.Board_A_USART_Receive_DMA:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:408    .text.Board_A_USART_Receive_DMA:00000000 Board_A_USART_Receive_DMA
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:462    .text.Board_A_USART_Receive_DMA:00000034 $d
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:468    .bss.Control_Board_A:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccJA8v9H.s:475    .data.Control_Board_A_Func:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Transmit
+Board_A_IMU
+huart7
+HAL_DMA_Start

@@ -1,0 +1,1318 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Buzzer.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/Buzzer.c"
+  20              		.section	.text.Buzzer_Modules_Offline,"ax",%progbits
+  21              		.align	1
+  22              		.global	Buzzer_Modules_Offline
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Buzzer_Modules_Offline:
+  28              	.LFB136:
+   1:Devices/Devices.c/Buzzer.c **** /**
+   2:Devices/Devices.c/Buzzer.c ****  * @file Buzzer.c
+   3:Devices/Devices.c/Buzzer.c ****  * @author Leo Liu
+   4:Devices/Devices.c/Buzzer.c ****  * @brief on board buzzer
+   5:Devices/Devices.c/Buzzer.c ****  * @version 1.0
+   6:Devices/Devices.c/Buzzer.c ****  * @date 2022/07/25
+   7:Devices/Devices.c/Buzzer.c ****  * 
+   8:Devices/Devices.c/Buzzer.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/Buzzer.c ****  * 
+  10:Devices/Devices.c/Buzzer.c ****  */
+  11:Devices/Devices.c/Buzzer.c **** #include "Buzzer.h"
+  12:Devices/Devices.c/Buzzer.c **** void Buzzer_Init(void);
+  13:Devices/Devices.c/Buzzer.c **** void Buzzer_Robot_Initializing(void);
+  14:Devices/Devices.c/Buzzer.c **** void Buzzer_Robot_Is_Initialized(void);
+  15:Devices/Devices.c/Buzzer.c **** void Buzzer_Modules_Offline(void);
+  16:Devices/Devices.c/Buzzer.c **** 
+  17:Devices/Devices.c/Buzzer.c **** Buzzer_Func_t Buzzer_Func = Buzzer_Func_GroundInit;
+  18:Devices/Devices.c/Buzzer.c **** #undef Buzzer_Func_GroundInit
+  19:Devices/Devices.c/Buzzer.c **** 
+  20:Devices/Devices.c/Buzzer.c **** void Buzzer_On(uint16_t Volume, uint16_t Duration);
+  21:Devices/Devices.c/Buzzer.c **** void Buzzer_Choose_Note(uint16_t Note);
+  22:Devices/Devices.c/Buzzer.c **** void Buzzer_Play_Song(uint16_t Song[],uint16_t Song_Length);
+  23:Devices/Devices.c/Buzzer.c **** 
+  24:Devices/Devices.c/Buzzer.c **** Buzzer_t Buzzer;
+  25:Devices/Devices.c/Buzzer.c **** 
+  26:Devices/Devices.c/Buzzer.c **** //Enable timer's PWM function
+  27:Devices/Devices.c/Buzzer.c **** void Buzzer_Init(void)
+  28:Devices/Devices.c/Buzzer.c **** {
+  29:Devices/Devices.c/Buzzer.c **** 	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
+  30:Devices/Devices.c/Buzzer.c **** }
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 2
+
+
+  31:Devices/Devices.c/Buzzer.c **** 
+  32:Devices/Devices.c/Buzzer.c **** //Sound effect for initializing
+  33:Devices/Devices.c/Buzzer.c **** void Buzzer_Robot_Initializing(void)
+  34:Devices/Devices.c/Buzzer.c **** {
+  35:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_Ti);
+  36:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  37:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+  38:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  39:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+  40:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  41:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+  42:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  43:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+  44:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  45:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Mi);
+  46:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  47:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+  48:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  49:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+  50:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  51:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Mi);
+  52:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  53:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+  54:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  55:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+  56:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+  57:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+  58:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 500);
+  59:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(1000);
+  60:Devices/Devices.c/Buzzer.c **** }
+  61:Devices/Devices.c/Buzzer.c **** 
+  62:Devices/Devices.c/Buzzer.c **** //Sound effect for initialization finished
+  63:Devices/Devices.c/Buzzer.c **** void Buzzer_Robot_Is_Initialized(void)
+  64:Devices/Devices.c/Buzzer.c **** {
+  65:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Do);
+  66:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 100);
+  67:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(50);
+  68:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Do);
+  69:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 100);
+  70:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(50);
+  71:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Do);
+  72:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 100);
+  73:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(50);
+  74:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_So);
+  75:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 1000);
+  76:Devices/Devices.c/Buzzer.c **** }
+  77:Devices/Devices.c/Buzzer.c **** 
+  78:Devices/Devices.c/Buzzer.c **** //Sound effect for offline modules
+  79:Devices/Devices.c/Buzzer.c **** void Buzzer_Modules_Offline(void)
+  80:Devices/Devices.c/Buzzer.c **** {
+  29              		.loc 1 80 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  81:Devices/Devices.c/Buzzer.c **** }
+  34              		.loc 1 81 1 view .LVU1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 3
+
+
+  35 0000 7047     		bx	lr
+  36              		.cfi_endproc
+  37              	.LFE136:
+  39              		.section	.text.Buzzer_Init,"ax",%progbits
+  40              		.align	1
+  41              		.global	Buzzer_Init
+  42              		.syntax unified
+  43              		.thumb
+  44              		.thumb_func
+  46              	Buzzer_Init:
+  47              	.LFB133:
+  28:Devices/Devices.c/Buzzer.c **** 	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
+  48              		.loc 1 28 1 view -0
+  49              		.cfi_startproc
+  50              		@ args = 0, pretend = 0, frame = 0
+  51              		@ frame_needed = 0, uses_anonymous_args = 0
+  52 0000 08B5     		push	{r3, lr}
+  53              	.LCFI0:
+  54              		.cfi_def_cfa_offset 8
+  55              		.cfi_offset 3, -8
+  56              		.cfi_offset 14, -4
+  29:Devices/Devices.c/Buzzer.c **** }
+  57              		.loc 1 29 2 view .LVU3
+  58 0002 0021     		movs	r1, #0
+  59 0004 0148     		ldr	r0, .L4
+  60 0006 FFF7FEFF 		bl	HAL_TIM_PWM_Start
+  61              	.LVL0:
+  30:Devices/Devices.c/Buzzer.c **** 
+  62              		.loc 1 30 1 is_stmt 0 view .LVU4
+  63 000a 08BD     		pop	{r3, pc}
+  64              	.L5:
+  65              		.align	2
+  66              	.L4:
+  67 000c 00000000 		.word	htim12
+  68              		.cfi_endproc
+  69              	.LFE133:
+  71              		.section	.text.Buzzer_On,"ax",%progbits
+  72              		.align	1
+  73              		.global	Buzzer_On
+  74              		.syntax unified
+  75              		.thumb
+  76              		.thumb_func
+  78              	Buzzer_On:
+  79              	.LVL1:
+  80              	.LFB138:
+  82:Devices/Devices.c/Buzzer.c **** 
+  83:Devices/Devices.c/Buzzer.c **** void Buzzer_Play_Song(uint16_t Song[], uint16_t Song_Length)
+  84:Devices/Devices.c/Buzzer.c **** {
+  85:Devices/Devices.c/Buzzer.c **** 	for(int i = 0; i < Song_Length; i++)
+  86:Devices/Devices.c/Buzzer.c **** 	{
+  87:Devices/Devices.c/Buzzer.c **** 		Buzzer_Choose_Note(Song[i]);
+  88:Devices/Devices.c/Buzzer.c **** 		//Buzzer_On(MAX_VOLUME);
+  89:Devices/Devices.c/Buzzer.c **** 	}
+  90:Devices/Devices.c/Buzzer.c **** }
+  91:Devices/Devices.c/Buzzer.c **** 
+  92:Devices/Devices.c/Buzzer.c **** //Turn on buzzer for set amount of duration
+  93:Devices/Devices.c/Buzzer.c **** void Buzzer_On(uint16_t Volume, uint16_t Duration)
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 4
+
+
+  94:Devices/Devices.c/Buzzer.c **** {
+  81              		.loc 1 94 1 is_stmt 1 view -0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		.loc 1 94 1 is_stmt 0 view .LVU6
+  86 0000 10B5     		push	{r4, lr}
+  87              	.LCFI1:
+  88              		.cfi_def_cfa_offset 8
+  89              		.cfi_offset 4, -8
+  90              		.cfi_offset 14, -4
+  95:Devices/Devices.c/Buzzer.c **** 	__HAL_TIM_SetCompare(&htim12, TIM_CHANNEL_1, Volume);
+  91              		.loc 1 95 2 is_stmt 1 view .LVU7
+  92 0002 054C     		ldr	r4, .L8
+  93 0004 2268     		ldr	r2, [r4]
+  94 0006 5063     		str	r0, [r2, #52]
+  96:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(Duration);
+  95              		.loc 1 96 2 view .LVU8
+  96 0008 0846     		mov	r0, r1
+  97              	.LVL2:
+  98              		.loc 1 96 2 is_stmt 0 view .LVU9
+  99 000a FFF7FEFF 		bl	HAL_Delay
+ 100              	.LVL3:
+  97:Devices/Devices.c/Buzzer.c **** 	__HAL_TIM_SetCompare(&htim12, TIM_CHANNEL_1, 0);
+ 101              		.loc 1 97 2 is_stmt 1 view .LVU10
+ 102 000e 2368     		ldr	r3, [r4]
+ 103 0010 0022     		movs	r2, #0
+ 104 0012 5A63     		str	r2, [r3, #52]
+  98:Devices/Devices.c/Buzzer.c **** }
+ 105              		.loc 1 98 1 is_stmt 0 view .LVU11
+ 106 0014 10BD     		pop	{r4, pc}
+ 107              	.L9:
+ 108 0016 00BF     		.align	2
+ 109              	.L8:
+ 110 0018 00000000 		.word	htim12
+ 111              		.cfi_endproc
+ 112              	.LFE138:
+ 114              		.section	.text.Buzzer_Choose_Note,"ax",%progbits
+ 115              		.align	1
+ 116              		.global	Buzzer_Choose_Note
+ 117              		.syntax unified
+ 118              		.thumb
+ 119              		.thumb_func
+ 121              	Buzzer_Choose_Note:
+ 122              	.LVL4:
+ 123              	.LFB139:
+  99:Devices/Devices.c/Buzzer.c **** 
+ 100:Devices/Devices.c/Buzzer.c **** //Choose note, constants are calculated for desired frequency of each note
+ 101:Devices/Devices.c/Buzzer.c **** void Buzzer_Choose_Note(uint16_t Note)
+ 102:Devices/Devices.c/Buzzer.c **** {
+ 124              		.loc 1 102 1 is_stmt 1 view -0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 0
+ 127              		@ frame_needed = 0, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+ 103:Devices/Devices.c/Buzzer.c **** 	switch(Note)
+ 129              		.loc 1 103 2 view .LVU13
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 5
+
+
+ 130 0000 2328     		cmp	r0, #35
+ 131 0002 00F22181 		bhi	.L10
+ 132 0006 DFE810F0 		tbh	[pc, r0, lsl #1]
+ 133              	.L13:
+ 134 000a 2400     		.2byte	(.L48-.L13)/2
+ 135 000c 2B00     		.2byte	(.L47-.L13)/2
+ 136 000e 3200     		.2byte	(.L46-.L13)/2
+ 137 0010 3900     		.2byte	(.L45-.L13)/2
+ 138 0012 4000     		.2byte	(.L44-.L13)/2
+ 139 0014 4700     		.2byte	(.L43-.L13)/2
+ 140 0016 4E00     		.2byte	(.L42-.L13)/2
+ 141 0018 5500     		.2byte	(.L41-.L13)/2
+ 142 001a 5C00     		.2byte	(.L40-.L13)/2
+ 143 001c 6300     		.2byte	(.L39-.L13)/2
+ 144 001e 6A00     		.2byte	(.L38-.L13)/2
+ 145 0020 7100     		.2byte	(.L37-.L13)/2
+ 146 0022 7800     		.2byte	(.L36-.L13)/2
+ 147 0024 7F00     		.2byte	(.L35-.L13)/2
+ 148 0026 8600     		.2byte	(.L34-.L13)/2
+ 149 0028 8D00     		.2byte	(.L33-.L13)/2
+ 150 002a 9400     		.2byte	(.L32-.L13)/2
+ 151 002c 9B00     		.2byte	(.L31-.L13)/2
+ 152 002e A200     		.2byte	(.L30-.L13)/2
+ 153 0030 A900     		.2byte	(.L29-.L13)/2
+ 154 0032 B000     		.2byte	(.L28-.L13)/2
+ 155 0034 B700     		.2byte	(.L27-.L13)/2
+ 156 0036 BE00     		.2byte	(.L26-.L13)/2
+ 157 0038 C500     		.2byte	(.L25-.L13)/2
+ 158 003a CC00     		.2byte	(.L24-.L13)/2
+ 159 003c D300     		.2byte	(.L23-.L13)/2
+ 160 003e DA00     		.2byte	(.L22-.L13)/2
+ 161 0040 E100     		.2byte	(.L21-.L13)/2
+ 162 0042 E800     		.2byte	(.L20-.L13)/2
+ 163 0044 EF00     		.2byte	(.L19-.L13)/2
+ 164 0046 F600     		.2byte	(.L18-.L13)/2
+ 165 0048 FD00     		.2byte	(.L17-.L13)/2
+ 166 004a 0401     		.2byte	(.L16-.L13)/2
+ 167 004c 0B01     		.2byte	(.L15-.L13)/2
+ 168 004e 1201     		.2byte	(.L14-.L13)/2
+ 169 0050 1901     		.2byte	(.L12-.L13)/2
+ 170              		.p2align 1
+ 171              	.L48:
+ 104:Devices/Devices.c/Buzzer.c **** 	{
+ 105:Devices/Devices.c/Buzzer.c **** 		case Low_Do:
+ 106:Devices/Devices.c/Buzzer.c **** 		{
+ 107:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,3821);
+ 172              		.loc 1 107 4 view .LVU14
+ 173              		.loc 1 107 4 view .LVU15
+ 174 0052 7E4B     		ldr	r3, .L50
+ 175 0054 1968     		ldr	r1, [r3]
+ 176 0056 40F6ED62 		movw	r2, #3821
+ 177 005a CA62     		str	r2, [r1, #44]
+ 178              		.loc 1 107 4 view .LVU16
+ 179 005c DA60     		str	r2, [r3, #12]
+ 180              		.loc 1 107 4 view .LVU17
+ 108:Devices/Devices.c/Buzzer.c **** 			break;
+ 181              		.loc 1 108 4 view .LVU18
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 6
+
+
+ 182 005e 7047     		bx	lr
+ 183              	.L47:
+ 109:Devices/Devices.c/Buzzer.c **** 		}
+ 110:Devices/Devices.c/Buzzer.c **** 		case Low_Do_N:
+ 111:Devices/Devices.c/Buzzer.c **** 		{
+ 112:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,3608);
+ 184              		.loc 1 112 4 view .LVU19
+ 185              		.loc 1 112 4 view .LVU20
+ 186 0060 7A4B     		ldr	r3, .L50
+ 187 0062 1968     		ldr	r1, [r3]
+ 188 0064 40F61862 		movw	r2, #3608
+ 189 0068 CA62     		str	r2, [r1, #44]
+ 190              		.loc 1 112 4 view .LVU21
+ 191 006a DA60     		str	r2, [r3, #12]
+ 192              		.loc 1 112 4 view .LVU22
+ 113:Devices/Devices.c/Buzzer.c **** 			break;
+ 193              		.loc 1 113 4 view .LVU23
+ 194 006c 7047     		bx	lr
+ 195              	.L46:
+ 114:Devices/Devices.c/Buzzer.c **** 		}
+ 115:Devices/Devices.c/Buzzer.c **** 		case Low_Re:
+ 116:Devices/Devices.c/Buzzer.c **** 		{
+ 117:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,3404);
+ 196              		.loc 1 117 4 view .LVU24
+ 197              		.loc 1 117 4 view .LVU25
+ 198 006e 774B     		ldr	r3, .L50
+ 199 0070 1968     		ldr	r1, [r3]
+ 200 0072 40F64C52 		movw	r2, #3404
+ 201 0076 CA62     		str	r2, [r1, #44]
+ 202              		.loc 1 117 4 view .LVU26
+ 203 0078 DA60     		str	r2, [r3, #12]
+ 204              		.loc 1 117 4 view .LVU27
+ 118:Devices/Devices.c/Buzzer.c **** 			break;
+ 205              		.loc 1 118 4 view .LVU28
+ 206 007a 7047     		bx	lr
+ 207              	.L45:
+ 119:Devices/Devices.c/Buzzer.c **** 		}
+ 120:Devices/Devices.c/Buzzer.c **** 		case Low_Re_N:
+ 121:Devices/Devices.c/Buzzer.c **** 		{
+ 122:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,3214);
+ 208              		.loc 1 122 4 view .LVU29
+ 209              		.loc 1 122 4 view .LVU30
+ 210 007c 734B     		ldr	r3, .L50
+ 211 007e 1968     		ldr	r1, [r3]
+ 212 0080 40F68E42 		movw	r2, #3214
+ 213 0084 CA62     		str	r2, [r1, #44]
+ 214              		.loc 1 122 4 view .LVU31
+ 215 0086 DA60     		str	r2, [r3, #12]
+ 216              		.loc 1 122 4 view .LVU32
+ 123:Devices/Devices.c/Buzzer.c **** 			break;
+ 217              		.loc 1 123 4 view .LVU33
+ 218 0088 7047     		bx	lr
+ 219              	.L44:
+ 124:Devices/Devices.c/Buzzer.c **** 		}
+ 125:Devices/Devices.c/Buzzer.c **** 		case Low_Mi:
+ 126:Devices/Devices.c/Buzzer.c **** 		{
+ 127:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,3033);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 7
+
+
+ 220              		.loc 1 127 4 view .LVU34
+ 221              		.loc 1 127 4 view .LVU35
+ 222 008a 704B     		ldr	r3, .L50
+ 223 008c 1968     		ldr	r1, [r3]
+ 224 008e 40F6D932 		movw	r2, #3033
+ 225 0092 CA62     		str	r2, [r1, #44]
+ 226              		.loc 1 127 4 view .LVU36
+ 227 0094 DA60     		str	r2, [r3, #12]
+ 228              		.loc 1 127 4 view .LVU37
+ 128:Devices/Devices.c/Buzzer.c **** 			break;
+ 229              		.loc 1 128 4 view .LVU38
+ 230 0096 7047     		bx	lr
+ 231              	.L43:
+ 129:Devices/Devices.c/Buzzer.c **** 		}
+ 130:Devices/Devices.c/Buzzer.c **** 		case Low_Fa:
+ 131:Devices/Devices.c/Buzzer.c **** 		{
+ 132:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,2863);
+ 232              		.loc 1 132 4 view .LVU39
+ 233              		.loc 1 132 4 view .LVU40
+ 234 0098 6C4B     		ldr	r3, .L50
+ 235 009a 1968     		ldr	r1, [r3]
+ 236 009c 40F62F32 		movw	r2, #2863
+ 237 00a0 CA62     		str	r2, [r1, #44]
+ 238              		.loc 1 132 4 view .LVU41
+ 239 00a2 DA60     		str	r2, [r3, #12]
+ 240              		.loc 1 132 4 view .LVU42
+ 133:Devices/Devices.c/Buzzer.c **** 			break;
+ 241              		.loc 1 133 4 view .LVU43
+ 242 00a4 7047     		bx	lr
+ 243              	.L42:
+ 134:Devices/Devices.c/Buzzer.c **** 		}	
+ 135:Devices/Devices.c/Buzzer.c **** 		case Low_Fa_N:
+ 136:Devices/Devices.c/Buzzer.c **** 		{
+ 137:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,2703);
+ 244              		.loc 1 137 4 view .LVU44
+ 245              		.loc 1 137 4 view .LVU45
+ 246 00a6 694B     		ldr	r3, .L50
+ 247 00a8 1968     		ldr	r1, [r3]
+ 248 00aa 40F68F22 		movw	r2, #2703
+ 249 00ae CA62     		str	r2, [r1, #44]
+ 250              		.loc 1 137 4 view .LVU46
+ 251 00b0 DA60     		str	r2, [r3, #12]
+ 252              		.loc 1 137 4 view .LVU47
+ 138:Devices/Devices.c/Buzzer.c **** 			break;
+ 253              		.loc 1 138 4 view .LVU48
+ 254 00b2 7047     		bx	lr
+ 255              	.L41:
+ 139:Devices/Devices.c/Buzzer.c **** 		}	
+ 140:Devices/Devices.c/Buzzer.c **** 		case Low_So:
+ 141:Devices/Devices.c/Buzzer.c **** 		{
+ 142:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,2550);
+ 256              		.loc 1 142 4 view .LVU49
+ 257              		.loc 1 142 4 view .LVU50
+ 258 00b4 654B     		ldr	r3, .L50
+ 259 00b6 1968     		ldr	r1, [r3]
+ 260 00b8 40F6F612 		movw	r2, #2550
+ 261 00bc CA62     		str	r2, [r1, #44]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 8
+
+
+ 262              		.loc 1 142 4 view .LVU51
+ 263 00be DA60     		str	r2, [r3, #12]
+ 264              		.loc 1 142 4 view .LVU52
+ 143:Devices/Devices.c/Buzzer.c **** 			break;
+ 265              		.loc 1 143 4 view .LVU53
+ 266 00c0 7047     		bx	lr
+ 267              	.L40:
+ 144:Devices/Devices.c/Buzzer.c **** 		}	
+ 145:Devices/Devices.c/Buzzer.c **** 		case Low_So_N:
+ 146:Devices/Devices.c/Buzzer.c **** 		{
+ 147:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,2408);
+ 268              		.loc 1 147 4 view .LVU54
+ 269              		.loc 1 147 4 view .LVU55
+ 270 00c2 624B     		ldr	r3, .L50
+ 271 00c4 1968     		ldr	r1, [r3]
+ 272 00c6 40F66812 		movw	r2, #2408
+ 273 00ca CA62     		str	r2, [r1, #44]
+ 274              		.loc 1 147 4 view .LVU56
+ 275 00cc DA60     		str	r2, [r3, #12]
+ 276              		.loc 1 147 4 view .LVU57
+ 148:Devices/Devices.c/Buzzer.c **** 			break;
+ 277              		.loc 1 148 4 view .LVU58
+ 278 00ce 7047     		bx	lr
+ 279              	.L39:
+ 149:Devices/Devices.c/Buzzer.c **** 		}	
+ 150:Devices/Devices.c/Buzzer.c **** 		case Low_La:
+ 151:Devices/Devices.c/Buzzer.c **** 		{
+ 152:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,2272);
+ 280              		.loc 1 152 4 view .LVU59
+ 281              		.loc 1 152 4 view .LVU60
+ 282 00d0 5E4B     		ldr	r3, .L50
+ 283 00d2 1968     		ldr	r1, [r3]
+ 284 00d4 4FF40E62 		mov	r2, #2272
+ 285 00d8 CA62     		str	r2, [r1, #44]
+ 286              		.loc 1 152 4 view .LVU61
+ 287 00da DA60     		str	r2, [r3, #12]
+ 288              		.loc 1 152 4 view .LVU62
+ 153:Devices/Devices.c/Buzzer.c **** 			break;
+ 289              		.loc 1 153 4 view .LVU63
+ 290 00dc 7047     		bx	lr
+ 291              	.L38:
+ 154:Devices/Devices.c/Buzzer.c **** 		}
+ 155:Devices/Devices.c/Buzzer.c **** 		case Low_La_N:
+ 156:Devices/Devices.c/Buzzer.c **** 		{
+ 157:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,2145);
+ 292              		.loc 1 157 4 view .LVU64
+ 293              		.loc 1 157 4 view .LVU65
+ 294 00de 5B4B     		ldr	r3, .L50
+ 295 00e0 1968     		ldr	r1, [r3]
+ 296 00e2 40F66102 		movw	r2, #2145
+ 297 00e6 CA62     		str	r2, [r1, #44]
+ 298              		.loc 1 157 4 view .LVU66
+ 299 00e8 DA60     		str	r2, [r3, #12]
+ 300              		.loc 1 157 4 view .LVU67
+ 158:Devices/Devices.c/Buzzer.c **** 			break;
+ 301              		.loc 1 158 4 view .LVU68
+ 302 00ea 7047     		bx	lr
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 9
+
+
+ 303              	.L37:
+ 159:Devices/Devices.c/Buzzer.c **** 		}	
+ 160:Devices/Devices.c/Buzzer.c **** 		case Low_Ti:
+ 161:Devices/Devices.c/Buzzer.c **** 		{
+ 162:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,2024);
+ 304              		.loc 1 162 4 view .LVU69
+ 305              		.loc 1 162 4 view .LVU70
+ 306 00ec 574B     		ldr	r3, .L50
+ 307 00ee 1968     		ldr	r1, [r3]
+ 308 00f0 4FF4FD62 		mov	r2, #2024
+ 309 00f4 CA62     		str	r2, [r1, #44]
+ 310              		.loc 1 162 4 view .LVU71
+ 311 00f6 DA60     		str	r2, [r3, #12]
+ 312              		.loc 1 162 4 view .LVU72
+ 163:Devices/Devices.c/Buzzer.c **** 			break;
+ 313              		.loc 1 163 4 view .LVU73
+ 314 00f8 7047     		bx	lr
+ 315              	.L36:
+ 164:Devices/Devices.c/Buzzer.c **** 		}
+ 165:Devices/Devices.c/Buzzer.c **** 		case Mid_Do:
+ 166:Devices/Devices.c/Buzzer.c **** 		{
+ 167:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1910);
+ 316              		.loc 1 167 4 view .LVU74
+ 317              		.loc 1 167 4 view .LVU75
+ 318 00fa 544B     		ldr	r3, .L50
+ 319 00fc 1968     		ldr	r1, [r3]
+ 320 00fe 40F27672 		movw	r2, #1910
+ 321 0102 CA62     		str	r2, [r1, #44]
+ 322              		.loc 1 167 4 view .LVU76
+ 323 0104 DA60     		str	r2, [r3, #12]
+ 324              		.loc 1 167 4 view .LVU77
+ 168:Devices/Devices.c/Buzzer.c **** 			break;
+ 325              		.loc 1 168 4 view .LVU78
+ 326 0106 7047     		bx	lr
+ 327              	.L35:
+ 169:Devices/Devices.c/Buzzer.c **** 		}	
+ 170:Devices/Devices.c/Buzzer.c **** 		case Mid_Do_N:
+ 171:Devices/Devices.c/Buzzer.c **** 		{
+ 172:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1804);
+ 328              		.loc 1 172 4 view .LVU79
+ 329              		.loc 1 172 4 view .LVU80
+ 330 0108 504B     		ldr	r3, .L50
+ 331 010a 1968     		ldr	r1, [r3]
+ 332 010c 40F20C72 		movw	r2, #1804
+ 333 0110 CA62     		str	r2, [r1, #44]
+ 334              		.loc 1 172 4 view .LVU81
+ 335 0112 DA60     		str	r2, [r3, #12]
+ 336              		.loc 1 172 4 view .LVU82
+ 173:Devices/Devices.c/Buzzer.c **** 			break;
+ 337              		.loc 1 173 4 view .LVU83
+ 338 0114 7047     		bx	lr
+ 339              	.L34:
+ 174:Devices/Devices.c/Buzzer.c **** 		}	
+ 175:Devices/Devices.c/Buzzer.c **** 		case Mid_Re:
+ 176:Devices/Devices.c/Buzzer.c **** 		{
+ 177:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1702);
+ 340              		.loc 1 177 4 view .LVU84
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 10
+
+
+ 341              		.loc 1 177 4 view .LVU85
+ 342 0116 4D4B     		ldr	r3, .L50
+ 343 0118 1968     		ldr	r1, [r3]
+ 344 011a 40F2A662 		movw	r2, #1702
+ 345 011e CA62     		str	r2, [r1, #44]
+ 346              		.loc 1 177 4 view .LVU86
+ 347 0120 DA60     		str	r2, [r3, #12]
+ 348              		.loc 1 177 4 view .LVU87
+ 178:Devices/Devices.c/Buzzer.c **** 			break;
+ 349              		.loc 1 178 4 view .LVU88
+ 350 0122 7047     		bx	lr
+ 351              	.L33:
+ 179:Devices/Devices.c/Buzzer.c **** 		}	
+ 180:Devices/Devices.c/Buzzer.c **** 		case Mid_Re_N:
+ 181:Devices/Devices.c/Buzzer.c **** 		{
+ 182:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1607);
+ 352              		.loc 1 182 4 view .LVU89
+ 353              		.loc 1 182 4 view .LVU90
+ 354 0124 494B     		ldr	r3, .L50
+ 355 0126 1968     		ldr	r1, [r3]
+ 356 0128 40F24762 		movw	r2, #1607
+ 357 012c CA62     		str	r2, [r1, #44]
+ 358              		.loc 1 182 4 view .LVU91
+ 359 012e DA60     		str	r2, [r3, #12]
+ 360              		.loc 1 182 4 view .LVU92
+ 183:Devices/Devices.c/Buzzer.c **** 			break;
+ 361              		.loc 1 183 4 view .LVU93
+ 362 0130 7047     		bx	lr
+ 363              	.L32:
+ 184:Devices/Devices.c/Buzzer.c **** 		}	
+ 185:Devices/Devices.c/Buzzer.c **** 		case Mid_Mi:
+ 186:Devices/Devices.c/Buzzer.c **** 		{
+ 187:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1516);
+ 364              		.loc 1 187 4 view .LVU94
+ 365              		.loc 1 187 4 view .LVU95
+ 366 0132 464B     		ldr	r3, .L50
+ 367 0134 1968     		ldr	r1, [r3]
+ 368 0136 40F2EC52 		movw	r2, #1516
+ 369 013a CA62     		str	r2, [r1, #44]
+ 370              		.loc 1 187 4 view .LVU96
+ 371 013c DA60     		str	r2, [r3, #12]
+ 372              		.loc 1 187 4 view .LVU97
+ 188:Devices/Devices.c/Buzzer.c **** 			break;
+ 373              		.loc 1 188 4 view .LVU98
+ 374 013e 7047     		bx	lr
+ 375              	.L31:
+ 189:Devices/Devices.c/Buzzer.c **** 		}	
+ 190:Devices/Devices.c/Buzzer.c **** 		case Mid_Fa:
+ 191:Devices/Devices.c/Buzzer.c **** 		{
+ 192:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1431);
+ 376              		.loc 1 192 4 view .LVU99
+ 377              		.loc 1 192 4 view .LVU100
+ 378 0140 424B     		ldr	r3, .L50
+ 379 0142 1968     		ldr	r1, [r3]
+ 380 0144 40F29752 		movw	r2, #1431
+ 381 0148 CA62     		str	r2, [r1, #44]
+ 382              		.loc 1 192 4 view .LVU101
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 11
+
+
+ 383 014a DA60     		str	r2, [r3, #12]
+ 384              		.loc 1 192 4 view .LVU102
+ 193:Devices/Devices.c/Buzzer.c **** 			break;
+ 385              		.loc 1 193 4 view .LVU103
+ 386 014c 7047     		bx	lr
+ 387              	.L30:
+ 194:Devices/Devices.c/Buzzer.c **** 		}	
+ 195:Devices/Devices.c/Buzzer.c **** 		case Mid_Fa_N:
+ 196:Devices/Devices.c/Buzzer.c **** 		{
+ 197:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1351);
+ 388              		.loc 1 197 4 view .LVU104
+ 389              		.loc 1 197 4 view .LVU105
+ 390 014e 3F4B     		ldr	r3, .L50
+ 391 0150 1968     		ldr	r1, [r3]
+ 392 0152 40F24752 		movw	r2, #1351
+ 393 0156 CA62     		str	r2, [r1, #44]
+ 394              		.loc 1 197 4 view .LVU106
+ 395 0158 DA60     		str	r2, [r3, #12]
+ 396              		.loc 1 197 4 view .LVU107
+ 198:Devices/Devices.c/Buzzer.c **** 			break;
+ 397              		.loc 1 198 4 view .LVU108
+ 398 015a 7047     		bx	lr
+ 399              	.L29:
+ 199:Devices/Devices.c/Buzzer.c **** 		}	
+ 200:Devices/Devices.c/Buzzer.c **** 		case Mid_So:
+ 201:Devices/Devices.c/Buzzer.c **** 		{
+ 202:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1275);
+ 400              		.loc 1 202 4 view .LVU109
+ 401              		.loc 1 202 4 view .LVU110
+ 402 015c 3B4B     		ldr	r3, .L50
+ 403 015e 1968     		ldr	r1, [r3]
+ 404 0160 40F2FB42 		movw	r2, #1275
+ 405 0164 CA62     		str	r2, [r1, #44]
+ 406              		.loc 1 202 4 view .LVU111
+ 407 0166 DA60     		str	r2, [r3, #12]
+ 408              		.loc 1 202 4 view .LVU112
+ 203:Devices/Devices.c/Buzzer.c **** 			break;
+ 409              		.loc 1 203 4 view .LVU113
+ 410 0168 7047     		bx	lr
+ 411              	.L28:
+ 204:Devices/Devices.c/Buzzer.c **** 		}	
+ 205:Devices/Devices.c/Buzzer.c **** 		case Mid_So_N:
+ 206:Devices/Devices.c/Buzzer.c **** 		{
+ 207:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1204);
+ 412              		.loc 1 207 4 view .LVU114
+ 413              		.loc 1 207 4 view .LVU115
+ 414 016a 384B     		ldr	r3, .L50
+ 415 016c 1968     		ldr	r1, [r3]
+ 416 016e 40F2B442 		movw	r2, #1204
+ 417 0172 CA62     		str	r2, [r1, #44]
+ 418              		.loc 1 207 4 view .LVU116
+ 419 0174 DA60     		str	r2, [r3, #12]
+ 420              		.loc 1 207 4 view .LVU117
+ 208:Devices/Devices.c/Buzzer.c **** 			break;
+ 421              		.loc 1 208 4 view .LVU118
+ 422 0176 7047     		bx	lr
+ 423              	.L27:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 12
+
+
+ 209:Devices/Devices.c/Buzzer.c **** 		}
+ 210:Devices/Devices.c/Buzzer.c **** 		case Mid_La:
+ 211:Devices/Devices.c/Buzzer.c **** 		{
+ 212:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1135);
+ 424              		.loc 1 212 4 view .LVU119
+ 425              		.loc 1 212 4 view .LVU120
+ 426 0178 344B     		ldr	r3, .L50
+ 427 017a 1968     		ldr	r1, [r3]
+ 428 017c 40F26F42 		movw	r2, #1135
+ 429 0180 CA62     		str	r2, [r1, #44]
+ 430              		.loc 1 212 4 view .LVU121
+ 431 0182 DA60     		str	r2, [r3, #12]
+ 432              		.loc 1 212 4 view .LVU122
+ 213:Devices/Devices.c/Buzzer.c **** 			break;
+ 433              		.loc 1 213 4 view .LVU123
+ 434 0184 7047     		bx	lr
+ 435              	.L26:
+ 214:Devices/Devices.c/Buzzer.c **** 		}	
+ 215:Devices/Devices.c/Buzzer.c **** 		case Mid_La_N:
+ 216:Devices/Devices.c/Buzzer.c **** 		{
+ 217:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1073);
+ 436              		.loc 1 217 4 view .LVU124
+ 437              		.loc 1 217 4 view .LVU125
+ 438 0186 314B     		ldr	r3, .L50
+ 439 0188 1968     		ldr	r1, [r3]
+ 440 018a 40F23142 		movw	r2, #1073
+ 441 018e CA62     		str	r2, [r1, #44]
+ 442              		.loc 1 217 4 view .LVU126
+ 443 0190 DA60     		str	r2, [r3, #12]
+ 444              		.loc 1 217 4 view .LVU127
+ 218:Devices/Devices.c/Buzzer.c **** 			break;
+ 445              		.loc 1 218 4 view .LVU128
+ 446 0192 7047     		bx	lr
+ 447              	.L25:
+ 219:Devices/Devices.c/Buzzer.c **** 		}	
+ 220:Devices/Devices.c/Buzzer.c **** 		case Mid_Ti:
+ 221:Devices/Devices.c/Buzzer.c **** 		{
+ 222:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,1011);
+ 448              		.loc 1 222 4 view .LVU129
+ 449              		.loc 1 222 4 view .LVU130
+ 450 0194 2D4B     		ldr	r3, .L50
+ 451 0196 1968     		ldr	r1, [r3]
+ 452 0198 40F2F332 		movw	r2, #1011
+ 453 019c CA62     		str	r2, [r1, #44]
+ 454              		.loc 1 222 4 view .LVU131
+ 455 019e DA60     		str	r2, [r3, #12]
+ 456              		.loc 1 222 4 view .LVU132
+ 223:Devices/Devices.c/Buzzer.c **** 			break;
+ 457              		.loc 1 223 4 view .LVU133
+ 458 01a0 7047     		bx	lr
+ 459              	.L24:
+ 224:Devices/Devices.c/Buzzer.c **** 		}
+ 225:Devices/Devices.c/Buzzer.c **** 		case High_Do:
+ 226:Devices/Devices.c/Buzzer.c **** 		{
+ 227:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,955);
+ 460              		.loc 1 227 4 view .LVU134
+ 461              		.loc 1 227 4 view .LVU135
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 13
+
+
+ 462 01a2 2A4B     		ldr	r3, .L50
+ 463 01a4 1968     		ldr	r1, [r3]
+ 464 01a6 40F2BB32 		movw	r2, #955
+ 465 01aa CA62     		str	r2, [r1, #44]
+ 466              		.loc 1 227 4 view .LVU136
+ 467 01ac DA60     		str	r2, [r3, #12]
+ 468              		.loc 1 227 4 view .LVU137
+ 228:Devices/Devices.c/Buzzer.c **** 			break;
+ 469              		.loc 1 228 4 view .LVU138
+ 470 01ae 7047     		bx	lr
+ 471              	.L23:
+ 229:Devices/Devices.c/Buzzer.c **** 		}	
+ 230:Devices/Devices.c/Buzzer.c **** 		case High_Do_N:
+ 231:Devices/Devices.c/Buzzer.c **** 		{
+ 232:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,902);
+ 472              		.loc 1 232 4 view .LVU139
+ 473              		.loc 1 232 4 view .LVU140
+ 474 01b0 264B     		ldr	r3, .L50
+ 475 01b2 1968     		ldr	r1, [r3]
+ 476 01b4 40F28632 		movw	r2, #902
+ 477 01b8 CA62     		str	r2, [r1, #44]
+ 478              		.loc 1 232 4 view .LVU141
+ 479 01ba DA60     		str	r2, [r3, #12]
+ 480              		.loc 1 232 4 view .LVU142
+ 233:Devices/Devices.c/Buzzer.c **** 			break;
+ 481              		.loc 1 233 4 view .LVU143
+ 482 01bc 7047     		bx	lr
+ 483              	.L22:
+ 234:Devices/Devices.c/Buzzer.c **** 		}	
+ 235:Devices/Devices.c/Buzzer.c **** 		case High_Re:
+ 236:Devices/Devices.c/Buzzer.c **** 		{
+ 237:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,850);
+ 484              		.loc 1 237 4 view .LVU144
+ 485              		.loc 1 237 4 view .LVU145
+ 486 01be 234B     		ldr	r3, .L50
+ 487 01c0 1968     		ldr	r1, [r3]
+ 488 01c2 40F25232 		movw	r2, #850
+ 489 01c6 CA62     		str	r2, [r1, #44]
+ 490              		.loc 1 237 4 view .LVU146
+ 491 01c8 DA60     		str	r2, [r3, #12]
+ 492              		.loc 1 237 4 view .LVU147
+ 238:Devices/Devices.c/Buzzer.c **** 			break;
+ 493              		.loc 1 238 4 view .LVU148
+ 494 01ca 7047     		bx	lr
+ 495              	.L21:
+ 239:Devices/Devices.c/Buzzer.c **** 		}	
+ 240:Devices/Devices.c/Buzzer.c **** 		case High_Re_N:
+ 241:Devices/Devices.c/Buzzer.c **** 		{
+ 242:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,804);
+ 496              		.loc 1 242 4 view .LVU149
+ 497              		.loc 1 242 4 view .LVU150
+ 498 01cc 1F4B     		ldr	r3, .L50
+ 499 01ce 1968     		ldr	r1, [r3]
+ 500 01d0 4FF44972 		mov	r2, #804
+ 501 01d4 CA62     		str	r2, [r1, #44]
+ 502              		.loc 1 242 4 view .LVU151
+ 503 01d6 DA60     		str	r2, [r3, #12]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 14
+
+
+ 504              		.loc 1 242 4 view .LVU152
+ 243:Devices/Devices.c/Buzzer.c **** 			break;
+ 505              		.loc 1 243 4 view .LVU153
+ 506 01d8 7047     		bx	lr
+ 507              	.L20:
+ 244:Devices/Devices.c/Buzzer.c **** 		}	
+ 245:Devices/Devices.c/Buzzer.c **** 		case High_Mi:
+ 246:Devices/Devices.c/Buzzer.c **** 		{
+ 247:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,757);
+ 508              		.loc 1 247 4 view .LVU154
+ 509              		.loc 1 247 4 view .LVU155
+ 510 01da 1C4B     		ldr	r3, .L50
+ 511 01dc 1968     		ldr	r1, [r3]
+ 512 01de 40F2F522 		movw	r2, #757
+ 513 01e2 CA62     		str	r2, [r1, #44]
+ 514              		.loc 1 247 4 view .LVU156
+ 515 01e4 DA60     		str	r2, [r3, #12]
+ 516              		.loc 1 247 4 view .LVU157
+ 248:Devices/Devices.c/Buzzer.c **** 			break;
+ 517              		.loc 1 248 4 view .LVU158
+ 518 01e6 7047     		bx	lr
+ 519              	.L19:
+ 249:Devices/Devices.c/Buzzer.c **** 		}	
+ 250:Devices/Devices.c/Buzzer.c **** 		case High_Fa:
+ 251:Devices/Devices.c/Buzzer.c **** 		{
+ 252:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,715);
+ 520              		.loc 1 252 4 view .LVU159
+ 521              		.loc 1 252 4 view .LVU160
+ 522 01e8 184B     		ldr	r3, .L50
+ 523 01ea 1968     		ldr	r1, [r3]
+ 524 01ec 40F2CB22 		movw	r2, #715
+ 525 01f0 CA62     		str	r2, [r1, #44]
+ 526              		.loc 1 252 4 view .LVU161
+ 527 01f2 DA60     		str	r2, [r3, #12]
+ 528              		.loc 1 252 4 view .LVU162
+ 253:Devices/Devices.c/Buzzer.c **** 			break;
+ 529              		.loc 1 253 4 view .LVU163
+ 530 01f4 7047     		bx	lr
+ 531              	.L18:
+ 254:Devices/Devices.c/Buzzer.c **** 		}	
+ 255:Devices/Devices.c/Buzzer.c **** 		case High_Fa_N:
+ 256:Devices/Devices.c/Buzzer.c **** 		{
+ 257:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,676);
+ 532              		.loc 1 257 4 view .LVU164
+ 533              		.loc 1 257 4 view .LVU165
+ 534 01f6 154B     		ldr	r3, .L50
+ 535 01f8 1968     		ldr	r1, [r3]
+ 536 01fa 4FF42972 		mov	r2, #676
+ 537 01fe CA62     		str	r2, [r1, #44]
+ 538              		.loc 1 257 4 view .LVU166
+ 539 0200 DA60     		str	r2, [r3, #12]
+ 540              		.loc 1 257 4 view .LVU167
+ 258:Devices/Devices.c/Buzzer.c **** 			break;
+ 541              		.loc 1 258 4 view .LVU168
+ 542 0202 7047     		bx	lr
+ 543              	.L17:
+ 259:Devices/Devices.c/Buzzer.c **** 		}	
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 15
+
+
+ 260:Devices/Devices.c/Buzzer.c **** 		case High_So:
+ 261:Devices/Devices.c/Buzzer.c **** 		{
+ 262:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,637);
+ 544              		.loc 1 262 4 view .LVU169
+ 545              		.loc 1 262 4 view .LVU170
+ 546 0204 114B     		ldr	r3, .L50
+ 547 0206 1968     		ldr	r1, [r3]
+ 548 0208 40F27D22 		movw	r2, #637
+ 549 020c CA62     		str	r2, [r1, #44]
+ 550              		.loc 1 262 4 view .LVU171
+ 551 020e DA60     		str	r2, [r3, #12]
+ 552              		.loc 1 262 4 view .LVU172
+ 263:Devices/Devices.c/Buzzer.c **** 			break;
+ 553              		.loc 1 263 4 view .LVU173
+ 554 0210 7047     		bx	lr
+ 555              	.L16:
+ 264:Devices/Devices.c/Buzzer.c **** 		}	
+ 265:Devices/Devices.c/Buzzer.c **** 		case High_So_N:
+ 266:Devices/Devices.c/Buzzer.c **** 		{
+ 267:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,602);
+ 556              		.loc 1 267 4 view .LVU174
+ 557              		.loc 1 267 4 view .LVU175
+ 558 0212 0E4B     		ldr	r3, .L50
+ 559 0214 1968     		ldr	r1, [r3]
+ 560 0216 40F25A22 		movw	r2, #602
+ 561 021a CA62     		str	r2, [r1, #44]
+ 562              		.loc 1 267 4 view .LVU176
+ 563 021c DA60     		str	r2, [r3, #12]
+ 564              		.loc 1 267 4 view .LVU177
+ 268:Devices/Devices.c/Buzzer.c **** 			break;
+ 565              		.loc 1 268 4 view .LVU178
+ 566 021e 7047     		bx	lr
+ 567              	.L15:
+ 269:Devices/Devices.c/Buzzer.c **** 		}	
+ 270:Devices/Devices.c/Buzzer.c **** 		case High_La:
+ 271:Devices/Devices.c/Buzzer.c **** 		{
+ 272:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,567);
+ 568              		.loc 1 272 4 view .LVU179
+ 569              		.loc 1 272 4 view .LVU180
+ 570 0220 0A4B     		ldr	r3, .L50
+ 571 0222 1968     		ldr	r1, [r3]
+ 572 0224 40F23722 		movw	r2, #567
+ 573 0228 CA62     		str	r2, [r1, #44]
+ 574              		.loc 1 272 4 view .LVU181
+ 575 022a DA60     		str	r2, [r3, #12]
+ 576              		.loc 1 272 4 view .LVU182
+ 273:Devices/Devices.c/Buzzer.c **** 			break;
+ 577              		.loc 1 273 4 view .LVU183
+ 578 022c 7047     		bx	lr
+ 579              	.L14:
+ 274:Devices/Devices.c/Buzzer.c **** 		}	
+ 275:Devices/Devices.c/Buzzer.c **** 		case High_La_N:
+ 276:Devices/Devices.c/Buzzer.c **** 		{
+ 277:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,536);
+ 580              		.loc 1 277 4 view .LVU184
+ 581              		.loc 1 277 4 view .LVU185
+ 582 022e 074B     		ldr	r3, .L50
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 16
+
+
+ 583 0230 1968     		ldr	r1, [r3]
+ 584 0232 4FF40672 		mov	r2, #536
+ 585 0236 CA62     		str	r2, [r1, #44]
+ 586              		.loc 1 277 4 view .LVU186
+ 587 0238 DA60     		str	r2, [r3, #12]
+ 588              		.loc 1 277 4 view .LVU187
+ 278:Devices/Devices.c/Buzzer.c **** 			break;
+ 589              		.loc 1 278 4 view .LVU188
+ 590 023a 7047     		bx	lr
+ 591              	.L12:
+ 279:Devices/Devices.c/Buzzer.c **** 		}	
+ 280:Devices/Devices.c/Buzzer.c **** 		case High_Ti:
+ 281:Devices/Devices.c/Buzzer.c **** 		{
+ 282:Devices/Devices.c/Buzzer.c **** 			__HAL_TIM_SET_AUTORELOAD(&htim12,505);
+ 592              		.loc 1 282 4 view .LVU189
+ 593              		.loc 1 282 4 view .LVU190
+ 594 023c 034B     		ldr	r3, .L50
+ 595 023e 1968     		ldr	r1, [r3]
+ 596 0240 40F2F912 		movw	r2, #505
+ 597 0244 CA62     		str	r2, [r1, #44]
+ 598              		.loc 1 282 4 view .LVU191
+ 599 0246 DA60     		str	r2, [r3, #12]
+ 600              		.loc 1 282 4 view .LVU192
+ 283:Devices/Devices.c/Buzzer.c **** 			break;
+ 601              		.loc 1 283 4 view .LVU193
+ 602              	.L10:
+ 284:Devices/Devices.c/Buzzer.c **** 		}
+ 285:Devices/Devices.c/Buzzer.c **** 	}
+ 286:Devices/Devices.c/Buzzer.c **** }
+ 603              		.loc 1 286 1 is_stmt 0 view .LVU194
+ 604 0248 7047     		bx	lr
+ 605              	.L51:
+ 606 024a 00BF     		.align	2
+ 607              	.L50:
+ 608 024c 00000000 		.word	htim12
+ 609              		.cfi_endproc
+ 610              	.LFE139:
+ 612              		.section	.text.Buzzer_Robot_Initializing,"ax",%progbits
+ 613              		.align	1
+ 614              		.global	Buzzer_Robot_Initializing
+ 615              		.syntax unified
+ 616              		.thumb
+ 617              		.thumb_func
+ 619              	Buzzer_Robot_Initializing:
+ 620              	.LFB134:
+  34:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_Ti);
+ 621              		.loc 1 34 1 is_stmt 1 view -0
+ 622              		.cfi_startproc
+ 623              		@ args = 0, pretend = 0, frame = 0
+ 624              		@ frame_needed = 0, uses_anonymous_args = 0
+ 625 0000 08B5     		push	{r3, lr}
+ 626              	.LCFI2:
+ 627              		.cfi_def_cfa_offset 8
+ 628              		.cfi_offset 3, -8
+ 629              		.cfi_offset 14, -4
+  35:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 630              		.loc 1 35 2 view .LVU196
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 17
+
+
+ 631 0002 0B20     		movs	r0, #11
+ 632 0004 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 633              	.LVL5:
+  36:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+ 634              		.loc 1 36 2 view .LVU197
+ 635 0008 C821     		movs	r1, #200
+ 636 000a 4FF48770 		mov	r0, #270
+ 637 000e FFF7FEFF 		bl	Buzzer_On
+ 638              	.LVL6:
+  37:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 639              		.loc 1 37 2 view .LVU198
+ 640 0012 0720     		movs	r0, #7
+ 641 0014 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 642              	.LVL7:
+  38:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+ 643              		.loc 1 38 2 view .LVU199
+ 644 0018 C821     		movs	r1, #200
+ 645 001a 4FF48770 		mov	r0, #270
+ 646 001e FFF7FEFF 		bl	Buzzer_On
+ 647              	.LVL8:
+  39:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 648              		.loc 1 39 2 view .LVU200
+ 649 0022 0E20     		movs	r0, #14
+ 650 0024 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 651              	.LVL9:
+  40:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+ 652              		.loc 1 40 2 view .LVU201
+ 653 0028 C821     		movs	r1, #200
+ 654 002a 4FF48770 		mov	r0, #270
+ 655 002e FFF7FEFF 		bl	Buzzer_On
+ 656              	.LVL10:
+  41:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 657              		.loc 1 41 2 view .LVU202
+ 658 0032 0720     		movs	r0, #7
+ 659 0034 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 660              	.LVL11:
+  42:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+ 661              		.loc 1 42 2 view .LVU203
+ 662 0038 C821     		movs	r1, #200
+ 663 003a 4FF48770 		mov	r0, #270
+ 664 003e FFF7FEFF 		bl	Buzzer_On
+ 665              	.LVL12:
+  43:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 666              		.loc 1 43 2 view .LVU204
+ 667 0042 0E20     		movs	r0, #14
+ 668 0044 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 669              	.LVL13:
+  44:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Mi);
+ 670              		.loc 1 44 2 view .LVU205
+ 671 0048 C821     		movs	r1, #200
+ 672 004a 4FF48770 		mov	r0, #270
+ 673 004e FFF7FEFF 		bl	Buzzer_On
+ 674              	.LVL14:
+  45:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 675              		.loc 1 45 2 view .LVU206
+ 676 0052 1020     		movs	r0, #16
+ 677 0054 FFF7FEFF 		bl	Buzzer_Choose_Note
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 18
+
+
+ 678              	.LVL15:
+  46:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+ 679              		.loc 1 46 2 view .LVU207
+ 680 0058 C821     		movs	r1, #200
+ 681 005a 4FF48770 		mov	r0, #270
+ 682 005e FFF7FEFF 		bl	Buzzer_On
+ 683              	.LVL16:
+  47:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 684              		.loc 1 47 2 view .LVU208
+ 685 0062 0E20     		movs	r0, #14
+ 686 0064 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 687              	.LVL17:
+  48:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+ 688              		.loc 1 48 2 view .LVU209
+ 689 0068 C821     		movs	r1, #200
+ 690 006a 4FF48770 		mov	r0, #270
+ 691 006e FFF7FEFF 		bl	Buzzer_On
+ 692              	.LVL18:
+  49:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 693              		.loc 1 49 2 view .LVU210
+ 694 0072 0720     		movs	r0, #7
+ 695 0074 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 696              	.LVL19:
+  50:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Mi);
+ 697              		.loc 1 50 2 view .LVU211
+ 698 0078 C821     		movs	r1, #200
+ 699 007a 4FF48770 		mov	r0, #270
+ 700 007e FFF7FEFF 		bl	Buzzer_On
+ 701              	.LVL20:
+  51:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 702              		.loc 1 51 2 view .LVU212
+ 703 0082 1020     		movs	r0, #16
+ 704 0084 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 705              	.LVL21:
+  52:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+ 706              		.loc 1 52 2 view .LVU213
+ 707 0088 C821     		movs	r1, #200
+ 708 008a 4FF48770 		mov	r0, #270
+ 709 008e FFF7FEFF 		bl	Buzzer_On
+ 710              	.LVL22:
+  53:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 711              		.loc 1 53 2 view .LVU214
+ 712 0092 0E20     		movs	r0, #14
+ 713 0094 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 714              	.LVL23:
+  54:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Low_So);
+ 715              		.loc 1 54 2 view .LVU215
+ 716 0098 C821     		movs	r1, #200
+ 717 009a 4FF48770 		mov	r0, #270
+ 718 009e FFF7FEFF 		bl	Buzzer_On
+ 719              	.LVL24:
+  55:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 200);
+ 720              		.loc 1 55 2 view .LVU216
+ 721 00a2 0720     		movs	r0, #7
+ 722 00a4 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 723              	.LVL25:
+  56:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Re);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 19
+
+
+ 724              		.loc 1 56 2 view .LVU217
+ 725 00a8 C821     		movs	r1, #200
+ 726 00aa 4FF48770 		mov	r0, #270
+ 727 00ae FFF7FEFF 		bl	Buzzer_On
+ 728              	.LVL26:
+  57:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 500);
+ 729              		.loc 1 57 2 view .LVU218
+ 730 00b2 0E20     		movs	r0, #14
+ 731 00b4 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 732              	.LVL27:
+  58:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(1000);
+ 733              		.loc 1 58 2 view .LVU219
+ 734 00b8 4FF4FA71 		mov	r1, #500
+ 735 00bc 4FF48770 		mov	r0, #270
+ 736 00c0 FFF7FEFF 		bl	Buzzer_On
+ 737              	.LVL28:
+  59:Devices/Devices.c/Buzzer.c **** }
+ 738              		.loc 1 59 2 view .LVU220
+ 739 00c4 4FF47A70 		mov	r0, #1000
+ 740 00c8 FFF7FEFF 		bl	HAL_Delay
+ 741              	.LVL29:
+  60:Devices/Devices.c/Buzzer.c **** 
+ 742              		.loc 1 60 1 is_stmt 0 view .LVU221
+ 743 00cc 08BD     		pop	{r3, pc}
+ 744              		.cfi_endproc
+ 745              	.LFE134:
+ 747              		.section	.text.Buzzer_Robot_Is_Initialized,"ax",%progbits
+ 748              		.align	1
+ 749              		.global	Buzzer_Robot_Is_Initialized
+ 750              		.syntax unified
+ 751              		.thumb
+ 752              		.thumb_func
+ 754              	Buzzer_Robot_Is_Initialized:
+ 755              	.LFB135:
+  64:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Do);
+ 756              		.loc 1 64 1 is_stmt 1 view -0
+ 757              		.cfi_startproc
+ 758              		@ args = 0, pretend = 0, frame = 0
+ 759              		@ frame_needed = 0, uses_anonymous_args = 0
+ 760 0000 08B5     		push	{r3, lr}
+ 761              	.LCFI3:
+ 762              		.cfi_def_cfa_offset 8
+ 763              		.cfi_offset 3, -8
+ 764              		.cfi_offset 14, -4
+  65:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 100);
+ 765              		.loc 1 65 2 view .LVU223
+ 766 0002 0C20     		movs	r0, #12
+ 767 0004 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 768              	.LVL30:
+  66:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(50);
+ 769              		.loc 1 66 2 view .LVU224
+ 770 0008 6421     		movs	r1, #100
+ 771 000a 4FF48770 		mov	r0, #270
+ 772 000e FFF7FEFF 		bl	Buzzer_On
+ 773              	.LVL31:
+  67:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Do);
+ 774              		.loc 1 67 2 view .LVU225
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 20
+
+
+ 775 0012 3220     		movs	r0, #50
+ 776 0014 FFF7FEFF 		bl	HAL_Delay
+ 777              	.LVL32:
+  68:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 100);
+ 778              		.loc 1 68 2 view .LVU226
+ 779 0018 0C20     		movs	r0, #12
+ 780 001a FFF7FEFF 		bl	Buzzer_Choose_Note
+ 781              	.LVL33:
+  69:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(50);
+ 782              		.loc 1 69 2 view .LVU227
+ 783 001e 6421     		movs	r1, #100
+ 784 0020 4FF48770 		mov	r0, #270
+ 785 0024 FFF7FEFF 		bl	Buzzer_On
+ 786              	.LVL34:
+  70:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_Do);
+ 787              		.loc 1 70 2 view .LVU228
+ 788 0028 3220     		movs	r0, #50
+ 789 002a FFF7FEFF 		bl	HAL_Delay
+ 790              	.LVL35:
+  71:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 100);
+ 791              		.loc 1 71 2 view .LVU229
+ 792 002e 0C20     		movs	r0, #12
+ 793 0030 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 794              	.LVL36:
+  72:Devices/Devices.c/Buzzer.c **** 	HAL_Delay(50);
+ 795              		.loc 1 72 2 view .LVU230
+ 796 0034 6421     		movs	r1, #100
+ 797 0036 4FF48770 		mov	r0, #270
+ 798 003a FFF7FEFF 		bl	Buzzer_On
+ 799              	.LVL37:
+  73:Devices/Devices.c/Buzzer.c **** 	Buzzer_Choose_Note(Mid_So);
+ 800              		.loc 1 73 2 view .LVU231
+ 801 003e 3220     		movs	r0, #50
+ 802 0040 FFF7FEFF 		bl	HAL_Delay
+ 803              	.LVL38:
+  74:Devices/Devices.c/Buzzer.c **** 	Buzzer_On(MAX_VOLUME, 1000);
+ 804              		.loc 1 74 2 view .LVU232
+ 805 0044 1320     		movs	r0, #19
+ 806 0046 FFF7FEFF 		bl	Buzzer_Choose_Note
+ 807              	.LVL39:
+  75:Devices/Devices.c/Buzzer.c **** }
+ 808              		.loc 1 75 2 view .LVU233
+ 809 004a 4FF47A71 		mov	r1, #1000
+ 810 004e 4FF48770 		mov	r0, #270
+ 811 0052 FFF7FEFF 		bl	Buzzer_On
+ 812              	.LVL40:
+  76:Devices/Devices.c/Buzzer.c **** 
+ 813              		.loc 1 76 1 is_stmt 0 view .LVU234
+ 814 0056 08BD     		pop	{r3, pc}
+ 815              		.cfi_endproc
+ 816              	.LFE135:
+ 818              		.section	.text.Buzzer_Play_Song,"ax",%progbits
+ 819              		.align	1
+ 820              		.global	Buzzer_Play_Song
+ 821              		.syntax unified
+ 822              		.thumb
+ 823              		.thumb_func
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 21
+
+
+ 825              	Buzzer_Play_Song:
+ 826              	.LVL41:
+ 827              	.LFB137:
+  84:Devices/Devices.c/Buzzer.c **** 	for(int i = 0; i < Song_Length; i++)
+ 828              		.loc 1 84 1 is_stmt 1 view -0
+ 829              		.cfi_startproc
+ 830              		@ args = 0, pretend = 0, frame = 0
+ 831              		@ frame_needed = 0, uses_anonymous_args = 0
+  84:Devices/Devices.c/Buzzer.c **** 	for(int i = 0; i < Song_Length; i++)
+ 832              		.loc 1 84 1 is_stmt 0 view .LVU236
+ 833 0000 70B5     		push	{r4, r5, r6, lr}
+ 834              	.LCFI4:
+ 835              		.cfi_def_cfa_offset 16
+ 836              		.cfi_offset 4, -16
+ 837              		.cfi_offset 5, -12
+ 838              		.cfi_offset 6, -8
+ 839              		.cfi_offset 14, -4
+ 840 0002 0646     		mov	r6, r0
+ 841 0004 0D46     		mov	r5, r1
+  85:Devices/Devices.c/Buzzer.c **** 	{
+ 842              		.loc 1 85 2 is_stmt 1 view .LVU237
+ 843              	.LBB2:
+  85:Devices/Devices.c/Buzzer.c **** 	{
+ 844              		.loc 1 85 6 view .LVU238
+ 845              	.LVL42:
+  85:Devices/Devices.c/Buzzer.c **** 	{
+ 846              		.loc 1 85 10 is_stmt 0 view .LVU239
+ 847 0006 0024     		movs	r4, #0
+  85:Devices/Devices.c/Buzzer.c **** 	{
+ 848              		.loc 1 85 2 view .LVU240
+ 849 0008 04E0     		b	.L57
+ 850              	.LVL43:
+ 851              	.L58:
+  87:Devices/Devices.c/Buzzer.c **** 		//Buzzer_On(MAX_VOLUME);
+ 852              		.loc 1 87 3 is_stmt 1 discriminator 3 view .LVU241
+ 853 000a 36F81400 		ldrh	r0, [r6, r4, lsl #1]
+ 854 000e FFF7FEFF 		bl	Buzzer_Choose_Note
+ 855              	.LVL44:
+  85:Devices/Devices.c/Buzzer.c **** 	{
+ 856              		.loc 1 85 35 discriminator 3 view .LVU242
+ 857 0012 0134     		adds	r4, r4, #1
+ 858              	.LVL45:
+ 859              	.L57:
+  85:Devices/Devices.c/Buzzer.c **** 	{
+ 860              		.loc 1 85 19 discriminator 1 view .LVU243
+ 861 0014 A542     		cmp	r5, r4
+ 862 0016 F8DC     		bgt	.L58
+ 863              	.LBE2:
+  90:Devices/Devices.c/Buzzer.c **** 
+ 864              		.loc 1 90 1 is_stmt 0 view .LVU244
+ 865 0018 70BD     		pop	{r4, r5, r6, pc}
+  90:Devices/Devices.c/Buzzer.c **** 
+ 866              		.loc 1 90 1 view .LVU245
+ 867              		.cfi_endproc
+ 868              	.LFE137:
+ 870              		.global	Buzzer
+ 871              		.section	.bss.Buzzer,"aw",%nobits
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 22
+
+
+ 872              		.align	2
+ 875              	Buzzer:
+ 876 0000 00       		.space	1
+ 877              		.global	Buzzer_Func
+ 878              		.section	.data.Buzzer_Func,"aw"
+ 879              		.align	2
+ 882              	Buzzer_Func:
+ 883 0000 00000000 		.word	Buzzer_Init
+ 884 0004 00000000 		.word	Buzzer_Robot_Initializing
+ 885 0008 00000000 		.word	Buzzer_Robot_Is_Initialized
+ 886 000c 00000000 		.word	Buzzer_Modules_Offline
+ 887              		.text
+ 888              	.Letext0:
+ 889              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 890              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 891              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 892              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 893              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 894              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 895              		.file 8 "Devices/Devices.h/Buzzer.h"
+ 896              		.file 9 "Core/Inc/tim.h"
+ 897              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Buzzer.c
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:21     .text.Buzzer_Modules_Offline:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:27     .text.Buzzer_Modules_Offline:00000000 Buzzer_Modules_Offline
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:40     .text.Buzzer_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:46     .text.Buzzer_Init:00000000 Buzzer_Init
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:67     .text.Buzzer_Init:0000000c $d
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:72     .text.Buzzer_On:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:78     .text.Buzzer_On:00000000 Buzzer_On
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:110    .text.Buzzer_On:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:115    .text.Buzzer_Choose_Note:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:121    .text.Buzzer_Choose_Note:00000000 Buzzer_Choose_Note
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:134    .text.Buzzer_Choose_Note:0000000a $d
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:170    .text.Buzzer_Choose_Note:00000052 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:608    .text.Buzzer_Choose_Note:0000024c $d
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:613    .text.Buzzer_Robot_Initializing:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:619    .text.Buzzer_Robot_Initializing:00000000 Buzzer_Robot_Initializing
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:748    .text.Buzzer_Robot_Is_Initialized:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:754    .text.Buzzer_Robot_Is_Initialized:00000000 Buzzer_Robot_Is_Initialized
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:819    .text.Buzzer_Play_Song:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:825    .text.Buzzer_Play_Song:00000000 Buzzer_Play_Song
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:875    .bss.Buzzer:00000000 Buzzer
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:872    .bss.Buzzer:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:882    .data.Buzzer_Func:00000000 Buzzer_Func
+C:\Users\purdu\AppData\Local\Temp\ccRSxNWr.s:879    .data.Buzzer_Func:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_TIM_PWM_Start
+htim12
+HAL_Delay

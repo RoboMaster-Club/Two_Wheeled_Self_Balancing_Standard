@@ -1,0 +1,339 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"M2006_Motor.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/M2006_Motor.c"
+  20              		.section	.text.M2006_Trigger_Get_Data,"ax",%progbits
+  21              		.align	1
+  22              		.global	M2006_Trigger_Get_Data
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	M2006_Trigger_Get_Data:
+  28              	.LFB138:
+   1:Devices/Devices.c/M2006_Motor.c **** /**
+   2:Devices/Devices.c/M2006_Motor.c ****  * @file M2006_Motor.c
+   3:Devices/Devices.c/M2006_Motor.c ****  * @author Leo Liu
+   4:Devices/Devices.c/M2006_Motor.c ****  * @brief M2006 communication
+   5:Devices/Devices.c/M2006_Motor.c ****  * @version 1.0
+   6:Devices/Devices.c/M2006_Motor.c ****  * @date 2022-07-08
+   7:Devices/Devices.c/M2006_Motor.c ****  * 
+   8:Devices/Devices.c/M2006_Motor.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/M2006_Motor.c ****  * 
+  10:Devices/Devices.c/M2006_Motor.c ****  */
+  11:Devices/Devices.c/M2006_Motor.c **** #include "M2006_Motor.h"
+  12:Devices/Devices.c/M2006_Motor.c **** #include <stdio.h>
+  13:Devices/Devices.c/M2006_Motor.c **** 
+  14:Devices/Devices.c/M2006_Motor.c **** Motor_Init_t M2006_Trigger;
+  15:Devices/Devices.c/M2006_Motor.c **** 
+  16:Devices/Devices.c/M2006_Motor.c **** void M2006_Trigger_Get_Data(CAN_Export_Data_t RxMessage);
+  17:Devices/Devices.c/M2006_Motor.c **** void M2006_Trigger_Send_Data(int16_t Trigger_Current);
+  18:Devices/Devices.c/M2006_Motor.c **** void Check_M2006_Trigger(void);
+  19:Devices/Devices.c/M2006_Motor.c **** 
+  20:Devices/Devices.c/M2006_Motor.c **** M2006_Func_t M2006_Func = M2006_Func_GroundInit;
+  21:Devices/Devices.c/M2006_Motor.c **** #undef M2006_Func_GroundInit
+  22:Devices/Devices.c/M2006_Motor.c **** 
+  23:Devices/Devices.c/M2006_Motor.c **** //Obatin trigger motor data from CAN
+  24:Devices/Devices.c/M2006_Motor.c **** void M2006_Trigger_Get_Data(CAN_Export_Data_t RxMessage)
+  25:Devices/Devices.c/M2006_Motor.c **** {
+  29              		.loc 1 25 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 36, pretend = 16, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s 			page 2
+
+
+  34 0000 84B0     		sub	sp, sp, #16
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 16
+  37 0002 8DE80F00 		stm	sp, {r0, r1, r2, r3}
+  26:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Prev_Angle = M2006_Trigger.Actual_Angle;
+  38              		.loc 1 26 2 view .LVU1
+  39              		.loc 1 26 42 is_stmt 0 view .LVU2
+  40 0006 1849     		ldr	r1, .L5
+  41 0008 B1F90020 		ldrsh	r2, [r1]
+  42              		.loc 1 26 27 view .LVU3
+  43 000c 4A80     		strh	r2, [r1, #2]	@ movhi
+  27:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Actual_Angle = (int16_t)(RxMessage.CANx_Export_RxMessage[0] << 8 | RxMessage.CANx_Ex
+  44              		.loc 1 27 2 is_stmt 1 view .LVU4
+  45              		.loc 1 27 72 is_stmt 0 view .LVU5
+  46 000e 9DF81C00 		ldrb	r0, [sp, #28]	@ zero_extendqisi2
+  47              		.loc 1 27 114 view .LVU6
+  48 0012 9DF81D30 		ldrb	r3, [sp, #29]	@ zero_extendqisi2
+  49              		.loc 1 27 31 view .LVU7
+  50 0016 43EA0023 		orr	r3, r3, r0, lsl #8
+  51 001a 1BB2     		sxth	r3, r3
+  52              		.loc 1 27 29 view .LVU8
+  53 001c 0B80     		strh	r3, [r1]	@ movhi
+  28:Devices/Devices.c/M2006_Motor.c ****   M2006_Trigger.Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage.CANx_E
+  54              		.loc 1 28 3 is_stmt 1 view .LVU9
+  55              		.loc 1 28 73 is_stmt 0 view .LVU10
+  56 001e 9DF81EC0 		ldrb	ip, [sp, #30]	@ zero_extendqisi2
+  57              		.loc 1 28 115 view .LVU11
+  58 0022 9DF81F00 		ldrb	r0, [sp, #31]	@ zero_extendqisi2
+  59              		.loc 1 28 32 view .LVU12
+  60 0026 40EA0C20 		orr	r0, r0, ip, lsl #8
+  61              		.loc 1 28 30 view .LVU13
+  62 002a 8880     		strh	r0, [r1, #4]	@ movhi
+  29:Devices/Devices.c/M2006_Motor.c **** 	if((M2006_Trigger.Actual_Angle - M2006_Trigger.Prev_Angle) < -6500 )
+  63              		.loc 1 29 2 is_stmt 1 view .LVU14
+  64              		.loc 1 29 33 is_stmt 0 view .LVU15
+  65 002c 9A1A     		subs	r2, r3, r2
+  66              		.loc 1 29 4 view .LVU16
+  67 002e 0F49     		ldr	r1, .L5+4
+  68 0030 8A42     		cmp	r2, r1
+  69 0032 0FDA     		bge	.L2
+  30:Devices/Devices.c/M2006_Motor.c **** 		M2006_Trigger.Turn_Count++;
+  70              		.loc 1 30 3 is_stmt 1 view .LVU17
+  71              		.loc 1 30 16 is_stmt 0 view .LVU18
+  72 0034 0C49     		ldr	r1, .L5
+  73 0036 B1F91820 		ldrsh	r2, [r1, #24]
+  74              		.loc 1 30 27 view .LVU19
+  75 003a 0132     		adds	r2, r2, #1
+  76 003c 0A83     		strh	r2, [r1, #24]	@ movhi
+  77              	.L3:
+  31:Devices/Devices.c/M2006_Motor.c **** 	else if((M2006_Trigger.Actual_Angle - M2006_Trigger.Prev_Angle) > 6500)
+  32:Devices/Devices.c/M2006_Motor.c **** 		M2006_Trigger.Turn_Count--;
+  33:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Total_Angle = M2006_Trigger.Actual_Angle + (M2006_MECH_ANGLE_MAX * M2006_Trigger.Tur
+  78              		.loc 1 33 2 is_stmt 1 view .LVU20
+  79              		.loc 1 33 96 is_stmt 0 view .LVU21
+  80 003e 0A4A     		ldr	r2, .L5
+  81 0040 B2F91810 		ldrsh	r1, [r2, #24]
+  82              		.loc 1 33 57 view .LVU22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s 			page 3
+
+
+  83 0044 03EB4133 		add	r3, r3, r1, lsl #13
+  84              		.loc 1 33 28 view .LVU23
+  85 0048 5361     		str	r3, [r2, #20]
+  34:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Info_Update_Frame++;
+  86              		.loc 1 34 2 is_stmt 1 view .LVU24
+  87              		.loc 1 34 15 is_stmt 0 view .LVU25
+  88 004a 938B     		ldrh	r3, [r2, #28]
+  89              		.loc 1 34 33 view .LVU26
+  90 004c 0133     		adds	r3, r3, #1
+  91 004e 9383     		strh	r3, [r2, #28]	@ movhi
+  35:Devices/Devices.c/M2006_Motor.c **** }
+  92              		.loc 1 35 1 view .LVU27
+  93 0050 04B0     		add	sp, sp, #16
+  94              	.LCFI1:
+  95              		.cfi_remember_state
+  96              		.cfi_def_cfa_offset 0
+  97 0052 7047     		bx	lr
+  98              	.L2:
+  99              	.LCFI2:
+ 100              		.cfi_restore_state
+  31:Devices/Devices.c/M2006_Motor.c **** 	else if((M2006_Trigger.Actual_Angle - M2006_Trigger.Prev_Angle) > 6500)
+ 101              		.loc 1 31 7 is_stmt 1 view .LVU28
+  31:Devices/Devices.c/M2006_Motor.c **** 	else if((M2006_Trigger.Actual_Angle - M2006_Trigger.Prev_Angle) > 6500)
+ 102              		.loc 1 31 9 is_stmt 0 view .LVU29
+ 103 0054 41F66411 		movw	r1, #6500
+ 104 0058 8A42     		cmp	r2, r1
+ 105 005a F0DD     		ble	.L3
+  32:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Total_Angle = M2006_Trigger.Actual_Angle + (M2006_MECH_ANGLE_MAX * M2006_Trigger.Tur
+ 106              		.loc 1 32 3 is_stmt 1 view .LVU30
+  32:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Total_Angle = M2006_Trigger.Actual_Angle + (M2006_MECH_ANGLE_MAX * M2006_Trigger.Tur
+ 107              		.loc 1 32 16 is_stmt 0 view .LVU31
+ 108 005c 0249     		ldr	r1, .L5
+ 109 005e B1F91820 		ldrsh	r2, [r1, #24]
+  32:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Total_Angle = M2006_Trigger.Actual_Angle + (M2006_MECH_ANGLE_MAX * M2006_Trigger.Tur
+ 110              		.loc 1 32 27 view .LVU32
+ 111 0062 013A     		subs	r2, r2, #1
+ 112 0064 0A83     		strh	r2, [r1, #24]	@ movhi
+ 113 0066 EAE7     		b	.L3
+ 114              	.L6:
+ 115              		.align	2
+ 116              	.L5:
+ 117 0068 00000000 		.word	M2006_Trigger
+ 118 006c 9CE6FFFF 		.word	-6500
+ 119              		.cfi_endproc
+ 120              	.LFE138:
+ 122              		.section	.text.M2006_Trigger_Send_Data,"ax",%progbits
+ 123              		.align	1
+ 124              		.global	M2006_Trigger_Send_Data
+ 125              		.syntax unified
+ 126              		.thumb
+ 127              		.thumb_func
+ 129              	M2006_Trigger_Send_Data:
+ 130              	.LVL0:
+ 131              	.LFB139:
+  36:Devices/Devices.c/M2006_Motor.c **** 
+  37:Devices/Devices.c/M2006_Motor.c **** //Send trigger data through specified identifier
+  38:Devices/Devices.c/M2006_Motor.c **** void M2006_Trigger_Send_Data(int16_t Trigger_Current)
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s 			page 4
+
+
+  39:Devices/Devices.c/M2006_Motor.c **** {
+ 132              		.loc 1 39 1 is_stmt 1 view -0
+ 133              		.cfi_startproc
+ 134              		@ args = 0, pretend = 0, frame = 0
+ 135              		@ frame_needed = 0, uses_anonymous_args = 0
+ 136              		.loc 1 39 1 is_stmt 0 view .LVU34
+ 137 0000 10B5     		push	{r4, lr}
+ 138              	.LCFI3:
+ 139              		.cfi_def_cfa_offset 8
+ 140              		.cfi_offset 4, -8
+ 141              		.cfi_offset 14, -4
+ 142 0002 82B0     		sub	sp, sp, #8
+ 143              	.LCFI4:
+ 144              		.cfi_def_cfa_offset 16
+ 145 0004 0246     		mov	r2, r0
+  40:Devices/Devices.c/M2006_Motor.c **** 	CAN_Func.CAN_0x1FF_Send_Data(&hcan2,0,Trigger_Current,0,0);
+ 146              		.loc 1 40 2 is_stmt 1 view .LVU35
+ 147              		.loc 1 40 10 is_stmt 0 view .LVU36
+ 148 0006 044B     		ldr	r3, .L9
+ 149 0008 DC68     		ldr	r4, [r3, #12]
+ 150              		.loc 1 40 2 view .LVU37
+ 151 000a 0021     		movs	r1, #0
+ 152 000c 0091     		str	r1, [sp]
+ 153 000e 0B46     		mov	r3, r1
+ 154 0010 0248     		ldr	r0, .L9+4
+ 155              	.LVL1:
+ 156              		.loc 1 40 2 view .LVU38
+ 157 0012 A047     		blx	r4
+ 158              	.LVL2:
+  41:Devices/Devices.c/M2006_Motor.c **** }
+ 159              		.loc 1 41 1 view .LVU39
+ 160 0014 02B0     		add	sp, sp, #8
+ 161              	.LCFI5:
+ 162              		.cfi_def_cfa_offset 8
+ 163              		@ sp needed
+ 164 0016 10BD     		pop	{r4, pc}
+ 165              	.L10:
+ 166              		.align	2
+ 167              	.L9:
+ 168 0018 00000000 		.word	CAN_Func
+ 169 001c 00000000 		.word	hcan2
+ 170              		.cfi_endproc
+ 171              	.LFE139:
+ 173              		.section	.text.Check_M2006_Trigger,"ax",%progbits
+ 174              		.align	1
+ 175              		.global	Check_M2006_Trigger
+ 176              		.syntax unified
+ 177              		.thumb
+ 178              		.thumb_func
+ 180              	Check_M2006_Trigger:
+ 181              	.LFB140:
+  42:Devices/Devices.c/M2006_Motor.c **** 
+  43:Devices/Devices.c/M2006_Motor.c **** void Check_M2006_Trigger(void)
+  44:Devices/Devices.c/M2006_Motor.c **** {
+ 182              		.loc 1 44 1 is_stmt 1 view -0
+ 183              		.cfi_startproc
+ 184              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s 			page 5
+
+
+ 185              		@ frame_needed = 0, uses_anonymous_args = 0
+ 186              		@ link register save eliminated.
+  45:Devices/Devices.c/M2006_Motor.c **** 	if(M2006_Trigger.Info_Update_Frame < 1)
+ 187              		.loc 1 45 2 view .LVU41
+ 188              		.loc 1 45 18 is_stmt 0 view .LVU42
+ 189 0000 064B     		ldr	r3, .L14
+ 190 0002 9B8B     		ldrh	r3, [r3, #28]
+ 191              		.loc 1 45 4 view .LVU43
+ 192 0004 33B9     		cbnz	r3, .L12
+  46:Devices/Devices.c/M2006_Motor.c **** 		M2006_Trigger.Offline_Flag = 1;
+ 193              		.loc 1 46 3 is_stmt 1 view .LVU44
+ 194              		.loc 1 46 30 is_stmt 0 view .LVU45
+ 195 0006 054B     		ldr	r3, .L14
+ 196 0008 0122     		movs	r2, #1
+ 197 000a 9A77     		strb	r2, [r3, #30]
+ 198              	.L13:
+  47:Devices/Devices.c/M2006_Motor.c **** 	else
+  48:Devices/Devices.c/M2006_Motor.c **** 		M2006_Trigger.Offline_Flag = 0;
+  49:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Info_Update_Frame = 0;
+ 199              		.loc 1 49 2 is_stmt 1 view .LVU46
+ 200              		.loc 1 49 34 is_stmt 0 view .LVU47
+ 201 000c 034B     		ldr	r3, .L14
+ 202 000e 0022     		movs	r2, #0
+ 203 0010 9A83     		strh	r2, [r3, #28]	@ movhi
+  50:Devices/Devices.c/M2006_Motor.c **** }
+ 204              		.loc 1 50 1 view .LVU48
+ 205 0012 7047     		bx	lr
+ 206              	.L12:
+  48:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Info_Update_Frame = 0;
+ 207              		.loc 1 48 3 is_stmt 1 view .LVU49
+  48:Devices/Devices.c/M2006_Motor.c **** 	M2006_Trigger.Info_Update_Frame = 0;
+ 208              		.loc 1 48 30 is_stmt 0 view .LVU50
+ 209 0014 014B     		ldr	r3, .L14
+ 210 0016 0022     		movs	r2, #0
+ 211 0018 9A77     		strb	r2, [r3, #30]
+ 212 001a F7E7     		b	.L13
+ 213              	.L15:
+ 214              		.align	2
+ 215              	.L14:
+ 216 001c 00000000 		.word	M2006_Trigger
+ 217              		.cfi_endproc
+ 218              	.LFE140:
+ 220              		.global	M2006_Func
+ 221              		.section	.data.M2006_Func,"aw"
+ 222              		.align	2
+ 225              	M2006_Func:
+ 226 0000 00000000 		.word	M2006_Trigger_Get_Data
+ 227 0004 00000000 		.word	M2006_Trigger_Send_Data
+ 228 0008 00000000 		.word	Check_M2006_Trigger
+ 229              		.global	M2006_Trigger
+ 230              		.section	.bss.M2006_Trigger,"aw",%nobits
+ 231              		.align	2
+ 234              	M2006_Trigger:
+ 235 0000 00000000 		.space	32
+ 235      00000000 
+ 235      00000000 
+ 235      00000000 
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s 			page 6
+
+
+ 235      00000000 
+ 236              		.text
+ 237              	.Letext0:
+ 238              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 239              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 240              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 241              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 242              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 243              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 244              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 245              		.file 9 "BSP/BSP.h/CAN_Setup.h"
+ 246              		.file 10 "Core/Inc/can.h"
+ 247              		.file 11 "Devices/Devices.h/Motor_Init.h"
+ 248              		.file 12 "Devices/Devices.h/M2006_Motor.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 M2006_Motor.c
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:21     .text.M2006_Trigger_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:27     .text.M2006_Trigger_Get_Data:00000000 M2006_Trigger_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:117    .text.M2006_Trigger_Get_Data:00000068 $d
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:234    .bss.M2006_Trigger:00000000 M2006_Trigger
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:123    .text.M2006_Trigger_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:129    .text.M2006_Trigger_Send_Data:00000000 M2006_Trigger_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:168    .text.M2006_Trigger_Send_Data:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:174    .text.Check_M2006_Trigger:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:180    .text.Check_M2006_Trigger:00000000 Check_M2006_Trigger
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:216    .text.Check_M2006_Trigger:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:225    .data.M2006_Func:00000000 M2006_Func
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:222    .data.M2006_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccbJkOVY.s:231    .bss.M2006_Trigger:00000000 $d
+
+UNDEFINED SYMBOLS
+CAN_Func
+hcan2

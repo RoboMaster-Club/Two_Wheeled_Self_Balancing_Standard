@@ -1,0 +1,1018 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Gimbal_Control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c"
+  20              		.section	.text.Gimbal_Init,"ax",%progbits
+  21              		.align	1
+  22              		.global	Gimbal_Init
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Gimbal_Init:
+  28              	.LFB162:
+   1:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** /**
+   2:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * @file Gimbal_Control.c
+   3:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * @author Leo Liu
+   4:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * @brief control gimbal
+   5:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * @version 1.0
+   6:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * @date 2022-07-11
+   7:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * 
+   8:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * @copyright Copyright (c) 2022
+   9:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  * 
+  10:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  */
+  11:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c ****  
+  12:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** #include "Gimbal_Control.h"
+  13:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+  14:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** void Gimbal_Init(void);
+  15:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** void Gimbal_Control_Get_Data(Gimbal_t *Gimbal);
+  16:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** void Gimbal_Processing(Gimbal_t *Gimbal);
+  17:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+  18:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** Gimbal_Func_t Gimbal_Func = Gimbal_Func_GroundInit;
+  19:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** #undef Gimbal_Func_GroundInit
+  20:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+  21:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** Gimbal_t Gimbal;
+  22:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+  23:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** void Gimbal_Init(void)
+  24:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** {
+  29              		.loc 1 24 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  25:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	//Set the origin for yaw and pitch
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 2
+
+
+  26:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	GM6020_Yaw.Target_Angle = Board_A_IMU.Export_Data.Total_Yaw;
+  34              		.loc 1 26 2 view .LVU1
+  35              		.loc 1 26 51 is_stmt 0 view .LVU2
+  36 0000 034B     		ldr	r3, .L2
+  37 0002 5A6E     		ldr	r2, [r3, #100]	@ float
+  38              		.loc 1 26 26 view .LVU3
+  39 0004 034B     		ldr	r3, .L2+4
+  40 0006 DA60     		str	r2, [r3, #12]	@ float
+  27:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	GM6020_Pitch.Target_Angle = PITCH_MID_ANGLE;
+  41              		.loc 1 27 2 is_stmt 1 view .LVU4
+  42              		.loc 1 27 28 is_stmt 0 view .LVU5
+  43 0008 034B     		ldr	r3, .L2+8
+  44 000a 044A     		ldr	r2, .L2+12
+  45 000c DA60     		str	r2, [r3, #12]	@ float
+  28:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** }
+  46              		.loc 1 28 1 view .LVU6
+  47 000e 7047     		bx	lr
+  48              	.L3:
+  49              		.align	2
+  50              	.L2:
+  51 0010 00000000 		.word	Board_A_IMU
+  52 0014 00000000 		.word	GM6020_Yaw
+  53 0018 00000000 		.word	GM6020_Pitch
+  54 001c 00004040 		.word	1077936128
+  55              		.cfi_endproc
+  56              	.LFE162:
+  58              		.section	.text.Gimbal_Processing,"ax",%progbits
+  59              		.align	1
+  60              		.global	Gimbal_Processing
+  61              		.syntax unified
+  62              		.thumb
+  63              		.thumb_func
+  65              	Gimbal_Processing:
+  66              	.LVL0:
+  67              	.LFB164:
+  29:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+  30:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** void Gimbal_Control_Get_Data(Gimbal_t *Gimbal)
+  31:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** {
+  32:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	//The multiplying/dividing constant are tested value and can be changed
+  33:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	if(State_Machine.Control_Source == Remote_Control)
+  34:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+  35:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Current_Yaw = YAW_DIRECTION * Board_A_IMU.Export_Data.Total_Yaw;
+  36:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= DR16_Export_Data.Remote_Control.Joystick_Right_Vx / 1000.0f;
+  37:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+  38:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Current_Pitch = PITCH_DIRECTION * Board_A_IMU.Export_Data.Pitch;
+  39:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+  40:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+  41:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+  42:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 					Gimbal->Target_Pitch += DR16_Export_Data.Remote_Control.Joystick_Right_Vy / 2200.0f;
+  43:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+  44:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+  45:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	
+  46:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	else if(State_Machine.Control_Source == Computer)
+  47:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+  48:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Current_Yaw = YAW_DIRECTION * Board_A_IMU.Export_Data.Total_Yaw;
+  49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= 0.01f * (float)DR16_Export_Data.Mouse.x;
+  50:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 3
+
+
+  51:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Current_Pitch = PITCH_DIRECTION * Board_A_IMU.Export_Data.Pitch;
+  52:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+  53:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Mouse.y < 0) || \
+  54:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Mouse.y > 0))
+  55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 					Gimbal->Target_Pitch -= (float)DR16_Export_Data.Mouse.y / 400.0f;
+  56:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+  57:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+  58:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** }
+  59:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+  60:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** void Gimbal_Processing(Gimbal_t *Gimbal)
+  61:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** {
+  68              		.loc 1 61 1 is_stmt 1 view -0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		.loc 1 61 1 is_stmt 0 view .LVU8
+  73 0000 38B5     		push	{r3, r4, r5, lr}
+  74              	.LCFI0:
+  75              		.cfi_def_cfa_offset 16
+  76              		.cfi_offset 3, -16
+  77              		.cfi_offset 4, -12
+  78              		.cfi_offset 5, -8
+  79              		.cfi_offset 14, -4
+  80 0002 0446     		mov	r4, r0
+  62:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	switch(State_Machine.Mode)
+  81              		.loc 1 62 2 is_stmt 1 view .LVU9
+  82              		.loc 1 62 22 is_stmt 0 view .LVU10
+  83 0004 774B     		ldr	r3, .L16
+  84 0006 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+  85              		.loc 1 62 2 view .LVU11
+  86 0008 062B     		cmp	r3, #6
+  87 000a 2BD8     		bhi	.L4
+  88 000c DFE813F0 		tbh	[pc, r3, lsl #1]
+  89              	.L7:
+  90 0010 0700     		.2byte	(.L13-.L7)/2
+  91 0012 2B00     		.2byte	(.L12-.L7)/2
+  92 0014 4F00     		.2byte	(.L11-.L7)/2
+  93 0016 7300     		.2byte	(.L10-.L7)/2
+  94 0018 9700     		.2byte	(.L9-.L7)/2
+  95 001a BB00     		.2byte	(.L8-.L7)/2
+  96 001c DF00     		.2byte	(.L6-.L7)/2
+  97              		.p2align 1
+  98              	.L13:
+  63:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+  64:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		case(Follow_Gimbal):
+  65:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		{	
+  66:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Cu
+  99              		.loc 1 66 4 is_stmt 1 view .LVU12
+ 100              		.loc 1 66 40 is_stmt 0 view .LVU13
+ 101 001e 724D     		ldr	r5, .L16+4
+ 102 0020 2B68     		ldr	r3, [r5]
+ 103              		.loc 1 66 32 view .LVU14
+ 104 0022 D0ED020A 		vldr.32	s1, [r0, #8]
+ 105 0026 90ED010A 		vldr.32	s0, [r0, #4]
+ 106 002a 7048     		ldr	r0, .L16+8
+ 107              	.LVL1:
+ 108              		.loc 1 66 32 view .LVU15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 4
+
+
+ 109 002c 9847     		blx	r3
+ 110              	.LVL2:
+ 111              		.loc 1 66 30 view .LVU16
+ 112 002e BDEEC00A 		vcvt.s32.f32	s0, s0
+ 113 0032 6F4B     		ldr	r3, .L16+12
+ 114 0034 10EE102A 		vmov	r2, s0	@ int
+ 115 0038 5A83     		strh	r2, [r3, #26]	@ movhi
+  67:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+  68:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal-
+ 116              		.loc 1 68 4 is_stmt 1 view .LVU17
+ 117              		.loc 1 68 39 is_stmt 0 view .LVU18
+ 118 003a 2B68     		ldr	r3, [r5]
+ 119              		.loc 1 68 31 view .LVU19
+ 120 003c D4ED040A 		vldr.32	s1, [r4, #16]
+ 121 0040 94ED030A 		vldr.32	s0, [r4, #12]
+ 122 0044 6B48     		ldr	r0, .L16+16
+ 123 0046 9847     		blx	r3
+ 124              	.LVL3:
+ 125              		.loc 1 68 29 view .LVU20
+ 126 0048 84ED050A 		vstr.32	s0, [r4, #20]
+  69:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 127              		.loc 1 69 4 is_stmt 1 view .LVU21
+ 128              		.loc 1 69 42 is_stmt 0 view .LVU22
+ 129 004c 2B68     		ldr	r3, [r5]
+ 130              		.loc 1 69 34 view .LVU23
+ 131 004e 6A4A     		ldr	r2, .L16+20
+ 132 0050 D2ED1C0A 		vldr.32	s1, [r2, #112]
+ 133 0054 6948     		ldr	r0, .L16+24
+ 134 0056 9847     		blx	r3
+ 135              	.LVL4:
+ 136              		.loc 1 69 32 view .LVU24
+ 137 0058 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 138 005c 684B     		ldr	r3, .L16+28
+ 139 005e 10EE102A 		vmov	r2, s0	@ int
+ 140 0062 5A83     		strh	r2, [r3, #26]	@ movhi
+  70:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 141              		.loc 1 70 4 is_stmt 1 view .LVU25
+ 142              	.L4:
+  71:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+  72:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+  73:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		case(Not_Follow_Gimbal):
+  74:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		{
+  75:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Cu
+  76:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+  77:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal-
+  78:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+  79:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+  80:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+  81:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+  82:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		case(Spin_Top):
+  83:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		{	
+  84:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Cu
+  85:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+  86:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal-
+  87:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+  88:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+  89:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 5
+
+
+  90:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+  91:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		case(Follow_Wheel):
+  92:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		{
+  93:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Cu
+  94:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+  95:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal-
+  96:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+  97:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+  98:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+  99:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 100:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		case(Swing):
+ 101:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		{
+ 102:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Cu
+ 103:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 104:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal-
+ 105:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 106:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 107:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 108:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 109:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		case(Escape):
+ 110:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		{
+ 111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Cu
+ 112:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 113:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal-
+ 114:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 115:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 116:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 117:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 118:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		case(Disabled):
+ 119:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		{
+ 120:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Target_Yaw = YAW_DIRECTION * Board_A_IMU.Export_Data.Total_Yaw;
+ 121:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = 0;
+ 122:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = 0;
+ 123:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 124:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			Gimbal->Prev_Mode = Disabled;			
+ 125:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 126:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 127:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+ 128:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** }
+ 143              		.loc 1 128 1 is_stmt 0 view .LVU26
+ 144 0064 38BD     		pop	{r3, r4, r5, pc}
+ 145              	.LVL5:
+ 146              	.L12:
+  75:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 147              		.loc 1 75 4 is_stmt 1 view .LVU27
+  75:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 148              		.loc 1 75 40 is_stmt 0 view .LVU28
+ 149 0066 604D     		ldr	r5, .L16+4
+ 150 0068 2B68     		ldr	r3, [r5]
+  75:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 151              		.loc 1 75 32 view .LVU29
+ 152 006a D0ED020A 		vldr.32	s1, [r0, #8]
+ 153 006e 90ED010A 		vldr.32	s0, [r0, #4]
+ 154 0072 5E48     		ldr	r0, .L16+8
+ 155              	.LVL6:
+  75:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 156              		.loc 1 75 32 view .LVU30
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 6
+
+
+ 157 0074 9847     		blx	r3
+ 158              	.LVL7:
+  75:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 159              		.loc 1 75 30 view .LVU31
+ 160 0076 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 161 007a 5D4B     		ldr	r3, .L16+12
+ 162 007c 10EE102A 		vmov	r2, s0	@ int
+ 163 0080 5A83     		strh	r2, [r3, #26]	@ movhi
+  77:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 164              		.loc 1 77 4 is_stmt 1 view .LVU32
+  77:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 165              		.loc 1 77 39 is_stmt 0 view .LVU33
+ 166 0082 2B68     		ldr	r3, [r5]
+  77:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 167              		.loc 1 77 31 view .LVU34
+ 168 0084 D4ED040A 		vldr.32	s1, [r4, #16]
+ 169 0088 94ED030A 		vldr.32	s0, [r4, #12]
+ 170 008c 5948     		ldr	r0, .L16+16
+ 171 008e 9847     		blx	r3
+ 172              	.LVL8:
+  77:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 173              		.loc 1 77 29 view .LVU35
+ 174 0090 84ED050A 		vstr.32	s0, [r4, #20]
+  78:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 175              		.loc 1 78 4 is_stmt 1 view .LVU36
+  78:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 176              		.loc 1 78 42 is_stmt 0 view .LVU37
+ 177 0094 2B68     		ldr	r3, [r5]
+  78:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 178              		.loc 1 78 34 view .LVU38
+ 179 0096 584A     		ldr	r2, .L16+20
+ 180 0098 D2ED1C0A 		vldr.32	s1, [r2, #112]
+ 181 009c 5748     		ldr	r0, .L16+24
+ 182 009e 9847     		blx	r3
+ 183              	.LVL9:
+  78:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 184              		.loc 1 78 32 view .LVU39
+ 185 00a0 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 186 00a4 564B     		ldr	r3, .L16+28
+ 187 00a6 10EE102A 		vmov	r2, s0	@ int
+ 188 00aa 5A83     		strh	r2, [r3, #26]	@ movhi
+  79:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 189              		.loc 1 79 4 is_stmt 1 view .LVU40
+ 190 00ac DAE7     		b	.L4
+ 191              	.LVL10:
+ 192              	.L11:
+  84:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 193              		.loc 1 84 4 view .LVU41
+  84:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 194              		.loc 1 84 40 is_stmt 0 view .LVU42
+ 195 00ae 4E4D     		ldr	r5, .L16+4
+ 196 00b0 2B68     		ldr	r3, [r5]
+  84:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 197              		.loc 1 84 32 view .LVU43
+ 198 00b2 D0ED020A 		vldr.32	s1, [r0, #8]
+ 199 00b6 90ED010A 		vldr.32	s0, [r0, #4]
+ 200 00ba 4C48     		ldr	r0, .L16+8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 7
+
+
+ 201              	.LVL11:
+  84:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 202              		.loc 1 84 32 view .LVU44
+ 203 00bc 9847     		blx	r3
+ 204              	.LVL12:
+  84:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 205              		.loc 1 84 30 view .LVU45
+ 206 00be BDEEC00A 		vcvt.s32.f32	s0, s0
+ 207 00c2 4B4B     		ldr	r3, .L16+12
+ 208 00c4 10EE102A 		vmov	r2, s0	@ int
+ 209 00c8 5A83     		strh	r2, [r3, #26]	@ movhi
+  86:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 210              		.loc 1 86 4 is_stmt 1 view .LVU46
+  86:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 211              		.loc 1 86 39 is_stmt 0 view .LVU47
+ 212 00ca 2B68     		ldr	r3, [r5]
+  86:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 213              		.loc 1 86 31 view .LVU48
+ 214 00cc D4ED040A 		vldr.32	s1, [r4, #16]
+ 215 00d0 94ED030A 		vldr.32	s0, [r4, #12]
+ 216 00d4 4748     		ldr	r0, .L16+16
+ 217 00d6 9847     		blx	r3
+ 218              	.LVL13:
+  86:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 219              		.loc 1 86 29 view .LVU49
+ 220 00d8 84ED050A 		vstr.32	s0, [r4, #20]
+  87:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 221              		.loc 1 87 4 is_stmt 1 view .LVU50
+  87:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 222              		.loc 1 87 42 is_stmt 0 view .LVU51
+ 223 00dc 2B68     		ldr	r3, [r5]
+  87:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 224              		.loc 1 87 34 view .LVU52
+ 225 00de 464A     		ldr	r2, .L16+20
+ 226 00e0 D2ED1C0A 		vldr.32	s1, [r2, #112]
+ 227 00e4 4548     		ldr	r0, .L16+24
+ 228 00e6 9847     		blx	r3
+ 229              	.LVL14:
+  87:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 230              		.loc 1 87 32 view .LVU53
+ 231 00e8 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 232 00ec 444B     		ldr	r3, .L16+28
+ 233 00ee 10EE102A 		vmov	r2, s0	@ int
+ 234 00f2 5A83     		strh	r2, [r3, #26]	@ movhi
+  88:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 235              		.loc 1 88 4 is_stmt 1 view .LVU54
+ 236 00f4 B6E7     		b	.L4
+ 237              	.LVL15:
+ 238              	.L10:
+  93:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 239              		.loc 1 93 4 view .LVU55
+  93:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 240              		.loc 1 93 40 is_stmt 0 view .LVU56
+ 241 00f6 3C4D     		ldr	r5, .L16+4
+ 242 00f8 2B68     		ldr	r3, [r5]
+  93:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 243              		.loc 1 93 32 view .LVU57
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 8
+
+
+ 244 00fa D0ED020A 		vldr.32	s1, [r0, #8]
+ 245 00fe 90ED010A 		vldr.32	s0, [r0, #4]
+ 246 0102 3A48     		ldr	r0, .L16+8
+ 247              	.LVL16:
+  93:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 248              		.loc 1 93 32 view .LVU58
+ 249 0104 9847     		blx	r3
+ 250              	.LVL17:
+  93:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 251              		.loc 1 93 30 view .LVU59
+ 252 0106 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 253 010a 394B     		ldr	r3, .L16+12
+ 254 010c 10EE102A 		vmov	r2, s0	@ int
+ 255 0110 5A83     		strh	r2, [r3, #26]	@ movhi
+  95:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 256              		.loc 1 95 4 is_stmt 1 view .LVU60
+  95:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 257              		.loc 1 95 39 is_stmt 0 view .LVU61
+ 258 0112 2B68     		ldr	r3, [r5]
+  95:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 259              		.loc 1 95 31 view .LVU62
+ 260 0114 D4ED040A 		vldr.32	s1, [r4, #16]
+ 261 0118 94ED030A 		vldr.32	s0, [r4, #12]
+ 262 011c 3548     		ldr	r0, .L16+16
+ 263 011e 9847     		blx	r3
+ 264              	.LVL18:
+  95:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 265              		.loc 1 95 29 view .LVU63
+ 266 0120 84ED050A 		vstr.32	s0, [r4, #20]
+  96:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 267              		.loc 1 96 4 is_stmt 1 view .LVU64
+  96:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 268              		.loc 1 96 42 is_stmt 0 view .LVU65
+ 269 0124 2B68     		ldr	r3, [r5]
+  96:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 270              		.loc 1 96 34 view .LVU66
+ 271 0126 344A     		ldr	r2, .L16+20
+ 272 0128 D2ED1C0A 		vldr.32	s1, [r2, #112]
+ 273 012c 3348     		ldr	r0, .L16+24
+ 274 012e 9847     		blx	r3
+ 275              	.LVL19:
+  96:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 276              		.loc 1 96 32 view .LVU67
+ 277 0130 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 278 0134 324B     		ldr	r3, .L16+28
+ 279 0136 10EE102A 		vmov	r2, s0	@ int
+ 280 013a 5A83     		strh	r2, [r3, #26]	@ movhi
+  97:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 281              		.loc 1 97 4 is_stmt 1 view .LVU68
+ 282 013c 92E7     		b	.L4
+ 283              	.LVL20:
+ 284              	.L9:
+ 102:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 285              		.loc 1 102 4 view .LVU69
+ 102:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 286              		.loc 1 102 40 is_stmt 0 view .LVU70
+ 287 013e 2A4D     		ldr	r5, .L16+4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 9
+
+
+ 288 0140 2B68     		ldr	r3, [r5]
+ 102:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 289              		.loc 1 102 32 view .LVU71
+ 290 0142 D0ED020A 		vldr.32	s1, [r0, #8]
+ 291 0146 90ED010A 		vldr.32	s0, [r0, #4]
+ 292 014a 2848     		ldr	r0, .L16+8
+ 293              	.LVL21:
+ 102:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 294              		.loc 1 102 32 view .LVU72
+ 295 014c 9847     		blx	r3
+ 296              	.LVL22:
+ 102:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 297              		.loc 1 102 30 view .LVU73
+ 298 014e BDEEC00A 		vcvt.s32.f32	s0, s0
+ 299 0152 274B     		ldr	r3, .L16+12
+ 300 0154 10EE102A 		vmov	r2, s0	@ int
+ 301 0158 5A83     		strh	r2, [r3, #26]	@ movhi
+ 104:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 302              		.loc 1 104 4 is_stmt 1 view .LVU74
+ 104:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 303              		.loc 1 104 39 is_stmt 0 view .LVU75
+ 304 015a 2B68     		ldr	r3, [r5]
+ 104:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 305              		.loc 1 104 31 view .LVU76
+ 306 015c D4ED040A 		vldr.32	s1, [r4, #16]
+ 307 0160 94ED030A 		vldr.32	s0, [r4, #12]
+ 308 0164 2348     		ldr	r0, .L16+16
+ 309 0166 9847     		blx	r3
+ 310              	.LVL23:
+ 104:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 311              		.loc 1 104 29 view .LVU77
+ 312 0168 84ED050A 		vstr.32	s0, [r4, #20]
+ 105:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 313              		.loc 1 105 4 is_stmt 1 view .LVU78
+ 105:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 314              		.loc 1 105 42 is_stmt 0 view .LVU79
+ 315 016c 2B68     		ldr	r3, [r5]
+ 105:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 316              		.loc 1 105 34 view .LVU80
+ 317 016e 224A     		ldr	r2, .L16+20
+ 318 0170 D2ED1C0A 		vldr.32	s1, [r2, #112]
+ 319 0174 2148     		ldr	r0, .L16+24
+ 320 0176 9847     		blx	r3
+ 321              	.LVL24:
+ 105:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 322              		.loc 1 105 32 view .LVU81
+ 323 0178 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 324 017c 204B     		ldr	r3, .L16+28
+ 325 017e 10EE102A 		vmov	r2, s0	@ int
+ 326 0182 5A83     		strh	r2, [r3, #26]	@ movhi
+ 106:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 327              		.loc 1 106 4 is_stmt 1 view .LVU82
+ 328 0184 6EE7     		b	.L4
+ 329              	.LVL25:
+ 330              	.L8:
+ 111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 331              		.loc 1 111 4 view .LVU83
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 10
+
+
+ 111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 332              		.loc 1 111 40 is_stmt 0 view .LVU84
+ 333 0186 184D     		ldr	r5, .L16+4
+ 334 0188 2B68     		ldr	r3, [r5]
+ 111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 335              		.loc 1 111 32 view .LVU85
+ 336 018a D0ED020A 		vldr.32	s1, [r0, #8]
+ 337 018e 90ED010A 		vldr.32	s0, [r0, #4]
+ 338 0192 1648     		ldr	r0, .L16+8
+ 339              	.LVL26:
+ 111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 340              		.loc 1 111 32 view .LVU86
+ 341 0194 9847     		blx	r3
+ 342              	.LVL27:
+ 111:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 343              		.loc 1 111 30 view .LVU87
+ 344 0196 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 345 019a 154B     		ldr	r3, .L16+12
+ 346 019c 10EE102A 		vmov	r2, s0	@ int
+ 347 01a0 5A83     		strh	r2, [r3, #26]	@ movhi
+ 113:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 348              		.loc 1 113 4 is_stmt 1 view .LVU88
+ 113:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 349              		.loc 1 113 39 is_stmt 0 view .LVU89
+ 350 01a2 2B68     		ldr	r3, [r5]
+ 113:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 351              		.loc 1 113 31 view .LVU90
+ 352 01a4 D4ED040A 		vldr.32	s1, [r4, #16]
+ 353 01a8 94ED030A 		vldr.32	s0, [r4, #12]
+ 354 01ac 1148     		ldr	r0, .L16+16
+ 355 01ae 9847     		blx	r3
+ 356              	.LVL28:
+ 113:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,
+ 357              		.loc 1 113 29 view .LVU91
+ 358 01b0 84ED050A 		vstr.32	s0, [r4, #20]
+ 114:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 359              		.loc 1 114 4 is_stmt 1 view .LVU92
+ 114:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 360              		.loc 1 114 42 is_stmt 0 view .LVU93
+ 361 01b4 2B68     		ldr	r3, [r5]
+ 114:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 362              		.loc 1 114 34 view .LVU94
+ 363 01b6 104A     		ldr	r2, .L16+20
+ 364 01b8 D2ED1C0A 		vldr.32	s1, [r2, #112]
+ 365 01bc 0F48     		ldr	r0, .L16+24
+ 366 01be 9847     		blx	r3
+ 367              	.LVL29:
+ 114:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 368              		.loc 1 114 32 view .LVU95
+ 369 01c0 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 370 01c4 0E4B     		ldr	r3, .L16+28
+ 371 01c6 10EE102A 		vmov	r2, s0	@ int
+ 372 01ca 5A83     		strh	r2, [r3, #26]	@ movhi
+ 115:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 373              		.loc 1 115 4 is_stmt 1 view .LVU96
+ 374 01cc 4AE7     		b	.L4
+ 375              	.LVL30:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 11
+
+
+ 376              	.L6:
+ 120:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = 0;
+ 377              		.loc 1 120 4 view .LVU97
+ 120:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = 0;
+ 378              		.loc 1 120 39 is_stmt 0 view .LVU98
+ 379 01ce 0A4B     		ldr	r3, .L16+20
+ 380 01d0 5B6E     		ldr	r3, [r3, #100]	@ float
+ 120:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Yaw.Output_Current = 0;
+ 381              		.loc 1 120 23 view .LVU99
+ 382 01d2 4360     		str	r3, [r0, #4]	@ float
+ 121:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = 0;
+ 383              		.loc 1 121 4 is_stmt 1 view .LVU100
+ 121:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			GM6020_Pitch.Output_Current = 0;
+ 384              		.loc 1 121 30 is_stmt 0 view .LVU101
+ 385 01d4 0023     		movs	r3, #0
+ 386 01d6 064A     		ldr	r2, .L16+12
+ 387 01d8 5383     		strh	r3, [r2, #26]	@ movhi
+ 122:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 388              		.loc 1 122 4 is_stmt 1 view .LVU102
+ 122:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			
+ 389              		.loc 1 122 32 is_stmt 0 view .LVU103
+ 390 01da 094A     		ldr	r2, .L16+28
+ 391 01dc 5383     		strh	r3, [r2, #26]	@ movhi
+ 124:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 392              		.loc 1 124 4 is_stmt 1 view .LVU104
+ 124:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			break;
+ 393              		.loc 1 124 22 is_stmt 0 view .LVU105
+ 394 01de 0623     		movs	r3, #6
+ 395 01e0 0360     		str	r3, [r0]
+ 125:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		}
+ 396              		.loc 1 125 4 is_stmt 1 view .LVU106
+ 397              		.loc 1 128 1 is_stmt 0 view .LVU107
+ 398 01e2 3FE7     		b	.L4
+ 399              	.L17:
+ 400              		.align	2
+ 401              	.L16:
+ 402 01e4 00000000 		.word	State_Machine
+ 403 01e8 00000000 		.word	PID_Func
+ 404 01ec 00000000 		.word	Yaw_Angle_PID
+ 405 01f0 00000000 		.word	GM6020_Yaw
+ 406 01f4 00000000 		.word	Pitch_Angle_PID
+ 407 01f8 00000000 		.word	Board_A_IMU
+ 408 01fc 00000000 		.word	Pitch_Speed_PID
+ 409 0200 00000000 		.word	GM6020_Pitch
+ 410              		.cfi_endproc
+ 411              	.LFE164:
+ 413              		.section	.text.Gimbal_Control_Get_Data,"ax",%progbits
+ 414              		.align	1
+ 415              		.global	Gimbal_Control_Get_Data
+ 416              		.syntax unified
+ 417              		.thumb
+ 418              		.thumb_func
+ 420              	Gimbal_Control_Get_Data:
+ 421              	.LVL31:
+ 422              	.LFB163:
+  31:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	//The multiplying/dividing constant are tested value and can be changed
+ 423              		.loc 1 31 1 is_stmt 1 view -0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 12
+
+
+ 424              		.cfi_startproc
+ 425              		@ args = 0, pretend = 0, frame = 0
+ 426              		@ frame_needed = 0, uses_anonymous_args = 0
+  31:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	//The multiplying/dividing constant are tested value and can be changed
+ 427              		.loc 1 31 1 is_stmt 0 view .LVU109
+ 428 0000 10B5     		push	{r4, lr}
+ 429              	.LCFI1:
+ 430              		.cfi_def_cfa_offset 8
+ 431              		.cfi_offset 4, -8
+ 432              		.cfi_offset 14, -4
+ 433 0002 0446     		mov	r4, r0
+  33:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+ 434              		.loc 1 33 2 is_stmt 1 view .LVU110
+  33:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+ 435              		.loc 1 33 18 is_stmt 0 view .LVU111
+ 436 0004 5D4B     		ldr	r3, .L43
+ 437 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  33:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+ 438              		.loc 1 33 4 view .LVU112
+ 439 0008 012B     		cmp	r3, #1
+ 440 000a 5CD0     		beq	.L42
+  46:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+ 441              		.loc 1 46 7 is_stmt 1 view .LVU113
+  46:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	{
+ 442              		.loc 1 46 9 is_stmt 0 view .LVU114
+ 443 000c 002B     		cmp	r3, #0
+ 444 000e 40F0A780 		bne	.L18
+  48:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= 0.01f * (float)DR16_Export_Data.Mouse.x;
+ 445              		.loc 1 48 3 is_stmt 1 view .LVU115
+  48:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= 0.01f * (float)DR16_Export_Data.Mouse.x;
+ 446              		.loc 1 48 39 is_stmt 0 view .LVU116
+ 447 0012 5B4B     		ldr	r3, .L43+4
+ 448 0014 5A6E     		ldr	r2, [r3, #100]	@ float
+  48:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= 0.01f * (float)DR16_Export_Data.Mouse.x;
+ 449              		.loc 1 48 23 view .LVU117
+ 450 0016 8260     		str	r2, [r0, #8]	@ float
+  49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 451              		.loc 1 49 3 is_stmt 1 view .LVU118
+  49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 452              		.loc 1 49 9 is_stmt 0 view .LVU119
+ 453 0018 90ED017A 		vldr.32	s14, [r0, #4]
+  49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 454              		.loc 1 49 62 view .LVU120
+ 455 001c 594A     		ldr	r2, .L43+8
+ 456 001e B2F91620 		ldrsh	r2, [r2, #22]
+ 457 0022 07EE902A 		vmov	s15, r2	@ int
+  49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 458              		.loc 1 49 33 view .LVU121
+ 459 0026 F8EEE77A 		vcvt.f32.s32	s15, s15
+  49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 460              		.loc 1 49 31 view .LVU122
+ 461 002a DFED576A 		vldr.32	s13, .L43+12
+ 462 002e 67EEA67A 		vmul.f32	s15, s15, s13
+  49:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 463              		.loc 1 49 22 view .LVU123
+ 464 0032 77EE677A 		vsub.f32	s15, s14, s15
+ 465 0036 C0ED017A 		vstr.32	s15, [r0, #4]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 13
+
+
+  51:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+ 466              		.loc 1 51 3 is_stmt 1 view .LVU124
+  51:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+ 467              		.loc 1 51 43 is_stmt 0 view .LVU125
+ 468 003a D3ED167A 		vldr.32	s15, [r3, #88]
+  51:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+ 469              		.loc 1 51 25 view .LVU126
+ 470 003e C0ED047A 		vstr.32	s15, [r0, #16]
+  52:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Mouse.y < 0) || \
+ 471              		.loc 1 52 3 is_stmt 1 view .LVU127
+  52:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Mouse.y < 0) || \
+ 472              		.loc 1 52 5 is_stmt 0 view .LVU128
+ 473 0042 BBEE067A 		vmov.f32	s14, #-2.2e+1
+ 474 0046 F4EEC77A 		vcmpe.f32	s15, s14
+ 475 004a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 476 004e 06DD     		ble	.L28
+  52:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Mouse.y < 0) || \
+ 477              		.loc 1 52 49 discriminator 1 view .LVU129
+ 478 0050 B3EE0C7A 		vmov.f32	s14, #2.8e+1
+ 479 0054 F4EEC77A 		vcmpe.f32	s15, s14
+ 480 0058 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 481 005c 17D4     		bmi	.L30
+ 482              	.L28:
+  52:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Mouse.y < 0) || \
+ 483              		.loc 1 52 95 discriminator 3 view .LVU130
+ 484 005e BBEE067A 		vmov.f32	s14, #-2.2e+1
+ 485 0062 F4EEC77A 		vcmpe.f32	s15, s14
+ 486 0066 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 487 006a 04D5     		bpl	.L31
+  53:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Mouse.y > 0))
+ 488              		.loc 1 53 72 view .LVU131
+ 489 006c 454B     		ldr	r3, .L43+8
+ 490 006e B3F91830 		ldrsh	r3, [r3, #24]
+  53:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Mouse.y > 0))
+ 491              		.loc 1 53 47 view .LVU132
+ 492 0072 002B     		cmp	r3, #0
+ 493 0074 0BDB     		blt	.L30
+ 494              	.L31:
+  53:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Mouse.y > 0))
+ 495              		.loc 1 53 80 discriminator 1 view .LVU133
+ 496 0076 B3EE0C7A 		vmov.f32	s14, #2.8e+1
+ 497 007a F4EEC77A 		vcmpe.f32	s15, s14
+ 498 007e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 499 0082 15DD     		ble	.L33
+  54:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 					Gimbal->Target_Pitch -= (float)DR16_Export_Data.Mouse.y / 400.0f;
+ 500              		.loc 1 54 72 view .LVU134
+ 501 0084 3F4B     		ldr	r3, .L43+8
+ 502 0086 B3F91830 		ldrsh	r3, [r3, #24]
+  54:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 					Gimbal->Target_Pitch -= (float)DR16_Export_Data.Mouse.y / 400.0f;
+ 503              		.loc 1 54 47 view .LVU135
+ 504 008a 002B     		cmp	r3, #0
+ 505 008c 10DD     		ble	.L33
+ 506              	.L30:
+  55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 507              		.loc 1 55 6 is_stmt 1 view .LVU136
+  55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 508              		.loc 1 55 12 is_stmt 0 view .LVU137
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 14
+
+
+ 509 008e D4ED037A 		vldr.32	s15, [r4, #12]
+  55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 510              		.loc 1 55 59 view .LVU138
+ 511 0092 3C4B     		ldr	r3, .L43+8
+ 512 0094 B3F91830 		ldrsh	r3, [r3, #24]
+ 513 0098 07EE103A 		vmov	s14, r3	@ int
+  55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 514              		.loc 1 55 30 view .LVU139
+ 515 009c B8EEC77A 		vcvt.f32.s32	s14, s14
+  55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 516              		.loc 1 55 62 view .LVU140
+ 517 00a0 9FED3A6A 		vldr.32	s12, .L43+16
+ 518 00a4 C7EE066A 		vdiv.f32	s13, s14, s12
+  55:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 519              		.loc 1 55 27 view .LVU141
+ 520 00a8 77EEE67A 		vsub.f32	s15, s15, s13
+ 521 00ac C4ED037A 		vstr.32	s15, [r4, #12]
+ 522              	.L33:
+  56:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+ 523              		.loc 1 56 3 is_stmt 1 view .LVU142
+  56:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+ 524              		.loc 1 56 26 is_stmt 0 view .LVU143
+ 525 00b0 BBEE061A 		vmov.f32	s2, #-2.2e+1
+ 526 00b4 F3EE0C0A 		vmov.f32	s1, #2.8e+1
+ 527 00b8 94ED030A 		vldr.32	s0, [r4, #12]
+ 528 00bc FFF7FEFF 		bl	VAL_LIMIT
+ 529              	.LVL32:
+  56:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+ 530              		.loc 1 56 24 view .LVU144
+ 531 00c0 84ED030A 		vstr.32	s0, [r4, #12]
+  58:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+ 532              		.loc 1 58 1 view .LVU145
+ 533 00c4 4CE0     		b	.L18
+ 534              	.LVL33:
+ 535              	.L42:
+  35:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= DR16_Export_Data.Remote_Control.Joystick_Right_Vx / 1000.0f;
+ 536              		.loc 1 35 3 is_stmt 1 view .LVU146
+  35:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= DR16_Export_Data.Remote_Control.Joystick_Right_Vx / 1000.0f;
+ 537              		.loc 1 35 39 is_stmt 0 view .LVU147
+ 538 00c6 2E4B     		ldr	r3, .L43+4
+ 539 00c8 5A6E     		ldr	r2, [r3, #100]	@ float
+  35:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Yaw -= DR16_Export_Data.Remote_Control.Joystick_Right_Vx / 1000.0f;
+ 540              		.loc 1 35 23 view .LVU148
+ 541 00ca 8260     		str	r2, [r0, #8]	@ float
+  36:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 542              		.loc 1 36 3 is_stmt 1 view .LVU149
+  36:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 543              		.loc 1 36 9 is_stmt 0 view .LVU150
+ 544 00cc D0ED017A 		vldr.32	s15, [r0, #4]
+  36:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 545              		.loc 1 36 56 view .LVU151
+ 546 00d0 2C4A     		ldr	r2, .L43+8
+ 547 00d2 B2F92220 		ldrsh	r2, [r2, #34]
+ 548 00d6 07EE102A 		vmov	s14, r2	@ int
+  36:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 549              		.loc 1 36 75 view .LVU152
+ 550 00da B8EEC77A 		vcvt.f32.s32	s14, s14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 15
+
+
+ 551 00de 9FED2C6A 		vldr.32	s12, .L43+20
+ 552 00e2 C7EE066A 		vdiv.f32	s13, s14, s12
+  36:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		
+ 553              		.loc 1 36 22 view .LVU153
+ 554 00e6 77EEE67A 		vsub.f32	s15, s15, s13
+ 555 00ea C0ED017A 		vstr.32	s15, [r0, #4]
+  38:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+ 556              		.loc 1 38 3 is_stmt 1 view .LVU154
+  38:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+ 557              		.loc 1 38 43 is_stmt 0 view .LVU155
+ 558 00ee D3ED167A 		vldr.32	s15, [r3, #88]
+  38:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
+ 559              		.loc 1 38 25 view .LVU156
+ 560 00f2 C0ED047A 		vstr.32	s15, [r0, #16]
+  39:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+ 561              		.loc 1 39 3 is_stmt 1 view .LVU157
+  39:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+ 562              		.loc 1 39 5 is_stmt 0 view .LVU158
+ 563 00f6 BBEE067A 		vmov.f32	s14, #-2.2e+1
+ 564 00fa F4EEC77A 		vcmpe.f32	s15, s14
+ 565 00fe F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 566 0102 06DD     		ble	.L20
+  39:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+ 567              		.loc 1 39 49 discriminator 1 view .LVU159
+ 568 0104 B3EE0C7A 		vmov.f32	s14, #2.8e+1
+ 569 0108 F4EEC77A 		vcmpe.f32	s15, s14
+ 570 010c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 571 0110 0BD4     		bmi	.L22
+ 572              	.L20:
+  39:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch < PITCH_LOWER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+ 573              		.loc 1 39 95 discriminator 3 view .LVU160
+ 574 0112 BBEE067A 		vmov.f32	s14, #-2.2e+1
+ 575 0116 F4EEC77A 		vcmpe.f32	s15, s14
+ 576 011a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 577 011e 20D5     		bpl	.L23
+  40:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+ 578              		.loc 1 40 81 view .LVU161
+ 579 0120 184B     		ldr	r3, .L43+8
+ 580 0122 B3F92430 		ldrsh	r3, [r3, #36]
+  40:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+ 581              		.loc 1 40 47 view .LVU162
+ 582 0126 002B     		cmp	r3, #0
+ 583 0128 1BDD     		ble	.L23
+ 584              	.L22:
+  42:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 585              		.loc 1 42 6 is_stmt 1 view .LVU163
+  42:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 586              		.loc 1 42 12 is_stmt 0 view .LVU164
+ 587 012a D4ED037A 		vldr.32	s15, [r4, #12]
+  42:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 588              		.loc 1 42 61 view .LVU165
+ 589 012e 154B     		ldr	r3, .L43+8
+ 590 0130 B3F92430 		ldrsh	r3, [r3, #36]
+ 591 0134 07EE103A 		vmov	s14, r3	@ int
+  42:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 592              		.loc 1 42 80 view .LVU166
+ 593 0138 B8EEC77A 		vcvt.f32.s32	s14, s14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 16
+
+
+ 594 013c 9FED156A 		vldr.32	s12, .L43+24
+ 595 0140 C7EE066A 		vdiv.f32	s13, s14, s12
+  42:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 		Gimbal->Target_Pitch = VAL_LIMIT(Gimbal->Target_Pitch,PITCH_UPPER_LIMIT,PITCH_LOWER_LIMIT);
+ 596              		.loc 1 42 27 view .LVU167
+ 597 0144 77EEA67A 		vadd.f32	s15, s15, s13
+ 598 0148 C4ED037A 		vstr.32	s15, [r4, #12]
+ 599              	.L25:
+  43:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+ 600              		.loc 1 43 3 is_stmt 1 view .LVU168
+  43:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+ 601              		.loc 1 43 26 is_stmt 0 view .LVU169
+ 602 014c BBEE061A 		vmov.f32	s2, #-2.2e+1
+ 603 0150 F3EE0C0A 		vmov.f32	s1, #2.8e+1
+ 604 0154 94ED030A 		vldr.32	s0, [r4, #12]
+ 605 0158 FFF7FEFF 		bl	VAL_LIMIT
+ 606              	.LVL34:
+  43:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 	}
+ 607              		.loc 1 43 24 view .LVU170
+ 608 015c 84ED030A 		vstr.32	s0, [r4, #12]
+ 609              	.L18:
+  58:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 
+ 610              		.loc 1 58 1 view .LVU171
+ 611 0160 10BD     		pop	{r4, pc}
+ 612              	.LVL35:
+ 613              	.L23:
+  40:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 			(Gimbal->Current_Pitch > PITCH_UPPER_LIMIT && DR16_Export_Data.Remote_Control.Joystick_Right_Vy 
+ 614              		.loc 1 40 105 discriminator 1 view .LVU172
+ 615 0162 B3EE0C7A 		vmov.f32	s14, #2.8e+1
+ 616 0166 F4EEC77A 		vcmpe.f32	s15, s14
+ 617 016a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 618 016e EDDD     		ble	.L25
+  41:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 					Gimbal->Target_Pitch += DR16_Export_Data.Remote_Control.Joystick_Right_Vy / 2200.0f;
+ 619              		.loc 1 41 81 view .LVU173
+ 620 0170 044B     		ldr	r3, .L43+8
+ 621 0172 B3F92430 		ldrsh	r3, [r3, #36]
+  41:HigherLevelApps/HigherLevelApps.c/Gimbal_Control.c **** 					Gimbal->Target_Pitch += DR16_Export_Data.Remote_Control.Joystick_Right_Vy / 2200.0f;
+ 622              		.loc 1 41 47 view .LVU174
+ 623 0176 002B     		cmp	r3, #0
+ 624 0178 E8DA     		bge	.L25
+ 625 017a D6E7     		b	.L22
+ 626              	.L44:
+ 627              		.align	2
+ 628              	.L43:
+ 629 017c 00000000 		.word	State_Machine
+ 630 0180 00000000 		.word	Board_A_IMU
+ 631 0184 00000000 		.word	DR16_Export_Data
+ 632 0188 0AD7233C 		.word	1008981770
+ 633 018c 0000C843 		.word	1137180672
+ 634 0190 00007A44 		.word	1148846080
+ 635 0194 00800945 		.word	1158250496
+ 636              		.cfi_endproc
+ 637              	.LFE163:
+ 639              		.global	Gimbal
+ 640              		.section	.bss.Gimbal,"aw",%nobits
+ 641              		.align	2
+ 644              	Gimbal:
+ 645 0000 00000000 		.space	36
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 17
+
+
+ 645      00000000 
+ 645      00000000 
+ 645      00000000 
+ 645      00000000 
+ 646              		.global	Gimbal_Func
+ 647              		.section	.data.Gimbal_Func,"aw"
+ 648              		.align	2
+ 651              	Gimbal_Func:
+ 652 0000 00000000 		.word	Gimbal_Init
+ 653 0004 00000000 		.word	Gimbal_Control_Get_Data
+ 654 0008 00000000 		.word	Gimbal_Processing
+ 655              		.text
+ 656              	.Letext0:
+ 657              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 658              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 659              		.file 4 "Devices/Devices.h/DR16_Remote.h"
+ 660              		.file 5 "Devices/Devices.h/Motor_Init.h"
+ 661              		.file 6 "Devices/Devices.h/GM6020_Motor.h"
+ 662              		.file 7 "Algorithms/Algorithms.h/PID.h"
+ 663              		.file 8 "Devices/Devices.h/Board_A_IMU.h"
+ 664              		.file 9 "HigherLevelApps/HigherLevelApps.h/State_Machine.h"
+ 665              		.file 10 "HigherLevelApps/HigherLevelApps.h/Gimbal_Control.h"
+ 666              		.file 11 "Algorithms/Algorithms.h/User_Defined_Math.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Gimbal_Control.c
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:21     .text.Gimbal_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:27     .text.Gimbal_Init:00000000 Gimbal_Init
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:51     .text.Gimbal_Init:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:59     .text.Gimbal_Processing:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:65     .text.Gimbal_Processing:00000000 Gimbal_Processing
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:90     .text.Gimbal_Processing:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:97     .text.Gimbal_Processing:0000001e $t
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:402    .text.Gimbal_Processing:000001e4 $d
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:414    .text.Gimbal_Control_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:420    .text.Gimbal_Control_Get_Data:00000000 Gimbal_Control_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:629    .text.Gimbal_Control_Get_Data:0000017c $d
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:644    .bss.Gimbal:00000000 Gimbal
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:641    .bss.Gimbal:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:651    .data.Gimbal_Func:00000000 Gimbal_Func
+C:\Users\purdu\AppData\Local\Temp\ccEvGqmt.s:648    .data.Gimbal_Func:00000000 $d
+
+UNDEFINED SYMBOLS
+Board_A_IMU
+GM6020_Yaw
+GM6020_Pitch
+State_Machine
+PID_Func
+Yaw_Angle_PID
+Pitch_Angle_PID
+Pitch_Speed_PID
+VAL_LIMIT
+DR16_Export_Data

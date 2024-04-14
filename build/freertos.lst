@@ -1,0 +1,2388 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"freertos.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/freertos.c"
+  20              		.section	.text.IMU_Tasks,"ax",%progbits
+  21              		.align	1
+  22              		.global	IMU_Tasks
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	IMU_Tasks:
+  28              	.LVL0:
+  29              	.LFB165:
+   1:Core/Src/freertos.c **** /* USER CODE BEGIN Header */
+   2:Core/Src/freertos.c **** /**
+   3:Core/Src/freertos.c ****   ******************************************************************************
+   4:Core/Src/freertos.c ****   * File Name          : freertos.c
+   5:Core/Src/freertos.c ****   * Description        : Code for freertos applications
+   6:Core/Src/freertos.c ****   ******************************************************************************
+   7:Core/Src/freertos.c ****   * @attention
+   8:Core/Src/freertos.c ****   *
+   9:Core/Src/freertos.c ****   * Copyright (c) 2022 STMicroelectronics.
+  10:Core/Src/freertos.c ****   * All rights reserved.
+  11:Core/Src/freertos.c ****   *
+  12:Core/Src/freertos.c ****   * This software is licensed under terms that can be found in the LICENSE file
+  13:Core/Src/freertos.c ****   * in the root directory of this software component.
+  14:Core/Src/freertos.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
+  15:Core/Src/freertos.c ****   *
+  16:Core/Src/freertos.c ****   ******************************************************************************
+  17:Core/Src/freertos.c ****   */
+  18:Core/Src/freertos.c **** /* USER CODE END Header */
+  19:Core/Src/freertos.c **** 
+  20:Core/Src/freertos.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/freertos.c **** #include "FreeRTOS.h"
+  22:Core/Src/freertos.c **** #include "task.h"
+  23:Core/Src/freertos.c **** #include "main.h"
+  24:Core/Src/freertos.c **** #include "cmsis_os.h"
+  25:Core/Src/freertos.c **** 
+  26:Core/Src/freertos.c **** /* Private includes ----------------------------------------------------------*/
+  27:Core/Src/freertos.c **** /* USER CODE BEGIN Includes */
+  28:Core/Src/freertos.c **** #include "Board_A_IMU.h"
+  29:Core/Src/freertos.c **** #include "IMU_Temp_Control.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 2
+
+
+  30:Core/Src/freertos.c **** #include "DR16_Remote.h"
+  31:Core/Src/freertos.c **** #include "M3508_Motor.h"
+  32:Core/Src/freertos.c **** #include "MF9025_Motor.h"
+  33:Core/Src/freertos.c **** #include "Robot_Control.h"
+  34:Core/Src/freertos.c **** #include "MPU6050_IMU.h"
+  35:Core/Src/freertos.c **** #include "Control_Board_A.h"
+  36:Core/Src/freertos.c **** #include "Fusion.h"
+  37:Core/Src/freertos.c **** #include "Buzzer.h"
+  38:Core/Src/freertos.c **** #include "Referee_System.h"
+  39:Core/Src/freertos.c **** #include "Jetson_Tx2.h"
+  40:Core/Src/freertos.c **** #include "User_Interface.h"
+  41:Core/Src/freertos.c **** #include "Serial.h"
+  42:Core/Src/freertos.c **** /* USER CODE END Includes */
+  43:Core/Src/freertos.c **** 
+  44:Core/Src/freertos.c **** /* Private typedef -----------------------------------------------------------*/
+  45:Core/Src/freertos.c **** /* USER CODE BEGIN PTD */
+  46:Core/Src/freertos.c **** 
+  47:Core/Src/freertos.c **** /* USER CODE END PTD */
+  48:Core/Src/freertos.c **** 
+  49:Core/Src/freertos.c **** /* Private define ------------------------------------------------------------*/
+  50:Core/Src/freertos.c **** /* USER CODE BEGIN PD */
+  51:Core/Src/freertos.c **** 
+  52:Core/Src/freertos.c **** /* USER CODE END PD */
+  53:Core/Src/freertos.c **** 
+  54:Core/Src/freertos.c **** /* Private macro -------------------------------------------------------------*/
+  55:Core/Src/freertos.c **** /* USER CODE BEGIN PM */
+  56:Core/Src/freertos.c **** 
+  57:Core/Src/freertos.c **** /* USER CODE END PM */
+  58:Core/Src/freertos.c **** 
+  59:Core/Src/freertos.c **** /* Private variables ---------------------------------------------------------*/
+  60:Core/Src/freertos.c **** /* USER CODE BEGIN Variables */
+  61:Core/Src/freertos.c **** 
+  62:Core/Src/freertos.c **** /* USER CODE END Variables */
+  63:Core/Src/freertos.c **** osThreadId Task_IMUHandle;
+  64:Core/Src/freertos.c **** osThreadId InitializationHandle;
+  65:Core/Src/freertos.c **** osThreadId Task_CAN_SendHandle;
+  66:Core/Src/freertos.c **** osThreadId Task_CAN1_ReceiHandle;
+  67:Core/Src/freertos.c **** osThreadId Task_CAN2_ReceiHandle;
+  68:Core/Src/freertos.c **** osThreadId Robot_ControlHandle;
+  69:Core/Src/freertos.c **** osThreadId Task_UIHandle;
+  70:Core/Src/freertos.c **** osThreadId Task_SerialHandle;
+  71:Core/Src/freertos.c **** osMessageQId CAN_SendHandle;
+  72:Core/Src/freertos.c **** osMessageQId CAN1_ReceiveHandle;
+  73:Core/Src/freertos.c **** osMessageQId CAN2_ReceiveHandle;
+  74:Core/Src/freertos.c **** 
+  75:Core/Src/freertos.c **** /* Private function prototypes -----------------------------------------------*/
+  76:Core/Src/freertos.c **** /* USER CODE BEGIN FunctionPrototypes */
+  77:Core/Src/freertos.c **** 
+  78:Core/Src/freertos.c **** /* USER CODE END FunctionPrototypes */
+  79:Core/Src/freertos.c **** 
+  80:Core/Src/freertos.c **** void IMU_Tasks(void const * argument);
+  81:Core/Src/freertos.c **** void General_Initialization(void const * argument);
+  82:Core/Src/freertos.c **** void CAN_Send_All(void const * argument);
+  83:Core/Src/freertos.c **** void CAN1_Rec(void const * argument);
+  84:Core/Src/freertos.c **** void CAN2_Rec(void const * argument);
+  85:Core/Src/freertos.c **** void Robot_Control_All(void const * argument);
+  86:Core/Src/freertos.c **** void UI_Draw(void const * argument);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 3
+
+
+  87:Core/Src/freertos.c **** void Serial_Send(void const * argument);
+  88:Core/Src/freertos.c **** 
+  89:Core/Src/freertos.c **** void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+  90:Core/Src/freertos.c **** 
+  91:Core/Src/freertos.c **** /* GetIdleTaskMemory prototype (linked to static allocation support) */
+  92:Core/Src/freertos.c **** void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskS
+  93:Core/Src/freertos.c **** 
+  94:Core/Src/freertos.c **** /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
+  95:Core/Src/freertos.c **** static StaticTask_t xIdleTaskTCBBuffer;
+  96:Core/Src/freertos.c **** static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+  97:Core/Src/freertos.c **** 
+  98:Core/Src/freertos.c **** void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskS
+  99:Core/Src/freertos.c **** {
+ 100:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+ 101:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 102:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 103:Core/Src/freertos.c ****   /* place for user code */
+ 104:Core/Src/freertos.c **** }
+ 105:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
+ 106:Core/Src/freertos.c **** 
+ 107:Core/Src/freertos.c **** /**
+ 108:Core/Src/freertos.c ****   * @brief  FreeRTOS initialization
+ 109:Core/Src/freertos.c ****   * @param  None
+ 110:Core/Src/freertos.c ****   * @retval None
+ 111:Core/Src/freertos.c ****   */
+ 112:Core/Src/freertos.c **** void MX_FREERTOS_Init(void) {
+ 113:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
+ 114:Core/Src/freertos.c **** 
+ 115:Core/Src/freertos.c ****   /* USER CODE END Init */
+ 116:Core/Src/freertos.c **** 
+ 117:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_MUTEX */
+ 118:Core/Src/freertos.c ****   /* add mutexes, ... */
+ 119:Core/Src/freertos.c ****   /* USER CODE END RTOS_MUTEX */
+ 120:Core/Src/freertos.c **** 
+ 121:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
+ 122:Core/Src/freertos.c ****   /* add semaphores, ... */
+ 123:Core/Src/freertos.c ****   /* USER CODE END RTOS_SEMAPHORES */
+ 124:Core/Src/freertos.c **** 
+ 125:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_TIMERS */
+ 126:Core/Src/freertos.c ****   /* start timers, add new ones, ... */
+ 127:Core/Src/freertos.c ****   /* USER CODE END RTOS_TIMERS */
+ 128:Core/Src/freertos.c **** 
+ 129:Core/Src/freertos.c ****   /* Create the queue(s) */
+ 130:Core/Src/freertos.c ****   /* definition and creation of CAN_Send */
+ 131:Core/Src/freertos.c ****   osMessageQDef(CAN_Send, 32, CAN_Send_Data_t);
+ 132:Core/Src/freertos.c ****   CAN_SendHandle = osMessageCreate(osMessageQ(CAN_Send), NULL);
+ 133:Core/Src/freertos.c **** 
+ 134:Core/Src/freertos.c ****   /* definition and creation of CAN1_Receive */
+ 135:Core/Src/freertos.c ****   osMessageQDef(CAN1_Receive, 32, CAN_Export_Data_t);
+ 136:Core/Src/freertos.c ****   CAN1_ReceiveHandle = osMessageCreate(osMessageQ(CAN1_Receive), NULL);
+ 137:Core/Src/freertos.c **** 
+ 138:Core/Src/freertos.c ****   /* definition and creation of CAN2_Receive */
+ 139:Core/Src/freertos.c ****   osMessageQDef(CAN2_Receive, 32, CAN_Export_Data_t);
+ 140:Core/Src/freertos.c ****   CAN2_ReceiveHandle = osMessageCreate(osMessageQ(CAN2_Receive), NULL);
+ 141:Core/Src/freertos.c **** 
+ 142:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_QUEUES */
+ 143:Core/Src/freertos.c ****   /* add queues, ... */
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 4
+
+
+ 144:Core/Src/freertos.c ****   /* USER CODE END RTOS_QUEUES */
+ 145:Core/Src/freertos.c **** 
+ 146:Core/Src/freertos.c ****   /* Create the thread(s) */
+ 147:Core/Src/freertos.c ****   /* definition and creation of Task_IMU */
+ 148:Core/Src/freertos.c ****   osThreadDef(Task_IMU, IMU_Tasks, osPriorityNormal, 0, 400);
+ 149:Core/Src/freertos.c ****   Task_IMUHandle = osThreadCreate(osThread(Task_IMU), NULL);
+ 150:Core/Src/freertos.c **** 
+ 151:Core/Src/freertos.c ****   /* definition and creation of Initialization */
+ 152:Core/Src/freertos.c ****   osThreadDef(Initialization, General_Initialization, osPriorityHigh, 0, 256);
+ 153:Core/Src/freertos.c ****   InitializationHandle = osThreadCreate(osThread(Initialization), NULL);
+ 154:Core/Src/freertos.c **** 
+ 155:Core/Src/freertos.c ****   /* definition and creation of Task_CAN_Send */
+ 156:Core/Src/freertos.c ****   osThreadDef(Task_CAN_Send, CAN_Send_All, osPriorityHigh, 0, 256);
+ 157:Core/Src/freertos.c ****   Task_CAN_SendHandle = osThreadCreate(osThread(Task_CAN_Send), NULL);
+ 158:Core/Src/freertos.c **** 
+ 159:Core/Src/freertos.c ****   /* definition and creation of Task_CAN1_Recei */
+ 160:Core/Src/freertos.c ****   osThreadDef(Task_CAN1_Recei, CAN1_Rec, osPriorityHigh, 0, 256);
+ 161:Core/Src/freertos.c ****   Task_CAN1_ReceiHandle = osThreadCreate(osThread(Task_CAN1_Recei), NULL);
+ 162:Core/Src/freertos.c **** 
+ 163:Core/Src/freertos.c ****   /* definition and creation of Task_CAN2_Recei */
+ 164:Core/Src/freertos.c ****   osThreadDef(Task_CAN2_Recei, CAN2_Rec, osPriorityHigh, 0, 256);
+ 165:Core/Src/freertos.c ****   Task_CAN2_ReceiHandle = osThreadCreate(osThread(Task_CAN2_Recei), NULL);
+ 166:Core/Src/freertos.c **** 
+ 167:Core/Src/freertos.c ****   /* definition and creation of Robot_Control */
+ 168:Core/Src/freertos.c ****   osThreadDef(Robot_Control, Robot_Control_All, osPriorityRealtime, 0, 1000);
+ 169:Core/Src/freertos.c ****   Robot_ControlHandle = osThreadCreate(osThread(Robot_Control), NULL);
+ 170:Core/Src/freertos.c **** 
+ 171:Core/Src/freertos.c ****   /* definition and creation of Task_UI */
+ 172:Core/Src/freertos.c ****   osThreadDef(Task_UI, UI_Draw, osPriorityNormal, 0, 256);
+ 173:Core/Src/freertos.c ****   Task_UIHandle = osThreadCreate(osThread(Task_UI), NULL);
+ 174:Core/Src/freertos.c **** 
+ 175:Core/Src/freertos.c ****   /* definition and creation of Task_Serial */
+ 176:Core/Src/freertos.c ****   osThreadDef(Task_Serial, Serial_Send, osPriorityNormal, 0, 128);
+ 177:Core/Src/freertos.c ****   Task_SerialHandle = osThreadCreate(osThread(Task_Serial), NULL);
+ 178:Core/Src/freertos.c **** 
+ 179:Core/Src/freertos.c ****   /* USER CODE BEGIN RTOS_THREADS */
+ 180:Core/Src/freertos.c ****   /* add threads, ... */
+ 181:Core/Src/freertos.c ****   /* USER CODE END RTOS_THREADS */
+ 182:Core/Src/freertos.c **** 
+ 183:Core/Src/freertos.c **** }
+ 184:Core/Src/freertos.c **** 
+ 185:Core/Src/freertos.c **** /* USER CODE BEGIN Header_IMU_Tasks */
+ 186:Core/Src/freertos.c **** /**
+ 187:Core/Src/freertos.c ****   * @brief  Function implementing the Task_IMU thread.
+ 188:Core/Src/freertos.c ****   * @param  argument: Not used
+ 189:Core/Src/freertos.c ****   * @retval None
+ 190:Core/Src/freertos.c ****   */
+ 191:Core/Src/freertos.c **** /* USER CODE END Header_IMU_Tasks */
+ 192:Core/Src/freertos.c **** void IMU_Tasks(void const * argument)
+ 193:Core/Src/freertos.c **** {
+  30              		.loc 1 193 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 193 1 is_stmt 0 view .LVU1
+  35 0000 30B5     		push	{r4, r5, lr}
+  36              	.LCFI0:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 5
+
+
+  37              		.cfi_def_cfa_offset 12
+  38              		.cfi_offset 4, -12
+  39              		.cfi_offset 5, -8
+  40              		.cfi_offset 14, -4
+  41 0002 83B0     		sub	sp, sp, #12
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_offset 24
+ 194:Core/Src/freertos.c ****   /* USER CODE BEGIN IMU_Tasks */
+ 195:Core/Src/freertos.c **** 	portTickType xLastWakeTime;
+  44              		.loc 1 195 2 is_stmt 1 view .LVU2
+ 196:Core/Src/freertos.c ****   xLastWakeTime = xTaskGetTickCount();
+  45              		.loc 1 196 3 view .LVU3
+  46              		.loc 1 196 19 is_stmt 0 view .LVU4
+  47 0004 FFF7FEFF 		bl	xTaskGetTickCount
+  48              	.LVL1:
+  49              		.loc 1 196 17 view .LVU5
+  50 0008 0190     		str	r0, [sp, #4]
+ 197:Core/Src/freertos.c **** 
+ 198:Core/Src/freertos.c ****   const TickType_t TimeIncrement = pdMS_TO_TICKS(2);
+  51              		.loc 1 198 3 is_stmt 1 view .LVU6
+  52              	.LVL2:
+  53              	.L2:
+ 199:Core/Src/freertos.c ****   /* Infinite loop */
+ 200:Core/Src/freertos.c ****   for(;;)
+  54              		.loc 1 200 3 discriminator 1 view .LVU7
+ 201:Core/Src/freertos.c ****   {
+ 202:Core/Src/freertos.c **** 		Board_A_IMU_Func.Board_A_IMU_Read_Data(&Board_A_IMU);
+  55              		.loc 1 202 3 discriminator 1 view .LVU8
+  56              		.loc 1 202 19 is_stmt 0 discriminator 1 view .LVU9
+  57 000a 0B4D     		ldr	r5, .L4
+  58 000c AB68     		ldr	r3, [r5, #8]
+  59              		.loc 1 202 3 discriminator 1 view .LVU10
+  60 000e 0B4C     		ldr	r4, .L4+4
+  61 0010 2046     		mov	r0, r4
+  62 0012 9847     		blx	r3
+  63              	.LVL3:
+ 203:Core/Src/freertos.c **** 		Board_A_IMU_Func.Board_A_IMU_Calc_Angle(&Board_A_IMU);
+  64              		.loc 1 203 3 is_stmt 1 discriminator 1 view .LVU11
+  65              		.loc 1 203 19 is_stmt 0 discriminator 1 view .LVU12
+  66 0014 EB68     		ldr	r3, [r5, #12]
+  67              		.loc 1 203 3 discriminator 1 view .LVU13
+  68 0016 2046     		mov	r0, r4
+  69 0018 9847     		blx	r3
+  70              	.LVL4:
+ 204:Core/Src/freertos.c **** 		Board_A_IMU_Func.Board_A_IMU_Calibrate(&Board_A_IMU);
+  71              		.loc 1 204 3 is_stmt 1 discriminator 1 view .LVU14
+  72              		.loc 1 204 19 is_stmt 0 discriminator 1 view .LVU15
+  73 001a 6B68     		ldr	r3, [r5, #4]
+  74              		.loc 1 204 3 discriminator 1 view .LVU16
+  75 001c 2046     		mov	r0, r4
+  76 001e 9847     		blx	r3
+  77              	.LVL5:
+ 205:Core/Src/freertos.c **** 		IMU_Temp_Control_Func.Board_A_IMU_Temp_Control();
+  78              		.loc 1 205 3 is_stmt 1 discriminator 1 view .LVU17
+  79              		.loc 1 205 24 is_stmt 0 discriminator 1 view .LVU18
+  80 0020 074B     		ldr	r3, .L4+8
+  81 0022 5B68     		ldr	r3, [r3, #4]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 6
+
+
+  82              		.loc 1 205 3 discriminator 1 view .LVU19
+  83 0024 9847     		blx	r3
+  84              	.LVL6:
+ 206:Core/Src/freertos.c **** 		
+ 207:Core/Src/freertos.c **** 		Control_Board_A_Func.Board_A_Send_Data();
+  85              		.loc 1 207 3 is_stmt 1 discriminator 1 view .LVU20
+  86              		.loc 1 207 23 is_stmt 0 discriminator 1 view .LVU21
+  87 0026 074B     		ldr	r3, .L4+12
+  88 0028 1B68     		ldr	r3, [r3]
+  89              		.loc 1 207 3 discriminator 1 view .LVU22
+  90 002a 9847     		blx	r3
+  91              	.LVL7:
+ 208:Core/Src/freertos.c **** 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
+  92              		.loc 1 208 3 is_stmt 1 discriminator 1 view .LVU23
+  93 002c 0221     		movs	r1, #2
+  94 002e 01A8     		add	r0, sp, #4
+  95 0030 FFF7FEFF 		bl	vTaskDelayUntil
+  96              	.LVL8:
+ 200:Core/Src/freertos.c ****   {
+  97              		.loc 1 200 3 discriminator 1 view .LVU24
+  98 0034 E9E7     		b	.L2
+  99              	.L5:
+ 100 0036 00BF     		.align	2
+ 101              	.L4:
+ 102 0038 00000000 		.word	Board_A_IMU_Func
+ 103 003c 00000000 		.word	Board_A_IMU
+ 104 0040 00000000 		.word	IMU_Temp_Control_Func
+ 105 0044 00000000 		.word	Control_Board_A_Func
+ 106              		.cfi_endproc
+ 107              	.LFE165:
+ 109              		.section	.text.Robot_Control_All,"ax",%progbits
+ 110              		.align	1
+ 111              		.global	Robot_Control_All
+ 112              		.syntax unified
+ 113              		.thumb
+ 114              		.thumb_func
+ 116              	Robot_Control_All:
+ 117              	.LVL9:
+ 118              	.LFB170:
+ 209:Core/Src/freertos.c ****   }
+ 210:Core/Src/freertos.c ****   /* USER CODE END IMU_Tasks */
+ 211:Core/Src/freertos.c **** }
+ 212:Core/Src/freertos.c **** 
+ 213:Core/Src/freertos.c **** /* USER CODE BEGIN Header_General_Initialization */
+ 214:Core/Src/freertos.c **** /**
+ 215:Core/Src/freertos.c **** * @brief Function implementing the Initialization thread.
+ 216:Core/Src/freertos.c **** * @param argument: Not used
+ 217:Core/Src/freertos.c **** * @retval None
+ 218:Core/Src/freertos.c **** */
+ 219:Core/Src/freertos.c **** /* USER CODE END Header_General_Initialization */
+ 220:Core/Src/freertos.c **** void General_Initialization(void const * argument)
+ 221:Core/Src/freertos.c **** {
+ 222:Core/Src/freertos.c ****   /* USER CODE BEGIN General_Initialization */
+ 223:Core/Src/freertos.c ****   /* Infinite loop */
+ 224:Core/Src/freertos.c **** 	Buzzer_Func.Buzzer_Init();
+ 225:Core/Src/freertos.c **** 	IMU_Temp_Control_Func.Board_A_IMU_Temp_Control_Init();
+ 226:Core/Src/freertos.c **** 	Board_A_IMU_Func.Board_A_IMU_Init();	
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 7
+
+
+ 227:Core/Src/freertos.c **** 	FusionAhrsInitialise(&Board_A_IMU_AHRS);
+ 228:Core/Src/freertos.c **** 	DR16_Func.DR16_USART_Receive_DMA(&huart1);
+ 229:Core/Src/freertos.c **** 	Control_Board_A_Func.Board_A_USART_Receive_DMA(&huart7);
+ 230:Core/Src/freertos.c **** 	Referee_System_Func.Referee_UART_Receive_Interrupt(&huart6,Referee_System.Buffer,sizeof(Referee_Sy
+ 231:Core/Src/freertos.c **** 	UI_Initialization();
+ 232:Core/Src/freertos.c **** 	CAN_Func.CAN_IT_Init(&hcan1, CAN1_Type);
+ 233:Core/Src/freertos.c ****   CAN_Func.CAN_IT_Init(&hcan2, CAN2_Type);
+ 234:Core/Src/freertos.c **** 	Tx2_Func.Jetson_Tx2_Initialization();
+ 235:Core/Src/freertos.c **** 	Gimbal_Func.Gimbal_Init();
+ 236:Core/Src/freertos.c **** 	Shooting_Func.Shooting_Init();
+ 237:Core/Src/freertos.c **** 	Chassis.Slip_Detection.Max_Speed_Left = 300000;
+ 238:Core/Src/freertos.c **** 	Chassis.Slip_Detection.Max_Speed_Right = 300000;
+ 239:Core/Src/freertos.c **** 	vTaskDelete(NULL);
+ 240:Core/Src/freertos.c **** 	
+ 241:Core/Src/freertos.c ****   /* USER CODE END General_Initialization */
+ 242:Core/Src/freertos.c **** }
+ 243:Core/Src/freertos.c **** 
+ 244:Core/Src/freertos.c **** /* USER CODE BEGIN Header_CAN_Send_All */
+ 245:Core/Src/freertos.c **** /**
+ 246:Core/Src/freertos.c **** * @brief Function implementing the Task_CAN_Send thread.
+ 247:Core/Src/freertos.c **** * @param argument: Not used
+ 248:Core/Src/freertos.c **** * @retval None
+ 249:Core/Src/freertos.c **** */
+ 250:Core/Src/freertos.c **** /* USER CODE END Header_CAN_Send_All */
+ 251:Core/Src/freertos.c **** void CAN_Send_All(void const * argument)
+ 252:Core/Src/freertos.c **** {
+ 253:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN_Send_All */
+ 254:Core/Src/freertos.c **** 	CAN_Send_Data_t CAN_Send_Data;	
+ 255:Core/Src/freertos.c ****   /* Infinite loop */
+ 256:Core/Src/freertos.c ****   for(;;)
+ 257:Core/Src/freertos.c ****   {
+ 258:Core/Src/freertos.c ****     xQueueReceive(CAN_SendHandle, &CAN_Send_Data, portMAX_DELAY);
+ 259:Core/Src/freertos.c ****     HAL_CAN_AddTxMessage(CAN_Send_Data.Canx, &CAN_Send_Data.CAN_TxHeader, CAN_Send_Data.CANx_Send_R
+ 260:Core/Src/freertos.c ****   }
+ 261:Core/Src/freertos.c ****   /* USER CODE END CAN_Send_All */
+ 262:Core/Src/freertos.c **** }
+ 263:Core/Src/freertos.c **** 
+ 264:Core/Src/freertos.c **** /* USER CODE BEGIN Header_CAN1_Rec */
+ 265:Core/Src/freertos.c **** /**
+ 266:Core/Src/freertos.c **** * @brief Function implementing the Task_CAN1_Recei thread.
+ 267:Core/Src/freertos.c **** * @param argument: Not used
+ 268:Core/Src/freertos.c **** * @retval None
+ 269:Core/Src/freertos.c **** */
+ 270:Core/Src/freertos.c **** /* USER CODE END Header_CAN1_Rec */
+ 271:Core/Src/freertos.c **** void CAN1_Rec(void const * argument)
+ 272:Core/Src/freertos.c **** {
+ 273:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN1_Rec */
+ 274:Core/Src/freertos.c **** 	CAN_Export_Data_t CAN_Export_Data;
+ 275:Core/Src/freertos.c **** 	uint32_t ID;
+ 276:Core/Src/freertos.c ****   /* Infinite loop */
+ 277:Core/Src/freertos.c ****   for(;;)
+ 278:Core/Src/freertos.c ****   {
+ 279:Core/Src/freertos.c ****     xQueueReceive(CAN1_ReceiveHandle, &CAN_Export_Data, portMAX_DELAY);
+ 280:Core/Src/freertos.c **** 		ID = CAN_Export_Data.CAN_RxHeader.StdId;
+ 281:Core/Src/freertos.c **** 		if(ID == SUPERCAP_ID)
+ 282:Core/Src/freertos.c **** 			Super_Capacitor_Func.Super_Capacitor_Get_Data(CAN_Export_Data);
+ 283:Core/Src/freertos.c **** 		else if(ID == (MF9025_DEVICE_ID + MF9025_CHASSIS_LEFT_ID) || ID == (MF9025_DEVICE_ID + MF9025_CHA
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 8
+
+
+ 284:Core/Src/freertos.c **** 			MF9025_Func.MF9025_Chassis_Get_Data(CAN_Export_Data);
+ 285:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 286:Core/Src/freertos.c **** 			GM6020_Func.GM6020_Yaw_Get_Data(CAN_Export_Data);
+ 287:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 288:Core/Src/freertos.c **** 			GM6020_Func.GM6020_Pitch_Get_Data(CAN_Export_Data);
+ 289:Core/Src/freertos.c **** 		
+ 290:Core/Src/freertos.c **** 		Monitor_CAN1.Info_Update_Frame++;
+ 291:Core/Src/freertos.c ****   }
+ 292:Core/Src/freertos.c ****   /* USER CODE END CAN1_Rec */
+ 293:Core/Src/freertos.c **** }
+ 294:Core/Src/freertos.c **** 
+ 295:Core/Src/freertos.c **** /* USER CODE BEGIN Header_CAN2_Rec */
+ 296:Core/Src/freertos.c **** /**
+ 297:Core/Src/freertos.c **** * @brief Function implementing the Task_CAN2_Recei thread.
+ 298:Core/Src/freertos.c **** * @param argument: Not used
+ 299:Core/Src/freertos.c **** * @retval None
+ 300:Core/Src/freertos.c **** */
+ 301:Core/Src/freertos.c **** /* USER CODE END Header_CAN2_Rec */
+ 302:Core/Src/freertos.c **** void CAN2_Rec(void const * argument)
+ 303:Core/Src/freertos.c **** {
+ 304:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN2_Rec */
+ 305:Core/Src/freertos.c **** 	CAN_Export_Data_t CAN_Export_Data;
+ 306:Core/Src/freertos.c **** 	uint32_t ID;
+ 307:Core/Src/freertos.c **** 	//uint32_t ID;
+ 308:Core/Src/freertos.c ****   /* Infinite loop */
+ 309:Core/Src/freertos.c ****   for(;;)
+ 310:Core/Src/freertos.c ****   {
+ 311:Core/Src/freertos.c ****     xQueueReceive(CAN2_ReceiveHandle, &CAN_Export_Data, portMAX_DELAY);
+ 312:Core/Src/freertos.c **** 		ID = CAN_Export_Data.CAN_RxHeader.StdId;
+ 313:Core/Src/freertos.c **** 		if(ID == M2006_TRIGGER_ID)
+ 314:Core/Src/freertos.c **** 			M2006_Func.M2006_Trigger_Get_Data(CAN_Export_Data);
+ 315:Core/Src/freertos.c **** 		else if(ID == M3508_FRIC_WHEEL_LEFT_ID || ID == M3508_FRIC_WHEEL_RIGHT_ID)
+ 316:Core/Src/freertos.c **** 			M3508_Func.M3508_Fric_Wheel_Get_Data(CAN_Export_Data);
+ 317:Core/Src/freertos.c **** 		
+ 318:Core/Src/freertos.c **** 		Monitor_CAN2.Info_Update_Frame++;
+ 319:Core/Src/freertos.c ****   }
+ 320:Core/Src/freertos.c ****   /* USER CODE END CAN2_Rec */
+ 321:Core/Src/freertos.c **** }
+ 322:Core/Src/freertos.c **** 
+ 323:Core/Src/freertos.c **** /* USER CODE BEGIN Header_Robot_Control_All */
+ 324:Core/Src/freertos.c **** /**
+ 325:Core/Src/freertos.c **** * @brief Function implementing the Robot_Control thread.
+ 326:Core/Src/freertos.c **** * @param argument: Not used
+ 327:Core/Src/freertos.c **** * @retval None
+ 328:Core/Src/freertos.c **** */
+ 329:Core/Src/freertos.c **** /* USER CODE END Header_Robot_Control_All */
+ 330:Core/Src/freertos.c **** void Robot_Control_All(void const * argument)
+ 331:Core/Src/freertos.c **** {
+ 119              		.loc 1 331 1 view -0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 8
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		.loc 1 331 1 is_stmt 0 view .LVU26
+ 124 0000 00B5     		push	{lr}
+ 125              	.LCFI2:
+ 126              		.cfi_def_cfa_offset 4
+ 127              		.cfi_offset 14, -4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 9
+
+
+ 128 0002 83B0     		sub	sp, sp, #12
+ 129              	.LCFI3:
+ 130              		.cfi_def_cfa_offset 16
+ 332:Core/Src/freertos.c ****   /* USER CODE BEGIN Robot_Control_All */
+ 333:Core/Src/freertos.c **** 	portTickType xLastWakeTime;
+ 131              		.loc 1 333 2 is_stmt 1 view .LVU27
+ 334:Core/Src/freertos.c ****   xLastWakeTime = xTaskGetTickCount();
+ 132              		.loc 1 334 3 view .LVU28
+ 133              		.loc 1 334 19 is_stmt 0 view .LVU29
+ 134 0004 FFF7FEFF 		bl	xTaskGetTickCount
+ 135              	.LVL10:
+ 136              		.loc 1 334 17 view .LVU30
+ 137 0008 0190     		str	r0, [sp, #4]
+ 335:Core/Src/freertos.c ****   const TickType_t TimeIncrement = pdMS_TO_TICKS(2);
+ 138              		.loc 1 335 3 is_stmt 1 view .LVU31
+ 139              	.LVL11:
+ 140              	.L7:
+ 336:Core/Src/freertos.c ****   /* Infinite loop */
+ 337:Core/Src/freertos.c ****   for(;;)
+ 141              		.loc 1 337 3 discriminator 1 view .LVU32
+ 338:Core/Src/freertos.c ****   {
+ 339:Core/Src/freertos.c ****     Robot_Control_Func.Robot_Control_Start();
+ 142              		.loc 1 339 5 discriminator 1 view .LVU33
+ 143              		.loc 1 339 23 is_stmt 0 discriminator 1 view .LVU34
+ 144 000a 044B     		ldr	r3, .L9
+ 145 000c 1B68     		ldr	r3, [r3]
+ 146              		.loc 1 339 5 discriminator 1 view .LVU35
+ 147 000e 9847     		blx	r3
+ 148              	.LVL12:
+ 340:Core/Src/freertos.c **** 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
+ 149              		.loc 1 340 3 is_stmt 1 discriminator 1 view .LVU36
+ 150 0010 0221     		movs	r1, #2
+ 151 0012 01A8     		add	r0, sp, #4
+ 152 0014 FFF7FEFF 		bl	vTaskDelayUntil
+ 153              	.LVL13:
+ 337:Core/Src/freertos.c ****   {
+ 154              		.loc 1 337 3 discriminator 1 view .LVU37
+ 155 0018 F7E7     		b	.L7
+ 156              	.L10:
+ 157 001a 00BF     		.align	2
+ 158              	.L9:
+ 159 001c 00000000 		.word	Robot_Control_Func
+ 160              		.cfi_endproc
+ 161              	.LFE170:
+ 163              		.section	.text.General_Initialization,"ax",%progbits
+ 164              		.align	1
+ 165              		.global	General_Initialization
+ 166              		.syntax unified
+ 167              		.thumb
+ 168              		.thumb_func
+ 170              	General_Initialization:
+ 171              	.LVL14:
+ 172              	.LFB166:
+ 221:Core/Src/freertos.c ****   /* USER CODE BEGIN General_Initialization */
+ 173              		.loc 1 221 1 view -0
+ 174              		.cfi_startproc
+ 175              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 10
+
+
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 221:Core/Src/freertos.c ****   /* USER CODE BEGIN General_Initialization */
+ 177              		.loc 1 221 1 is_stmt 0 view .LVU39
+ 178 0000 10B5     		push	{r4, lr}
+ 179              	.LCFI4:
+ 180              		.cfi_def_cfa_offset 8
+ 181              		.cfi_offset 4, -8
+ 182              		.cfi_offset 14, -4
+ 224:Core/Src/freertos.c **** 	IMU_Temp_Control_Func.Board_A_IMU_Temp_Control_Init();
+ 183              		.loc 1 224 2 is_stmt 1 view .LVU40
+ 224:Core/Src/freertos.c **** 	IMU_Temp_Control_Func.Board_A_IMU_Temp_Control_Init();
+ 184              		.loc 1 224 13 is_stmt 0 view .LVU41
+ 185 0002 1C4B     		ldr	r3, .L13
+ 186 0004 1B68     		ldr	r3, [r3]
+ 224:Core/Src/freertos.c **** 	IMU_Temp_Control_Func.Board_A_IMU_Temp_Control_Init();
+ 187              		.loc 1 224 2 view .LVU42
+ 188 0006 9847     		blx	r3
+ 189              	.LVL15:
+ 225:Core/Src/freertos.c **** 	Board_A_IMU_Func.Board_A_IMU_Init();	
+ 190              		.loc 1 225 2 is_stmt 1 view .LVU43
+ 225:Core/Src/freertos.c **** 	Board_A_IMU_Func.Board_A_IMU_Init();	
+ 191              		.loc 1 225 23 is_stmt 0 view .LVU44
+ 192 0008 1B4B     		ldr	r3, .L13+4
+ 193 000a 1B68     		ldr	r3, [r3]
+ 225:Core/Src/freertos.c **** 	Board_A_IMU_Func.Board_A_IMU_Init();	
+ 194              		.loc 1 225 2 view .LVU45
+ 195 000c 9847     		blx	r3
+ 196              	.LVL16:
+ 226:Core/Src/freertos.c **** 	FusionAhrsInitialise(&Board_A_IMU_AHRS);
+ 197              		.loc 1 226 2 is_stmt 1 view .LVU46
+ 226:Core/Src/freertos.c **** 	FusionAhrsInitialise(&Board_A_IMU_AHRS);
+ 198              		.loc 1 226 18 is_stmt 0 view .LVU47
+ 199 000e 1B4B     		ldr	r3, .L13+8
+ 200 0010 1B68     		ldr	r3, [r3]
+ 226:Core/Src/freertos.c **** 	FusionAhrsInitialise(&Board_A_IMU_AHRS);
+ 201              		.loc 1 226 2 view .LVU48
+ 202 0012 9847     		blx	r3
+ 203              	.LVL17:
+ 227:Core/Src/freertos.c **** 	DR16_Func.DR16_USART_Receive_DMA(&huart1);
+ 204              		.loc 1 227 2 is_stmt 1 view .LVU49
+ 205 0014 1A48     		ldr	r0, .L13+12
+ 206 0016 FFF7FEFF 		bl	FusionAhrsInitialise
+ 207              	.LVL18:
+ 228:Core/Src/freertos.c **** 	Control_Board_A_Func.Board_A_USART_Receive_DMA(&huart7);
+ 208              		.loc 1 228 2 view .LVU50
+ 228:Core/Src/freertos.c **** 	Control_Board_A_Func.Board_A_USART_Receive_DMA(&huart7);
+ 209              		.loc 1 228 11 is_stmt 0 view .LVU51
+ 210 001a 1A4B     		ldr	r3, .L13+16
+ 211 001c 5B68     		ldr	r3, [r3, #4]
+ 228:Core/Src/freertos.c **** 	Control_Board_A_Func.Board_A_USART_Receive_DMA(&huart7);
+ 212              		.loc 1 228 2 view .LVU52
+ 213 001e 1A48     		ldr	r0, .L13+20
+ 214 0020 9847     		blx	r3
+ 215              	.LVL19:
+ 229:Core/Src/freertos.c **** 	Referee_System_Func.Referee_UART_Receive_Interrupt(&huart6,Referee_System.Buffer,sizeof(Referee_Sy
+ 216              		.loc 1 229 2 is_stmt 1 view .LVU53
+ 229:Core/Src/freertos.c **** 	Referee_System_Func.Referee_UART_Receive_Interrupt(&huart6,Referee_System.Buffer,sizeof(Referee_Sy
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 11
+
+
+ 217              		.loc 1 229 22 is_stmt 0 view .LVU54
+ 218 0022 1A4B     		ldr	r3, .L13+24
+ 219 0024 DB68     		ldr	r3, [r3, #12]
+ 229:Core/Src/freertos.c **** 	Referee_System_Func.Referee_UART_Receive_Interrupt(&huart6,Referee_System.Buffer,sizeof(Referee_Sy
+ 220              		.loc 1 229 2 view .LVU55
+ 221 0026 1A48     		ldr	r0, .L13+28
+ 222 0028 9847     		blx	r3
+ 223              	.LVL20:
+ 230:Core/Src/freertos.c **** 	UI_Initialization();
+ 224              		.loc 1 230 2 is_stmt 1 view .LVU56
+ 230:Core/Src/freertos.c **** 	UI_Initialization();
+ 225              		.loc 1 230 21 is_stmt 0 view .LVU57
+ 226 002a 1A4B     		ldr	r3, .L13+32
+ 227 002c 1B68     		ldr	r3, [r3]
+ 230:Core/Src/freertos.c **** 	UI_Initialization();
+ 228              		.loc 1 230 2 view .LVU58
+ 229 002e 40F28512 		movw	r2, #389
+ 230 0032 1949     		ldr	r1, .L13+36
+ 231 0034 1948     		ldr	r0, .L13+40
+ 232 0036 9847     		blx	r3
+ 233              	.LVL21:
+ 231:Core/Src/freertos.c **** 	CAN_Func.CAN_IT_Init(&hcan1, CAN1_Type);
+ 234              		.loc 1 231 2 is_stmt 1 view .LVU59
+ 235 0038 FFF7FEFF 		bl	UI_Initialization
+ 236              	.LVL22:
+ 232:Core/Src/freertos.c ****   CAN_Func.CAN_IT_Init(&hcan2, CAN2_Type);
+ 237              		.loc 1 232 2 view .LVU60
+ 232:Core/Src/freertos.c ****   CAN_Func.CAN_IT_Init(&hcan2, CAN2_Type);
+ 238              		.loc 1 232 10 is_stmt 0 view .LVU61
+ 239 003c 184C     		ldr	r4, .L13+44
+ 240 003e 2368     		ldr	r3, [r4]
+ 232:Core/Src/freertos.c ****   CAN_Func.CAN_IT_Init(&hcan2, CAN2_Type);
+ 241              		.loc 1 232 2 view .LVU62
+ 242 0040 0121     		movs	r1, #1
+ 243 0042 1848     		ldr	r0, .L13+48
+ 244 0044 9847     		blx	r3
+ 245              	.LVL23:
+ 233:Core/Src/freertos.c **** 	Tx2_Func.Jetson_Tx2_Initialization();
+ 246              		.loc 1 233 3 is_stmt 1 view .LVU63
+ 233:Core/Src/freertos.c **** 	Tx2_Func.Jetson_Tx2_Initialization();
+ 247              		.loc 1 233 11 is_stmt 0 view .LVU64
+ 248 0046 2368     		ldr	r3, [r4]
+ 233:Core/Src/freertos.c **** 	Tx2_Func.Jetson_Tx2_Initialization();
+ 249              		.loc 1 233 3 view .LVU65
+ 250 0048 0221     		movs	r1, #2
+ 251 004a 1748     		ldr	r0, .L13+52
+ 252 004c 9847     		blx	r3
+ 253              	.LVL24:
+ 234:Core/Src/freertos.c **** 	Gimbal_Func.Gimbal_Init();
+ 254              		.loc 1 234 2 is_stmt 1 view .LVU66
+ 234:Core/Src/freertos.c **** 	Gimbal_Func.Gimbal_Init();
+ 255              		.loc 1 234 10 is_stmt 0 view .LVU67
+ 256 004e 174B     		ldr	r3, .L13+56
+ 257 0050 1B68     		ldr	r3, [r3]
+ 234:Core/Src/freertos.c **** 	Gimbal_Func.Gimbal_Init();
+ 258              		.loc 1 234 2 view .LVU68
+ 259 0052 9847     		blx	r3
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 12
+
+
+ 260              	.LVL25:
+ 235:Core/Src/freertos.c **** 	Shooting_Func.Shooting_Init();
+ 261              		.loc 1 235 2 is_stmt 1 view .LVU69
+ 235:Core/Src/freertos.c **** 	Shooting_Func.Shooting_Init();
+ 262              		.loc 1 235 13 is_stmt 0 view .LVU70
+ 263 0054 164B     		ldr	r3, .L13+60
+ 264 0056 1B68     		ldr	r3, [r3]
+ 235:Core/Src/freertos.c **** 	Shooting_Func.Shooting_Init();
+ 265              		.loc 1 235 2 view .LVU71
+ 266 0058 9847     		blx	r3
+ 267              	.LVL26:
+ 236:Core/Src/freertos.c **** 	Chassis.Slip_Detection.Max_Speed_Left = 300000;
+ 268              		.loc 1 236 2 is_stmt 1 view .LVU72
+ 236:Core/Src/freertos.c **** 	Chassis.Slip_Detection.Max_Speed_Left = 300000;
+ 269              		.loc 1 236 15 is_stmt 0 view .LVU73
+ 270 005a 164B     		ldr	r3, .L13+64
+ 271 005c 1B68     		ldr	r3, [r3]
+ 236:Core/Src/freertos.c **** 	Chassis.Slip_Detection.Max_Speed_Left = 300000;
+ 272              		.loc 1 236 2 view .LVU74
+ 273 005e 9847     		blx	r3
+ 274              	.LVL27:
+ 237:Core/Src/freertos.c **** 	Chassis.Slip_Detection.Max_Speed_Right = 300000;
+ 275              		.loc 1 237 2 is_stmt 1 view .LVU75
+ 237:Core/Src/freertos.c **** 	Chassis.Slip_Detection.Max_Speed_Right = 300000;
+ 276              		.loc 1 237 40 is_stmt 0 view .LVU76
+ 277 0060 154B     		ldr	r3, .L13+68
+ 278 0062 164A     		ldr	r2, .L13+72
+ 279 0064 C3F89020 		str	r2, [r3, #144]
+ 238:Core/Src/freertos.c **** 	vTaskDelete(NULL);
+ 280              		.loc 1 238 2 is_stmt 1 view .LVU77
+ 238:Core/Src/freertos.c **** 	vTaskDelete(NULL);
+ 281              		.loc 1 238 41 is_stmt 0 view .LVU78
+ 282 0068 C3F89420 		str	r2, [r3, #148]
+ 239:Core/Src/freertos.c **** 	
+ 283              		.loc 1 239 2 is_stmt 1 view .LVU79
+ 284 006c 0020     		movs	r0, #0
+ 285 006e FFF7FEFF 		bl	vTaskDelete
+ 286              	.LVL28:
+ 242:Core/Src/freertos.c **** 
+ 287              		.loc 1 242 1 is_stmt 0 view .LVU80
+ 288 0072 10BD     		pop	{r4, pc}
+ 289              	.L14:
+ 290              		.align	2
+ 291              	.L13:
+ 292 0074 00000000 		.word	Buzzer_Func
+ 293 0078 00000000 		.word	IMU_Temp_Control_Func
+ 294 007c 00000000 		.word	Board_A_IMU_Func
+ 295 0080 00000000 		.word	Board_A_IMU_AHRS
+ 296 0084 00000000 		.word	DR16_Func
+ 297 0088 00000000 		.word	huart1
+ 298 008c 00000000 		.word	Control_Board_A_Func
+ 299 0090 00000000 		.word	huart7
+ 300 0094 00000000 		.word	Referee_System_Func
+ 301 0098 02000000 		.word	Referee_System+2
+ 302 009c 00000000 		.word	huart6
+ 303 00a0 00000000 		.word	CAN_Func
+ 304 00a4 00000000 		.word	hcan1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 13
+
+
+ 305 00a8 00000000 		.word	hcan2
+ 306 00ac 00000000 		.word	Tx2_Func
+ 307 00b0 00000000 		.word	Gimbal_Func
+ 308 00b4 00000000 		.word	Shooting_Func
+ 309 00b8 00000000 		.word	Chassis
+ 310 00bc E0930400 		.word	300000
+ 311              		.cfi_endproc
+ 312              	.LFE166:
+ 314              		.section	.text.CAN1_Rec,"ax",%progbits
+ 315              		.align	1
+ 316              		.global	CAN1_Rec
+ 317              		.syntax unified
+ 318              		.thumb
+ 319              		.thumb_func
+ 321              	CAN1_Rec:
+ 322              	.LFB168:
+ 272:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN1_Rec */
+ 323              		.loc 1 272 1 is_stmt 1 view -0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 40
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327              	.LVL29:
+ 272:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN1_Rec */
+ 328              		.loc 1 272 1 is_stmt 0 view .LVU82
+ 329 0000 10B5     		push	{r4, lr}
+ 330              	.LCFI5:
+ 331              		.cfi_def_cfa_offset 8
+ 332              		.cfi_offset 4, -8
+ 333              		.cfi_offset 14, -4
+ 334 0002 90B0     		sub	sp, sp, #64
+ 335              	.LCFI6:
+ 336              		.cfi_def_cfa_offset 72
+ 337 0004 13E0     		b	.L20
+ 338              	.LVL30:
+ 339              	.L22:
+ 282:Core/Src/freertos.c **** 		else if(ID == (MF9025_DEVICE_ID + MF9025_CHASSIS_LEFT_ID) || ID == (MF9025_DEVICE_ID + MF9025_CHA
+ 340              		.loc 1 282 4 is_stmt 1 view .LVU83
+ 282:Core/Src/freertos.c **** 		else if(ID == (MF9025_DEVICE_ID + MF9025_CHASSIS_LEFT_ID) || ID == (MF9025_DEVICE_ID + MF9025_CHA
+ 341              		.loc 1 282 24 is_stmt 0 view .LVU84
+ 342 0006 2F4B     		ldr	r3, .L25
+ 343              	.LVL31:
+ 282:Core/Src/freertos.c **** 		else if(ID == (MF9025_DEVICE_ID + MF9025_CHASSIS_LEFT_ID) || ID == (MF9025_DEVICE_ID + MF9025_CHA
+ 344              		.loc 1 282 24 view .LVU85
+ 345 0008 1C68     		ldr	r4, [r3]
+ 282:Core/Src/freertos.c **** 		else if(ID == (MF9025_DEVICE_ID + MF9025_CHASSIS_LEFT_ID) || ID == (MF9025_DEVICE_ID + MF9025_CHA
+ 346              		.loc 1 282 4 view .LVU86
+ 347 000a EC46     		mov	ip, sp
+ 348 000c 0DF12C0E 		add	lr, sp, #44
+ 349 0010 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 350 0014 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 351 0018 DEF80030 		ldr	r3, [lr]
+ 352 001c CCF80030 		str	r3, [ip]
+ 353 0020 07AB     		add	r3, sp, #28
+ 354              	.LVL32:
+ 282:Core/Src/freertos.c **** 		else if(ID == (MF9025_DEVICE_ID + MF9025_CHASSIS_LEFT_ID) || ID == (MF9025_DEVICE_ID + MF9025_CHA
+ 355              		.loc 1 282 4 view .LVU87
+ 356 0022 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 14
+
+
+ 357              	.LVL33:
+ 282:Core/Src/freertos.c **** 		else if(ID == (MF9025_DEVICE_ID + MF9025_CHASSIS_LEFT_ID) || ID == (MF9025_DEVICE_ID + MF9025_CHA
+ 358              		.loc 1 282 4 view .LVU88
+ 359 0024 A047     		blx	r4
+ 360              	.LVL34:
+ 361              	.L17:
+ 290:Core/Src/freertos.c ****   }
+ 362              		.loc 1 290 3 is_stmt 1 view .LVU89
+ 290:Core/Src/freertos.c ****   }
+ 363              		.loc 1 290 15 is_stmt 0 view .LVU90
+ 364 0026 284A     		ldr	r2, .L25+4
+ 365 0028 5388     		ldrh	r3, [r2, #2]
+ 290:Core/Src/freertos.c ****   }
+ 366              		.loc 1 290 33 view .LVU91
+ 367 002a 0133     		adds	r3, r3, #1
+ 368 002c 5380     		strh	r3, [r2, #2]	@ movhi
+ 277:Core/Src/freertos.c ****   {
+ 369              		.loc 1 277 3 is_stmt 1 view .LVU92
+ 370              	.LVL35:
+ 371              	.L20:
+ 274:Core/Src/freertos.c **** 	uint32_t ID;
+ 372              		.loc 1 274 2 view .LVU93
+ 275:Core/Src/freertos.c ****   /* Infinite loop */
+ 373              		.loc 1 275 2 view .LVU94
+ 277:Core/Src/freertos.c ****   {
+ 374              		.loc 1 277 3 view .LVU95
+ 279:Core/Src/freertos.c **** 		ID = CAN_Export_Data.CAN_RxHeader.StdId;
+ 375              		.loc 1 279 5 view .LVU96
+ 376 002e 4FF0FF32 		mov	r2, #-1
+ 377 0032 07A9     		add	r1, sp, #28
+ 378 0034 254B     		ldr	r3, .L25+8
+ 379 0036 1868     		ldr	r0, [r3]
+ 380 0038 FFF7FEFF 		bl	xQueueReceive
+ 381              	.LVL36:
+ 280:Core/Src/freertos.c **** 		if(ID == SUPERCAP_ID)
+ 382              		.loc 1 280 3 view .LVU97
+ 280:Core/Src/freertos.c **** 		if(ID == SUPERCAP_ID)
+ 383              		.loc 1 280 6 is_stmt 0 view .LVU98
+ 384 003c 079B     		ldr	r3, [sp, #28]
+ 385              	.LVL37:
+ 281:Core/Src/freertos.c **** 			Super_Capacitor_Func.Super_Capacitor_Get_Data(CAN_Export_Data);
+ 386              		.loc 1 281 3 is_stmt 1 view .LVU99
+ 281:Core/Src/freertos.c **** 			Super_Capacitor_Func.Super_Capacitor_Get_Data(CAN_Export_Data);
+ 387              		.loc 1 281 5 is_stmt 0 view .LVU100
+ 388 003e 40F21122 		movw	r2, #529
+ 389 0042 9342     		cmp	r3, r2
+ 390 0044 DFD0     		beq	.L22
+ 283:Core/Src/freertos.c **** 			MF9025_Func.MF9025_Chassis_Get_Data(CAN_Export_Data);
+ 391              		.loc 1 283 8 is_stmt 1 view .LVU101
+ 283:Core/Src/freertos.c **** 			MF9025_Func.MF9025_Chassis_Get_Data(CAN_Export_Data);
+ 392              		.loc 1 283 61 is_stmt 0 view .LVU102
+ 393 0046 A3F24112 		subw	r2, r3, #321
+ 283:Core/Src/freertos.c **** 			MF9025_Func.MF9025_Chassis_Get_Data(CAN_Export_Data);
+ 394              		.loc 1 283 10 view .LVU103
+ 395 004a 012A     		cmp	r2, #1
+ 396 004c 18D9     		bls	.L23
+ 285:Core/Src/freertos.c **** 			GM6020_Func.GM6020_Yaw_Get_Data(CAN_Export_Data);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 15
+
+
+ 397              		.loc 1 285 8 is_stmt 1 view .LVU104
+ 285:Core/Src/freertos.c **** 			GM6020_Func.GM6020_Yaw_Get_Data(CAN_Export_Data);
+ 398              		.loc 1 285 10 is_stmt 0 view .LVU105
+ 399 004e 40F20B22 		movw	r2, #523
+ 400 0052 9342     		cmp	r3, r2
+ 401 0054 25D0     		beq	.L24
+ 287:Core/Src/freertos.c **** 			GM6020_Func.GM6020_Pitch_Get_Data(CAN_Export_Data);
+ 402              		.loc 1 287 8 is_stmt 1 view .LVU106
+ 287:Core/Src/freertos.c **** 			GM6020_Func.GM6020_Pitch_Get_Data(CAN_Export_Data);
+ 403              		.loc 1 287 10 is_stmt 0 view .LVU107
+ 404 0056 40F20A22 		movw	r2, #522
+ 405 005a 9342     		cmp	r3, r2
+ 406 005c E3D1     		bne	.L17
+ 288:Core/Src/freertos.c **** 		
+ 407              		.loc 1 288 4 is_stmt 1 view .LVU108
+ 288:Core/Src/freertos.c **** 		
+ 408              		.loc 1 288 15 is_stmt 0 view .LVU109
+ 409 005e 1C4B     		ldr	r3, .L25+12
+ 410              	.LVL38:
+ 288:Core/Src/freertos.c **** 		
+ 411              		.loc 1 288 15 view .LVU110
+ 412 0060 5C68     		ldr	r4, [r3, #4]
+ 288:Core/Src/freertos.c **** 		
+ 413              		.loc 1 288 4 view .LVU111
+ 414 0062 EC46     		mov	ip, sp
+ 415 0064 0DF12C0E 		add	lr, sp, #44
+ 416 0068 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 417 006c ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 418 0070 DEF80030 		ldr	r3, [lr]
+ 419 0074 CCF80030 		str	r3, [ip]
+ 420 0078 07AB     		add	r3, sp, #28
+ 421              	.LVL39:
+ 288:Core/Src/freertos.c **** 		
+ 422              		.loc 1 288 4 view .LVU112
+ 423 007a 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 424              	.LVL40:
+ 288:Core/Src/freertos.c **** 		
+ 425              		.loc 1 288 4 view .LVU113
+ 426 007c A047     		blx	r4
+ 427              	.LVL41:
+ 288:Core/Src/freertos.c **** 		
+ 428              		.loc 1 288 4 view .LVU114
+ 429 007e D2E7     		b	.L17
+ 430              	.LVL42:
+ 431              	.L23:
+ 284:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 432              		.loc 1 284 4 is_stmt 1 view .LVU115
+ 284:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 433              		.loc 1 284 15 is_stmt 0 view .LVU116
+ 434 0080 144B     		ldr	r3, .L25+16
+ 435              	.LVL43:
+ 284:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 436              		.loc 1 284 15 view .LVU117
+ 437 0082 1C68     		ldr	r4, [r3]
+ 284:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 438              		.loc 1 284 4 view .LVU118
+ 439 0084 EC46     		mov	ip, sp
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 16
+
+
+ 440 0086 0DF12C0E 		add	lr, sp, #44
+ 441 008a BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 442 008e ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 443 0092 DEF80030 		ldr	r3, [lr]
+ 444 0096 CCF80030 		str	r3, [ip]
+ 445 009a 07AB     		add	r3, sp, #28
+ 446              	.LVL44:
+ 284:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 447              		.loc 1 284 4 view .LVU119
+ 448 009c 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 449              	.LVL45:
+ 284:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 450              		.loc 1 284 4 view .LVU120
+ 451 009e A047     		blx	r4
+ 452              	.LVL46:
+ 284:Core/Src/freertos.c **** 		else if(ID == GM6020_YAW_ID)
+ 453              		.loc 1 284 4 view .LVU121
+ 454 00a0 C1E7     		b	.L17
+ 455              	.LVL47:
+ 456              	.L24:
+ 286:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 457              		.loc 1 286 4 is_stmt 1 view .LVU122
+ 286:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 458              		.loc 1 286 15 is_stmt 0 view .LVU123
+ 459 00a2 0B4B     		ldr	r3, .L25+12
+ 460              	.LVL48:
+ 286:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 461              		.loc 1 286 15 view .LVU124
+ 462 00a4 1C68     		ldr	r4, [r3]
+ 286:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 463              		.loc 1 286 4 view .LVU125
+ 464 00a6 EC46     		mov	ip, sp
+ 465 00a8 0DF12C0E 		add	lr, sp, #44
+ 466 00ac BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 467 00b0 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 468 00b4 DEF80030 		ldr	r3, [lr]
+ 469 00b8 CCF80030 		str	r3, [ip]
+ 470 00bc 07AB     		add	r3, sp, #28
+ 471              	.LVL49:
+ 286:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 472              		.loc 1 286 4 view .LVU126
+ 473 00be 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 474              	.LVL50:
+ 286:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 475              		.loc 1 286 4 view .LVU127
+ 476 00c0 A047     		blx	r4
+ 477              	.LVL51:
+ 286:Core/Src/freertos.c **** 		else if(ID == GM6020_PITCH_ID)
+ 478              		.loc 1 286 4 view .LVU128
+ 479 00c2 B0E7     		b	.L17
+ 480              	.L26:
+ 481              		.align	2
+ 482              	.L25:
+ 483 00c4 00000000 		.word	Super_Capacitor_Func
+ 484 00c8 00000000 		.word	Monitor_CAN1
+ 485 00cc 00000000 		.word	CAN1_ReceiveHandle
+ 486 00d0 00000000 		.word	GM6020_Func
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 17
+
+
+ 487 00d4 00000000 		.word	MF9025_Func
+ 488              		.cfi_endproc
+ 489              	.LFE168:
+ 491              		.section	.text.CAN2_Rec,"ax",%progbits
+ 492              		.align	1
+ 493              		.global	CAN2_Rec
+ 494              		.syntax unified
+ 495              		.thumb
+ 496              		.thumb_func
+ 498              	CAN2_Rec:
+ 499              	.LFB169:
+ 303:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN2_Rec */
+ 500              		.loc 1 303 1 is_stmt 1 view -0
+ 501              		.cfi_startproc
+ 502              		@ args = 0, pretend = 0, frame = 40
+ 503              		@ frame_needed = 0, uses_anonymous_args = 0
+ 504              	.LVL52:
+ 303:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN2_Rec */
+ 505              		.loc 1 303 1 is_stmt 0 view .LVU130
+ 506 0000 10B5     		push	{r4, lr}
+ 507              	.LCFI7:
+ 508              		.cfi_def_cfa_offset 8
+ 509              		.cfi_offset 4, -8
+ 510              		.cfi_offset 14, -4
+ 511 0002 90B0     		sub	sp, sp, #64
+ 512              	.LCFI8:
+ 513              		.cfi_def_cfa_offset 72
+ 514 0004 13E0     		b	.L30
+ 515              	.LVL53:
+ 516              	.L32:
+ 314:Core/Src/freertos.c **** 		else if(ID == M3508_FRIC_WHEEL_LEFT_ID || ID == M3508_FRIC_WHEEL_RIGHT_ID)
+ 517              		.loc 1 314 4 is_stmt 1 view .LVU131
+ 314:Core/Src/freertos.c **** 		else if(ID == M3508_FRIC_WHEEL_LEFT_ID || ID == M3508_FRIC_WHEEL_RIGHT_ID)
+ 518              		.loc 1 314 14 is_stmt 0 view .LVU132
+ 519 0006 1A4B     		ldr	r3, .L33
+ 520              	.LVL54:
+ 314:Core/Src/freertos.c **** 		else if(ID == M3508_FRIC_WHEEL_LEFT_ID || ID == M3508_FRIC_WHEEL_RIGHT_ID)
+ 521              		.loc 1 314 14 view .LVU133
+ 522 0008 1C68     		ldr	r4, [r3]
+ 314:Core/Src/freertos.c **** 		else if(ID == M3508_FRIC_WHEEL_LEFT_ID || ID == M3508_FRIC_WHEEL_RIGHT_ID)
+ 523              		.loc 1 314 4 view .LVU134
+ 524 000a EC46     		mov	ip, sp
+ 525 000c 0DF12C0E 		add	lr, sp, #44
+ 526 0010 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 527 0014 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 528 0018 DEF80030 		ldr	r3, [lr]
+ 529 001c CCF80030 		str	r3, [ip]
+ 530 0020 07AB     		add	r3, sp, #28
+ 531              	.LVL55:
+ 314:Core/Src/freertos.c **** 		else if(ID == M3508_FRIC_WHEEL_LEFT_ID || ID == M3508_FRIC_WHEEL_RIGHT_ID)
+ 532              		.loc 1 314 4 view .LVU135
+ 533 0022 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 534              	.LVL56:
+ 314:Core/Src/freertos.c **** 		else if(ID == M3508_FRIC_WHEEL_LEFT_ID || ID == M3508_FRIC_WHEEL_RIGHT_ID)
+ 535              		.loc 1 314 4 view .LVU136
+ 536 0024 A047     		blx	r4
+ 537              	.LVL57:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 18
+
+
+ 538              	.L29:
+ 318:Core/Src/freertos.c ****   }
+ 539              		.loc 1 318 3 is_stmt 1 view .LVU137
+ 318:Core/Src/freertos.c ****   }
+ 540              		.loc 1 318 15 is_stmt 0 view .LVU138
+ 541 0026 134A     		ldr	r2, .L33+4
+ 542 0028 5388     		ldrh	r3, [r2, #2]
+ 318:Core/Src/freertos.c ****   }
+ 543              		.loc 1 318 33 view .LVU139
+ 544 002a 0133     		adds	r3, r3, #1
+ 545 002c 5380     		strh	r3, [r2, #2]	@ movhi
+ 309:Core/Src/freertos.c ****   {
+ 546              		.loc 1 309 3 is_stmt 1 view .LVU140
+ 547              	.LVL58:
+ 548              	.L30:
+ 305:Core/Src/freertos.c **** 	uint32_t ID;
+ 549              		.loc 1 305 2 view .LVU141
+ 306:Core/Src/freertos.c **** 	//uint32_t ID;
+ 550              		.loc 1 306 2 view .LVU142
+ 309:Core/Src/freertos.c ****   {
+ 551              		.loc 1 309 3 view .LVU143
+ 311:Core/Src/freertos.c **** 		ID = CAN_Export_Data.CAN_RxHeader.StdId;
+ 552              		.loc 1 311 5 view .LVU144
+ 553 002e 4FF0FF32 		mov	r2, #-1
+ 554 0032 07A9     		add	r1, sp, #28
+ 555 0034 104B     		ldr	r3, .L33+8
+ 556 0036 1868     		ldr	r0, [r3]
+ 557 0038 FFF7FEFF 		bl	xQueueReceive
+ 558              	.LVL59:
+ 312:Core/Src/freertos.c **** 		if(ID == M2006_TRIGGER_ID)
+ 559              		.loc 1 312 3 view .LVU145
+ 312:Core/Src/freertos.c **** 		if(ID == M2006_TRIGGER_ID)
+ 560              		.loc 1 312 6 is_stmt 0 view .LVU146
+ 561 003c 079B     		ldr	r3, [sp, #28]
+ 562              	.LVL60:
+ 313:Core/Src/freertos.c **** 			M2006_Func.M2006_Trigger_Get_Data(CAN_Export_Data);
+ 563              		.loc 1 313 3 is_stmt 1 view .LVU147
+ 313:Core/Src/freertos.c **** 			M2006_Func.M2006_Trigger_Get_Data(CAN_Export_Data);
+ 564              		.loc 1 313 5 is_stmt 0 view .LVU148
+ 565 003e 40F20622 		movw	r2, #518
+ 566 0042 9342     		cmp	r3, r2
+ 567 0044 DFD0     		beq	.L32
+ 315:Core/Src/freertos.c **** 			M3508_Func.M3508_Fric_Wheel_Get_Data(CAN_Export_Data);
+ 568              		.loc 1 315 8 is_stmt 1 view .LVU149
+ 315:Core/Src/freertos.c **** 			M3508_Func.M3508_Fric_Wheel_Get_Data(CAN_Export_Data);
+ 569              		.loc 1 315 42 is_stmt 0 view .LVU150
+ 570 0046 A3F20123 		subw	r3, r3, #513
+ 571              	.LVL61:
+ 315:Core/Src/freertos.c **** 			M3508_Func.M3508_Fric_Wheel_Get_Data(CAN_Export_Data);
+ 572              		.loc 1 315 10 view .LVU151
+ 573 004a 012B     		cmp	r3, #1
+ 574 004c EBD8     		bhi	.L29
+ 316:Core/Src/freertos.c **** 		
+ 575              		.loc 1 316 4 is_stmt 1 view .LVU152
+ 316:Core/Src/freertos.c **** 		
+ 576              		.loc 1 316 14 is_stmt 0 view .LVU153
+ 577 004e 0B4B     		ldr	r3, .L33+12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 19
+
+
+ 578 0050 9C68     		ldr	r4, [r3, #8]
+ 316:Core/Src/freertos.c **** 		
+ 579              		.loc 1 316 4 view .LVU154
+ 580 0052 EC46     		mov	ip, sp
+ 581 0054 0DF12C0E 		add	lr, sp, #44
+ 582 0058 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 583 005c ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 584 0060 DEF80030 		ldr	r3, [lr]
+ 585 0064 CCF80030 		str	r3, [ip]
+ 586 0068 07AB     		add	r3, sp, #28
+ 587              	.LVL62:
+ 316:Core/Src/freertos.c **** 		
+ 588              		.loc 1 316 4 view .LVU155
+ 589 006a 0FCB     		ldm	r3, {r0, r1, r2, r3}
+ 590              	.LVL63:
+ 316:Core/Src/freertos.c **** 		
+ 591              		.loc 1 316 4 view .LVU156
+ 592 006c A047     		blx	r4
+ 593              	.LVL64:
+ 316:Core/Src/freertos.c **** 		
+ 594              		.loc 1 316 4 view .LVU157
+ 595 006e DAE7     		b	.L29
+ 596              	.L34:
+ 597              		.align	2
+ 598              	.L33:
+ 599 0070 00000000 		.word	M2006_Func
+ 600 0074 00000000 		.word	Monitor_CAN2
+ 601 0078 00000000 		.word	CAN2_ReceiveHandle
+ 602 007c 00000000 		.word	M3508_Func
+ 603              		.cfi_endproc
+ 604              	.LFE169:
+ 606              		.section	.text.CAN_Send_All,"ax",%progbits
+ 607              		.align	1
+ 608              		.global	CAN_Send_All
+ 609              		.syntax unified
+ 610              		.thumb
+ 611              		.thumb_func
+ 613              	CAN_Send_All:
+ 614              	.LFB167:
+ 252:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN_Send_All */
+ 615              		.loc 1 252 1 is_stmt 1 view -0
+ 616              		.cfi_startproc
+ 617              		@ Volatile: function does not return.
+ 618              		@ args = 0, pretend = 0, frame = 40
+ 619              		@ frame_needed = 0, uses_anonymous_args = 0
+ 620              	.LVL65:
+ 252:Core/Src/freertos.c ****   /* USER CODE BEGIN CAN_Send_All */
+ 621              		.loc 1 252 1 is_stmt 0 view .LVU159
+ 622 0000 00B5     		push	{lr}
+ 623              	.LCFI9:
+ 624              		.cfi_def_cfa_offset 4
+ 625              		.cfi_offset 14, -4
+ 626 0002 8BB0     		sub	sp, sp, #44
+ 627              	.LCFI10:
+ 628              		.cfi_def_cfa_offset 48
+ 629              	.LVL66:
+ 630              	.L36:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 20
+
+
+ 254:Core/Src/freertos.c ****   /* Infinite loop */
+ 631              		.loc 1 254 2 is_stmt 1 discriminator 1 view .LVU160
+ 256:Core/Src/freertos.c ****   {
+ 632              		.loc 1 256 3 discriminator 1 view .LVU161
+ 258:Core/Src/freertos.c ****     HAL_CAN_AddTxMessage(CAN_Send_Data.Canx, &CAN_Send_Data.CAN_TxHeader, CAN_Send_Data.CANx_Send_R
+ 633              		.loc 1 258 5 discriminator 1 view .LVU162
+ 634 0004 4FF0FF32 		mov	r2, #-1
+ 635 0008 01A9     		add	r1, sp, #4
+ 636 000a 054B     		ldr	r3, .L38
+ 637 000c 1868     		ldr	r0, [r3]
+ 638 000e FFF7FEFF 		bl	xQueueReceive
+ 639              	.LVL67:
+ 259:Core/Src/freertos.c ****   }
+ 640              		.loc 1 259 5 discriminator 1 view .LVU163
+ 641 0012 0123     		movs	r3, #1
+ 642 0014 08AA     		add	r2, sp, #32
+ 643 0016 02A9     		add	r1, sp, #8
+ 644 0018 0198     		ldr	r0, [sp, #4]
+ 645 001a FFF7FEFF 		bl	HAL_CAN_AddTxMessage
+ 646              	.LVL68:
+ 256:Core/Src/freertos.c ****   {
+ 647              		.loc 1 256 3 discriminator 1 view .LVU164
+ 648 001e F1E7     		b	.L36
+ 649              	.L39:
+ 650              		.align	2
+ 651              	.L38:
+ 652 0020 00000000 		.word	CAN_SendHandle
+ 653              		.cfi_endproc
+ 654              	.LFE167:
+ 656              		.section	.rodata.UI_Draw.str1.4,"aMS",%progbits,1
+ 657              		.align	2
+ 658              	.LC17:
+ 659 0000 464C4742 		.ascii	"FLGB\000"
+ 659      00
+ 660 0005 000000   		.align	2
+ 661              	.LC18:
+ 662 0008 5350494E 		.ascii	"SPIN\000"
+ 662      00
+ 663 000d 000000   		.align	2
+ 664              	.LC19:
+ 665 0010 46524943 		.ascii	"FRIC ON\000"
+ 665      204F4E00 
+ 666              		.align	2
+ 667              	.LC20:
+ 668 0018 46524943 		.ascii	"FRIC OFF\000"
+ 668      204F4646 
+ 668      00
+ 669              		.section	.text.UI_Draw,"ax",%progbits
+ 670              		.align	1
+ 671              		.global	UI_Draw
+ 672              		.syntax unified
+ 673              		.thumb
+ 674              		.thumb_func
+ 676              	UI_Draw:
+ 677              	.LVL69:
+ 678              	.LFB171:
+ 341:Core/Src/freertos.c ****   }
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 21
+
+
+ 342:Core/Src/freertos.c ****   /* USER CODE END Robot_Control_All */
+ 343:Core/Src/freertos.c **** }
+ 344:Core/Src/freertos.c **** 
+ 345:Core/Src/freertos.c **** /* USER CODE BEGIN Header_UI_Draw */
+ 346:Core/Src/freertos.c **** /**
+ 347:Core/Src/freertos.c **** * @brief Function implementing the Task_UI thread.
+ 348:Core/Src/freertos.c **** * @param argument: Not used
+ 349:Core/Src/freertos.c **** * @retval None
+ 350:Core/Src/freertos.c **** */
+ 351:Core/Src/freertos.c **** /* USER CODE END Header_UI_Draw */
+ 352:Core/Src/freertos.c **** void UI_Draw(void const * argument)
+ 353:Core/Src/freertos.c **** {
+ 679              		.loc 1 353 1 view -0
+ 680              		.cfi_startproc
+ 681              		@ args = 0, pretend = 0, frame = 8
+ 682              		@ frame_needed = 0, uses_anonymous_args = 0
+ 683              		.loc 1 353 1 is_stmt 0 view .LVU166
+ 684 0000 00B5     		push	{lr}
+ 685              	.LCFI11:
+ 686              		.cfi_def_cfa_offset 4
+ 687              		.cfi_offset 14, -4
+ 688 0002 83B0     		sub	sp, sp, #12
+ 689              	.LCFI12:
+ 690              		.cfi_def_cfa_offset 16
+ 354:Core/Src/freertos.c ****   /* USER CODE BEGIN UI_Draw */
+ 355:Core/Src/freertos.c ****   portTickType xLastWakeTime;
+ 691              		.loc 1 355 3 is_stmt 1 view .LVU167
+ 356:Core/Src/freertos.c ****   xLastWakeTime = xTaskGetTickCount();
+ 692              		.loc 1 356 3 view .LVU168
+ 693              		.loc 1 356 19 is_stmt 0 view .LVU169
+ 694 0004 FFF7FEFF 		bl	xTaskGetTickCount
+ 695              	.LVL70:
+ 696              		.loc 1 356 17 view .LVU170
+ 697 0008 0190     		str	r0, [sp, #4]
+ 357:Core/Src/freertos.c ****   const TickType_t TimeIncrement = pdMS_TO_TICKS(5);
+ 698              		.loc 1 357 3 is_stmt 1 view .LVU171
+ 699              	.LVL71:
+ 700              		.loc 1 357 3 is_stmt 0 view .LVU172
+ 701 000a 35E0     		b	.L50
+ 702              	.L53:
+ 358:Core/Src/freertos.c ****   /* Infinite loop */
+ 359:Core/Src/freertos.c ****   for(;;)
+ 360:Core/Src/freertos.c ****   {
+ 361:Core/Src/freertos.c **** 		if(Referee_Robot_State.ID == 3)
+ 362:Core/Src/freertos.c **** 		{
+ 363:Core/Src/freertos.c **** 			UI.Pilot_ID = UI_Data_CilentID_RStandard1;
+ 703              		.loc 1 363 4 is_stmt 1 view .LVU173
+ 704              		.loc 1 363 16 is_stmt 0 view .LVU174
+ 705 000c 2E4B     		ldr	r3, .L56
+ 706 000e 40F20312 		movw	r2, #259
+ 707 0012 5A80     		strh	r2, [r3, #2]	@ movhi
+ 364:Core/Src/freertos.c **** 			UI.Robot_ID = UI_Data_RobotID_RStandard1;
+ 708              		.loc 1 364 4 is_stmt 1 view .LVU175
+ 709              		.loc 1 364 16 is_stmt 0 view .LVU176
+ 710 0014 0322     		movs	r2, #3
+ 711 0016 1A80     		strh	r2, [r3]	@ movhi
+ 712 0018 34E0     		b	.L42
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 22
+
+
+ 713              	.L54:
+ 365:Core/Src/freertos.c **** 		}
+ 366:Core/Src/freertos.c **** 		else if(Referee_Robot_State.ID == 103)
+ 367:Core/Src/freertos.c **** 		{
+ 368:Core/Src/freertos.c **** 			UI.Pilot_ID = UI_Data_CilentID_BStandard1;
+ 714              		.loc 1 368 4 is_stmt 1 view .LVU177
+ 715              		.loc 1 368 16 is_stmt 0 view .LVU178
+ 716 001a 2B4B     		ldr	r3, .L56
+ 717 001c 40F26712 		movw	r2, #359
+ 718 0020 5A80     		strh	r2, [r3, #2]	@ movhi
+ 369:Core/Src/freertos.c **** 			UI.Robot_ID = UI_Data_RobotID_BStandard1;
+ 719              		.loc 1 369 4 is_stmt 1 view .LVU179
+ 720              		.loc 1 369 16 is_stmt 0 view .LVU180
+ 721 0022 6722     		movs	r2, #103
+ 722 0024 1A80     		strh	r2, [r3]	@ movhi
+ 723 0026 2DE0     		b	.L42
+ 724              	.L55:
+ 370:Core/Src/freertos.c **** 		}
+ 371:Core/Src/freertos.c **** 		if(UI.Initialized_Flag == 0)
+ 372:Core/Src/freertos.c **** 		{
+ 373:Core/Src/freertos.c **** 			UI_AimingSystem();
+ 725              		.loc 1 373 4 is_stmt 1 view .LVU181
+ 726 0028 FFF7FEFF 		bl	UI_AimingSystem
+ 727              	.LVL72:
+ 374:Core/Src/freertos.c **** 			UI_GuidingSystem();
+ 728              		.loc 1 374 4 view .LVU182
+ 729 002c FFF7FEFF 		bl	UI_GuidingSystem
+ 730              	.LVL73:
+ 375:Core/Src/freertos.c **** 			UI_TextSystem_Init();
+ 731              		.loc 1 375 4 view .LVU183
+ 732 0030 FFF7FEFF 		bl	UI_TextSystem_Init
+ 733              	.LVL74:
+ 376:Core/Src/freertos.c **** 			UI.Initialized_Flag = 1;
+ 734              		.loc 1 376 4 view .LVU184
+ 735              		.loc 1 376 24 is_stmt 0 view .LVU185
+ 736 0034 244B     		ldr	r3, .L56
+ 737 0036 0122     		movs	r2, #1
+ 738 0038 1A71     		strb	r2, [r3, #4]
+ 739 003a 27E0     		b	.L43
+ 740              	.L44:
+ 377:Core/Src/freertos.c **** 		}
+ 378:Core/Src/freertos.c **** 		osDelay (1000);
+ 379:Core/Src/freertos.c **** //		memcpy (TextSystem.Text, "A_Test", 6);
+ 380:Core/Src/freertos.c **** //		TextSystem.TextNumber = 6;
+ 381:Core/Src/freertos.c **** //		UI_AutoText_Update();
+ 382:Core/Src/freertos.c **** 		switch(State_Machine.Mode)
+ 383:Core/Src/freertos.c **** 		{
+ 384:Core/Src/freertos.c **** 			case(Follow_Gimbal):
+ 385:Core/Src/freertos.c **** 				memcpy (TextSystem.Text, "FLGB", 4);
+ 741              		.loc 1 385 5 is_stmt 1 view .LVU186
+ 742 003c 234B     		ldr	r3, .L56+4
+ 743 003e 1868     		ldr	r0, [r3]
+ 744 0040 234B     		ldr	r3, .L56+8
+ 745 0042 1860     		str	r0, [r3]	@ unaligned
+ 386:Core/Src/freertos.c **** 				break;
+ 746              		.loc 1 386 5 view .LVU187
+ 747              	.L47:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 23
+
+
+ 387:Core/Src/freertos.c **** 			case(Spin_Top):
+ 388:Core/Src/freertos.c **** 				memcpy (TextSystem.Text, "SPIN", 4);
+ 389:Core/Src/freertos.c **** 				break;
+ 390:Core/Src/freertos.c **** 			default:
+ 391:Core/Src/freertos.c **** 				memcpy (TextSystem.Text, "FLGB", 4);
+ 392:Core/Src/freertos.c **** 				break;
+ 393:Core/Src/freertos.c **** 		}
+ 394:Core/Src/freertos.c **** 		TextSystem.TextNumber = 4;
+ 748              		.loc 1 394 3 view .LVU188
+ 749              		.loc 1 394 25 is_stmt 0 view .LVU189
+ 750 0044 234B     		ldr	r3, .L56+12
+ 751 0046 0422     		movs	r2, #4
+ 752 0048 83F86C20 		strb	r2, [r3, #108]
+ 395:Core/Src/freertos.c **** 		UI_StateText_Update();
+ 753              		.loc 1 395 3 is_stmt 1 view .LVU190
+ 754 004c FFF7FEFF 		bl	UI_StateText_Update
+ 755              	.LVL75:
+ 396:Core/Src/freertos.c **** 		
+ 397:Core/Src/freertos.c **** 		
+ 398:Core/Src/freertos.c **** 		if(Shooting.Fric_Wheel.Turned_On)
+ 756              		.loc 1 398 3 view .LVU191
+ 757              		.loc 1 398 25 is_stmt 0 view .LVU192
+ 758 0050 214B     		ldr	r3, .L56+16
+ 759 0052 9B7B     		ldrb	r3, [r3, #14]	@ zero_extendqisi2
+ 760              		.loc 1 398 5 view .LVU193
+ 761 0054 002B     		cmp	r3, #0
+ 762 0056 2DD0     		beq	.L48
+ 399:Core/Src/freertos.c **** 		{
+ 400:Core/Src/freertos.c **** 			memcpy (TextSystem.Text, "FRIC ON", 7);
+ 763              		.loc 1 400 4 is_stmt 1 view .LVU194
+ 764 0058 1D4B     		ldr	r3, .L56+8
+ 765 005a 204A     		ldr	r2, .L56+20
+ 766 005c 1068     		ldr	r0, [r2]
+ 767 005e 1860     		str	r0, [r3]	@ unaligned
+ 768 0060 9188     		ldrh	r1, [r2, #4]	@ unaligned
+ 769 0062 9279     		ldrb	r2, [r2, #6]	@ zero_extendqisi2
+ 770 0064 9980     		strh	r1, [r3, #4]	@ unaligned
+ 771 0066 9A71     		strb	r2, [r3, #6]
+ 401:Core/Src/freertos.c **** 			TextSystem.TextNumber = 7;
+ 772              		.loc 1 401 4 view .LVU195
+ 773              		.loc 1 401 26 is_stmt 0 view .LVU196
+ 774 0068 0722     		movs	r2, #7
+ 775 006a 9A77     		strb	r2, [r3, #30]
+ 402:Core/Src/freertos.c **** 			UI_AutoText_Update();
+ 776              		.loc 1 402 4 is_stmt 1 view .LVU197
+ 777 006c FFF7FEFF 		bl	UI_AutoText_Update
+ 778              	.LVL76:
+ 779              	.L49:
+ 403:Core/Src/freertos.c **** 		}
+ 404:Core/Src/freertos.c **** 		else if(Shooting.Fric_Wheel.Turned_On == 0)
+ 405:Core/Src/freertos.c **** 		{
+ 406:Core/Src/freertos.c **** 			memcpy (TextSystem.Text, "FRIC OFF", 8);
+ 407:Core/Src/freertos.c **** 			TextSystem.TextNumber = 8;
+ 408:Core/Src/freertos.c **** 			UI_AutoText_Update();
+ 409:Core/Src/freertos.c **** 		}
+ 410:Core/Src/freertos.c **** 		
+ 411:Core/Src/freertos.c **** //		memcpy (TextSystem.Text, "A_Test2", 7);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 24
+
+
+ 412:Core/Src/freertos.c **** //		TextSystem.TextNumber = 7;
+ 413:Core/Src/freertos.c **** //		UI_AutoText_Update();
+ 414:Core/Src/freertos.c **** //		
+ 415:Core/Src/freertos.c **** //		memcpy (TextSystem.Text, "C_Test2", 7);
+ 416:Core/Src/freertos.c **** //		TextSystem.TextNumber = 7;
+ 417:Core/Src/freertos.c **** //		UI_SuperCapText_Update();
+ 418:Core/Src/freertos.c **** //		
+ 419:Core/Src/freertos.c **** //		memcpy (TextSystem.Text, "S_Test2", 7);
+ 420:Core/Src/freertos.c **** //		TextSystem.TextNumber = 7;
+ 421:Core/Src/freertos.c **** //		UI_StateText_Update();
+ 422:Core/Src/freertos.c **** 		
+ 423:Core/Src/freertos.c **** 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
+ 780              		.loc 1 423 3 view .LVU198
+ 781 0070 0521     		movs	r1, #5
+ 782 0072 01A8     		add	r0, sp, #4
+ 783 0074 FFF7FEFF 		bl	vTaskDelayUntil
+ 784              	.LVL77:
+ 359:Core/Src/freertos.c ****   {
+ 785              		.loc 1 359 3 view .LVU199
+ 786              	.L50:
+ 359:Core/Src/freertos.c ****   {
+ 787              		.loc 1 359 3 view .LVU200
+ 361:Core/Src/freertos.c **** 		{
+ 788              		.loc 1 361 3 view .LVU201
+ 361:Core/Src/freertos.c **** 		{
+ 789              		.loc 1 361 25 is_stmt 0 view .LVU202
+ 790 0078 194B     		ldr	r3, .L56+24
+ 791 007a 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 361:Core/Src/freertos.c **** 		{
+ 792              		.loc 1 361 5 view .LVU203
+ 793 007c 032B     		cmp	r3, #3
+ 794 007e C5D0     		beq	.L53
+ 366:Core/Src/freertos.c **** 		{
+ 795              		.loc 1 366 8 is_stmt 1 view .LVU204
+ 366:Core/Src/freertos.c **** 		{
+ 796              		.loc 1 366 10 is_stmt 0 view .LVU205
+ 797 0080 672B     		cmp	r3, #103
+ 798 0082 CAD0     		beq	.L54
+ 799              	.L42:
+ 371:Core/Src/freertos.c **** 		{
+ 800              		.loc 1 371 3 is_stmt 1 view .LVU206
+ 371:Core/Src/freertos.c **** 		{
+ 801              		.loc 1 371 8 is_stmt 0 view .LVU207
+ 802 0084 104B     		ldr	r3, .L56
+ 803 0086 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 371:Core/Src/freertos.c **** 		{
+ 804              		.loc 1 371 5 view .LVU208
+ 805 0088 002B     		cmp	r3, #0
+ 806 008a CDD0     		beq	.L55
+ 807              	.L43:
+ 378:Core/Src/freertos.c **** //		memcpy (TextSystem.Text, "A_Test", 6);
+ 808              		.loc 1 378 3 is_stmt 1 view .LVU209
+ 809 008c 4FF47A70 		mov	r0, #1000
+ 810 0090 FFF7FEFF 		bl	osDelay
+ 811              	.LVL78:
+ 382:Core/Src/freertos.c **** 		{
+ 812              		.loc 1 382 3 view .LVU210
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 25
+
+
+ 382:Core/Src/freertos.c **** 		{
+ 813              		.loc 1 382 23 is_stmt 0 view .LVU211
+ 814 0094 134B     		ldr	r3, .L56+28
+ 815 0096 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 382:Core/Src/freertos.c **** 		{
+ 816              		.loc 1 382 3 view .LVU212
+ 817 0098 002B     		cmp	r3, #0
+ 818 009a CFD0     		beq	.L44
+ 819 009c 022B     		cmp	r3, #2
+ 820 009e 04D0     		beq	.L45
+ 391:Core/Src/freertos.c **** 				break;
+ 821              		.loc 1 391 5 is_stmt 1 view .LVU213
+ 822 00a0 0A4B     		ldr	r3, .L56+4
+ 823 00a2 1868     		ldr	r0, [r3]
+ 824 00a4 0A4B     		ldr	r3, .L56+8
+ 825 00a6 1860     		str	r0, [r3]	@ unaligned
+ 392:Core/Src/freertos.c **** 		}
+ 826              		.loc 1 392 5 view .LVU214
+ 827 00a8 CCE7     		b	.L47
+ 828              	.L45:
+ 388:Core/Src/freertos.c **** 				break;
+ 829              		.loc 1 388 5 view .LVU215
+ 830 00aa 0F4B     		ldr	r3, .L56+32
+ 831 00ac 1868     		ldr	r0, [r3]
+ 832 00ae 084B     		ldr	r3, .L56+8
+ 833 00b0 1860     		str	r0, [r3]	@ unaligned
+ 389:Core/Src/freertos.c **** 			default:
+ 834              		.loc 1 389 5 view .LVU216
+ 835 00b2 C7E7     		b	.L47
+ 836              	.L48:
+ 404:Core/Src/freertos.c **** 		{
+ 837              		.loc 1 404 8 view .LVU217
+ 406:Core/Src/freertos.c **** 			TextSystem.TextNumber = 8;
+ 838              		.loc 1 406 4 view .LVU218
+ 839 00b4 064A     		ldr	r2, .L56+8
+ 840 00b6 0D4B     		ldr	r3, .L56+36
+ 841 00b8 03CB     		ldmia	r3!, {r0, r1}
+ 842 00ba 1060     		str	r0, [r2]	@ unaligned
+ 843 00bc 5160     		str	r1, [r2, #4]	@ unaligned
+ 407:Core/Src/freertos.c **** 			UI_AutoText_Update();
+ 844              		.loc 1 407 4 view .LVU219
+ 407:Core/Src/freertos.c **** 			UI_AutoText_Update();
+ 845              		.loc 1 407 26 is_stmt 0 view .LVU220
+ 846 00be 0823     		movs	r3, #8
+ 847 00c0 9377     		strb	r3, [r2, #30]
+ 408:Core/Src/freertos.c **** 		}
+ 848              		.loc 1 408 4 is_stmt 1 view .LVU221
+ 849 00c2 FFF7FEFF 		bl	UI_AutoText_Update
+ 850              	.LVL79:
+ 851 00c6 D3E7     		b	.L49
+ 852              	.L57:
+ 853              		.align	2
+ 854              	.L56:
+ 855 00c8 00000000 		.word	UI
+ 856 00cc 00000000 		.word	.LC17
+ 857 00d0 4E000000 		.word	TextSystem+78
+ 858 00d4 00000000 		.word	TextSystem
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 26
+
+
+ 859 00d8 00000000 		.word	Shooting
+ 860 00dc 10000000 		.word	.LC19
+ 861 00e0 00000000 		.word	Referee_Robot_State
+ 862 00e4 00000000 		.word	State_Machine
+ 863 00e8 08000000 		.word	.LC18
+ 864 00ec 18000000 		.word	.LC20
+ 865              		.cfi_endproc
+ 866              	.LFE171:
+ 868              		.global	__aeabi_f2d
+ 869              		.section	.rodata.Serial_Send.str1.4,"aMS",%progbits,1
+ 870              		.align	2
+ 871              	.LC21:
+ 872 0000 2F2A2566 		.ascii	"/*%f,%f*/\012\000"
+ 872      2C25662A 
+ 872      2F0A00
+ 873              		.section	.text.Serial_Send,"ax",%progbits
+ 874              		.align	1
+ 875              		.global	Serial_Send
+ 876              		.syntax unified
+ 877              		.thumb
+ 878              		.thumb_func
+ 880              	Serial_Send:
+ 881              	.LVL80:
+ 882              	.LFB172:
+ 424:Core/Src/freertos.c ****   }
+ 425:Core/Src/freertos.c ****   /* USER CODE END UI_Draw */
+ 426:Core/Src/freertos.c **** }
+ 427:Core/Src/freertos.c **** 
+ 428:Core/Src/freertos.c **** /* USER CODE BEGIN Header_Serial_Send */
+ 429:Core/Src/freertos.c **** /**
+ 430:Core/Src/freertos.c **** * @brief Function implementing the Task_Serial thread.
+ 431:Core/Src/freertos.c **** * @param argument: Not used
+ 432:Core/Src/freertos.c **** * @retval None
+ 433:Core/Src/freertos.c **** */
+ 434:Core/Src/freertos.c **** /* USER CODE END Header_Serial_Send */
+ 435:Core/Src/freertos.c **** void Serial_Send(void const * argument)
+ 436:Core/Src/freertos.c **** {
+ 883              		.loc 1 436 1 view -0
+ 884              		.cfi_startproc
+ 885              		@ args = 0, pretend = 0, frame = 8
+ 886              		@ frame_needed = 0, uses_anonymous_args = 0
+ 887              		.loc 1 436 1 is_stmt 0 view .LVU223
+ 888 0000 70B5     		push	{r4, r5, r6, lr}
+ 889              	.LCFI13:
+ 890              		.cfi_def_cfa_offset 16
+ 891              		.cfi_offset 4, -16
+ 892              		.cfi_offset 5, -12
+ 893              		.cfi_offset 6, -8
+ 894              		.cfi_offset 14, -4
+ 895 0002 84B0     		sub	sp, sp, #16
+ 896              	.LCFI14:
+ 897              		.cfi_def_cfa_offset 32
+ 437:Core/Src/freertos.c ****   /* USER CODE BEGIN Serial_Send */
+ 438:Core/Src/freertos.c **** 	portTickType xLastWakeTime;
+ 898              		.loc 1 438 2 is_stmt 1 view .LVU224
+ 439:Core/Src/freertos.c ****   xLastWakeTime = xTaskGetTickCount();
+ 899              		.loc 1 439 3 view .LVU225
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 27
+
+
+ 900              		.loc 1 439 19 is_stmt 0 view .LVU226
+ 901 0004 FFF7FEFF 		bl	xTaskGetTickCount
+ 902              	.LVL81:
+ 903              		.loc 1 439 17 view .LVU227
+ 904 0008 0390     		str	r0, [sp, #12]
+ 440:Core/Src/freertos.c **** 
+ 441:Core/Src/freertos.c ****   const TickType_t TimeIncrement = pdMS_TO_TICKS(10);
+ 905              		.loc 1 441 3 is_stmt 1 view .LVU228
+ 906              	.LVL82:
+ 907              	.L59:
+ 442:Core/Src/freertos.c ****   /* Infinite loop */
+ 443:Core/Src/freertos.c ****   for(;;)
+ 908              		.loc 1 443 3 discriminator 1 view .LVU229
+ 444:Core/Src/freertos.c ****   {	
+ 445:Core/Src/freertos.c ****     printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Target_Pitch_Angle,Chassis.Chassis_Coord.Pitch_Angle
+ 909              		.loc 1 445 5 discriminator 1 view .LVU230
+ 910              		.loc 1 445 47 is_stmt 0 discriminator 1 view .LVU231
+ 911 000a 0B4B     		ldr	r3, .L61
+ 912              		.loc 1 445 88 discriminator 1 view .LVU232
+ 913 000c 9E6A     		ldr	r6, [r3, #40]	@ float
+ 914              		.loc 1 445 5 discriminator 1 view .LVU233
+ 915 000e 586A     		ldr	r0, [r3, #36]	@ float
+ 916 0010 FFF7FEFF 		bl	__aeabi_f2d
+ 917              	.LVL83:
+ 918 0014 0446     		mov	r4, r0
+ 919 0016 0D46     		mov	r5, r1
+ 920 0018 3046     		mov	r0, r6	@ float
+ 921 001a FFF7FEFF 		bl	__aeabi_f2d
+ 922              	.LVL84:
+ 923 001e CDE90001 		strd	r0, [sp]
+ 924 0022 2246     		mov	r2, r4
+ 925 0024 2B46     		mov	r3, r5
+ 926 0026 0548     		ldr	r0, .L61+4
+ 927 0028 FFF7FEFF 		bl	printf
+ 928              	.LVL85:
+ 446:Core/Src/freertos.c **** //		printf("/*%f,%f,%d,%d,%f,%f,%f,%f*/\n",Chassis.Slip_Detection.Friction_Force_Left,Chassis.Slip_
+ 447:Core/Src/freertos.c **** //		MF9025_Chassis[0].Actual_Speed,MF9025_Chassis[1].Actual_Speed,MF9025_Chassis[0].Calculated_Curr
+ 448:Core/Src/freertos.c **** //		MF9025_Chassis[0].Angular_Acceleration,MF9025_Chassis[1].Angular_Acceleration);
+ 449:Core/Src/freertos.c **** 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
+ 929              		.loc 1 449 3 is_stmt 1 discriminator 1 view .LVU234
+ 930 002c 0A21     		movs	r1, #10
+ 931 002e 03A8     		add	r0, sp, #12
+ 932 0030 FFF7FEFF 		bl	vTaskDelayUntil
+ 933              	.LVL86:
+ 443:Core/Src/freertos.c ****   {	
+ 934              		.loc 1 443 3 discriminator 1 view .LVU235
+ 935 0034 E9E7     		b	.L59
+ 936              	.L62:
+ 937 0036 00BF     		.align	2
+ 938              	.L61:
+ 939 0038 00000000 		.word	Chassis
+ 940 003c 00000000 		.word	.LC21
+ 941              		.cfi_endproc
+ 942              	.LFE172:
+ 944              		.section	.text.fputc,"ax",%progbits
+ 945              		.align	1
+ 946              		.global	fputc
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 28
+
+
+ 947              		.syntax unified
+ 948              		.thumb
+ 949              		.thumb_func
+ 951              	fputc:
+ 952              	.LVL87:
+ 953              	.LFB162:
+ 954              		.file 2 "BSP/BSP.h/Serial.h"
+   1:BSP/BSP.h/Serial.h **** /**
+   2:BSP/BSP.h/Serial.h ****  * @file Serial.h
+   3:BSP/BSP.h/Serial.h ****  * @author Leo Liu
+   4:BSP/BSP.h/Serial.h ****  * @brief Serial Communication with Laptop
+   5:BSP/BSP.h/Serial.h ****  * @version 1.0
+   6:BSP/BSP.h/Serial.h ****  * @date 2023-10-31
+   7:BSP/BSP.h/Serial.h ****  * 
+   8:BSP/BSP.h/Serial.h ****  * @copyright Copyright (c) 2023
+   9:BSP/BSP.h/Serial.h ****  * 
+  10:BSP/BSP.h/Serial.h ****  */
+  11:BSP/BSP.h/Serial.h **** 
+  12:BSP/BSP.h/Serial.h **** #ifndef __SERIAL_H
+  13:BSP/BSP.h/Serial.h **** #define __SERIAL_H
+  14:BSP/BSP.h/Serial.h ****  
+  15:BSP/BSP.h/Serial.h **** #include <stdio.h>
+  16:BSP/BSP.h/Serial.h **** #include <stdint.h>
+  17:BSP/BSP.h/Serial.h **** #include "usart.h"
+  18:BSP/BSP.h/Serial.h **** 
+  19:BSP/BSP.h/Serial.h **** int fputc(int ch, FILE *f)
+  20:BSP/BSP.h/Serial.h **** {
+ 955              		.loc 2 20 1 view -0
+ 956              		.cfi_startproc
+ 957              		@ args = 0, pretend = 0, frame = 8
+ 958              		@ frame_needed = 0, uses_anonymous_args = 0
+ 959              		.loc 2 20 1 is_stmt 0 view .LVU237
+ 960 0000 00B5     		push	{lr}
+ 961              	.LCFI15:
+ 962              		.cfi_def_cfa_offset 4
+ 963              		.cfi_offset 14, -4
+ 964 0002 83B0     		sub	sp, sp, #12
+ 965              	.LCFI16:
+ 966              		.cfi_def_cfa_offset 16
+ 967 0004 0190     		str	r0, [sp, #4]
+  21:BSP/BSP.h/Serial.h **** 	HAL_UART_Transmit(&huart4,(uint8_t*)&ch,1,0xFFFF);
+ 968              		.loc 2 21 2 is_stmt 1 view .LVU238
+ 969 0006 4FF6FF73 		movw	r3, #65535
+ 970 000a 0122     		movs	r2, #1
+ 971 000c 01A9     		add	r1, sp, #4
+ 972              	.LVL88:
+ 973              		.loc 2 21 2 is_stmt 0 view .LVU239
+ 974 000e 0348     		ldr	r0, .L65
+ 975              	.LVL89:
+ 976              		.loc 2 21 2 view .LVU240
+ 977 0010 FFF7FEFF 		bl	HAL_UART_Transmit
+ 978              	.LVL90:
+  22:BSP/BSP.h/Serial.h **** 	return ch;
+ 979              		.loc 2 22 2 is_stmt 1 view .LVU241
+  23:BSP/BSP.h/Serial.h **** }
+ 980              		.loc 2 23 1 is_stmt 0 view .LVU242
+ 981 0014 0198     		ldr	r0, [sp, #4]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 29
+
+
+ 982 0016 03B0     		add	sp, sp, #12
+ 983              	.LCFI17:
+ 984              		.cfi_def_cfa_offset 4
+ 985              		@ sp needed
+ 986 0018 5DF804FB 		ldr	pc, [sp], #4
+ 987              	.L66:
+ 988              		.align	2
+ 989              	.L65:
+ 990 001c 00000000 		.word	huart4
+ 991              		.cfi_endproc
+ 992              	.LFE162:
+ 994              		.section	.text.vApplicationGetIdleTaskMemory,"ax",%progbits
+ 995              		.align	1
+ 996              		.global	vApplicationGetIdleTaskMemory
+ 997              		.syntax unified
+ 998              		.thumb
+ 999              		.thumb_func
+ 1001              	vApplicationGetIdleTaskMemory:
+ 1002              	.LVL91:
+ 1003              	.LFB163:
+  99:Core/Src/freertos.c ****   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+ 1004              		.loc 1 99 1 is_stmt 1 view -0
+ 1005              		.cfi_startproc
+ 1006              		@ args = 0, pretend = 0, frame = 0
+ 1007              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1008              		@ link register save eliminated.
+ 100:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 1009              		.loc 1 100 3 view .LVU244
+ 100:Core/Src/freertos.c ****   *ppxIdleTaskStackBuffer = &xIdleStack[0];
+ 1010              		.loc 1 100 25 is_stmt 0 view .LVU245
+ 1011 0000 034B     		ldr	r3, .L68
+ 1012 0002 0360     		str	r3, [r0]
+ 101:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 1013              		.loc 1 101 3 is_stmt 1 view .LVU246
+ 101:Core/Src/freertos.c ****   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+ 1014              		.loc 1 101 27 is_stmt 0 view .LVU247
+ 1015 0004 034B     		ldr	r3, .L68+4
+ 1016 0006 0B60     		str	r3, [r1]
+ 102:Core/Src/freertos.c ****   /* place for user code */
+ 1017              		.loc 1 102 3 is_stmt 1 view .LVU248
+ 102:Core/Src/freertos.c ****   /* place for user code */
+ 1018              		.loc 1 102 25 is_stmt 0 view .LVU249
+ 1019 0008 8023     		movs	r3, #128
+ 1020 000a 1360     		str	r3, [r2]
+ 104:Core/Src/freertos.c **** /* USER CODE END GET_IDLE_TASK_MEMORY */
+ 1021              		.loc 1 104 1 view .LVU250
+ 1022 000c 7047     		bx	lr
+ 1023              	.L69:
+ 1024 000e 00BF     		.align	2
+ 1025              	.L68:
+ 1026 0010 00000000 		.word	xIdleTaskTCBBuffer
+ 1027 0014 00000000 		.word	xIdleStack
+ 1028              		.cfi_endproc
+ 1029              	.LFE163:
+ 1031              		.section	.text.MX_FREERTOS_Init,"ax",%progbits
+ 1032              		.align	1
+ 1033              		.global	MX_FREERTOS_Init
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 30
+
+
+ 1034              		.syntax unified
+ 1035              		.thumb
+ 1036              		.thumb_func
+ 1038              	MX_FREERTOS_Init:
+ 1039              	.LFB164:
+ 112:Core/Src/freertos.c ****   /* USER CODE BEGIN Init */
+ 1040              		.loc 1 112 29 is_stmt 1 view -0
+ 1041              		.cfi_startproc
+ 1042              		@ args = 0, pretend = 0, frame = 272
+ 1043              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1044 0000 10B5     		push	{r4, lr}
+ 1045              	.LCFI18:
+ 1046              		.cfi_def_cfa_offset 8
+ 1047              		.cfi_offset 4, -8
+ 1048              		.cfi_offset 14, -4
+ 1049 0002 C4B0     		sub	sp, sp, #272
+ 1050              	.LCFI19:
+ 1051              		.cfi_def_cfa_offset 280
+ 131:Core/Src/freertos.c ****   CAN_SendHandle = osMessageCreate(osMessageQ(CAN_Send), NULL);
+ 1052              		.loc 1 131 3 view .LVU252
+ 1053 0004 594C     		ldr	r4, .L72
+ 1054 0006 0DF5807C 		add	ip, sp, #256
+ 1055 000a 94E80F00 		ldm	r4, {r0, r1, r2, r3}
+ 1056 000e 8CE80F00 		stm	ip, {r0, r1, r2, r3}
+ 132:Core/Src/freertos.c **** 
+ 1057              		.loc 1 132 3 view .LVU253
+ 132:Core/Src/freertos.c **** 
+ 1058              		.loc 1 132 20 is_stmt 0 view .LVU254
+ 1059 0012 0021     		movs	r1, #0
+ 1060 0014 6046     		mov	r0, ip
+ 1061 0016 FFF7FEFF 		bl	osMessageCreate
+ 1062              	.LVL92:
+ 132:Core/Src/freertos.c **** 
+ 1063              		.loc 1 132 18 view .LVU255
+ 1064 001a 554B     		ldr	r3, .L72+4
+ 1065 001c 1860     		str	r0, [r3]
+ 135:Core/Src/freertos.c ****   CAN1_ReceiveHandle = osMessageCreate(osMessageQ(CAN1_Receive), NULL);
+ 1066              		.loc 1 135 3 is_stmt 1 view .LVU256
+ 1067 001e 0DF1F00C 		add	ip, sp, #240
+ 1068 0022 94E80F00 		ldm	r4, {r0, r1, r2, r3}
+ 1069 0026 8CE80F00 		stm	ip, {r0, r1, r2, r3}
+ 136:Core/Src/freertos.c **** 
+ 1070              		.loc 1 136 3 view .LVU257
+ 136:Core/Src/freertos.c **** 
+ 1071              		.loc 1 136 24 is_stmt 0 view .LVU258
+ 1072 002a 0021     		movs	r1, #0
+ 1073 002c 6046     		mov	r0, ip
+ 1074 002e FFF7FEFF 		bl	osMessageCreate
+ 1075              	.LVL93:
+ 136:Core/Src/freertos.c **** 
+ 1076              		.loc 1 136 22 view .LVU259
+ 1077 0032 504B     		ldr	r3, .L72+8
+ 1078 0034 1860     		str	r0, [r3]
+ 139:Core/Src/freertos.c ****   CAN2_ReceiveHandle = osMessageCreate(osMessageQ(CAN2_Receive), NULL);
+ 1079              		.loc 1 139 3 is_stmt 1 view .LVU260
+ 1080 0036 0DF1E00C 		add	ip, sp, #224
+ 1081 003a 94E80F00 		ldm	r4, {r0, r1, r2, r3}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 31
+
+
+ 1082 003e 8CE80F00 		stm	ip, {r0, r1, r2, r3}
+ 140:Core/Src/freertos.c **** 
+ 1083              		.loc 1 140 3 view .LVU261
+ 140:Core/Src/freertos.c **** 
+ 1084              		.loc 1 140 24 is_stmt 0 view .LVU262
+ 1085 0042 0021     		movs	r1, #0
+ 1086 0044 6046     		mov	r0, ip
+ 1087 0046 FFF7FEFF 		bl	osMessageCreate
+ 1088              	.LVL94:
+ 140:Core/Src/freertos.c **** 
+ 1089              		.loc 1 140 22 view .LVU263
+ 1090 004a 4B4B     		ldr	r3, .L72+12
+ 1091 004c 1860     		str	r0, [r3]
+ 148:Core/Src/freertos.c ****   Task_IMUHandle = osThreadCreate(osThread(Task_IMU), NULL);
+ 1092              		.loc 1 148 3 is_stmt 1 view .LVU264
+ 1093 004e 0DF1C40C 		add	ip, sp, #196
+ 1094 0052 04F1100E 		add	lr, r4, #16
+ 1095 0056 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 1096 005a ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1097 005e 9EE80700 		ldm	lr, {r0, r1, r2}
+ 1098 0062 8CE80700 		stm	ip, {r0, r1, r2}
+ 149:Core/Src/freertos.c **** 
+ 1099              		.loc 1 149 3 view .LVU265
+ 149:Core/Src/freertos.c **** 
+ 1100              		.loc 1 149 20 is_stmt 0 view .LVU266
+ 1101 0066 0021     		movs	r1, #0
+ 1102 0068 31A8     		add	r0, sp, #196
+ 1103 006a FFF7FEFF 		bl	osThreadCreate
+ 1104              	.LVL95:
+ 149:Core/Src/freertos.c **** 
+ 1105              		.loc 1 149 18 view .LVU267
+ 1106 006e 434B     		ldr	r3, .L72+16
+ 1107 0070 1860     		str	r0, [r3]
+ 152:Core/Src/freertos.c ****   InitializationHandle = osThreadCreate(osThread(Initialization), NULL);
+ 1108              		.loc 1 152 3 is_stmt 1 view .LVU268
+ 1109 0072 0DF1A80C 		add	ip, sp, #168
+ 1110 0076 04F12C0E 		add	lr, r4, #44
+ 1111 007a BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 1112 007e ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1113 0082 9EE80700 		ldm	lr, {r0, r1, r2}
+ 1114 0086 8CE80700 		stm	ip, {r0, r1, r2}
+ 153:Core/Src/freertos.c **** 
+ 1115              		.loc 1 153 3 view .LVU269
+ 153:Core/Src/freertos.c **** 
+ 1116              		.loc 1 153 26 is_stmt 0 view .LVU270
+ 1117 008a 0021     		movs	r1, #0
+ 1118 008c 2AA8     		add	r0, sp, #168
+ 1119 008e FFF7FEFF 		bl	osThreadCreate
+ 1120              	.LVL96:
+ 153:Core/Src/freertos.c **** 
+ 1121              		.loc 1 153 24 view .LVU271
+ 1122 0092 3B4B     		ldr	r3, .L72+20
+ 1123 0094 1860     		str	r0, [r3]
+ 156:Core/Src/freertos.c ****   Task_CAN_SendHandle = osThreadCreate(osThread(Task_CAN_Send), NULL);
+ 1124              		.loc 1 156 3 is_stmt 1 view .LVU272
+ 1125 0096 0DF18C0C 		add	ip, sp, #140
+ 1126 009a 04F1480E 		add	lr, r4, #72
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 32
+
+
+ 1127 009e BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 1128 00a2 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1129 00a6 9EE80700 		ldm	lr, {r0, r1, r2}
+ 1130 00aa 8CE80700 		stm	ip, {r0, r1, r2}
+ 157:Core/Src/freertos.c **** 
+ 1131              		.loc 1 157 3 view .LVU273
+ 157:Core/Src/freertos.c **** 
+ 1132              		.loc 1 157 25 is_stmt 0 view .LVU274
+ 1133 00ae 0021     		movs	r1, #0
+ 1134 00b0 23A8     		add	r0, sp, #140
+ 1135 00b2 FFF7FEFF 		bl	osThreadCreate
+ 1136              	.LVL97:
+ 157:Core/Src/freertos.c **** 
+ 1137              		.loc 1 157 23 view .LVU275
+ 1138 00b6 334B     		ldr	r3, .L72+24
+ 1139 00b8 1860     		str	r0, [r3]
+ 160:Core/Src/freertos.c ****   Task_CAN1_ReceiHandle = osThreadCreate(osThread(Task_CAN1_Recei), NULL);
+ 1140              		.loc 1 160 3 is_stmt 1 view .LVU276
+ 1141 00ba 0DF1700C 		add	ip, sp, #112
+ 1142 00be 04F1640E 		add	lr, r4, #100
+ 1143 00c2 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 1144 00c6 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1145 00ca 9EE80700 		ldm	lr, {r0, r1, r2}
+ 1146 00ce 8CE80700 		stm	ip, {r0, r1, r2}
+ 161:Core/Src/freertos.c **** 
+ 1147              		.loc 1 161 3 view .LVU277
+ 161:Core/Src/freertos.c **** 
+ 1148              		.loc 1 161 27 is_stmt 0 view .LVU278
+ 1149 00d2 0021     		movs	r1, #0
+ 1150 00d4 1CA8     		add	r0, sp, #112
+ 1151 00d6 FFF7FEFF 		bl	osThreadCreate
+ 1152              	.LVL98:
+ 161:Core/Src/freertos.c **** 
+ 1153              		.loc 1 161 25 view .LVU279
+ 1154 00da 2B4B     		ldr	r3, .L72+28
+ 1155 00dc 1860     		str	r0, [r3]
+ 164:Core/Src/freertos.c ****   Task_CAN2_ReceiHandle = osThreadCreate(osThread(Task_CAN2_Recei), NULL);
+ 1156              		.loc 1 164 3 is_stmt 1 view .LVU280
+ 1157 00de 0DF1540C 		add	ip, sp, #84
+ 1158 00e2 04F1800E 		add	lr, r4, #128
+ 1159 00e6 BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 1160 00ea ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1161 00ee 9EE80700 		ldm	lr, {r0, r1, r2}
+ 1162 00f2 8CE80700 		stm	ip, {r0, r1, r2}
+ 165:Core/Src/freertos.c **** 
+ 1163              		.loc 1 165 3 view .LVU281
+ 165:Core/Src/freertos.c **** 
+ 1164              		.loc 1 165 27 is_stmt 0 view .LVU282
+ 1165 00f6 0021     		movs	r1, #0
+ 1166 00f8 15A8     		add	r0, sp, #84
+ 1167 00fa FFF7FEFF 		bl	osThreadCreate
+ 1168              	.LVL99:
+ 165:Core/Src/freertos.c **** 
+ 1169              		.loc 1 165 25 view .LVU283
+ 1170 00fe 234B     		ldr	r3, .L72+32
+ 1171 0100 1860     		str	r0, [r3]
+ 168:Core/Src/freertos.c ****   Robot_ControlHandle = osThreadCreate(osThread(Robot_Control), NULL);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 33
+
+
+ 1172              		.loc 1 168 3 is_stmt 1 view .LVU284
+ 1173 0102 0DF1380C 		add	ip, sp, #56
+ 1174 0106 04F19C0E 		add	lr, r4, #156
+ 1175 010a BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 1176 010e ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1177 0112 9EE80700 		ldm	lr, {r0, r1, r2}
+ 1178 0116 8CE80700 		stm	ip, {r0, r1, r2}
+ 169:Core/Src/freertos.c **** 
+ 1179              		.loc 1 169 3 view .LVU285
+ 169:Core/Src/freertos.c **** 
+ 1180              		.loc 1 169 25 is_stmt 0 view .LVU286
+ 1181 011a 0021     		movs	r1, #0
+ 1182 011c 0EA8     		add	r0, sp, #56
+ 1183 011e FFF7FEFF 		bl	osThreadCreate
+ 1184              	.LVL100:
+ 169:Core/Src/freertos.c **** 
+ 1185              		.loc 1 169 23 view .LVU287
+ 1186 0122 1B4B     		ldr	r3, .L72+36
+ 1187 0124 1860     		str	r0, [r3]
+ 172:Core/Src/freertos.c ****   Task_UIHandle = osThreadCreate(osThread(Task_UI), NULL);
+ 1188              		.loc 1 172 3 is_stmt 1 view .LVU288
+ 1189 0126 0DF11C0C 		add	ip, sp, #28
+ 1190 012a 04F1B80E 		add	lr, r4, #184
+ 1191 012e BEE80F00 		ldmia	lr!, {r0, r1, r2, r3}
+ 1192 0132 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1193 0136 9EE80700 		ldm	lr, {r0, r1, r2}
+ 1194 013a 8CE80700 		stm	ip, {r0, r1, r2}
+ 173:Core/Src/freertos.c **** 
+ 1195              		.loc 1 173 3 view .LVU289
+ 173:Core/Src/freertos.c **** 
+ 1196              		.loc 1 173 19 is_stmt 0 view .LVU290
+ 1197 013e 0021     		movs	r1, #0
+ 1198 0140 07A8     		add	r0, sp, #28
+ 1199 0142 FFF7FEFF 		bl	osThreadCreate
+ 1200              	.LVL101:
+ 173:Core/Src/freertos.c **** 
+ 1201              		.loc 1 173 17 view .LVU291
+ 1202 0146 134B     		ldr	r3, .L72+40
+ 1203 0148 1860     		str	r0, [r3]
+ 176:Core/Src/freertos.c ****   Task_SerialHandle = osThreadCreate(osThread(Task_Serial), NULL);
+ 1204              		.loc 1 176 3 is_stmt 1 view .LVU292
+ 1205 014a EC46     		mov	ip, sp
+ 1206 014c D434     		adds	r4, r4, #212
+ 1207 014e 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 1208 0150 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 1209 0154 94E80700 		ldm	r4, {r0, r1, r2}
+ 1210 0158 8CE80700 		stm	ip, {r0, r1, r2}
+ 177:Core/Src/freertos.c **** 
+ 1211              		.loc 1 177 3 view .LVU293
+ 177:Core/Src/freertos.c **** 
+ 1212              		.loc 1 177 23 is_stmt 0 view .LVU294
+ 1213 015c 0021     		movs	r1, #0
+ 1214 015e 6846     		mov	r0, sp
+ 1215 0160 FFF7FEFF 		bl	osThreadCreate
+ 1216              	.LVL102:
+ 177:Core/Src/freertos.c **** 
+ 1217              		.loc 1 177 21 view .LVU295
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 34
+
+
+ 1218 0164 0C4B     		ldr	r3, .L72+44
+ 1219 0166 1860     		str	r0, [r3]
+ 183:Core/Src/freertos.c **** 
+ 1220              		.loc 1 183 1 view .LVU296
+ 1221 0168 44B0     		add	sp, sp, #272
+ 1222              	.LCFI20:
+ 1223              		.cfi_def_cfa_offset 8
+ 1224              		@ sp needed
+ 1225 016a 10BD     		pop	{r4, pc}
+ 1226              	.L73:
+ 1227              		.align	2
+ 1228              	.L72:
+ 1229 016c 00000000 		.word	.LANCHOR0
+ 1230 0170 00000000 		.word	CAN_SendHandle
+ 1231 0174 00000000 		.word	CAN1_ReceiveHandle
+ 1232 0178 00000000 		.word	CAN2_ReceiveHandle
+ 1233 017c 00000000 		.word	Task_IMUHandle
+ 1234 0180 00000000 		.word	InitializationHandle
+ 1235 0184 00000000 		.word	Task_CAN_SendHandle
+ 1236 0188 00000000 		.word	Task_CAN1_ReceiHandle
+ 1237 018c 00000000 		.word	Task_CAN2_ReceiHandle
+ 1238 0190 00000000 		.word	Robot_ControlHandle
+ 1239 0194 00000000 		.word	Task_UIHandle
+ 1240 0198 00000000 		.word	Task_SerialHandle
+ 1241              		.cfi_endproc
+ 1242              	.LFE164:
+ 1244              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1245              		.align	2
+ 1246              	.LC15:
+ 1247 0000 5461736B 		.ascii	"Task_Serial\000"
+ 1247      5F536572 
+ 1247      69616C00 
+ 1248              		.align	2
+ 1249              	.LC13:
+ 1250 000c 5461736B 		.ascii	"Task_UI\000"
+ 1250      5F554900 
+ 1251              		.align	2
+ 1252              	.LC11:
+ 1253 0014 526F626F 		.ascii	"Robot_Control\000"
+ 1253      745F436F 
+ 1253      6E74726F 
+ 1253      6C00
+ 1254 0022 0000     		.align	2
+ 1255              	.LC9:
+ 1256 0024 5461736B 		.ascii	"Task_CAN2_Recei\000"
+ 1256      5F43414E 
+ 1256      325F5265 
+ 1256      63656900 
+ 1257              		.align	2
+ 1258              	.LC7:
+ 1259 0034 5461736B 		.ascii	"Task_CAN1_Recei\000"
+ 1259      5F43414E 
+ 1259      315F5265 
+ 1259      63656900 
+ 1260              		.align	2
+ 1261              	.LC5:
+ 1262 0044 5461736B 		.ascii	"Task_CAN_Send\000"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 35
+
+
+ 1262      5F43414E 
+ 1262      5F53656E 
+ 1262      6400
+ 1263 0052 0000     		.align	2
+ 1264              	.LC3:
+ 1265 0054 496E6974 		.ascii	"Initialization\000"
+ 1265      69616C69 
+ 1265      7A617469 
+ 1265      6F6E00
+ 1266 0063 00       		.align	2
+ 1267              	.LC1:
+ 1268 0064 5461736B 		.ascii	"Task_IMU\000"
+ 1268      5F494D55 
+ 1268      00
+ 1269              		.section	.bss.xIdleStack,"aw",%nobits
+ 1270              		.align	2
+ 1273              	xIdleStack:
+ 1274 0000 00000000 		.space	512
+ 1274      00000000 
+ 1274      00000000 
+ 1274      00000000 
+ 1274      00000000 
+ 1275              		.section	.bss.xIdleTaskTCBBuffer,"aw",%nobits
+ 1276              		.align	2
+ 1279              	xIdleTaskTCBBuffer:
+ 1280 0000 00000000 		.space	84
+ 1280      00000000 
+ 1280      00000000 
+ 1280      00000000 
+ 1280      00000000 
+ 1281              		.global	CAN2_ReceiveHandle
+ 1282              		.section	.bss.CAN2_ReceiveHandle,"aw",%nobits
+ 1283              		.align	2
+ 1286              	CAN2_ReceiveHandle:
+ 1287 0000 00000000 		.space	4
+ 1288              		.global	CAN1_ReceiveHandle
+ 1289              		.section	.bss.CAN1_ReceiveHandle,"aw",%nobits
+ 1290              		.align	2
+ 1293              	CAN1_ReceiveHandle:
+ 1294 0000 00000000 		.space	4
+ 1295              		.global	CAN_SendHandle
+ 1296              		.section	.bss.CAN_SendHandle,"aw",%nobits
+ 1297              		.align	2
+ 1300              	CAN_SendHandle:
+ 1301 0000 00000000 		.space	4
+ 1302              		.global	Task_SerialHandle
+ 1303              		.section	.bss.Task_SerialHandle,"aw",%nobits
+ 1304              		.align	2
+ 1307              	Task_SerialHandle:
+ 1308 0000 00000000 		.space	4
+ 1309              		.global	Task_UIHandle
+ 1310              		.section	.bss.Task_UIHandle,"aw",%nobits
+ 1311              		.align	2
+ 1314              	Task_UIHandle:
+ 1315 0000 00000000 		.space	4
+ 1316              		.global	Robot_ControlHandle
+ 1317              		.section	.bss.Robot_ControlHandle,"aw",%nobits
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 36
+
+
+ 1318              		.align	2
+ 1321              	Robot_ControlHandle:
+ 1322 0000 00000000 		.space	4
+ 1323              		.global	Task_CAN2_ReceiHandle
+ 1324              		.section	.bss.Task_CAN2_ReceiHandle,"aw",%nobits
+ 1325              		.align	2
+ 1328              	Task_CAN2_ReceiHandle:
+ 1329 0000 00000000 		.space	4
+ 1330              		.global	Task_CAN1_ReceiHandle
+ 1331              		.section	.bss.Task_CAN1_ReceiHandle,"aw",%nobits
+ 1332              		.align	2
+ 1335              	Task_CAN1_ReceiHandle:
+ 1336 0000 00000000 		.space	4
+ 1337              		.global	Task_CAN_SendHandle
+ 1338              		.section	.bss.Task_CAN_SendHandle,"aw",%nobits
+ 1339              		.align	2
+ 1342              	Task_CAN_SendHandle:
+ 1343 0000 00000000 		.space	4
+ 1344              		.global	InitializationHandle
+ 1345              		.section	.bss.InitializationHandle,"aw",%nobits
+ 1346              		.align	2
+ 1349              	InitializationHandle:
+ 1350 0000 00000000 		.space	4
+ 1351              		.global	Task_IMUHandle
+ 1352              		.section	.bss.Task_IMUHandle,"aw",%nobits
+ 1353              		.align	2
+ 1356              	Task_IMUHandle:
+ 1357 0000 00000000 		.space	4
+ 1358              		.section	.rodata
+ 1359              		.align	2
+ 1360              		.set	.LANCHOR0,. + 0
+ 1361              	.LC0:
+ 1362 0000 20000000 		.word	32
+ 1363 0004 24000000 		.word	36
+ 1364 0008 00000000 		.word	0
+ 1365 000c 00000000 		.word	0
+ 1366              	.LC22:
+ 1367 0010 64000000 		.word	.LC1
+ 1368 0014 00000000 		.word	IMU_Tasks
+ 1369 0018 0000     		.short	0
+ 1370 001a 0000     		.space	2
+ 1371 001c 00000000 		.word	0
+ 1372 0020 90010000 		.word	400
+ 1373 0024 00000000 		.word	0
+ 1374 0028 00000000 		.word	0
+ 1375              	.LC23:
+ 1376 002c 54000000 		.word	.LC3
+ 1377 0030 00000000 		.word	General_Initialization
+ 1378 0034 0200     		.short	2
+ 1379 0036 0000     		.space	2
+ 1380 0038 00000000 		.word	0
+ 1381 003c 00010000 		.word	256
+ 1382 0040 00000000 		.word	0
+ 1383 0044 00000000 		.word	0
+ 1384              	.LC24:
+ 1385 0048 44000000 		.word	.LC5
+ 1386 004c 00000000 		.word	CAN_Send_All
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 37
+
+
+ 1387 0050 0200     		.short	2
+ 1388 0052 0000     		.space	2
+ 1389 0054 00000000 		.word	0
+ 1390 0058 00010000 		.word	256
+ 1391 005c 00000000 		.word	0
+ 1392 0060 00000000 		.word	0
+ 1393              	.LC25:
+ 1394 0064 34000000 		.word	.LC7
+ 1395 0068 00000000 		.word	CAN1_Rec
+ 1396 006c 0200     		.short	2
+ 1397 006e 0000     		.space	2
+ 1398 0070 00000000 		.word	0
+ 1399 0074 00010000 		.word	256
+ 1400 0078 00000000 		.word	0
+ 1401 007c 00000000 		.word	0
+ 1402              	.LC26:
+ 1403 0080 24000000 		.word	.LC9
+ 1404 0084 00000000 		.word	CAN2_Rec
+ 1405 0088 0200     		.short	2
+ 1406 008a 0000     		.space	2
+ 1407 008c 00000000 		.word	0
+ 1408 0090 00010000 		.word	256
+ 1409 0094 00000000 		.word	0
+ 1410 0098 00000000 		.word	0
+ 1411              	.LC27:
+ 1412 009c 14000000 		.word	.LC11
+ 1413 00a0 00000000 		.word	Robot_Control_All
+ 1414 00a4 0300     		.short	3
+ 1415 00a6 0000     		.space	2
+ 1416 00a8 00000000 		.word	0
+ 1417 00ac E8030000 		.word	1000
+ 1418 00b0 00000000 		.word	0
+ 1419 00b4 00000000 		.word	0
+ 1420              	.LC28:
+ 1421 00b8 0C000000 		.word	.LC13
+ 1422 00bc 00000000 		.word	UI_Draw
+ 1423 00c0 0000     		.short	0
+ 1424 00c2 0000     		.space	2
+ 1425 00c4 00000000 		.word	0
+ 1426 00c8 00010000 		.word	256
+ 1427 00cc 00000000 		.word	0
+ 1428 00d0 00000000 		.word	0
+ 1429              	.LC29:
+ 1430 00d4 00000000 		.word	.LC15
+ 1431 00d8 00000000 		.word	Serial_Send
+ 1432 00dc 0000     		.short	0
+ 1433 00de 0000     		.space	2
+ 1434 00e0 00000000 		.word	0
+ 1435 00e4 80000000 		.word	128
+ 1436 00e8 00000000 		.word	0
+ 1437 00ec 00000000 		.word	0
+ 1438              		.text
+ 1439              	.Letext0:
+ 1440              		.file 3 "c:\\msys64\\mingw64\\lib\\gcc\\arm-none-eabi\\12.2.0\\include\\stddef.h"
+ 1441              		.file 4 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1442              		.file 5 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 1443              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 38
+
+
+ 1444              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h"
+ 1445              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 1446              		.file 9 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 1447              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 1448              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 1449              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 1450              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 1451              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 1452              		.file 15 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 1453              		.file 16 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 1454              		.file 17 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_types.h"
+ 1455              		.file 18 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\reent.h"
+ 1456              		.file 19 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\lock.h"
+ 1457              		.file 20 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\stdio.h"
+ 1458              		.file 21 "HigherLevelApps/HigherLevelApps.h/IMU_Temp_Control.h"
+ 1459              		.file 22 "BSP/BSP.h/FusionMath.h"
+ 1460              		.file 23 "BSP/BSP.h/FusionAhrs.h"
+ 1461              		.file 24 "Core/Inc/can.h"
+ 1462              		.file 25 "BSP/BSP.h/CAN_Setup.h"
+ 1463              		.file 26 "Devices/Devices.h/M3508_Motor.h"
+ 1464              		.file 27 "Devices/Devices.h/GM6020_Motor.h"
+ 1465              		.file 28 "Devices/Devices.h/M2006_Motor.h"
+ 1466              		.file 29 "Devices/Devices.h/Super_Capacitor.h"
+ 1467              		.file 30 "Core/Inc/usart.h"
+ 1468              		.file 31 "Devices/Devices.h/DR16_Remote.h"
+ 1469              		.file 32 "Devices/Devices.h/MF9025_Motor.h"
+ 1470              		.file 33 "Devices/Devices.h/Control_Board_A.h"
+ 1471              		.file 34 "HigherLevelApps/HigherLevelApps.h/Chassis_Control.h"
+ 1472              		.file 35 "HigherLevelApps/HigherLevelApps.h/Shooting_Control.h"
+ 1473              		.file 36 "Devices/Devices.h/Jetson_Tx2.h"
+ 1474              		.file 37 "Devices/Devices.h/Referee_System.h"
+ 1475              		.file 38 "HigherLevelApps/HigherLevelApps.h/Robot_Control.h"
+ 1476              		.file 39 "HigherLevelApps/HigherLevelApps.h/User_Interface.h"
+ 1477              		.file 40 "HigherLevelApps/HigherLevelApps.h/State_Machine.h"
+ 1478              		.file 41 "HigherLevelApps/HigherLevelApps.h/Gimbal_Control.h"
+ 1479              		.file 42 "Devices/Devices.h/Board_A_IMU.h"
+ 1480              		.file 43 "Devices/Devices.h/Buzzer.h"
+ 1481              		.file 44 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\string.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 39
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 freertos.c
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:21     .text.IMU_Tasks:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:27     .text.IMU_Tasks:00000000 IMU_Tasks
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:102    .text.IMU_Tasks:00000038 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:110    .text.Robot_Control_All:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:116    .text.Robot_Control_All:00000000 Robot_Control_All
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:159    .text.Robot_Control_All:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:164    .text.General_Initialization:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:170    .text.General_Initialization:00000000 General_Initialization
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:292    .text.General_Initialization:00000074 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:315    .text.CAN1_Rec:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:321    .text.CAN1_Rec:00000000 CAN1_Rec
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:483    .text.CAN1_Rec:000000c4 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1293   .bss.CAN1_ReceiveHandle:00000000 CAN1_ReceiveHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:492    .text.CAN2_Rec:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:498    .text.CAN2_Rec:00000000 CAN2_Rec
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:599    .text.CAN2_Rec:00000070 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1286   .bss.CAN2_ReceiveHandle:00000000 CAN2_ReceiveHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:607    .text.CAN_Send_All:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:613    .text.CAN_Send_All:00000000 CAN_Send_All
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:652    .text.CAN_Send_All:00000020 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1300   .bss.CAN_SendHandle:00000000 CAN_SendHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:657    .rodata.UI_Draw.str1.4:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:670    .text.UI_Draw:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:676    .text.UI_Draw:00000000 UI_Draw
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:855    .text.UI_Draw:000000c8 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:870    .rodata.Serial_Send.str1.4:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:874    .text.Serial_Send:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:880    .text.Serial_Send:00000000 Serial_Send
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:939    .text.Serial_Send:00000038 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:945    .text.fputc:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:951    .text.fputc:00000000 fputc
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:990    .text.fputc:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:995    .text.vApplicationGetIdleTaskMemory:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1001   .text.vApplicationGetIdleTaskMemory:00000000 vApplicationGetIdleTaskMemory
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1026   .text.vApplicationGetIdleTaskMemory:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1279   .bss.xIdleTaskTCBBuffer:00000000 xIdleTaskTCBBuffer
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1273   .bss.xIdleStack:00000000 xIdleStack
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1032   .text.MX_FREERTOS_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1038   .text.MX_FREERTOS_Init:00000000 MX_FREERTOS_Init
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1229   .text.MX_FREERTOS_Init:0000016c $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1356   .bss.Task_IMUHandle:00000000 Task_IMUHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1349   .bss.InitializationHandle:00000000 InitializationHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1342   .bss.Task_CAN_SendHandle:00000000 Task_CAN_SendHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1335   .bss.Task_CAN1_ReceiHandle:00000000 Task_CAN1_ReceiHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1328   .bss.Task_CAN2_ReceiHandle:00000000 Task_CAN2_ReceiHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1321   .bss.Robot_ControlHandle:00000000 Robot_ControlHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1314   .bss.Task_UIHandle:00000000 Task_UIHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1307   .bss.Task_SerialHandle:00000000 Task_SerialHandle
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1245   .rodata.str1.4:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1270   .bss.xIdleStack:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1276   .bss.xIdleTaskTCBBuffer:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1283   .bss.CAN2_ReceiveHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1290   .bss.CAN1_ReceiveHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1297   .bss.CAN_SendHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1304   .bss.Task_SerialHandle:00000000 $d
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 40
+
+
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1311   .bss.Task_UIHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1318   .bss.Robot_ControlHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1325   .bss.Task_CAN2_ReceiHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1332   .bss.Task_CAN1_ReceiHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1339   .bss.Task_CAN_SendHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1346   .bss.InitializationHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1353   .bss.Task_IMUHandle:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s:1359   .rodata:00000000 $d
+
+UNDEFINED SYMBOLS
+xTaskGetTickCount
+vTaskDelayUntil
+Board_A_IMU_Func
+Board_A_IMU
+IMU_Temp_Control_Func
+Control_Board_A_Func
+Robot_Control_Func
+FusionAhrsInitialise
+UI_Initialization
+vTaskDelete
+Buzzer_Func
+Board_A_IMU_AHRS
+DR16_Func
+huart1
+huart7
+Referee_System_Func
+Referee_System
+huart6
+CAN_Func
+hcan1
+hcan2
+Tx2_Func
+Gimbal_Func
+Shooting_Func
+Chassis
+xQueueReceive
+Super_Capacitor_Func
+Monitor_CAN1
+GM6020_Func
+MF9025_Func
+M2006_Func
+Monitor_CAN2
+M3508_Func
+HAL_CAN_AddTxMessage
+UI_AimingSystem
+UI_GuidingSystem
+UI_TextSystem_Init
+UI_StateText_Update
+UI_AutoText_Update
+osDelay
+UI
+TextSystem
+Shooting
+Referee_Robot_State
+State_Machine
+__aeabi_f2d
+printf
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cchbz6QP.s 			page 41
+
+
+HAL_UART_Transmit
+huart4
+osMessageCreate
+osThreadCreate

@@ -1,0 +1,1108 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"CRC_Verification.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "BSP/BSP.c/CRC_Verification.c"
+  20              		.section	.text.Get_CRC8_Check_Sum,"ax",%progbits
+  21              		.align	1
+  22              		.global	Get_CRC8_Check_Sum
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Get_CRC8_Check_Sum:
+  28              	.LVL0:
+  29              	.LFB3:
+   1:BSP/BSP.c/CRC_Verification.c **** /**
+   2:BSP/BSP.c/CRC_Verification.c ****  * @file CRC_Verification.c
+   3:BSP/BSP.c/CRC_Verification.c ****  * @author Leo Liu
+   4:BSP/BSP.c/CRC_Verification.c ****  * @brief CRC Verification for referee system (provided by Robomaster)
+   5:BSP/BSP.c/CRC_Verification.c ****  * @version 1.0
+   6:BSP/BSP.c/CRC_Verification.c ****  * @date 2022-07-19
+   7:BSP/BSP.c/CRC_Verification.c ****  * 
+   8:BSP/BSP.c/CRC_Verification.c ****  * @copyright Copyright (c) 2022
+   9:BSP/BSP.c/CRC_Verification.c ****  * 
+  10:BSP/BSP.c/CRC_Verification.c ****  */
+  11:BSP/BSP.c/CRC_Verification.c **** #include "CRC_Verification.h"
+  12:BSP/BSP.c/CRC_Verification.c **** 
+  13:BSP/BSP.c/CRC_Verification.c **** unsigned char Get_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength, unsigned char uc
+  14:BSP/BSP.c/CRC_Verification.c **** unsigned int Verify_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
+  15:BSP/BSP.c/CRC_Verification.c **** void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
+  16:BSP/BSP.c/CRC_Verification.c **** uint16_t Get_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength, uint16_t wCRC);
+  17:BSP/BSP.c/CRC_Verification.c **** uint32_t Verify_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength);
+  18:BSP/BSP.c/CRC_Verification.c **** void Append_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength);
+  19:BSP/BSP.c/CRC_Verification.c **** 	
+  20:BSP/BSP.c/CRC_Verification.c **** CRC_Verif_Func_t CRC_Verif_Func = CRC_Verif_Func_GroundInit;
+  21:BSP/BSP.c/CRC_Verification.c **** #undef CRC_Verif_Func_GroundInit
+  22:BSP/BSP.c/CRC_Verification.c **** 
+  23:BSP/BSP.c/CRC_Verification.c **** //crc8 generator polynomial:G(x)=x8+x5+x4+1
+  24:BSP/BSP.c/CRC_Verification.c **** const unsigned char CRC8_INIT = 0xff;
+  25:BSP/BSP.c/CRC_Verification.c **** const unsigned char CRC8_TAB[256] =
+  26:BSP/BSP.c/CRC_Verification.c **** {
+  27:BSP/BSP.c/CRC_Verification.c **** 	0x00, 0x5e, 0xbc, 0xe2, 0x61, 0x3f, 0xdd, 0x83, 0xc2, 0x9c, 0x7e, 0x20, 0xa3, 0xfd, 0x1f, 0x41,
+  28:BSP/BSP.c/CRC_Verification.c **** 	0x9d, 0xc3, 0x21, 0x7f, 0xfc, 0xa2, 0x40, 0x1e, 0x5f, 0x01, 0xe3, 0xbd, 0x3e, 0x60, 0x82, 0xdc,
+  29:BSP/BSP.c/CRC_Verification.c **** 	0x23, 0x7d, 0x9f, 0xc1, 0x42, 0x1c, 0xfe, 0xa0, 0xe1, 0xbf, 0x5d, 0x03, 0x80, 0xde, 0x3c, 0x62,
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 2
+
+
+  30:BSP/BSP.c/CRC_Verification.c **** 	0xbe, 0xe0, 0x02, 0x5c, 0xdf, 0x81, 0x63, 0x3d, 0x7c, 0x22, 0xc0, 0x9e, 0x1d, 0x43, 0xa1, 0xff,
+  31:BSP/BSP.c/CRC_Verification.c **** 	0x46, 0x18, 0xfa, 0xa4, 0x27, 0x79, 0x9b, 0xc5, 0x84, 0xda, 0x38, 0x66, 0xe5, 0xbb, 0x59, 0x07,
+  32:BSP/BSP.c/CRC_Verification.c **** 	0xdb, 0x85, 0x67, 0x39, 0xba, 0xe4, 0x06, 0x58, 0x19, 0x47, 0xa5, 0xfb, 0x78, 0x26, 0xc4, 0x9a,
+  33:BSP/BSP.c/CRC_Verification.c **** 	0x65, 0x3b, 0xd9, 0x87, 0x04, 0x5a, 0xb8, 0xe6, 0xa7, 0xf9, 0x1b, 0x45, 0xc6, 0x98, 0x7a, 0x24,
+  34:BSP/BSP.c/CRC_Verification.c **** 	0xf8, 0xa6, 0x44, 0x1a, 0x99, 0xc7, 0x25, 0x7b, 0x3a, 0x64, 0x86, 0xd8, 0x5b, 0x05, 0xe7, 0xb9,
+  35:BSP/BSP.c/CRC_Verification.c **** 	0x8c, 0xd2, 0x30, 0x6e, 0xed, 0xb3, 0x51, 0x0f, 0x4e, 0x10, 0xf2, 0xac, 0x2f, 0x71, 0x93, 0xcd,
+  36:BSP/BSP.c/CRC_Verification.c **** 	0x11, 0x4f, 0xad, 0xf3, 0x70, 0x2e, 0xcc, 0x92, 0xd3, 0x8d, 0x6f, 0x31, 0xb2, 0xec, 0x0e, 0x50,
+  37:BSP/BSP.c/CRC_Verification.c **** 	0xaf, 0xf1, 0x13, 0x4d, 0xce, 0x90, 0x72, 0x2c, 0x6d, 0x33, 0xd1, 0x8f, 0x0c, 0x52, 0xb0, 0xee,
+  38:BSP/BSP.c/CRC_Verification.c **** 	0x32, 0x6c, 0x8e, 0xd0, 0x53, 0x0d, 0xef, 0xb1, 0xf0, 0xae, 0x4c, 0x12, 0x91, 0xcf, 0x2d, 0x73,
+  39:BSP/BSP.c/CRC_Verification.c **** 	0xca, 0x94, 0x76, 0x28, 0xab, 0xf5, 0x17, 0x49, 0x08, 0x56, 0xb4, 0xea, 0x69, 0x37, 0xd5, 0x8b,
+  40:BSP/BSP.c/CRC_Verification.c **** 	0x57, 0x09, 0xeb, 0xb5, 0x36, 0x68, 0x8a, 0xd4, 0x95, 0xcb, 0x29, 0x77, 0xf4, 0xaa, 0x48, 0x16,
+  41:BSP/BSP.c/CRC_Verification.c **** 	0xe9, 0xb7, 0x55, 0x0b, 0x88, 0xd6, 0x34, 0x6a, 0x2b, 0x75, 0x97, 0xc9, 0x4a, 0x14, 0xf6, 0xa8,
+  42:BSP/BSP.c/CRC_Verification.c **** 	0x74, 0x2a, 0xc8, 0x96, 0x15, 0x4b, 0xa9, 0xf7, 0xb6, 0xe8, 0x0a, 0x54, 0xd7, 0x89, 0x6b, 0x35,
+  43:BSP/BSP.c/CRC_Verification.c **** };
+  44:BSP/BSP.c/CRC_Verification.c **** 
+  45:BSP/BSP.c/CRC_Verification.c **** unsigned char Get_CRC8_Check_Sum(unsigned char *pchMessage,unsigned int dwLength,unsigned char ucCR
+  46:BSP/BSP.c/CRC_Verification.c **** {
+  30              		.loc 1 46 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 46 1 is_stmt 0 view .LVU1
+  36 0000 0346     		mov	r3, r0
+  37 0002 1046     		mov	r0, r2
+  38              	.LVL1:
+  47:BSP/BSP.c/CRC_Verification.c **** 	unsigned char ucIndex;
+  39              		.loc 1 47 2 is_stmt 1 view .LVU2
+  48:BSP/BSP.c/CRC_Verification.c **** 	while (dwLength--)
+  40              		.loc 1 48 2 view .LVU3
+  41              		.loc 1 48 8 is_stmt 0 view .LVU4
+  42 0004 05E0     		b	.L2
+  43              	.LVL2:
+  44              	.L3:
+  49:BSP/BSP.c/CRC_Verification.c **** 	{
+  50:BSP/BSP.c/CRC_Verification.c **** 		ucIndex = ucCRC8^(*pchMessage++);
+  45              		.loc 1 50 3 is_stmt 1 view .LVU5
+  46              		.loc 1 50 21 is_stmt 0 view .LVU6
+  47 0006 13F8011B 		ldrb	r1, [r3], #1	@ zero_extendqisi2
+  48              	.LVL3:
+  49              		.loc 1 50 11 view .LVU7
+  50 000a 4140     		eors	r1, r1, r0
+  51              	.LVL4:
+  51:BSP/BSP.c/CRC_Verification.c **** 		ucCRC8 = CRC8_TAB[ucIndex];
+  52              		.loc 1 51 3 is_stmt 1 view .LVU8
+  53              		.loc 1 51 10 is_stmt 0 view .LVU9
+  54 000c 0348     		ldr	r0, .L4
+  55              	.LVL5:
+  56              		.loc 1 51 10 view .LVU10
+  57 000e 405C     		ldrb	r0, [r0, r1]	@ zero_extendqisi2
+  58              	.LVL6:
+  48:BSP/BSP.c/CRC_Verification.c **** 	while (dwLength--)
+  59              		.loc 1 48 17 view .LVU11
+  60 0010 1146     		mov	r1, r2
+  61              	.LVL7:
+  62              	.L2:
+  48:BSP/BSP.c/CRC_Verification.c **** 	while (dwLength--)
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 3
+
+
+  63              		.loc 1 48 9 is_stmt 1 view .LVU12
+  48:BSP/BSP.c/CRC_Verification.c **** 	while (dwLength--)
+  64              		.loc 1 48 17 is_stmt 0 view .LVU13
+  65 0012 4A1E     		subs	r2, r1, #1
+  66              	.LVL8:
+  48:BSP/BSP.c/CRC_Verification.c **** 	while (dwLength--)
+  67              		.loc 1 48 9 view .LVU14
+  68 0014 0029     		cmp	r1, #0
+  69 0016 F6D1     		bne	.L3
+  52:BSP/BSP.c/CRC_Verification.c **** 	}
+  53:BSP/BSP.c/CRC_Verification.c **** 	return(ucCRC8);
+  70              		.loc 1 53 2 is_stmt 1 view .LVU15
+  54:BSP/BSP.c/CRC_Verification.c **** }
+  71              		.loc 1 54 1 is_stmt 0 view .LVU16
+  72 0018 7047     		bx	lr
+  73              	.L5:
+  74 001a 00BF     		.align	2
+  75              	.L4:
+  76 001c 00000000 		.word	CRC8_TAB
+  77              		.cfi_endproc
+  78              	.LFE3:
+  80              		.section	.text.Verify_CRC8_Check_Sum,"ax",%progbits
+  81              		.align	1
+  82              		.global	Verify_CRC8_Check_Sum
+  83              		.syntax unified
+  84              		.thumb
+  85              		.thumb_func
+  87              	Verify_CRC8_Check_Sum:
+  88              	.LVL9:
+  89              	.LFB4:
+  55:BSP/BSP.c/CRC_Verification.c **** 
+  56:BSP/BSP.c/CRC_Verification.c **** /*
+  57:BSP/BSP.c/CRC_Verification.c **** ** Descriptions: CRC8 Verify function
+  58:BSP/BSP.c/CRC_Verification.c **** ** Input: Data to Verify,Stream length = Data + checksum
+  59:BSP/BSP.c/CRC_Verification.c **** ** Output: True or False (CRC Verify Result)
+  60:BSP/BSP.c/CRC_Verification.c **** */
+  61:BSP/BSP.c/CRC_Verification.c **** unsigned int Verify_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength)
+  62:BSP/BSP.c/CRC_Verification.c **** {
+  90              		.loc 1 62 1 is_stmt 1 view -0
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 0
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  63:BSP/BSP.c/CRC_Verification.c **** 	unsigned char ucExpected = 0;
+  94              		.loc 1 63 2 view .LVU18
+  64:BSP/BSP.c/CRC_Verification.c **** 	if ((pchMessage == 0) || (dwLength <= 2)) return 0;
+  95              		.loc 1 64 2 view .LVU19
+  96              		.loc 1 64 5 is_stmt 0 view .LVU20
+  97 0000 70B1     		cbz	r0, .L8
+  62:BSP/BSP.c/CRC_Verification.c **** 	unsigned char ucExpected = 0;
+  98              		.loc 1 62 1 discriminator 2 view .LVU21
+  99 0002 38B5     		push	{r3, r4, r5, lr}
+ 100              	.LCFI0:
+ 101              		.cfi_def_cfa_offset 16
+ 102              		.cfi_offset 3, -16
+ 103              		.cfi_offset 4, -12
+ 104              		.cfi_offset 5, -8
+ 105              		.cfi_offset 14, -4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 4
+
+
+ 106 0004 0546     		mov	r5, r0
+ 107              		.loc 1 64 24 discriminator 2 view .LVU22
+ 108 0006 0229     		cmp	r1, #2
+ 109 0008 0CD9     		bls	.L9
+  65:BSP/BSP.c/CRC_Verification.c **** 	ucExpected = Get_CRC8_Check_Sum (pchMessage, dwLength-1, CRC8_INIT);
+ 110              		.loc 1 65 2 is_stmt 1 view .LVU23
+ 111              		.loc 1 65 15 is_stmt 0 view .LVU24
+ 112 000a 4C1E     		subs	r4, r1, #1
+ 113 000c FF22     		movs	r2, #255
+ 114 000e 2146     		mov	r1, r4
+ 115              	.LVL10:
+ 116              		.loc 1 65 15 view .LVU25
+ 117 0010 FFF7FEFF 		bl	Get_CRC8_Check_Sum
+ 118              	.LVL11:
+  66:BSP/BSP.c/CRC_Verification.c **** 	return ( ucExpected == pchMessage[dwLength-1] );
+ 119              		.loc 1 66 2 is_stmt 1 view .LVU26
+ 120              		.loc 1 66 35 is_stmt 0 view .LVU27
+ 121 0014 2B5D     		ldrb	r3, [r5, r4]	@ zero_extendqisi2
+ 122              		.loc 1 66 22 view .LVU28
+ 123 0016 8342     		cmp	r3, r0
+ 124 0018 14BF     		ite	ne
+ 125 001a 0020     		movne	r0, #0
+ 126              	.LVL12:
+ 127              		.loc 1 66 22 view .LVU29
+ 128 001c 0120     		moveq	r0, #1
+ 129              	.LVL13:
+ 130              	.L6:
+  67:BSP/BSP.c/CRC_Verification.c **** }
+ 131              		.loc 1 67 1 view .LVU30
+ 132 001e 38BD     		pop	{r3, r4, r5, pc}
+ 133              	.LVL14:
+ 134              	.L8:
+ 135              	.LCFI1:
+ 136              		.cfi_def_cfa_offset 0
+ 137              		.cfi_restore 3
+ 138              		.cfi_restore 4
+ 139              		.cfi_restore 5
+ 140              		.cfi_restore 14
+  64:BSP/BSP.c/CRC_Verification.c **** 	ucExpected = Get_CRC8_Check_Sum (pchMessage, dwLength-1, CRC8_INIT);
+ 141              		.loc 1 64 51 view .LVU31
+ 142 0020 0020     		movs	r0, #0
+ 143              	.LVL15:
+ 144              		.loc 1 67 1 view .LVU32
+ 145 0022 7047     		bx	lr
+ 146              	.LVL16:
+ 147              	.L9:
+ 148              	.LCFI2:
+ 149              		.cfi_def_cfa_offset 16
+ 150              		.cfi_offset 3, -16
+ 151              		.cfi_offset 4, -12
+ 152              		.cfi_offset 5, -8
+ 153              		.cfi_offset 14, -4
+  64:BSP/BSP.c/CRC_Verification.c **** 	ucExpected = Get_CRC8_Check_Sum (pchMessage, dwLength-1, CRC8_INIT);
+ 154              		.loc 1 64 51 view .LVU33
+ 155 0024 0020     		movs	r0, #0
+ 156              	.LVL17:
+  64:BSP/BSP.c/CRC_Verification.c **** 	ucExpected = Get_CRC8_Check_Sum (pchMessage, dwLength-1, CRC8_INIT);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 5
+
+
+ 157              		.loc 1 64 51 view .LVU34
+ 158 0026 FAE7     		b	.L6
+ 159              		.cfi_endproc
+ 160              	.LFE4:
+ 162              		.section	.text.Append_CRC8_Check_Sum,"ax",%progbits
+ 163              		.align	1
+ 164              		.global	Append_CRC8_Check_Sum
+ 165              		.syntax unified
+ 166              		.thumb
+ 167              		.thumb_func
+ 169              	Append_CRC8_Check_Sum:
+ 170              	.LVL18:
+ 171              	.LFB5:
+  68:BSP/BSP.c/CRC_Verification.c **** 
+  69:BSP/BSP.c/CRC_Verification.c **** /*
+  70:BSP/BSP.c/CRC_Verification.c **** ** Descriptions: append CRC8 to the end of data
+  71:BSP/BSP.c/CRC_Verification.c **** ** Input: Data to CRC and append,Stream length = Data + checksum
+  72:BSP/BSP.c/CRC_Verification.c **** ** Output: True or False (CRC Verify Result)
+  73:BSP/BSP.c/CRC_Verification.c **** */
+  74:BSP/BSP.c/CRC_Verification.c **** void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength)
+  75:BSP/BSP.c/CRC_Verification.c **** {
+ 172              		.loc 1 75 1 is_stmt 1 view -0
+ 173              		.cfi_startproc
+ 174              		@ args = 0, pretend = 0, frame = 0
+ 175              		@ frame_needed = 0, uses_anonymous_args = 0
+  76:BSP/BSP.c/CRC_Verification.c **** 	unsigned char ucCRC = 0;
+ 176              		.loc 1 76 2 view .LVU36
+  77:BSP/BSP.c/CRC_Verification.c **** 	if ((pchMessage == 0) || (dwLength <= 2)) return;
+ 177              		.loc 1 77 2 view .LVU37
+ 178              		.loc 1 77 5 is_stmt 0 view .LVU38
+ 179 0000 50B1     		cbz	r0, .L17
+  75:BSP/BSP.c/CRC_Verification.c **** 	unsigned char ucCRC = 0;
+ 180              		.loc 1 75 1 discriminator 2 view .LVU39
+ 181 0002 38B5     		push	{r3, r4, r5, lr}
+ 182              	.LCFI3:
+ 183              		.cfi_def_cfa_offset 16
+ 184              		.cfi_offset 3, -16
+ 185              		.cfi_offset 4, -12
+ 186              		.cfi_offset 5, -8
+ 187              		.cfi_offset 14, -4
+ 188 0004 0546     		mov	r5, r0
+ 189              		.loc 1 77 24 discriminator 2 view .LVU40
+ 190 0006 0229     		cmp	r1, #2
+ 191 0008 05D9     		bls	.L14
+  78:BSP/BSP.c/CRC_Verification.c **** 	ucCRC = Get_CRC8_Check_Sum ( (unsigned char *)pchMessage, dwLength-1, CRC8_INIT);
+ 192              		.loc 1 78 2 is_stmt 1 view .LVU41
+ 193              		.loc 1 78 10 is_stmt 0 view .LVU42
+ 194 000a 4C1E     		subs	r4, r1, #1
+ 195 000c FF22     		movs	r2, #255
+ 196 000e 2146     		mov	r1, r4
+ 197              	.LVL19:
+ 198              		.loc 1 78 10 view .LVU43
+ 199 0010 FFF7FEFF 		bl	Get_CRC8_Check_Sum
+ 200              	.LVL20:
+  79:BSP/BSP.c/CRC_Verification.c **** 	pchMessage[dwLength-1] = ucCRC;
+ 201              		.loc 1 79 2 is_stmt 1 view .LVU44
+ 202              		.loc 1 79 25 is_stmt 0 view .LVU45
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 6
+
+
+ 203 0014 2855     		strb	r0, [r5, r4]
+ 204              	.LVL21:
+ 205              	.L14:
+  80:BSP/BSP.c/CRC_Verification.c **** }
+ 206              		.loc 1 80 1 view .LVU46
+ 207 0016 38BD     		pop	{r3, r4, r5, pc}
+ 208              	.LVL22:
+ 209              	.L17:
+ 210              	.LCFI4:
+ 211              		.cfi_def_cfa_offset 0
+ 212              		.cfi_restore 3
+ 213              		.cfi_restore 4
+ 214              		.cfi_restore 5
+ 215              		.cfi_restore 14
+ 216              		.loc 1 80 1 view .LVU47
+ 217 0018 7047     		bx	lr
+ 218              		.cfi_endproc
+ 219              	.LFE5:
+ 221              		.section	.text.Get_CRC16_Check_Sum,"ax",%progbits
+ 222              		.align	1
+ 223              		.global	Get_CRC16_Check_Sum
+ 224              		.syntax unified
+ 225              		.thumb
+ 226              		.thumb_func
+ 228              	Get_CRC16_Check_Sum:
+ 229              	.LVL23:
+ 230              	.LFB6:
+  81:BSP/BSP.c/CRC_Verification.c **** 
+  82:BSP/BSP.c/CRC_Verification.c **** uint16_t CRC_INIT = 0xffff;
+  83:BSP/BSP.c/CRC_Verification.c **** const uint16_t wCRC_Table[256] =
+  84:BSP/BSP.c/CRC_Verification.c **** {
+  85:BSP/BSP.c/CRC_Verification.c **** 	0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
+  86:BSP/BSP.c/CRC_Verification.c **** 	0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
+  87:BSP/BSP.c/CRC_Verification.c **** 	0x1081, 0x0108, 0x3393, 0x221a, 0x56a5, 0x472c, 0x75b7, 0x643e,
+  88:BSP/BSP.c/CRC_Verification.c **** 	0x9cc9, 0x8d40, 0xbfdb, 0xae52, 0xdaed, 0xcb64, 0xf9ff, 0xe876,
+  89:BSP/BSP.c/CRC_Verification.c **** 	0x2102, 0x308b, 0x0210, 0x1399, 0x6726, 0x76af, 0x4434, 0x55bd,
+  90:BSP/BSP.c/CRC_Verification.c **** 	0xad4a, 0xbcc3, 0x8e58, 0x9fd1, 0xeb6e, 0xfae7, 0xc87c, 0xd9f5,
+  91:BSP/BSP.c/CRC_Verification.c **** 	0x3183, 0x200a, 0x1291, 0x0318, 0x77a7, 0x662e, 0x54b5, 0x453c,
+  92:BSP/BSP.c/CRC_Verification.c **** 	0xbdcb, 0xac42, 0x9ed9, 0x8f50, 0xfbef, 0xea66, 0xd8fd, 0xc974,
+  93:BSP/BSP.c/CRC_Verification.c **** 	0x4204, 0x538d, 0x6116, 0x709f, 0x0420, 0x15a9, 0x2732, 0x36bb,
+  94:BSP/BSP.c/CRC_Verification.c **** 	0xce4c, 0xdfc5, 0xed5e, 0xfcd7, 0x8868, 0x99e1, 0xab7a, 0xbaf3,
+  95:BSP/BSP.c/CRC_Verification.c **** 	0x5285, 0x430c, 0x7197, 0x601e, 0x14a1, 0x0528, 0x37b3, 0x263a,
+  96:BSP/BSP.c/CRC_Verification.c **** 	0xdecd, 0xcf44, 0xfddf, 0xec56, 0x98e9, 0x8960, 0xbbfb, 0xaa72,
+  97:BSP/BSP.c/CRC_Verification.c **** 	0x6306, 0x728f, 0x4014, 0x519d, 0x2522, 0x34ab, 0x0630, 0x17b9,
+  98:BSP/BSP.c/CRC_Verification.c **** 	0xef4e, 0xfec7, 0xcc5c, 0xddd5, 0xa96a, 0xb8e3, 0x8a78, 0x9bf1,
+  99:BSP/BSP.c/CRC_Verification.c **** 	0x7387, 0x620e, 0x5095, 0x411c, 0x35a3, 0x242a, 0x16b1, 0x0738,
+ 100:BSP/BSP.c/CRC_Verification.c **** 	0xffcf, 0xee46, 0xdcdd, 0xcd54, 0xb9eb, 0xa862, 0x9af9, 0x8b70,
+ 101:BSP/BSP.c/CRC_Verification.c **** 	0x8408, 0x9581, 0xa71a, 0xb693, 0xc22c, 0xd3a5, 0xe13e, 0xf0b7,
+ 102:BSP/BSP.c/CRC_Verification.c **** 	0x0840, 0x19c9, 0x2b52, 0x3adb, 0x4e64, 0x5fed, 0x6d76, 0x7cff,
+ 103:BSP/BSP.c/CRC_Verification.c **** 	0x9489, 0x8500, 0xb79b, 0xa612, 0xd2ad, 0xc324, 0xf1bf, 0xe036,
+ 104:BSP/BSP.c/CRC_Verification.c **** 	0x18c1, 0x0948, 0x3bd3, 0x2a5a, 0x5ee5, 0x4f6c, 0x7df7, 0x6c7e,
+ 105:BSP/BSP.c/CRC_Verification.c **** 	0xa50a, 0xb483, 0x8618, 0x9791, 0xe32e, 0xf2a7, 0xc03c, 0xd1b5,
+ 106:BSP/BSP.c/CRC_Verification.c **** 	0x2942, 0x38cb, 0x0a50, 0x1bd9, 0x6f66, 0x7eef, 0x4c74, 0x5dfd,
+ 107:BSP/BSP.c/CRC_Verification.c **** 	0xb58b, 0xa402, 0x9699, 0x8710, 0xf3af, 0xe226, 0xd0bd, 0xc134,
+ 108:BSP/BSP.c/CRC_Verification.c **** 	0x39c3, 0x284a, 0x1ad1, 0x0b58, 0x7fe7, 0x6e6e, 0x5cf5, 0x4d7c,
+ 109:BSP/BSP.c/CRC_Verification.c **** 	0xc60c, 0xd785, 0xe51e, 0xf497, 0x8028, 0x91a1, 0xa33a, 0xb2b3,
+ 110:BSP/BSP.c/CRC_Verification.c **** 	0x4a44, 0x5bcd, 0x6956, 0x78df, 0x0c60, 0x1de9, 0x2f72, 0x3efb,
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 7
+
+
+ 111:BSP/BSP.c/CRC_Verification.c **** 	0xd68d, 0xc704, 0xf59f, 0xe416, 0x90a9, 0x8120, 0xb3bb, 0xa232,
+ 112:BSP/BSP.c/CRC_Verification.c **** 	0x5ac5, 0x4b4c, 0x79d7, 0x685e, 0x1ce1, 0x0d68, 0x3ff3, 0x2e7a,
+ 113:BSP/BSP.c/CRC_Verification.c **** 	0xe70e, 0xf687, 0xc41c, 0xd595, 0xa12a, 0xb0a3, 0x8238, 0x93b1,
+ 114:BSP/BSP.c/CRC_Verification.c **** 	0x6b46, 0x7acf, 0x4854, 0x59dd, 0x2d62, 0x3ceb, 0x0e70, 0x1ff9,
+ 115:BSP/BSP.c/CRC_Verification.c **** 	0xf78f, 0xe606, 0xd49d, 0xc514, 0xb1ab, 0xa022, 0x92b9, 0x8330,
+ 116:BSP/BSP.c/CRC_Verification.c **** 	0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78
+ 117:BSP/BSP.c/CRC_Verification.c **** };
+ 118:BSP/BSP.c/CRC_Verification.c **** 
+ 119:BSP/BSP.c/CRC_Verification.c **** /*
+ 120:BSP/BSP.c/CRC_Verification.c **** ** Descriptions: CRC16 checksum function
+ 121:BSP/BSP.c/CRC_Verification.c **** ** Input: Data to check,Stream length, initialized checksum
+ 122:BSP/BSP.c/CRC_Verification.c **** ** Output: CRC checksum
+ 123:BSP/BSP.c/CRC_Verification.c **** */
+ 124:BSP/BSP.c/CRC_Verification.c **** uint16_t Get_CRC16_Check_Sum(uint8_t *pchMessage,uint32_t dwLength,uint16_t wCRC)
+ 125:BSP/BSP.c/CRC_Verification.c **** {
+ 231              		.loc 1 125 1 is_stmt 1 view -0
+ 232              		.cfi_startproc
+ 233              		@ args = 0, pretend = 0, frame = 0
+ 234              		@ frame_needed = 0, uses_anonymous_args = 0
+ 235              		@ link register save eliminated.
+ 126:BSP/BSP.c/CRC_Verification.c **** 	uint8_t chData;
+ 236              		.loc 1 126 2 view .LVU49
+ 127:BSP/BSP.c/CRC_Verification.c **** 	if (pchMessage == NULL)
+ 237              		.loc 1 127 2 view .LVU50
+ 238              		.loc 1 127 5 is_stmt 0 view .LVU51
+ 239 0000 0346     		mov	r3, r0
+ 240 0002 98B1     		cbz	r0, .L30
+ 128:BSP/BSP.c/CRC_Verification.c **** 	{
+ 129:BSP/BSP.c/CRC_Verification.c **** 		return 0xFFFF;
+ 130:BSP/BSP.c/CRC_Verification.c **** 	}
+ 131:BSP/BSP.c/CRC_Verification.c **** 	while(dwLength--)
+ 241              		.loc 1 131 8 is_stmt 1 view .LVU52
+ 242              		.loc 1 131 16 is_stmt 0 view .LVU53
+ 243 0004 481E     		subs	r0, r1, #1
+ 244              	.LVL24:
+ 245              		.loc 1 131 8 view .LVU54
+ 246 0006 99B1     		cbz	r1, .L28
+ 125:BSP/BSP.c/CRC_Verification.c **** 	uint8_t chData;
+ 247              		.loc 1 125 1 view .LVU55
+ 248 0008 10B4     		push	{r4}
+ 249              	.LCFI5:
+ 250              		.cfi_def_cfa_offset 4
+ 251              		.cfi_offset 4, -4
+ 252              	.L23:
+ 132:BSP/BSP.c/CRC_Verification.c **** 	{
+ 133:BSP/BSP.c/CRC_Verification.c **** 		chData = *pchMessage++;
+ 253              		.loc 1 133 3 is_stmt 1 view .LVU56
+ 254              	.LVL25:
+ 255              		.loc 1 133 10 is_stmt 0 view .LVU57
+ 256 000a 13F8011B 		ldrb	r1, [r3], #1	@ zero_extendqisi2
+ 257              	.LVL26:
+ 134:BSP/BSP.c/CRC_Verification.c **** 		(wCRC) = ((uint16_t)(wCRC) >> 8) ^ wCRC_Table[((uint16_t)(wCRC) ^ (uint16_t)(chData)) &
+ 258              		.loc 1 134 3 is_stmt 1 view .LVU58
+ 259              		.loc 1 134 67 is_stmt 0 view .LVU59
+ 260 000e 5140     		eors	r1, r1, r2
+ 261              	.LVL27:
+ 262              		.loc 1 134 89 view .LVU60
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 8
+
+
+ 263 0010 C9B2     		uxtb	r1, r1
+ 264              		.loc 1 134 48 view .LVU61
+ 265 0012 084C     		ldr	r4, .L31
+ 266 0014 34F81110 		ldrh	r1, [r4, r1, lsl #1]
+ 267              		.loc 1 134 10 view .LVU62
+ 268 0018 81EA1222 		eor	r2, r1, r2, lsr #8
+ 269              	.LVL28:
+ 131:BSP/BSP.c/CRC_Verification.c **** 	{
+ 270              		.loc 1 131 16 view .LVU63
+ 271 001c 0146     		mov	r1, r0
+ 272              	.LVL29:
+ 131:BSP/BSP.c/CRC_Verification.c **** 	{
+ 273              		.loc 1 131 8 is_stmt 1 view .LVU64
+ 131:BSP/BSP.c/CRC_Verification.c **** 	{
+ 274              		.loc 1 131 16 is_stmt 0 view .LVU65
+ 275 001e 0138     		subs	r0, r0, #1
+ 276              	.LVL30:
+ 131:BSP/BSP.c/CRC_Verification.c **** 	{
+ 277              		.loc 1 131 8 view .LVU66
+ 278 0020 0029     		cmp	r1, #0
+ 279 0022 F2D1     		bne	.L23
+ 135:BSP/BSP.c/CRC_Verification.c **** 		0x00ff];
+ 136:BSP/BSP.c/CRC_Verification.c **** 	}
+ 137:BSP/BSP.c/CRC_Verification.c **** 	return wCRC;
+ 138:BSP/BSP.c/CRC_Verification.c **** }
+ 280              		.loc 1 138 1 view .LVU67
+ 281 0024 1046     		mov	r0, r2
+ 282              	.LVL31:
+ 283              		.loc 1 138 1 view .LVU68
+ 284 0026 5DF8044B 		ldr	r4, [sp], #4
+ 285              	.LCFI6:
+ 286              		.cfi_restore 4
+ 287              		.cfi_def_cfa_offset 0
+ 288 002a 7047     		bx	lr
+ 289              	.LVL32:
+ 290              	.L30:
+ 129:BSP/BSP.c/CRC_Verification.c **** 	}
+ 291              		.loc 1 129 10 view .LVU69
+ 292 002c 4FF6FF72 		movw	r2, #65535
+ 293              	.LVL33:
+ 294              	.L28:
+ 295              		.loc 1 138 1 view .LVU70
+ 296 0030 1046     		mov	r0, r2
+ 297 0032 7047     		bx	lr
+ 298              	.L32:
+ 299              		.align	2
+ 300              	.L31:
+ 301 0034 00000000 		.word	wCRC_Table
+ 302              		.cfi_endproc
+ 303              	.LFE6:
+ 305              		.section	.text.Verify_CRC16_Check_Sum,"ax",%progbits
+ 306              		.align	1
+ 307              		.global	Verify_CRC16_Check_Sum
+ 308              		.syntax unified
+ 309              		.thumb
+ 310              		.thumb_func
+ 312              	Verify_CRC16_Check_Sum:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 9
+
+
+ 313              	.LVL34:
+ 314              	.LFB7:
+ 139:BSP/BSP.c/CRC_Verification.c **** 
+ 140:BSP/BSP.c/CRC_Verification.c **** /*
+ 141:BSP/BSP.c/CRC_Verification.c **** ** Descriptions: CRC16 Verify function
+ 142:BSP/BSP.c/CRC_Verification.c **** ** Input: Data to Verify,Stream length = Data + checksum
+ 143:BSP/BSP.c/CRC_Verification.c **** ** Output: True or False (CRC Verify Result)
+ 144:BSP/BSP.c/CRC_Verification.c **** */
+ 145:BSP/BSP.c/CRC_Verification.c **** uint32_t Verify_CRC16_Check_Sum(uint8_t *pchMessage, uint32_t dwLength)
+ 146:BSP/BSP.c/CRC_Verification.c **** {
+ 315              		.loc 1 146 1 is_stmt 1 view -0
+ 316              		.cfi_startproc
+ 317              		@ args = 0, pretend = 0, frame = 0
+ 318              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147:BSP/BSP.c/CRC_Verification.c **** 	uint16_t wExpected = 0;
+ 319              		.loc 1 147 2 view .LVU72
+ 148:BSP/BSP.c/CRC_Verification.c **** 	if ((pchMessage == NULL) || (dwLength <= 2))
+ 320              		.loc 1 148 2 view .LVU73
+ 321              		.loc 1 148 5 is_stmt 0 view .LVU74
+ 322 0000 D8B1     		cbz	r0, .L36
+ 146:BSP/BSP.c/CRC_Verification.c **** 	uint16_t wExpected = 0;
+ 323              		.loc 1 146 1 discriminator 1 view .LVU75
+ 324 0002 70B5     		push	{r4, r5, r6, lr}
+ 325              	.LCFI7:
+ 326              		.cfi_def_cfa_offset 16
+ 327              		.cfi_offset 4, -16
+ 328              		.cfi_offset 5, -12
+ 329              		.cfi_offset 6, -8
+ 330              		.cfi_offset 14, -4
+ 331 0004 0C46     		mov	r4, r1
+ 332 0006 0646     		mov	r6, r0
+ 333              		.loc 1 148 27 discriminator 1 view .LVU76
+ 334 0008 0229     		cmp	r1, #2
+ 335 000a 18D9     		bls	.L37
+ 149:BSP/BSP.c/CRC_Verification.c **** 	{
+ 150:BSP/BSP.c/CRC_Verification.c **** 		return false;
+ 151:BSP/BSP.c/CRC_Verification.c **** 	}
+ 152:BSP/BSP.c/CRC_Verification.c **** 	wExpected = Get_CRC16_Check_Sum ( pchMessage, dwLength - 2, CRC_INIT);
+ 336              		.loc 1 152 2 is_stmt 1 view .LVU77
+ 337              		.loc 1 152 14 is_stmt 0 view .LVU78
+ 338 000c 8D1E     		subs	r5, r1, #2
+ 339 000e 0D4B     		ldr	r3, .L45
+ 340 0010 1A88     		ldrh	r2, [r3]
+ 341 0012 2946     		mov	r1, r5
+ 342              	.LVL35:
+ 343              		.loc 1 152 14 view .LVU79
+ 344 0014 FFF7FEFF 		bl	Get_CRC16_Check_Sum
+ 345              	.LVL36:
+ 153:BSP/BSP.c/CRC_Verification.c **** 	return ((wExpected & 0xff) == pchMessage[dwLength - 2] && ((wExpected >> 8) & 0xff) == pchMessage[
+ 346              		.loc 1 153 2 is_stmt 1 view .LVU80
+ 347              		.loc 1 153 42 is_stmt 0 view .LVU81
+ 348 0018 735D     		ldrb	r3, [r6, r5]	@ zero_extendqisi2
+ 349              		.loc 1 153 57 view .LVU82
+ 350 001a C2B2     		uxtb	r2, r0
+ 351 001c 9A42     		cmp	r2, r3
+ 352 001e 01D0     		beq	.L44
+ 353 0020 0020     		movs	r0, #0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 10
+
+
+ 354              	.LVL37:
+ 355              	.L33:
+ 154:BSP/BSP.c/CRC_Verification.c **** }
+ 356              		.loc 1 154 1 view .LVU83
+ 357 0022 70BD     		pop	{r4, r5, r6, pc}
+ 358              	.LVL38:
+ 359              	.L44:
+ 153:BSP/BSP.c/CRC_Verification.c **** 	return ((wExpected & 0xff) == pchMessage[dwLength - 2] && ((wExpected >> 8) & 0xff) == pchMessage[
+ 360              		.loc 1 153 78 discriminator 1 view .LVU84
+ 361 0024 C0F30F20 		ubfx	r0, r0, #8, #16
+ 362              	.LVL39:
+ 153:BSP/BSP.c/CRC_Verification.c **** 	return ((wExpected & 0xff) == pchMessage[dwLength - 2] && ((wExpected >> 8) & 0xff) == pchMessage[
+ 363              		.loc 1 153 99 discriminator 1 view .LVU85
+ 364 0028 3319     		adds	r3, r6, r4
+ 365 002a 13F8013C 		ldrb	r3, [r3, #-1]	@ zero_extendqisi2
+ 153:BSP/BSP.c/CRC_Verification.c **** 	return ((wExpected & 0xff) == pchMessage[dwLength - 2] && ((wExpected >> 8) & 0xff) == pchMessage[
+ 366              		.loc 1 153 57 discriminator 1 view .LVU86
+ 367 002e 9842     		cmp	r0, r3
+ 368 0030 01D0     		beq	.L39
+ 153:BSP/BSP.c/CRC_Verification.c **** 	return ((wExpected & 0xff) == pchMessage[dwLength - 2] && ((wExpected >> 8) & 0xff) == pchMessage[
+ 369              		.loc 1 153 57 view .LVU87
+ 370 0032 0020     		movs	r0, #0
+ 371 0034 F5E7     		b	.L33
+ 372              	.L39:
+ 373 0036 0120     		movs	r0, #1
+ 374 0038 F3E7     		b	.L33
+ 375              	.LVL40:
+ 376              	.L36:
+ 377              	.LCFI8:
+ 378              		.cfi_def_cfa_offset 0
+ 379              		.cfi_restore 4
+ 380              		.cfi_restore 5
+ 381              		.cfi_restore 6
+ 382              		.cfi_restore 14
+ 150:BSP/BSP.c/CRC_Verification.c **** 	}
+ 383              		.loc 1 150 10 view .LVU88
+ 384 003a 0020     		movs	r0, #0
+ 385              	.LVL41:
+ 386              		.loc 1 154 1 view .LVU89
+ 387 003c 7047     		bx	lr
+ 388              	.LVL42:
+ 389              	.L37:
+ 390              	.LCFI9:
+ 391              		.cfi_def_cfa_offset 16
+ 392              		.cfi_offset 4, -16
+ 393              		.cfi_offset 5, -12
+ 394              		.cfi_offset 6, -8
+ 395              		.cfi_offset 14, -4
+ 150:BSP/BSP.c/CRC_Verification.c **** 	}
+ 396              		.loc 1 150 10 view .LVU90
+ 397 003e 0020     		movs	r0, #0
+ 398              	.LVL43:
+ 150:BSP/BSP.c/CRC_Verification.c **** 	}
+ 399              		.loc 1 150 10 view .LVU91
+ 400 0040 EFE7     		b	.L33
+ 401              	.L46:
+ 402 0042 00BF     		.align	2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 11
+
+
+ 403              	.L45:
+ 404 0044 00000000 		.word	CRC_INIT
+ 405              		.cfi_endproc
+ 406              	.LFE7:
+ 408              		.section	.text.Append_CRC16_Check_Sum,"ax",%progbits
+ 409              		.align	1
+ 410              		.global	Append_CRC16_Check_Sum
+ 411              		.syntax unified
+ 412              		.thumb
+ 413              		.thumb_func
+ 415              	Append_CRC16_Check_Sum:
+ 416              	.LVL44:
+ 417              	.LFB8:
+ 155:BSP/BSP.c/CRC_Verification.c **** 
+ 156:BSP/BSP.c/CRC_Verification.c **** /*
+ 157:BSP/BSP.c/CRC_Verification.c **** ** Descriptions: append CRC16 to the end of data
+ 158:BSP/BSP.c/CRC_Verification.c **** ** Input: Data to CRC and append,Stream length = Data + checksum
+ 159:BSP/BSP.c/CRC_Verification.c **** ** Output: True or False (CRC Verify Result)
+ 160:BSP/BSP.c/CRC_Verification.c **** */
+ 161:BSP/BSP.c/CRC_Verification.c **** void Append_CRC16_Check_Sum(uint8_t * pchMessage,uint32_t dwLength)
+ 162:BSP/BSP.c/CRC_Verification.c **** {
+ 418              		.loc 1 162 1 is_stmt 1 view -0
+ 419              		.cfi_startproc
+ 420              		@ args = 0, pretend = 0, frame = 0
+ 421              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163:BSP/BSP.c/CRC_Verification.c **** 	uint16_t wCRC = 0;
+ 422              		.loc 1 163 2 view .LVU93
+ 164:BSP/BSP.c/CRC_Verification.c **** 	if ((pchMessage == NULL) || (dwLength <= 2))
+ 423              		.loc 1 164 2 view .LVU94
+ 424              		.loc 1 164 5 is_stmt 0 view .LVU95
+ 425 0000 80B1     		cbz	r0, .L50
+ 162:BSP/BSP.c/CRC_Verification.c **** 	uint16_t wCRC = 0;
+ 426              		.loc 1 162 1 discriminator 1 view .LVU96
+ 427 0002 70B5     		push	{r4, r5, r6, lr}
+ 428              	.LCFI10:
+ 429              		.cfi_def_cfa_offset 16
+ 430              		.cfi_offset 4, -16
+ 431              		.cfi_offset 5, -12
+ 432              		.cfi_offset 6, -8
+ 433              		.cfi_offset 14, -4
+ 434 0004 0C46     		mov	r4, r1
+ 435 0006 0546     		mov	r5, r0
+ 436              		.loc 1 164 27 discriminator 1 view .LVU97
+ 437 0008 0229     		cmp	r1, #2
+ 438 000a 0AD9     		bls	.L47
+ 165:BSP/BSP.c/CRC_Verification.c **** 	{
+ 166:BSP/BSP.c/CRC_Verification.c **** 		return;
+ 167:BSP/BSP.c/CRC_Verification.c **** 	}
+ 168:BSP/BSP.c/CRC_Verification.c **** 	wCRC = Get_CRC16_Check_Sum ((uint8_t *)pchMessage, dwLength-2, CRC_INIT );
+ 439              		.loc 1 168 2 is_stmt 1 view .LVU98
+ 440              		.loc 1 168 9 is_stmt 0 view .LVU99
+ 441 000c 8E1E     		subs	r6, r1, #2
+ 442 000e 064B     		ldr	r3, .L53
+ 443 0010 1A88     		ldrh	r2, [r3]
+ 444 0012 3146     		mov	r1, r6
+ 445              	.LVL45:
+ 446              		.loc 1 168 9 view .LVU100
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 12
+
+
+ 447 0014 FFF7FEFF 		bl	Get_CRC16_Check_Sum
+ 448              	.LVL46:
+ 169:BSP/BSP.c/CRC_Verification.c **** 	pchMessage[dwLength-2] = (uint8_t)(wCRC & 0x00ff);
+ 449              		.loc 1 169 2 is_stmt 1 view .LVU101
+ 450              		.loc 1 169 25 is_stmt 0 view .LVU102
+ 451 0018 A855     		strb	r0, [r5, r6]
+ 170:BSP/BSP.c/CRC_Verification.c **** 	pchMessage[dwLength-1] = (uint8_t)((wCRC >> 8)& 0x00ff);
+ 452              		.loc 1 170 2 is_stmt 1 view .LVU103
+ 453              		.loc 1 170 12 is_stmt 0 view .LVU104
+ 454 001a 013C     		subs	r4, r4, #1
+ 455              	.LVL47:
+ 456              		.loc 1 170 27 view .LVU105
+ 457 001c C0F30720 		ubfx	r0, r0, #8, #8
+ 458              	.LVL48:
+ 459              		.loc 1 170 25 view .LVU106
+ 460 0020 2855     		strb	r0, [r5, r4]
+ 461              	.LVL49:
+ 462              	.L47:
+ 171:BSP/BSP.c/CRC_Verification.c **** }
+ 463              		.loc 1 171 1 view .LVU107
+ 464 0022 70BD     		pop	{r4, r5, r6, pc}
+ 465              	.LVL50:
+ 466              	.L50:
+ 467              	.LCFI11:
+ 468              		.cfi_def_cfa_offset 0
+ 469              		.cfi_restore 4
+ 470              		.cfi_restore 5
+ 471              		.cfi_restore 6
+ 472              		.cfi_restore 14
+ 473              		.loc 1 171 1 view .LVU108
+ 474 0024 7047     		bx	lr
+ 475              	.L54:
+ 476 0026 00BF     		.align	2
+ 477              	.L53:
+ 478 0028 00000000 		.word	CRC_INIT
+ 479              		.cfi_endproc
+ 480              	.LFE8:
+ 482              		.global	wCRC_Table
+ 483              		.section	.rodata.wCRC_Table,"a"
+ 484              		.align	2
+ 487              	wCRC_Table:
+ 488 0000 0000     		.short	0
+ 489 0002 8911     		.short	4489
+ 490 0004 1223     		.short	8978
+ 491 0006 9B32     		.short	12955
+ 492 0008 2446     		.short	17956
+ 493 000a AD57     		.short	22445
+ 494 000c 3665     		.short	25910
+ 495 000e BF74     		.short	29887
+ 496 0010 488C     		.short	-29624
+ 497 0012 C19D     		.short	-25151
+ 498 0014 5AAF     		.short	-20646
+ 499 0016 D3BE     		.short	-16685
+ 500 0018 6CCA     		.short	-13716
+ 501 001a E5DB     		.short	-9243
+ 502 001c 7EE9     		.short	-5762
+ 503 001e F7F8     		.short	-1801
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 13
+
+
+ 504 0020 8110     		.short	4225
+ 505 0022 0801     		.short	264
+ 506 0024 9333     		.short	13203
+ 507 0026 1A22     		.short	8730
+ 508 0028 A556     		.short	22181
+ 509 002a 2C47     		.short	18220
+ 510 002c B775     		.short	30135
+ 511 002e 3E64     		.short	25662
+ 512 0030 C99C     		.short	-25399
+ 513 0032 408D     		.short	-29376
+ 514 0034 DBBF     		.short	-16421
+ 515 0036 52AE     		.short	-20910
+ 516 0038 EDDA     		.short	-9491
+ 517 003a 64CB     		.short	-13468
+ 518 003c FFF9     		.short	-1537
+ 519 003e 76E8     		.short	-6026
+ 520 0040 0221     		.short	8450
+ 521 0042 8B30     		.short	12427
+ 522 0044 1002     		.short	528
+ 523 0046 9913     		.short	5017
+ 524 0048 2667     		.short	26406
+ 525 004a AF76     		.short	30383
+ 526 004c 3444     		.short	17460
+ 527 004e BD55     		.short	21949
+ 528 0050 4AAD     		.short	-21174
+ 529 0052 C3BC     		.short	-17213
+ 530 0054 588E     		.short	-29096
+ 531 0056 D19F     		.short	-24623
+ 532 0058 6EEB     		.short	-5266
+ 533 005a E7FA     		.short	-1305
+ 534 005c 7CC8     		.short	-14212
+ 535 005e F5D9     		.short	-9739
+ 536 0060 8331     		.short	12675
+ 537 0062 0A20     		.short	8202
+ 538 0064 9112     		.short	4753
+ 539 0066 1803     		.short	792
+ 540 0068 A777     		.short	30631
+ 541 006a 2E66     		.short	26158
+ 542 006c B554     		.short	21685
+ 543 006e 3C45     		.short	17724
+ 544 0070 CBBD     		.short	-16949
+ 545 0072 42AC     		.short	-21438
+ 546 0074 D99E     		.short	-24871
+ 547 0076 508F     		.short	-28848
+ 548 0078 EFFB     		.short	-1041
+ 549 007a 66EA     		.short	-5530
+ 550 007c FDD8     		.short	-9987
+ 551 007e 74C9     		.short	-13964
+ 552 0080 0442     		.short	16900
+ 553 0082 8D53     		.short	21389
+ 554 0084 1661     		.short	24854
+ 555 0086 9F70     		.short	28831
+ 556 0088 2004     		.short	1056
+ 557 008a A915     		.short	5545
+ 558 008c 3227     		.short	10034
+ 559 008e BB36     		.short	14011
+ 560 0090 4CCE     		.short	-12724
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 14
+
+
+ 561 0092 C5DF     		.short	-8251
+ 562 0094 5EED     		.short	-4770
+ 563 0096 D7FC     		.short	-809
+ 564 0098 6888     		.short	-30616
+ 565 009a E199     		.short	-26143
+ 566 009c 7AAB     		.short	-21638
+ 567 009e F3BA     		.short	-17677
+ 568 00a0 8552     		.short	21125
+ 569 00a2 0C43     		.short	17164
+ 570 00a4 9771     		.short	29079
+ 571 00a6 1E60     		.short	24606
+ 572 00a8 A114     		.short	5281
+ 573 00aa 2805     		.short	1320
+ 574 00ac B337     		.short	14259
+ 575 00ae 3A26     		.short	9786
+ 576 00b0 CDDE     		.short	-8499
+ 577 00b2 44CF     		.short	-12476
+ 578 00b4 DFFD     		.short	-545
+ 579 00b6 56EC     		.short	-5034
+ 580 00b8 E998     		.short	-26391
+ 581 00ba 6089     		.short	-30368
+ 582 00bc FBBB     		.short	-17413
+ 583 00be 72AA     		.short	-21902
+ 584 00c0 0663     		.short	25350
+ 585 00c2 8F72     		.short	29327
+ 586 00c4 1440     		.short	16404
+ 587 00c6 9D51     		.short	20893
+ 588 00c8 2225     		.short	9506
+ 589 00ca AB34     		.short	13483
+ 590 00cc 3006     		.short	1584
+ 591 00ce B917     		.short	6073
+ 592 00d0 4EEF     		.short	-4274
+ 593 00d2 C7FE     		.short	-313
+ 594 00d4 5CCC     		.short	-13220
+ 595 00d6 D5DD     		.short	-8747
+ 596 00d8 6AA9     		.short	-22166
+ 597 00da E3B8     		.short	-18205
+ 598 00dc 788A     		.short	-30088
+ 599 00de F19B     		.short	-25615
+ 600 00e0 8773     		.short	29575
+ 601 00e2 0E62     		.short	25102
+ 602 00e4 9550     		.short	20629
+ 603 00e6 1C41     		.short	16668
+ 604 00e8 A335     		.short	13731
+ 605 00ea 2A24     		.short	9258
+ 606 00ec B116     		.short	5809
+ 607 00ee 3807     		.short	1848
+ 608 00f0 CFFF     		.short	-49
+ 609 00f2 46EE     		.short	-4538
+ 610 00f4 DDDC     		.short	-8995
+ 611 00f6 54CD     		.short	-12972
+ 612 00f8 EBB9     		.short	-17941
+ 613 00fa 62A8     		.short	-22430
+ 614 00fc F99A     		.short	-25863
+ 615 00fe 708B     		.short	-29840
+ 616 0100 0884     		.short	-31736
+ 617 0102 8195     		.short	-27263
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 15
+
+
+ 618 0104 1AA7     		.short	-22758
+ 619 0106 93B6     		.short	-18797
+ 620 0108 2CC2     		.short	-15828
+ 621 010a A5D3     		.short	-11355
+ 622 010c 3EE1     		.short	-7874
+ 623 010e B7F0     		.short	-3913
+ 624 0110 4008     		.short	2112
+ 625 0112 C919     		.short	6601
+ 626 0114 522B     		.short	11090
+ 627 0116 DB3A     		.short	15067
+ 628 0118 644E     		.short	20068
+ 629 011a ED5F     		.short	24557
+ 630 011c 766D     		.short	28022
+ 631 011e FF7C     		.short	31999
+ 632 0120 8994     		.short	-27511
+ 633 0122 0085     		.short	-31488
+ 634 0124 9BB7     		.short	-18533
+ 635 0126 12A6     		.short	-23022
+ 636 0128 ADD2     		.short	-11603
+ 637 012a 24C3     		.short	-15580
+ 638 012c BFF1     		.short	-3649
+ 639 012e 36E0     		.short	-8138
+ 640 0130 C118     		.short	6337
+ 641 0132 4809     		.short	2376
+ 642 0134 D33B     		.short	15315
+ 643 0136 5A2A     		.short	10842
+ 644 0138 E55E     		.short	24293
+ 645 013a 6C4F     		.short	20332
+ 646 013c F77D     		.short	32247
+ 647 013e 7E6C     		.short	27774
+ 648 0140 0AA5     		.short	-23286
+ 649 0142 83B4     		.short	-19325
+ 650 0144 1886     		.short	-31208
+ 651 0146 9197     		.short	-26735
+ 652 0148 2EE3     		.short	-7378
+ 653 014a A7F2     		.short	-3417
+ 654 014c 3CC0     		.short	-16324
+ 655 014e B5D1     		.short	-11851
+ 656 0150 4229     		.short	10562
+ 657 0152 CB38     		.short	14539
+ 658 0154 500A     		.short	2640
+ 659 0156 D91B     		.short	7129
+ 660 0158 666F     		.short	28518
+ 661 015a EF7E     		.short	32495
+ 662 015c 744C     		.short	19572
+ 663 015e FD5D     		.short	24061
+ 664 0160 8BB5     		.short	-19061
+ 665 0162 02A4     		.short	-23550
+ 666 0164 9996     		.short	-26983
+ 667 0166 1087     		.short	-30960
+ 668 0168 AFF3     		.short	-3153
+ 669 016a 26E2     		.short	-7642
+ 670 016c BDD0     		.short	-12099
+ 671 016e 34C1     		.short	-16076
+ 672 0170 C339     		.short	14787
+ 673 0172 4A28     		.short	10314
+ 674 0174 D11A     		.short	6865
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 16
+
+
+ 675 0176 580B     		.short	2904
+ 676 0178 E77F     		.short	32743
+ 677 017a 6E6E     		.short	28270
+ 678 017c F55C     		.short	23797
+ 679 017e 7C4D     		.short	19836
+ 680 0180 0CC6     		.short	-14836
+ 681 0182 85D7     		.short	-10363
+ 682 0184 1EE5     		.short	-6882
+ 683 0186 97F4     		.short	-2921
+ 684 0188 2880     		.short	-32728
+ 685 018a A191     		.short	-28255
+ 686 018c 3AA3     		.short	-23750
+ 687 018e B3B2     		.short	-19789
+ 688 0190 444A     		.short	19012
+ 689 0192 CD5B     		.short	23501
+ 690 0194 5669     		.short	26966
+ 691 0196 DF78     		.short	30943
+ 692 0198 600C     		.short	3168
+ 693 019a E91D     		.short	7657
+ 694 019c 722F     		.short	12146
+ 695 019e FB3E     		.short	16123
+ 696 01a0 8DD6     		.short	-10611
+ 697 01a2 04C7     		.short	-14588
+ 698 01a4 9FF5     		.short	-2657
+ 699 01a6 16E4     		.short	-7146
+ 700 01a8 A990     		.short	-28503
+ 701 01aa 2081     		.short	-32480
+ 702 01ac BBB3     		.short	-19525
+ 703 01ae 32A2     		.short	-24014
+ 704 01b0 C55A     		.short	23237
+ 705 01b2 4C4B     		.short	19276
+ 706 01b4 D779     		.short	31191
+ 707 01b6 5E68     		.short	26718
+ 708 01b8 E11C     		.short	7393
+ 709 01ba 680D     		.short	3432
+ 710 01bc F33F     		.short	16371
+ 711 01be 7A2E     		.short	11898
+ 712 01c0 0EE7     		.short	-6386
+ 713 01c2 87F6     		.short	-2425
+ 714 01c4 1CC4     		.short	-15332
+ 715 01c6 95D5     		.short	-10859
+ 716 01c8 2AA1     		.short	-24278
+ 717 01ca A3B0     		.short	-20317
+ 718 01cc 3882     		.short	-32200
+ 719 01ce B193     		.short	-27727
+ 720 01d0 466B     		.short	27462
+ 721 01d2 CF7A     		.short	31439
+ 722 01d4 5448     		.short	18516
+ 723 01d6 DD59     		.short	23005
+ 724 01d8 622D     		.short	11618
+ 725 01da EB3C     		.short	15595
+ 726 01dc 700E     		.short	3696
+ 727 01de F91F     		.short	8185
+ 728 01e0 8FF7     		.short	-2161
+ 729 01e2 06E6     		.short	-6650
+ 730 01e4 9DD4     		.short	-11107
+ 731 01e6 14C5     		.short	-15084
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 17
+
+
+ 732 01e8 ABB1     		.short	-20053
+ 733 01ea 22A0     		.short	-24542
+ 734 01ec B992     		.short	-27975
+ 735 01ee 3083     		.short	-31952
+ 736 01f0 C77B     		.short	31687
+ 737 01f2 4E6A     		.short	27214
+ 738 01f4 D558     		.short	22741
+ 739 01f6 5C49     		.short	18780
+ 740 01f8 E33D     		.short	15843
+ 741 01fa 6A2C     		.short	11370
+ 742 01fc F11E     		.short	7921
+ 743 01fe 780F     		.short	3960
+ 744              		.global	CRC_INIT
+ 745              		.section	.data.CRC_INIT,"aw"
+ 746              		.align	1
+ 749              	CRC_INIT:
+ 750 0000 FFFF     		.short	-1
+ 751              		.global	CRC8_TAB
+ 752              		.section	.rodata.CRC8_TAB,"a"
+ 753              		.align	2
+ 756              	CRC8_TAB:
+ 757 0000 005EBCE2 		.ascii	"\000^\274\342a?\335\203\302\234~ \243\375\037A\235\303"
+ 757      613FDD83 
+ 757      C29C7E20 
+ 757      A3FD1F41 
+ 757      9DC3
+ 758 0012 217FFCA2 		.ascii	"!\177\374\242@\036_\001\343\275>`\202\334#}\237\301"
+ 758      401E5F01 
+ 758      E3BD3E60 
+ 758      82DC237D 
+ 758      9FC1
+ 759 0024 421CFEA0 		.ascii	"B\034\376\240\341\277]\003\200\336<b\276\340\002\\\337"
+ 759      E1BF5D03 
+ 759      80DE3C62 
+ 759      BEE0025C 
+ 759      DF
+ 760 0035 81633D7C 		.ascii	"\201c=|\"\300\236\035C\241\377F\030\372\244'y\233\305"
+ 760      22C09E1D 
+ 760      43A1FF46 
+ 760      18FAA427 
+ 760      799BC5
+ 761 0048 84DA3866 		.ascii	"\204\3328f\345\273Y\007\333\205g9\272\344\006X\031G"
+ 761      E5BB5907 
+ 761      DB856739 
+ 761      BAE40658 
+ 761      1947
+ 762 005a A5FB7826 		.ascii	"\245\373x&\304\232e;\331\207\004Z\270\346\247\371\033"
+ 762      C49A653B 
+ 762      D987045A 
+ 762      B8E6A7F9 
+ 762      1B
+ 763 006b 45C6987A 		.ascii	"E\306\230z$\370\246D\032\231\307%{:d\206\330[\005\347"
+ 763      24F8A644 
+ 763      1A99C725 
+ 763      7B3A6486 
+ 763      D85B05E7 
+ 764 007f B98CD230 		.ascii	"\271\214\3220n\355\263Q\017N\020\362\254/q\223\315\021"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 18
+
+
+ 764      6EEDB351 
+ 764      0F4E10F2 
+ 764      AC2F7193 
+ 764      CD11
+ 765 0091 4FADF370 		.ascii	"O\255\363p.\314\222\323\215o1\262\354\016P\257\361\023"
+ 765      2ECC92D3 
+ 765      8D6F31B2 
+ 765      EC0E50AF 
+ 765      F113
+ 766 00a3 4DCE9072 		.ascii	"M\316\220r,m3\321\217\014R\260\3562l\216\320S\015\357"
+ 766      2C6D33D1 
+ 766      8F0C52B0 
+ 766      EE326C8E 
+ 766      D0530DEF 
+ 767 00b7 B1F0AE4C 		.ascii	"\261\360\256L\022\221\317-s\312\224v(\253\365\027I\010"
+ 767      1291CF2D 
+ 767      73CA9476 
+ 767      28ABF517 
+ 767      4908
+ 768 00c9 56B4EA69 		.ascii	"V\264\352i7\325\213W\011\353\2656h\212\324\225\313)"
+ 768      37D58B57 
+ 768      09EBB536 
+ 768      688AD495 
+ 768      CB29
+ 769 00db 77F4AA48 		.ascii	"w\364\252H\026\351\267U\013\210\3264j+u\227\311J\024"
+ 769      16E9B755 
+ 769      0B88D634 
+ 769      6A2B7597 
+ 769      C94A14
+ 770 00ee F6A8742A 		.ascii	"\366\250t*\310\226\025K\251\367\266\350\012T\327\211"
+ 770      C896154B 
+ 770      A9F7B6E8 
+ 770      0A54D789 
+ 771 00fe 6B35     		.ascii	"k5"
+ 772              		.global	CRC8_INIT
+ 773              		.section	.rodata.CRC8_INIT,"a"
+ 776              	CRC8_INIT:
+ 777 0000 FF       		.byte	-1
+ 778              		.global	CRC_Verif_Func
+ 779              		.section	.data.CRC_Verif_Func,"aw"
+ 780              		.align	2
+ 783              	CRC_Verif_Func:
+ 784 0000 00000000 		.word	Get_CRC8_Check_Sum
+ 785 0004 00000000 		.word	Verify_CRC8_Check_Sum
+ 786 0008 00000000 		.word	Append_CRC8_Check_Sum
+ 787 000c 00000000 		.word	Get_CRC16_Check_Sum
+ 788 0010 00000000 		.word	Verify_CRC16_Check_Sum
+ 789 0014 00000000 		.word	Append_CRC16_Check_Sum
+ 790              		.text
+ 791              	.Letext0:
+ 792              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 793              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 794              		.file 4 "BSP/BSP.h/CRC_Verification.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 CRC_Verification.c
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:21     .text.Get_CRC8_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:27     .text.Get_CRC8_Check_Sum:00000000 Get_CRC8_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:76     .text.Get_CRC8_Check_Sum:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:756    .rodata.CRC8_TAB:00000000 CRC8_TAB
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:81     .text.Verify_CRC8_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:87     .text.Verify_CRC8_Check_Sum:00000000 Verify_CRC8_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:163    .text.Append_CRC8_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:169    .text.Append_CRC8_Check_Sum:00000000 Append_CRC8_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:222    .text.Get_CRC16_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:228    .text.Get_CRC16_Check_Sum:00000000 Get_CRC16_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:301    .text.Get_CRC16_Check_Sum:00000034 $d
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:487    .rodata.wCRC_Table:00000000 wCRC_Table
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:306    .text.Verify_CRC16_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:312    .text.Verify_CRC16_Check_Sum:00000000 Verify_CRC16_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:404    .text.Verify_CRC16_Check_Sum:00000044 $d
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:749    .data.CRC_INIT:00000000 CRC_INIT
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:409    .text.Append_CRC16_Check_Sum:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:415    .text.Append_CRC16_Check_Sum:00000000 Append_CRC16_Check_Sum
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:478    .text.Append_CRC16_Check_Sum:00000028 $d
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:484    .rodata.wCRC_Table:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:746    .data.CRC_INIT:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:753    .rodata.CRC8_TAB:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:776    .rodata.CRC8_INIT:00000000 CRC8_INIT
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:783    .data.CRC_Verif_Func:00000000 CRC_Verif_Func
+C:\Users\purdu\AppData\Local\Temp\cc6FHJXY.s:780    .data.CRC_Verif_Func:00000000 $d
+
+NO UNDEFINED SYMBOLS

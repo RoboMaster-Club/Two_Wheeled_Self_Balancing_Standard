@@ -1,0 +1,600 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"GM6020_Motor.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/GM6020_Motor.c"
+  20              		.section	.text.GM6020_Yaw_Get_Data,"ax",%progbits
+  21              		.align	1
+  22              		.global	GM6020_Yaw_Get_Data
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	GM6020_Yaw_Get_Data:
+  28              	.LFB138:
+   1:Devices/Devices.c/GM6020_Motor.c **** /**
+   2:Devices/Devices.c/GM6020_Motor.c ****  * @file GM6020_Motor.c
+   3:Devices/Devices.c/GM6020_Motor.c ****  * @author Leo Liu
+   4:Devices/Devices.c/GM6020_Motor.c ****  * @brief GM6020 communication
+   5:Devices/Devices.c/GM6020_Motor.c ****  * @version 1.0
+   6:Devices/Devices.c/GM6020_Motor.c ****  * @date 2022-07-08
+   7:Devices/Devices.c/GM6020_Motor.c ****  * 
+   8:Devices/Devices.c/GM6020_Motor.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/GM6020_Motor.c ****  * 
+  10:Devices/Devices.c/GM6020_Motor.c ****  */
+  11:Devices/Devices.c/GM6020_Motor.c **** #include "GM6020_Motor.h"
+  12:Devices/Devices.c/GM6020_Motor.c **** #include <stdio.h>
+  13:Devices/Devices.c/GM6020_Motor.c **** 
+  14:Devices/Devices.c/GM6020_Motor.c **** Motor_Init_t GM6020_Yaw;
+  15:Devices/Devices.c/GM6020_Motor.c **** Motor_Init_t GM6020_Pitch;
+  16:Devices/Devices.c/GM6020_Motor.c **** 
+  17:Devices/Devices.c/GM6020_Motor.c **** void GM6020_Yaw_Get_Data(CAN_Export_Data_t RxMessage);
+  18:Devices/Devices.c/GM6020_Motor.c **** void GM6020_Pitch_Get_Data(CAN_Export_Data_t RxMessage);
+  19:Devices/Devices.c/GM6020_Motor.c **** void GM6020_Gimbal_Send_Data(int16_t Pitch_Output, int16_t Yaw_Output);
+  20:Devices/Devices.c/GM6020_Motor.c **** void Check_GM6020_Yaw(void);
+  21:Devices/Devices.c/GM6020_Motor.c **** void Check_GM6020_Pitch(void);
+  22:Devices/Devices.c/GM6020_Motor.c **** 
+  23:Devices/Devices.c/GM6020_Motor.c **** GM6020_Func_t GM6020_Func = GM6020_Func_GroundInit;
+  24:Devices/Devices.c/GM6020_Motor.c **** #undef GM6020_Func_GroundInit
+  25:Devices/Devices.c/GM6020_Motor.c **** 
+  26:Devices/Devices.c/GM6020_Motor.c **** //Get yaw motor data from CAN
+  27:Devices/Devices.c/GM6020_Motor.c **** void GM6020_Yaw_Get_Data(CAN_Export_Data_t RxMessage)
+  28:Devices/Devices.c/GM6020_Motor.c **** {
+  29              		.loc 1 28 1 view -0
+  30              		.cfi_startproc
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 2
+
+
+  31              		@ args = 36, pretend = 16, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34 0000 84B0     		sub	sp, sp, #16
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 16
+  37 0002 8DE80F00 		stm	sp, {r0, r1, r2, r3}
+  29:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Prev_Angle = GM6020_Yaw.Actual_Angle;
+  38              		.loc 1 29 2 view .LVU1
+  39              		.loc 1 29 36 is_stmt 0 view .LVU2
+  40 0006 254A     		ldr	r2, .L5
+  41 0008 B2F90010 		ldrsh	r1, [r2]
+  42              		.loc 1 29 24 view .LVU3
+  43 000c 5180     		strh	r1, [r2, #2]	@ movhi
+  30:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Actual_Angle = (int16_t)(RxMessage.CANx_Export_RxMessage[0] << 8 | RxMessage.CANx_Expor
+  44              		.loc 1 30 2 is_stmt 1 view .LVU4
+  45              		.loc 1 30 69 is_stmt 0 view .LVU5
+  46 000e 9DF81C00 		ldrb	r0, [sp, #28]	@ zero_extendqisi2
+  47              		.loc 1 30 111 view .LVU6
+  48 0012 9DF81D30 		ldrb	r3, [sp, #29]	@ zero_extendqisi2
+  49              		.loc 1 30 28 view .LVU7
+  50 0016 43EA0023 		orr	r3, r3, r0, lsl #8
+  51 001a 1BB2     		sxth	r3, r3
+  52              		.loc 1 30 26 view .LVU8
+  53 001c 1380     		strh	r3, [r2]	@ movhi
+  31:Devices/Devices.c/GM6020_Motor.c ****   GM6020_Yaw.Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage.CANx_Expo
+  54              		.loc 1 31 3 is_stmt 1 view .LVU9
+  55              		.loc 1 31 70 is_stmt 0 view .LVU10
+  56 001e 9DF81EC0 		ldrb	ip, [sp, #30]	@ zero_extendqisi2
+  57              		.loc 1 31 112 view .LVU11
+  58 0022 9DF81F00 		ldrb	r0, [sp, #31]	@ zero_extendqisi2
+  59              		.loc 1 31 29 view .LVU12
+  60 0026 40EA0C20 		orr	r0, r0, ip, lsl #8
+  61              		.loc 1 31 27 view .LVU13
+  62 002a 9080     		strh	r0, [r2, #4]	@ movhi
+  32:Devices/Devices.c/GM6020_Motor.c ****   GM6020_Yaw.Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessage.CANx_Ex
+  63              		.loc 1 32 3 is_stmt 1 view .LVU14
+  64              		.loc 1 32 72 is_stmt 0 view .LVU15
+  65 002c 9DF820C0 		ldrb	ip, [sp, #32]	@ zero_extendqisi2
+  66              		.loc 1 32 114 view .LVU16
+  67 0030 9DF82100 		ldrb	r0, [sp, #33]	@ zero_extendqisi2
+  68              		.loc 1 32 31 view .LVU17
+  69 0034 40EA0C20 		orr	r0, r0, ip, lsl #8
+  70              		.loc 1 32 29 view .LVU18
+  71 0038 D080     		strh	r0, [r2, #6]	@ movhi
+  33:Devices/Devices.c/GM6020_Motor.c ****   GM6020_Yaw.Temperature = RxMessage.CANx_Export_RxMessage[6];
+  72              		.loc 1 33 3 is_stmt 1 view .LVU19
+  73              		.loc 1 33 59 is_stmt 0 view .LVU20
+  74 003a 9DF92200 		ldrsb	r0, [sp, #34]
+  75              		.loc 1 33 26 view .LVU21
+  76 003e 1072     		strb	r0, [r2, #8]
+  34:Devices/Devices.c/GM6020_Motor.c **** 	if((GM6020_Yaw.Actual_Angle - GM6020_Yaw.Prev_Angle) < -6500 )
+  77              		.loc 1 34 2 is_stmt 1 view .LVU22
+  78              		.loc 1 34 30 is_stmt 0 view .LVU23
+  79 0040 591A     		subs	r1, r3, r1
+  80              		.loc 1 34 4 view .LVU24
+  81 0042 174A     		ldr	r2, .L5+4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 3
+
+
+  82 0044 9142     		cmp	r1, r2
+  83 0046 1EDA     		bge	.L2
+  35:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Yaw.Turn_Count++;
+  84              		.loc 1 35 3 is_stmt 1 view .LVU25
+  85              		.loc 1 35 13 is_stmt 0 view .LVU26
+  86 0048 1449     		ldr	r1, .L5
+  87 004a B1F91820 		ldrsh	r2, [r1, #24]
+  88              		.loc 1 35 24 view .LVU27
+  89 004e 0132     		adds	r2, r2, #1
+  90 0050 0A83     		strh	r2, [r1, #24]	@ movhi
+  91              	.L3:
+  36:Devices/Devices.c/GM6020_Motor.c **** 	else if((GM6020_Yaw.Actual_Angle - GM6020_Yaw.Prev_Angle) > 6500)
+  37:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Yaw.Turn_Count--;
+  38:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Total_Angle = GM6020_Yaw.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Yaw.Turn_Count)
+  92              		.loc 1 38 2 is_stmt 1 view .LVU28
+  93              		.loc 1 38 88 is_stmt 0 view .LVU29
+  94 0052 124A     		ldr	r2, .L5
+  95 0054 B2F91810 		ldrsh	r1, [r2, #24]
+  96 0058 07EE101A 		vmov	s14, r1	@ int
+  97              		.loc 1 38 76 view .LVU30
+  98 005c B8EEC77A 		vcvt.f32.s32	s14, s14
+  99 0060 DFED107A 		vldr.32	s15, .L5+8
+ 100 0064 27EE277A 		vmul.f32	s14, s14, s15
+ 101              		.loc 1 38 51 view .LVU31
+ 102 0068 07EE903A 		vmov	s15, r3	@ int
+ 103 006c F8EEE77A 		vcvt.f32.s32	s15, s15
+ 104 0070 77EE877A 		vadd.f32	s15, s15, s14
+ 105              		.loc 1 38 25 view .LVU32
+ 106 0074 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 107 0078 C2ED057A 		vstr.32	s15, [r2, #20]	@ int
+  39:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Info_Update_Frame++;
+ 108              		.loc 1 39 2 is_stmt 1 view .LVU33
+ 109              		.loc 1 39 12 is_stmt 0 view .LVU34
+ 110 007c 938B     		ldrh	r3, [r2, #28]
+ 111              		.loc 1 39 30 view .LVU35
+ 112 007e 0133     		adds	r3, r3, #1
+ 113 0080 9383     		strh	r3, [r2, #28]	@ movhi
+  40:Devices/Devices.c/GM6020_Motor.c **** }
+ 114              		.loc 1 40 1 view .LVU36
+ 115 0082 04B0     		add	sp, sp, #16
+ 116              	.LCFI1:
+ 117              		.cfi_remember_state
+ 118              		.cfi_def_cfa_offset 0
+ 119 0084 7047     		bx	lr
+ 120              	.L2:
+ 121              	.LCFI2:
+ 122              		.cfi_restore_state
+  36:Devices/Devices.c/GM6020_Motor.c **** 	else if((GM6020_Yaw.Actual_Angle - GM6020_Yaw.Prev_Angle) > 6500)
+ 123              		.loc 1 36 7 is_stmt 1 view .LVU37
+  36:Devices/Devices.c/GM6020_Motor.c **** 	else if((GM6020_Yaw.Actual_Angle - GM6020_Yaw.Prev_Angle) > 6500)
+ 124              		.loc 1 36 9 is_stmt 0 view .LVU38
+ 125 0086 41F66412 		movw	r2, #6500
+ 126 008a 9142     		cmp	r1, r2
+ 127 008c E1DD     		ble	.L3
+  37:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Total_Angle = GM6020_Yaw.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Yaw.Turn_Count)
+ 128              		.loc 1 37 3 is_stmt 1 view .LVU39
+  37:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Total_Angle = GM6020_Yaw.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Yaw.Turn_Count)
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 4
+
+
+ 129              		.loc 1 37 13 is_stmt 0 view .LVU40
+ 130 008e 0349     		ldr	r1, .L5
+ 131 0090 B1F91820 		ldrsh	r2, [r1, #24]
+  37:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Total_Angle = GM6020_Yaw.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Yaw.Turn_Count)
+ 132              		.loc 1 37 24 view .LVU41
+ 133 0094 013A     		subs	r2, r2, #1
+ 134 0096 0A83     		strh	r2, [r1, #24]	@ movhi
+ 135 0098 DBE7     		b	.L3
+ 136              	.L6:
+ 137 009a 00BF     		.align	2
+ 138              	.L5:
+ 139 009c 00000000 		.word	GM6020_Yaw
+ 140 00a0 9CE6FFFF 		.word	-6500
+ 141 00a4 00000046 		.word	1174405120
+ 142              		.cfi_endproc
+ 143              	.LFE138:
+ 145              		.section	.text.GM6020_Pitch_Get_Data,"ax",%progbits
+ 146              		.align	1
+ 147              		.global	GM6020_Pitch_Get_Data
+ 148              		.syntax unified
+ 149              		.thumb
+ 150              		.thumb_func
+ 152              	GM6020_Pitch_Get_Data:
+ 153              	.LFB139:
+  41:Devices/Devices.c/GM6020_Motor.c **** 
+  42:Devices/Devices.c/GM6020_Motor.c **** //Get pitch motor data from CAN
+  43:Devices/Devices.c/GM6020_Motor.c **** void GM6020_Pitch_Get_Data(CAN_Export_Data_t RxMessage)
+  44:Devices/Devices.c/GM6020_Motor.c **** {
+ 154              		.loc 1 44 1 is_stmt 1 view -0
+ 155              		.cfi_startproc
+ 156              		@ args = 36, pretend = 16, frame = 0
+ 157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158              		@ link register save eliminated.
+ 159 0000 84B0     		sub	sp, sp, #16
+ 160              	.LCFI3:
+ 161              		.cfi_def_cfa_offset 16
+ 162 0002 8DE80F00 		stm	sp, {r0, r1, r2, r3}
+  45:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Prev_Angle = GM6020_Pitch.Actual_Angle;
+ 163              		.loc 1 45 2 view .LVU43
+ 164              		.loc 1 45 40 is_stmt 0 view .LVU44
+ 165 0006 254A     		ldr	r2, .L11
+ 166 0008 B2F90010 		ldrsh	r1, [r2]
+ 167              		.loc 1 45 26 view .LVU45
+ 168 000c 5180     		strh	r1, [r2, #2]	@ movhi
+  46:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Actual_Angle = (int16_t)(RxMessage.CANx_Export_RxMessage[0] << 8 | RxMessage.CANx_Exp
+ 169              		.loc 1 46 2 is_stmt 1 view .LVU46
+ 170              		.loc 1 46 71 is_stmt 0 view .LVU47
+ 171 000e 9DF81C00 		ldrb	r0, [sp, #28]	@ zero_extendqisi2
+ 172              		.loc 1 46 113 view .LVU48
+ 173 0012 9DF81D30 		ldrb	r3, [sp, #29]	@ zero_extendqisi2
+ 174              		.loc 1 46 30 view .LVU49
+ 175 0016 43EA0023 		orr	r3, r3, r0, lsl #8
+ 176 001a 1BB2     		sxth	r3, r3
+ 177              		.loc 1 46 28 view .LVU50
+ 178 001c 1380     		strh	r3, [r2]	@ movhi
+  47:Devices/Devices.c/GM6020_Motor.c ****   GM6020_Pitch.Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage.CANx_Ex
+ 179              		.loc 1 47 3 is_stmt 1 view .LVU51
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 5
+
+
+ 180              		.loc 1 47 72 is_stmt 0 view .LVU52
+ 181 001e 9DF81EC0 		ldrb	ip, [sp, #30]	@ zero_extendqisi2
+ 182              		.loc 1 47 114 view .LVU53
+ 183 0022 9DF81F00 		ldrb	r0, [sp, #31]	@ zero_extendqisi2
+ 184              		.loc 1 47 31 view .LVU54
+ 185 0026 40EA0C20 		orr	r0, r0, ip, lsl #8
+ 186              		.loc 1 47 29 view .LVU55
+ 187 002a 9080     		strh	r0, [r2, #4]	@ movhi
+  48:Devices/Devices.c/GM6020_Motor.c ****   GM6020_Pitch.Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessage.CANx_
+ 188              		.loc 1 48 3 is_stmt 1 view .LVU56
+ 189              		.loc 1 48 74 is_stmt 0 view .LVU57
+ 190 002c 9DF820C0 		ldrb	ip, [sp, #32]	@ zero_extendqisi2
+ 191              		.loc 1 48 116 view .LVU58
+ 192 0030 9DF82100 		ldrb	r0, [sp, #33]	@ zero_extendqisi2
+ 193              		.loc 1 48 33 view .LVU59
+ 194 0034 40EA0C20 		orr	r0, r0, ip, lsl #8
+ 195              		.loc 1 48 31 view .LVU60
+ 196 0038 D080     		strh	r0, [r2, #6]	@ movhi
+  49:Devices/Devices.c/GM6020_Motor.c ****   GM6020_Pitch.Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 197              		.loc 1 49 3 is_stmt 1 view .LVU61
+ 198              		.loc 1 49 61 is_stmt 0 view .LVU62
+ 199 003a 9DF92200 		ldrsb	r0, [sp, #34]
+ 200              		.loc 1 49 28 view .LVU63
+ 201 003e 1072     		strb	r0, [r2, #8]
+  50:Devices/Devices.c/GM6020_Motor.c **** 	if((GM6020_Pitch.Actual_Angle - GM6020_Pitch.Prev_Angle) < -6500 )
+ 202              		.loc 1 50 2 is_stmt 1 view .LVU64
+ 203              		.loc 1 50 32 is_stmt 0 view .LVU65
+ 204 0040 591A     		subs	r1, r3, r1
+ 205              		.loc 1 50 4 view .LVU66
+ 206 0042 174A     		ldr	r2, .L11+4
+ 207 0044 9142     		cmp	r1, r2
+ 208 0046 1EDA     		bge	.L8
+  51:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Pitch.Turn_Count++;
+ 209              		.loc 1 51 3 is_stmt 1 view .LVU67
+ 210              		.loc 1 51 15 is_stmt 0 view .LVU68
+ 211 0048 1449     		ldr	r1, .L11
+ 212 004a B1F91820 		ldrsh	r2, [r1, #24]
+ 213              		.loc 1 51 26 view .LVU69
+ 214 004e 0132     		adds	r2, r2, #1
+ 215 0050 0A83     		strh	r2, [r1, #24]	@ movhi
+ 216              	.L9:
+  52:Devices/Devices.c/GM6020_Motor.c **** 	else if((GM6020_Pitch.Actual_Angle - GM6020_Pitch.Prev_Angle) > 6500)
+  53:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Pitch.Turn_Count--;
+  54:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Total_Angle = GM6020_Pitch.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Pitch.Turn_
+ 217              		.loc 1 54 2 is_stmt 1 view .LVU70
+ 218              		.loc 1 54 94 is_stmt 0 view .LVU71
+ 219 0052 124A     		ldr	r2, .L11
+ 220 0054 B2F91810 		ldrsh	r1, [r2, #24]
+ 221 0058 07EE101A 		vmov	s14, r1	@ int
+ 222              		.loc 1 54 80 view .LVU72
+ 223 005c B8EEC77A 		vcvt.f32.s32	s14, s14
+ 224 0060 DFED107A 		vldr.32	s15, .L11+8
+ 225 0064 27EE277A 		vmul.f32	s14, s14, s15
+ 226              		.loc 1 54 55 view .LVU73
+ 227 0068 07EE903A 		vmov	s15, r3	@ int
+ 228 006c F8EEE77A 		vcvt.f32.s32	s15, s15
+ 229 0070 77EE877A 		vadd.f32	s15, s15, s14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 6
+
+
+ 230              		.loc 1 54 27 view .LVU74
+ 231 0074 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 232 0078 C2ED057A 		vstr.32	s15, [r2, #20]	@ int
+  55:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Info_Update_Frame++;
+ 233              		.loc 1 55 2 is_stmt 1 view .LVU75
+ 234              		.loc 1 55 14 is_stmt 0 view .LVU76
+ 235 007c 938B     		ldrh	r3, [r2, #28]
+ 236              		.loc 1 55 32 view .LVU77
+ 237 007e 0133     		adds	r3, r3, #1
+ 238 0080 9383     		strh	r3, [r2, #28]	@ movhi
+  56:Devices/Devices.c/GM6020_Motor.c **** }
+ 239              		.loc 1 56 1 view .LVU78
+ 240 0082 04B0     		add	sp, sp, #16
+ 241              	.LCFI4:
+ 242              		.cfi_remember_state
+ 243              		.cfi_def_cfa_offset 0
+ 244 0084 7047     		bx	lr
+ 245              	.L8:
+ 246              	.LCFI5:
+ 247              		.cfi_restore_state
+  52:Devices/Devices.c/GM6020_Motor.c **** 	else if((GM6020_Pitch.Actual_Angle - GM6020_Pitch.Prev_Angle) > 6500)
+ 248              		.loc 1 52 7 is_stmt 1 view .LVU79
+  52:Devices/Devices.c/GM6020_Motor.c **** 	else if((GM6020_Pitch.Actual_Angle - GM6020_Pitch.Prev_Angle) > 6500)
+ 249              		.loc 1 52 9 is_stmt 0 view .LVU80
+ 250 0086 41F66412 		movw	r2, #6500
+ 251 008a 9142     		cmp	r1, r2
+ 252 008c E1DD     		ble	.L9
+  53:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Total_Angle = GM6020_Pitch.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Pitch.Turn_
+ 253              		.loc 1 53 3 is_stmt 1 view .LVU81
+  53:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Total_Angle = GM6020_Pitch.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Pitch.Turn_
+ 254              		.loc 1 53 15 is_stmt 0 view .LVU82
+ 255 008e 0349     		ldr	r1, .L11
+ 256 0090 B1F91820 		ldrsh	r2, [r1, #24]
+  53:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Total_Angle = GM6020_Pitch.Actual_Angle + (GM6020_MECH_ANGLE_MAX * GM6020_Pitch.Turn_
+ 257              		.loc 1 53 26 view .LVU83
+ 258 0094 013A     		subs	r2, r2, #1
+ 259 0096 0A83     		strh	r2, [r1, #24]	@ movhi
+ 260 0098 DBE7     		b	.L9
+ 261              	.L12:
+ 262 009a 00BF     		.align	2
+ 263              	.L11:
+ 264 009c 00000000 		.word	GM6020_Pitch
+ 265 00a0 9CE6FFFF 		.word	-6500
+ 266 00a4 00000046 		.word	1174405120
+ 267              		.cfi_endproc
+ 268              	.LFE139:
+ 270              		.section	.text.GM6020_Gimbal_Send_Data,"ax",%progbits
+ 271              		.align	1
+ 272              		.global	GM6020_Gimbal_Send_Data
+ 273              		.syntax unified
+ 274              		.thumb
+ 275              		.thumb_func
+ 277              	GM6020_Gimbal_Send_Data:
+ 278              	.LVL0:
+ 279              	.LFB140:
+  57:Devices/Devices.c/GM6020_Motor.c **** 
+  58:Devices/Devices.c/GM6020_Motor.c **** //Send yaw and pitch data through specified identifier
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 7
+
+
+  59:Devices/Devices.c/GM6020_Motor.c **** void GM6020_Gimbal_Send_Data(int16_t Pitch_Output, int16_t Yaw_Output)
+  60:Devices/Devices.c/GM6020_Motor.c **** {
+ 280              		.loc 1 60 1 is_stmt 1 view -0
+ 281              		.cfi_startproc
+ 282              		@ args = 0, pretend = 0, frame = 0
+ 283              		@ frame_needed = 0, uses_anonymous_args = 0
+ 284              		.loc 1 60 1 is_stmt 0 view .LVU85
+ 285 0000 10B5     		push	{r4, lr}
+ 286              	.LCFI6:
+ 287              		.cfi_def_cfa_offset 8
+ 288              		.cfi_offset 4, -8
+ 289              		.cfi_offset 14, -4
+ 290 0002 82B0     		sub	sp, sp, #8
+ 291              	.LCFI7:
+ 292              		.cfi_def_cfa_offset 16
+ 293 0004 0246     		mov	r2, r0
+ 294 0006 0B46     		mov	r3, r1
+  61:Devices/Devices.c/GM6020_Motor.c **** 	CAN_Func.CAN_0x2FF_Send_Data(&hcan1,0,Pitch_Output,Yaw_Output,0);
+ 295              		.loc 1 61 2 is_stmt 1 view .LVU86
+ 296              		.loc 1 61 10 is_stmt 0 view .LVU87
+ 297 0008 0349     		ldr	r1, .L15
+ 298              	.LVL1:
+ 299              		.loc 1 61 10 view .LVU88
+ 300 000a 4C69     		ldr	r4, [r1, #20]
+ 301              		.loc 1 61 2 view .LVU89
+ 302 000c 0021     		movs	r1, #0
+ 303 000e 0091     		str	r1, [sp]
+ 304 0010 0248     		ldr	r0, .L15+4
+ 305              	.LVL2:
+ 306              		.loc 1 61 2 view .LVU90
+ 307 0012 A047     		blx	r4
+ 308              	.LVL3:
+  62:Devices/Devices.c/GM6020_Motor.c **** }
+ 309              		.loc 1 62 1 view .LVU91
+ 310 0014 02B0     		add	sp, sp, #8
+ 311              	.LCFI8:
+ 312              		.cfi_def_cfa_offset 8
+ 313              		@ sp needed
+ 314 0016 10BD     		pop	{r4, pc}
+ 315              	.L16:
+ 316              		.align	2
+ 317              	.L15:
+ 318 0018 00000000 		.word	CAN_Func
+ 319 001c 00000000 		.word	hcan1
+ 320              		.cfi_endproc
+ 321              	.LFE140:
+ 323              		.section	.text.Check_GM6020_Yaw,"ax",%progbits
+ 324              		.align	1
+ 325              		.global	Check_GM6020_Yaw
+ 326              		.syntax unified
+ 327              		.thumb
+ 328              		.thumb_func
+ 330              	Check_GM6020_Yaw:
+ 331              	.LFB141:
+  63:Devices/Devices.c/GM6020_Motor.c **** 
+  64:Devices/Devices.c/GM6020_Motor.c **** void Check_GM6020_Yaw(void)
+  65:Devices/Devices.c/GM6020_Motor.c **** {
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 8
+
+
+ 332              		.loc 1 65 1 is_stmt 1 view -0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 0
+ 335              		@ frame_needed = 0, uses_anonymous_args = 0
+ 336              		@ link register save eliminated.
+  66:Devices/Devices.c/GM6020_Motor.c **** 	if(GM6020_Yaw.Info_Update_Frame < 1)
+ 337              		.loc 1 66 2 view .LVU93
+ 338              		.loc 1 66 15 is_stmt 0 view .LVU94
+ 339 0000 064B     		ldr	r3, .L20
+ 340 0002 9B8B     		ldrh	r3, [r3, #28]
+ 341              		.loc 1 66 4 view .LVU95
+ 342 0004 33B9     		cbnz	r3, .L18
+  67:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Yaw.Offline_Flag = 1;
+ 343              		.loc 1 67 3 is_stmt 1 view .LVU96
+ 344              		.loc 1 67 27 is_stmt 0 view .LVU97
+ 345 0006 054B     		ldr	r3, .L20
+ 346 0008 0122     		movs	r2, #1
+ 347 000a 9A77     		strb	r2, [r3, #30]
+ 348              	.L19:
+  68:Devices/Devices.c/GM6020_Motor.c **** 	else
+  69:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Yaw.Offline_Flag = 0;
+  70:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Info_Update_Frame = 0;
+ 349              		.loc 1 70 2 is_stmt 1 view .LVU98
+ 350              		.loc 1 70 31 is_stmt 0 view .LVU99
+ 351 000c 034B     		ldr	r3, .L20
+ 352 000e 0022     		movs	r2, #0
+ 353 0010 9A83     		strh	r2, [r3, #28]	@ movhi
+  71:Devices/Devices.c/GM6020_Motor.c **** }
+ 354              		.loc 1 71 1 view .LVU100
+ 355 0012 7047     		bx	lr
+ 356              	.L18:
+  69:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Info_Update_Frame = 0;
+ 357              		.loc 1 69 3 is_stmt 1 view .LVU101
+  69:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Yaw.Info_Update_Frame = 0;
+ 358              		.loc 1 69 27 is_stmt 0 view .LVU102
+ 359 0014 014B     		ldr	r3, .L20
+ 360 0016 0022     		movs	r2, #0
+ 361 0018 9A77     		strb	r2, [r3, #30]
+ 362 001a F7E7     		b	.L19
+ 363              	.L21:
+ 364              		.align	2
+ 365              	.L20:
+ 366 001c 00000000 		.word	GM6020_Yaw
+ 367              		.cfi_endproc
+ 368              	.LFE141:
+ 370              		.section	.text.Check_GM6020_Pitch,"ax",%progbits
+ 371              		.align	1
+ 372              		.global	Check_GM6020_Pitch
+ 373              		.syntax unified
+ 374              		.thumb
+ 375              		.thumb_func
+ 377              	Check_GM6020_Pitch:
+ 378              	.LFB142:
+  72:Devices/Devices.c/GM6020_Motor.c **** 
+  73:Devices/Devices.c/GM6020_Motor.c **** void Check_GM6020_Pitch(void)
+  74:Devices/Devices.c/GM6020_Motor.c **** {
+ 379              		.loc 1 74 1 is_stmt 1 view -0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 9
+
+
+ 380              		.cfi_startproc
+ 381              		@ args = 0, pretend = 0, frame = 0
+ 382              		@ frame_needed = 0, uses_anonymous_args = 0
+ 383              		@ link register save eliminated.
+  75:Devices/Devices.c/GM6020_Motor.c **** 	if(GM6020_Pitch.Info_Update_Frame < 1)
+ 384              		.loc 1 75 2 view .LVU104
+ 385              		.loc 1 75 17 is_stmt 0 view .LVU105
+ 386 0000 064B     		ldr	r3, .L25
+ 387 0002 9B8B     		ldrh	r3, [r3, #28]
+ 388              		.loc 1 75 4 view .LVU106
+ 389 0004 33B9     		cbnz	r3, .L23
+  76:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Pitch.Offline_Flag = 1;
+ 390              		.loc 1 76 3 is_stmt 1 view .LVU107
+ 391              		.loc 1 76 29 is_stmt 0 view .LVU108
+ 392 0006 054B     		ldr	r3, .L25
+ 393 0008 0122     		movs	r2, #1
+ 394 000a 9A77     		strb	r2, [r3, #30]
+ 395              	.L24:
+  77:Devices/Devices.c/GM6020_Motor.c **** 	else
+  78:Devices/Devices.c/GM6020_Motor.c **** 		GM6020_Pitch.Offline_Flag = 0;
+  79:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Info_Update_Frame = 0;
+ 396              		.loc 1 79 2 is_stmt 1 view .LVU109
+ 397              		.loc 1 79 33 is_stmt 0 view .LVU110
+ 398 000c 034B     		ldr	r3, .L25
+ 399 000e 0022     		movs	r2, #0
+ 400 0010 9A83     		strh	r2, [r3, #28]	@ movhi
+  80:Devices/Devices.c/GM6020_Motor.c **** }
+ 401              		.loc 1 80 1 view .LVU111
+ 402 0012 7047     		bx	lr
+ 403              	.L23:
+  78:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Info_Update_Frame = 0;
+ 404              		.loc 1 78 3 is_stmt 1 view .LVU112
+  78:Devices/Devices.c/GM6020_Motor.c **** 	GM6020_Pitch.Info_Update_Frame = 0;
+ 405              		.loc 1 78 29 is_stmt 0 view .LVU113
+ 406 0014 014B     		ldr	r3, .L25
+ 407 0016 0022     		movs	r2, #0
+ 408 0018 9A77     		strb	r2, [r3, #30]
+ 409 001a F7E7     		b	.L24
+ 410              	.L26:
+ 411              		.align	2
+ 412              	.L25:
+ 413 001c 00000000 		.word	GM6020_Pitch
+ 414              		.cfi_endproc
+ 415              	.LFE142:
+ 417              		.global	GM6020_Func
+ 418              		.section	.data.GM6020_Func,"aw"
+ 419              		.align	2
+ 422              	GM6020_Func:
+ 423 0000 00000000 		.word	GM6020_Yaw_Get_Data
+ 424 0004 00000000 		.word	GM6020_Pitch_Get_Data
+ 425 0008 00000000 		.word	GM6020_Gimbal_Send_Data
+ 426 000c 00000000 		.word	Check_GM6020_Yaw
+ 427 0010 00000000 		.word	Check_GM6020_Pitch
+ 428              		.global	GM6020_Pitch
+ 429              		.section	.bss.GM6020_Pitch,"aw",%nobits
+ 430              		.align	2
+ 433              	GM6020_Pitch:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 10
+
+
+ 434 0000 00000000 		.space	32
+ 434      00000000 
+ 434      00000000 
+ 434      00000000 
+ 434      00000000 
+ 435              		.global	GM6020_Yaw
+ 436              		.section	.bss.GM6020_Yaw,"aw",%nobits
+ 437              		.align	2
+ 440              	GM6020_Yaw:
+ 441 0000 00000000 		.space	32
+ 441      00000000 
+ 441      00000000 
+ 441      00000000 
+ 441      00000000 
+ 442              		.text
+ 443              	.Letext0:
+ 444              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 445              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 446              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 447              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 448              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 449              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 450              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 451              		.file 9 "BSP/BSP.h/CAN_Setup.h"
+ 452              		.file 10 "Core/Inc/can.h"
+ 453              		.file 11 "Devices/Devices.h/Motor_Init.h"
+ 454              		.file 12 "Devices/Devices.h/GM6020_Motor.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 GM6020_Motor.c
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:21     .text.GM6020_Yaw_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:27     .text.GM6020_Yaw_Get_Data:00000000 GM6020_Yaw_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:139    .text.GM6020_Yaw_Get_Data:0000009c $d
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:440    .bss.GM6020_Yaw:00000000 GM6020_Yaw
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:146    .text.GM6020_Pitch_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:152    .text.GM6020_Pitch_Get_Data:00000000 GM6020_Pitch_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:264    .text.GM6020_Pitch_Get_Data:0000009c $d
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:433    .bss.GM6020_Pitch:00000000 GM6020_Pitch
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:271    .text.GM6020_Gimbal_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:277    .text.GM6020_Gimbal_Send_Data:00000000 GM6020_Gimbal_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:318    .text.GM6020_Gimbal_Send_Data:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:324    .text.Check_GM6020_Yaw:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:330    .text.Check_GM6020_Yaw:00000000 Check_GM6020_Yaw
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:366    .text.Check_GM6020_Yaw:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:371    .text.Check_GM6020_Pitch:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:377    .text.Check_GM6020_Pitch:00000000 Check_GM6020_Pitch
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:413    .text.Check_GM6020_Pitch:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:422    .data.GM6020_Func:00000000 GM6020_Func
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:419    .data.GM6020_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:430    .bss.GM6020_Pitch:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccXDpyCO.s:437    .bss.GM6020_Yaw:00000000 $d
+
+UNDEFINED SYMBOLS
+CAN_Func
+hcan1

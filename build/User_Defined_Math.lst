@@ -1,0 +1,169 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"User_Defined_Math.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Algorithms/Algorithms.c/User_Defined_Math.c"
+  20              		.section	.text.VAL_LIMIT,"ax",%progbits
+  21              		.align	1
+  22              		.global	VAL_LIMIT
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	VAL_LIMIT:
+  28              	.LVL0:
+  29              	.LFB162:
+   1:Algorithms/Algorithms.c/User_Defined_Math.c **** /**
+   2:Algorithms/Algorithms.c/User_Defined_Math.c ****  * @file User_Defined_Math.c
+   3:Algorithms/Algorithms.c/User_Defined_Math.c ****  * @author Leo Liu
+   4:Algorithms/Algorithms.c/User_Defined_Math.c ****  * @brief Basic Math/Logic Operations
+   5:Algorithms/Algorithms.c/User_Defined_Math.c ****  * @version 1.0
+   6:Algorithms/Algorithms.c/User_Defined_Math.c ****  * @date 2022-07-05
+   7:Algorithms/Algorithms.c/User_Defined_Math.c ****  * 
+   8:Algorithms/Algorithms.c/User_Defined_Math.c ****  * @copyright Copyright (c) 2022
+   9:Algorithms/Algorithms.c/User_Defined_Math.c ****  * 
+  10:Algorithms/Algorithms.c/User_Defined_Math.c ****  */
+  11:Algorithms/Algorithms.c/User_Defined_Math.c **** #include "User_Defined_Math.h"
+  12:Algorithms/Algorithms.c/User_Defined_Math.c **** 
+  13:Algorithms/Algorithms.c/User_Defined_Math.c **** float VAL_LIMIT(float Value, float Upper_Limit,float Lower_Limit);
+  14:Algorithms/Algorithms.c/User_Defined_Math.c **** float Find_Gimbal_Min_Angle(float Angle);
+  15:Algorithms/Algorithms.c/User_Defined_Math.c **** 
+  16:Algorithms/Algorithms.c/User_Defined_Math.c **** //Limit value through upper and lower bounds
+  17:Algorithms/Algorithms.c/User_Defined_Math.c **** float VAL_LIMIT(float Value, float Upper_Limit, float Lower_Limit)
+  18:Algorithms/Algorithms.c/User_Defined_Math.c **** {
+  30              		.loc 1 18 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 18 1 is_stmt 0 view .LVU1
+  36 0000 F0EE407A 		vmov.f32	s15, s0
+  37 0004 B0EE600A 		vmov.f32	s0, s1
+  38              	.LVL1:
+  19:Algorithms/Algorithms.c/User_Defined_Math.c **** 	if(Value > Upper_Limit)
+  39              		.loc 1 19 2 is_stmt 1 view .LVU2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s 			page 2
+
+
+  40              		.loc 1 19 4 is_stmt 0 view .LVU3
+  41 0008 F4EEE07A 		vcmpe.f32	s15, s1
+  42 000c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  43 0010 09DC     		bgt	.L2
+  20:Algorithms/Algorithms.c/User_Defined_Math.c **** 		Value = Upper_Limit;
+  21:Algorithms/Algorithms.c/User_Defined_Math.c **** 	else if(Value < Lower_Limit)
+  44              		.loc 1 21 7 is_stmt 1 view .LVU4
+  45              		.loc 1 21 9 is_stmt 0 view .LVU5
+  46 0012 F4EEC17A 		vcmpe.f32	s15, s2
+  47 0016 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  48 001a 02D4     		bmi	.L3
+  49 001c B0EE670A 		vmov.f32	s0, s15
+  50 0020 7047     		bx	lr
+  51              	.LVL2:
+  52              	.L3:
+  22:Algorithms/Algorithms.c/User_Defined_Math.c **** 		Value = Lower_Limit;
+  53              		.loc 1 22 9 view .LVU6
+  54 0022 B0EE410A 		vmov.f32	s0, s2
+  55              	.LVL3:
+  56              	.L2:
+  23:Algorithms/Algorithms.c/User_Defined_Math.c **** 	
+  24:Algorithms/Algorithms.c/User_Defined_Math.c **** 	return Value;
+  57              		.loc 1 24 2 is_stmt 1 view .LVU7
+  25:Algorithms/Algorithms.c/User_Defined_Math.c **** }
+  58              		.loc 1 25 1 is_stmt 0 view .LVU8
+  59 0026 7047     		bx	lr
+  60              		.cfi_endproc
+  61              	.LFE162:
+  63              		.section	.text.Find_Gimbal_Min_Angle,"ax",%progbits
+  64              		.align	1
+  65              		.global	Find_Gimbal_Min_Angle
+  66              		.syntax unified
+  67              		.thumb
+  68              		.thumb_func
+  70              	Find_Gimbal_Min_Angle:
+  71              	.LVL4:
+  72              	.LFB163:
+  26:Algorithms/Algorithms.c/User_Defined_Math.c **** 
+  27:Algorithms/Algorithms.c/User_Defined_Math.c **** //Find the minimum rotation angle for gimbal
+  28:Algorithms/Algorithms.c/User_Defined_Math.c **** float Find_Gimbal_Min_Angle(float Angle)
+  29:Algorithms/Algorithms.c/User_Defined_Math.c **** {
+  73              		.loc 1 29 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              		@ link register save eliminated.
+  30:Algorithms/Algorithms.c/User_Defined_Math.c **** 	if(Angle > (GM6020_MECH_ANGLE_MAX/2))
+  78              		.loc 1 30 2 view .LVU10
+  79              		.loc 1 30 4 is_stmt 0 view .LVU11
+  80 0000 DFED0B7A 		vldr.32	s15, .L14
+  81 0004 B4EEE70A 		vcmpe.f32	s0, s15
+  82 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  83 000c 04DD     		ble	.L12
+  31:Algorithms/Algorithms.c/User_Defined_Math.c **** 		Angle -= GM6020_MECH_ANGLE_MAX;
+  84              		.loc 1 31 3 is_stmt 1 view .LVU12
+  85              		.loc 1 31 9 is_stmt 0 view .LVU13
+  86 000e DFED097A 		vldr.32	s15, .L14+4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s 			page 3
+
+
+  87 0012 30EE670A 		vsub.f32	s0, s0, s15
+  88              	.LVL5:
+  89              		.loc 1 31 9 view .LVU14
+  90 0016 7047     		bx	lr
+  91              	.L12:
+  32:Algorithms/Algorithms.c/User_Defined_Math.c **** 	else if(Angle < -(GM6020_MECH_ANGLE_MAX/2))
+  92              		.loc 1 32 7 is_stmt 1 view .LVU15
+  93              		.loc 1 32 9 is_stmt 0 view .LVU16
+  94 0018 DFED077A 		vldr.32	s15, .L14+8
+  95 001c B4EEE70A 		vcmpe.f32	s0, s15
+  96 0020 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  97 0024 03D5     		bpl	.L4
+  33:Algorithms/Algorithms.c/User_Defined_Math.c **** 		Angle += GM6020_MECH_ANGLE_MAX;
+  98              		.loc 1 33 3 is_stmt 1 view .LVU17
+  99              		.loc 1 33 9 is_stmt 0 view .LVU18
+ 100 0026 DFED037A 		vldr.32	s15, .L14+4
+ 101 002a 30EE270A 		vadd.f32	s0, s0, s15
+ 102              	.LVL6:
+ 103              	.L4:
+  34:Algorithms/Algorithms.c/User_Defined_Math.c **** 	
+  35:Algorithms/Algorithms.c/User_Defined_Math.c **** 	return Angle;
+  36:Algorithms/Algorithms.c/User_Defined_Math.c **** }
+ 104              		.loc 1 36 1 view .LVU19
+ 105 002e 7047     		bx	lr
+ 106              	.L15:
+ 107              		.align	2
+ 108              	.L14:
+ 109 0030 00008045 		.word	1166016512
+ 110 0034 00000046 		.word	1174405120
+ 111 0038 000080C5 		.word	-981467136
+ 112              		.cfi_endproc
+ 113              	.LFE163:
+ 115              		.text
+ 116              	.Letext0:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 User_Defined_Math.c
+C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s:21     .text.VAL_LIMIT:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s:27     .text.VAL_LIMIT:00000000 VAL_LIMIT
+C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s:64     .text.Find_Gimbal_Min_Angle:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s:70     .text.Find_Gimbal_Min_Angle:00000000 Find_Gimbal_Min_Angle
+C:\Users\purdu\AppData\Local\Temp\ccwJaNHj.s:109    .text.Find_Gimbal_Min_Angle:00000030 $d
+
+NO UNDEFINED SYMBOLS

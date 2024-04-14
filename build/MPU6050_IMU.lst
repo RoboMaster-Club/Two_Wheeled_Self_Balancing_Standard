@@ -1,0 +1,1810 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"MPU6050_IMU.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/MPU6050_IMU.c"
+  20              		.section	.text.MPU6050_IMU_Init,"ax",%progbits
+  21              		.align	1
+  22              		.global	MPU6050_IMU_Init
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	MPU6050_IMU_Init:
+  28              	.LFB162:
+   1:Devices/Devices.c/MPU6050_IMU.c **** /**
+   2:Devices/Devices.c/MPU6050_IMU.c ****  * @file MPU6050_IMU.c
+   3:Devices/Devices.c/MPU6050_IMU.c ****  * @author Leo Liu
+   4:Devices/Devices.c/MPU6050_IMU.c ****  * @brief external MPU6050 communication and calculation
+   5:Devices/Devices.c/MPU6050_IMU.c ****  * @version 1.0
+   6:Devices/Devices.c/MPU6050_IMU.c ****  * @date 2022-07-13
+   7:Devices/Devices.c/MPU6050_IMU.c ****  * 
+   8:Devices/Devices.c/MPU6050_IMU.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/MPU6050_IMU.c ****  * 
+  10:Devices/Devices.c/MPU6050_IMU.c ****  */
+  11:Devices/Devices.c/MPU6050_IMU.c **** 
+  12:Devices/Devices.c/MPU6050_IMU.c **** #include "MPU6050_IMU.h"
+  13:Devices/Devices.c/MPU6050_IMU.c **** 
+  14:Devices/Devices.c/MPU6050_IMU.c **** MPU6050_IMU_t MPU6050_IMU;
+  15:Devices/Devices.c/MPU6050_IMU.c **** FusionAhrs MPU6050_IMU_AHRS;
+  16:Devices/Devices.c/MPU6050_IMU.c **** 
+  17:Devices/Devices.c/MPU6050_IMU.c **** static uint8_t Buffer[14];
+  18:Devices/Devices.c/MPU6050_IMU.c **** 
+  19:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Init(void);
+  20:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Calibrate(MPU6050_IMU_t *MPU6050_IMU);
+  21:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Read_Data(MPU6050_IMU_t *MPU6050_IMU);
+  22:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Calc_Angle(MPU6050_IMU_t *MPU6050_IMU);
+  23:Devices/Devices.c/MPU6050_IMU.c **** 
+  24:Devices/Devices.c/MPU6050_IMU.c **** MPU6050_IMU_Func_t MPU6050_IMU_Func = MPU6050_IMU_Func_GroundInit;
+  25:Devices/Devices.c/MPU6050_IMU.c **** #undef MPU6050_IMU_Func_GroundInit
+  26:Devices/Devices.c/MPU6050_IMU.c **** 
+  27:Devices/Devices.c/MPU6050_IMU.c **** //Initialize MPU6050
+  28:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Init(void)
+  29:Devices/Devices.c/MPU6050_IMU.c **** {
+  29              		.loc 1 29 1 view -0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 2
+
+
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 8
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 30B5     		push	{r4, r5, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 12
+  36              		.cfi_offset 4, -12
+  37              		.cfi_offset 5, -8
+  38              		.cfi_offset 14, -4
+  39 0002 83B0     		sub	sp, sp, #12
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 24
+  30:Devices/Devices.c/MPU6050_IMU.c **** 	uint8_t Temp_Data;
+  42              		.loc 1 30 2 view .LVU1
+  31:Devices/Devices.c/MPU6050_IMU.c **** 	uint8_t Check_Offline;
+  43              		.loc 1 31 2 view .LVU2
+  32:Devices/Devices.c/MPU6050_IMU.c **** 	
+  33:Devices/Devices.c/MPU6050_IMU.c **** 	I2C_Read_8_Bytes(DEV_ADDR, WHO_AM_I, 1, &Check_Offline);
+  44              		.loc 1 33 2 view .LVU3
+  45 0004 0DF10603 		add	r3, sp, #6
+  46 0008 0122     		movs	r2, #1
+  47 000a 7521     		movs	r1, #117
+  48 000c 6820     		movs	r0, #104
+  49 000e FFF7FEFF 		bl	I2C_Read_8_Bytes
+  50              	.LVL0:
+  34:Devices/Devices.c/MPU6050_IMU.c **** 	
+  35:Devices/Devices.c/MPU6050_IMU.c **** 	Temp_Data = 0x80;
+  51              		.loc 1 35 2 view .LVU4
+  52              		.loc 1 35 12 is_stmt 0 view .LVU5
+  53 0012 8023     		movs	r3, #128
+  54 0014 8DF80730 		strb	r3, [sp, #7]
+  36:Devices/Devices.c/MPU6050_IMU.c **** 	I2C_Write_8_Bytes(DEV_ADDR,	PWR_MGMT_1, 1, &Temp_Data);
+  55              		.loc 1 36 2 is_stmt 1 view .LVU6
+  56 0018 0DF10703 		add	r3, sp, #7
+  57 001c 0122     		movs	r2, #1
+  58 001e 6B21     		movs	r1, #107
+  59 0020 6820     		movs	r0, #104
+  60 0022 FFF7FEFF 		bl	I2C_Write_8_Bytes
+  61              	.LVL1:
+  37:Devices/Devices.c/MPU6050_IMU.c **** 	
+  38:Devices/Devices.c/MPU6050_IMU.c **** 	Temp_Data = 0x07;
+  62              		.loc 1 38 2 view .LVU7
+  63              		.loc 1 38 12 is_stmt 0 view .LVU8
+  64 0026 0723     		movs	r3, #7
+  65 0028 8DF80730 		strb	r3, [sp, #7]
+  39:Devices/Devices.c/MPU6050_IMU.c **** 	I2C_Write_8_Bytes(DEV_ADDR,	SMPLRT_DIV, 1, &Temp_Data);
+  66              		.loc 1 39 2 is_stmt 1 view .LVU9
+  67 002c 6B44     		add	r3, sp, r3
+  68 002e 0122     		movs	r2, #1
+  69 0030 1921     		movs	r1, #25
+  70 0032 6820     		movs	r0, #104
+  71 0034 FFF7FEFF 		bl	I2C_Write_8_Bytes
+  72              	.LVL2:
+  40:Devices/Devices.c/MPU6050_IMU.c **** 	
+  41:Devices/Devices.c/MPU6050_IMU.c **** 	Temp_Data = 0x00;
+  73              		.loc 1 41 2 view .LVU10
+  74              		.loc 1 41 12 is_stmt 0 view .LVU11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 3
+
+
+  75 0038 0025     		movs	r5, #0
+  76 003a 8DF80750 		strb	r5, [sp, #7]
+  42:Devices/Devices.c/MPU6050_IMU.c **** 	I2C_Write_8_Bytes(DEV_ADDR,	GYRO_CONFIG, 1, &Temp_Data);
+  77              		.loc 1 42 2 is_stmt 1 view .LVU12
+  78 003e 0DF10703 		add	r3, sp, #7
+  79 0042 0122     		movs	r2, #1
+  80 0044 1B21     		movs	r1, #27
+  81 0046 6820     		movs	r0, #104
+  82 0048 FFF7FEFF 		bl	I2C_Write_8_Bytes
+  83              	.LVL3:
+  43:Devices/Devices.c/MPU6050_IMU.c **** 	
+  44:Devices/Devices.c/MPU6050_IMU.c **** 	Temp_Data = 0x01;
+  84              		.loc 1 44 2 view .LVU13
+  85              		.loc 1 44 12 is_stmt 0 view .LVU14
+  86 004c 0124     		movs	r4, #1
+  87 004e 8DF80740 		strb	r4, [sp, #7]
+  45:Devices/Devices.c/MPU6050_IMU.c **** 	I2C_Write_8_Bytes(DEV_ADDR,	ACCEL_CONFIG, 1, &Temp_Data);
+  88              		.loc 1 45 2 is_stmt 1 view .LVU15
+  89 0052 0DF10703 		add	r3, sp, #7
+  90 0056 2246     		mov	r2, r4
+  91 0058 1C21     		movs	r1, #28
+  92 005a 6820     		movs	r0, #104
+  93 005c FFF7FEFF 		bl	I2C_Write_8_Bytes
+  94              	.LVL4:
+  46:Devices/Devices.c/MPU6050_IMU.c **** 	
+  47:Devices/Devices.c/MPU6050_IMU.c **** 	Temp_Data = 0x00;
+  95              		.loc 1 47 2 view .LVU16
+  96              		.loc 1 47 12 is_stmt 0 view .LVU17
+  97 0060 8DF80750 		strb	r5, [sp, #7]
+  48:Devices/Devices.c/MPU6050_IMU.c **** 	I2C_Write_8_Bytes(DEV_ADDR,	PWR_MGMT_1, 1, &Temp_Data);
+  98              		.loc 1 48 2 is_stmt 1 view .LVU18
+  99 0064 0DF10703 		add	r3, sp, #7
+ 100 0068 2246     		mov	r2, r4
+ 101 006a 6B21     		movs	r1, #107
+ 102 006c 6820     		movs	r0, #104
+ 103 006e FFF7FEFF 		bl	I2C_Write_8_Bytes
+ 104              	.LVL5:
+  49:Devices/Devices.c/MPU6050_IMU.c **** 	
+  50:Devices/Devices.c/MPU6050_IMU.c **** 	if(Check_Offline == 0x68)
+ 105              		.loc 1 50 2 view .LVU19
+ 106              		.loc 1 50 19 is_stmt 0 view .LVU20
+ 107 0072 9DF80630 		ldrb	r3, [sp, #6]	@ zero_extendqisi2
+ 108              		.loc 1 50 4 view .LVU21
+ 109 0076 682B     		cmp	r3, #104
+ 110 0078 05D0     		beq	.L5
+  51:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU.Offline_Flag = 0;
+  52:Devices/Devices.c/MPU6050_IMU.c **** 	else
+  53:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU.Offline_Flag = 1;
+ 111              		.loc 1 53 3 is_stmt 1 view .LVU22
+ 112              		.loc 1 53 28 is_stmt 0 view .LVU23
+ 113 007a 054B     		ldr	r3, .L6
+ 114 007c 0122     		movs	r2, #1
+ 115 007e 83F87920 		strb	r2, [r3, #121]
+ 116              	.L1:
+  54:Devices/Devices.c/MPU6050_IMU.c **** }
+ 117              		.loc 1 54 1 view .LVU24
+ 118 0082 03B0     		add	sp, sp, #12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 4
+
+
+ 119              	.LCFI2:
+ 120              		.cfi_remember_state
+ 121              		.cfi_def_cfa_offset 12
+ 122              		@ sp needed
+ 123 0084 30BD     		pop	{r4, r5, pc}
+ 124              	.L5:
+ 125              	.LCFI3:
+ 126              		.cfi_restore_state
+  51:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU.Offline_Flag = 0;
+ 127              		.loc 1 51 3 is_stmt 1 view .LVU25
+  51:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU.Offline_Flag = 0;
+ 128              		.loc 1 51 28 is_stmt 0 view .LVU26
+ 129 0086 024B     		ldr	r3, .L6
+ 130 0088 83F87950 		strb	r5, [r3, #121]
+ 131 008c F9E7     		b	.L1
+ 132              	.L7:
+ 133 008e 00BF     		.align	2
+ 134              	.L6:
+ 135 0090 00000000 		.word	MPU6050_IMU
+ 136              		.cfi_endproc
+ 137              	.LFE162:
+ 139              		.section	.text.MPU6050_IMU_Read_Data,"ax",%progbits
+ 140              		.align	1
+ 141              		.global	MPU6050_IMU_Read_Data
+ 142              		.syntax unified
+ 143              		.thumb
+ 144              		.thumb_func
+ 146              	MPU6050_IMU_Read_Data:
+ 147              	.LVL6:
+ 148              	.LFB164:
+  55:Devices/Devices.c/MPU6050_IMU.c **** 
+  56:Devices/Devices.c/MPU6050_IMU.c **** //Calibrate IMU data to reduce zero deviation
+  57:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Calibrate(MPU6050_IMU_t *MPU6050_IMU)
+  58:Devices/Devices.c/MPU6050_IMU.c **** {
+  59:Devices/Devices.c/MPU6050_IMU.c **** 	if(MPU6050_IMU->Calibrated_Flag == 0)
+  60:Devices/Devices.c/MPU6050_IMU.c **** 	{
+  61:Devices/Devices.c/MPU6050_IMU.c **** 		float Buffer[6];
+  62:Devices/Devices.c/MPU6050_IMU.c **** 		
+  63:Devices/Devices.c/MPU6050_IMU.c **** 		for(int i = 0; i < CALIBRATION_SAMPLE; i++)
+  64:Devices/Devices.c/MPU6050_IMU.c **** 		{
+  65:Devices/Devices.c/MPU6050_IMU.c **** 			MPU6050_IMU_Read_Data(MPU6050_IMU);
+  66:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[0] += MPU6050_IMU->Calc_Data.Ax;
+  67:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[1] += MPU6050_IMU->Calc_Data.Ay;
+  68:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[2] += MPU6050_IMU->Calc_Data.Az;
+  69:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[3] += MPU6050_IMU->Calc_Data.Gx;
+  70:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[4] += MPU6050_IMU->Calc_Data.Gy;
+  71:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[5] += MPU6050_IMU->Calc_Data.Gz;
+  72:Devices/Devices.c/MPU6050_IMU.c **** 			HAL_Delay(1);
+  73:Devices/Devices.c/MPU6050_IMU.c **** 		}
+  74:Devices/Devices.c/MPU6050_IMU.c **** 
+  75:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Ax = Buffer[0] / CALIBRATION_SAMPLE;
+  76:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+  77:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+  78:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+  79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+  80:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+  81:Devices/Devices.c/MPU6050_IMU.c **** 		
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 5
+
+
+  82:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calibrated_Flag = 1;
+  83:Devices/Devices.c/MPU6050_IMU.c **** 	}
+  84:Devices/Devices.c/MPU6050_IMU.c **** 	else
+  85:Devices/Devices.c/MPU6050_IMU.c **** 		;
+  86:Devices/Devices.c/MPU6050_IMU.c **** }
+  87:Devices/Devices.c/MPU6050_IMU.c **** 		
+  88:Devices/Devices.c/MPU6050_IMU.c **** 
+  89:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Read_Data(MPU6050_IMU_t *MPU6050_IMU)
+  90:Devices/Devices.c/MPU6050_IMU.c **** {
+ 149              		.loc 1 90 1 is_stmt 1 view -0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 0
+ 152              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153              		.loc 1 90 1 is_stmt 0 view .LVU28
+ 154 0000 70B5     		push	{r4, r5, r6, lr}
+ 155              	.LCFI4:
+ 156              		.cfi_def_cfa_offset 16
+ 157              		.cfi_offset 4, -16
+ 158              		.cfi_offset 5, -12
+ 159              		.cfi_offset 6, -8
+ 160              		.cfi_offset 14, -4
+ 161 0002 0446     		mov	r4, r0
+  91:Devices/Devices.c/MPU6050_IMU.c **** 	//Calculate sample period
+  92:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 162              		.loc 1 92 2 is_stmt 1 view .LVU29
+ 163              		.loc 1 92 33 is_stmt 0 view .LVU30
+ 164 0004 FFF7FEFF 		bl	HAL_GetTick
+ 165              	.LVL7:
+ 166              		.loc 1 92 33 view .LVU31
+ 167 0008 07EE100A 		vmov	s14, r0	@ int
+ 168              		.loc 1 92 47 view .LVU32
+ 169 000c B8EE477A 		vcvt.f32.u32	s14, s14
+ 170 0010 DFED586A 		vldr.32	s13, .L12
+ 171 0014 C7EE267A 		vdiv.f32	s15, s14, s13
+ 172              		.loc 1 92 31 view .LVU33
+ 173 0018 C4ED1B7A 		vstr.32	s15, [r4, #108]
+  93:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Sample.Period = MPU6050_IMU->Sample.Now_Time - MPU6050_IMU->Sample.Prev_Time;
+ 174              		.loc 1 93 2 is_stmt 1 view .LVU34
+ 175              		.loc 1 93 81 is_stmt 0 view .LVU35
+ 176 001c 94ED1C7A 		vldr.32	s14, [r4, #112]
+ 177              		.loc 1 93 60 view .LVU36
+ 178 0020 37EEC77A 		vsub.f32	s14, s15, s14
+ 179              		.loc 1 93 29 view .LVU37
+ 180 0024 84ED1D7A 		vstr.32	s14, [r4, #116]
+  94:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Sample.Prev_Time = MPU6050_IMU->Sample.Now_Time;
+ 181              		.loc 1 94 2 is_stmt 1 view .LVU38
+ 182              		.loc 1 94 32 is_stmt 0 view .LVU39
+ 183 0028 C4ED1C7A 		vstr.32	s15, [r4, #112]
+  95:Devices/Devices.c/MPU6050_IMU.c **** 	
+  96:Devices/Devices.c/MPU6050_IMU.c **** 	I2C_Read_8_Bytes(DEV_ADDR, ACCEL_XOUT_H, 14, Buffer);
+ 184              		.loc 1 96 2 is_stmt 1 view .LVU40
+ 185 002c 524D     		ldr	r5, .L12+4
+ 186 002e 2B46     		mov	r3, r5
+ 187 0030 0E22     		movs	r2, #14
+ 188 0032 3B21     		movs	r1, #59
+ 189 0034 6820     		movs	r0, #104
+ 190 0036 FFF7FEFF 		bl	I2C_Read_8_Bytes
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 6
+
+
+ 191              	.LVL8:
+  97:Devices/Devices.c/MPU6050_IMU.c **** 
+  98:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Ax = ((int16_t)Buffer[0] << 8) | Buffer[1];
+ 192              		.loc 1 98 2 view .LVU41
+ 193              		.loc 1 98 45 is_stmt 0 view .LVU42
+ 194 003a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 195              		.loc 1 98 63 view .LVU43
+ 196 003c 6978     		ldrb	r1, [r5, #1]	@ zero_extendqisi2
+ 197              		.loc 1 98 55 view .LVU44
+ 198 003e 41EA0321 		orr	r1, r1, r3, lsl #8
+ 199 0042 09B2     		sxth	r1, r1
+ 200              		.loc 1 98 27 view .LVU45
+ 201 0044 2180     		strh	r1, [r4]	@ movhi
+  99:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Ay = ((int16_t)Buffer[2] << 8) | Buffer[3];
+ 202              		.loc 1 99 2 is_stmt 1 view .LVU46
+ 203              		.loc 1 99 45 is_stmt 0 view .LVU47
+ 204 0046 AB78     		ldrb	r3, [r5, #2]	@ zero_extendqisi2
+ 205              		.loc 1 99 63 view .LVU48
+ 206 0048 EA78     		ldrb	r2, [r5, #3]	@ zero_extendqisi2
+ 207              		.loc 1 99 55 view .LVU49
+ 208 004a 42EA0322 		orr	r2, r2, r3, lsl #8
+ 209 004e 12B2     		sxth	r2, r2
+ 210              		.loc 1 99 27 view .LVU50
+ 211 0050 6280     		strh	r2, [r4, #2]	@ movhi
+ 100:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Az = ((int16_t)Buffer[4] << 8) | Buffer[5];
+ 212              		.loc 1 100 2 is_stmt 1 view .LVU51
+ 213              		.loc 1 100 45 is_stmt 0 view .LVU52
+ 214 0052 2879     		ldrb	r0, [r5, #4]	@ zero_extendqisi2
+ 215              		.loc 1 100 63 view .LVU53
+ 216 0054 6B79     		ldrb	r3, [r5, #5]	@ zero_extendqisi2
+ 217              		.loc 1 100 55 view .LVU54
+ 218 0056 43EA0023 		orr	r3, r3, r0, lsl #8
+ 219 005a 1BB2     		sxth	r3, r3
+ 220              		.loc 1 100 27 view .LVU55
+ 221 005c A380     		strh	r3, [r4, #4]	@ movhi
+ 101:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Temperature = ((int16_t)Buffer[6]) << 8 | Buffer[7];
+ 222              		.loc 1 101 2 is_stmt 1 view .LVU56
+ 223              		.loc 1 101 54 is_stmt 0 view .LVU57
+ 224 005e AE79     		ldrb	r6, [r5, #6]	@ zero_extendqisi2
+ 225              		.loc 1 101 72 view .LVU58
+ 226 0060 E879     		ldrb	r0, [r5, #7]	@ zero_extendqisi2
+ 227              		.loc 1 101 64 view .LVU59
+ 228 0062 40EA0620 		orr	r0, r0, r6, lsl #8
+ 229 0066 00B2     		sxth	r0, r0
+ 230              		.loc 1 101 36 view .LVU60
+ 231 0068 A081     		strh	r0, [r4, #12]	@ movhi
+ 102:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Gx = ((int16_t)Buffer[8] << 8) | Buffer[9];
+ 232              		.loc 1 102 2 is_stmt 1 view .LVU61
+ 233              		.loc 1 102 45 is_stmt 0 view .LVU62
+ 234 006a 2E7A     		ldrb	r6, [r5, #8]	@ zero_extendqisi2
+ 235              		.loc 1 102 63 view .LVU63
+ 236 006c 95F809E0 		ldrb	lr, [r5, #9]	@ zero_extendqisi2
+ 237              		.loc 1 102 55 view .LVU64
+ 238 0070 4EEA062E 		orr	lr, lr, r6, lsl #8
+ 239 0074 0FFA8EFE 		sxth	lr, lr
+ 240              		.loc 1 102 27 view .LVU65
+ 241 0078 A4F806E0 		strh	lr, [r4, #6]	@ movhi
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 7
+
+
+ 103:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
+ 242              		.loc 1 103 2 is_stmt 1 view .LVU66
+ 243              		.loc 1 103 45 is_stmt 0 view .LVU67
+ 244 007c AE7A     		ldrb	r6, [r5, #10]	@ zero_extendqisi2
+ 245              		.loc 1 103 64 view .LVU68
+ 246 007e 95F80BC0 		ldrb	ip, [r5, #11]	@ zero_extendqisi2
+ 247              		.loc 1 103 56 view .LVU69
+ 248 0082 4CEA062C 		orr	ip, ip, r6, lsl #8
+ 249 0086 0FFA8CFC 		sxth	ip, ip
+ 250              		.loc 1 103 27 view .LVU70
+ 251 008a A4F808C0 		strh	ip, [r4, #8]	@ movhi
+ 104:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Raw_Data.Gz = ((int16_t)Buffer[12] << 8) | Buffer[13];
+ 252              		.loc 1 104 2 is_stmt 1 view .LVU71
+ 253              		.loc 1 104 45 is_stmt 0 view .LVU72
+ 254 008e 2E7B     		ldrb	r6, [r5, #12]	@ zero_extendqisi2
+ 255              		.loc 1 104 64 view .LVU73
+ 256 0090 6D7B     		ldrb	r5, [r5, #13]	@ zero_extendqisi2
+ 257              		.loc 1 104 56 view .LVU74
+ 258 0092 45EA0625 		orr	r5, r5, r6, lsl #8
+ 259 0096 2DB2     		sxth	r5, r5
+ 260              		.loc 1 104 27 view .LVU75
+ 261 0098 6581     		strh	r5, [r4, #10]	@ movhi
+ 105:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 106:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Ax = MPU6050_IMU->Raw_Data.Ax / 16384.0f;
+ 262              		.loc 1 106 2 is_stmt 1 view .LVU76
+ 263              		.loc 1 106 55 is_stmt 0 view .LVU77
+ 264 009a 07EE901A 		vmov	s15, r1	@ int
+ 265 009e F8EEE76A 		vcvt.f32.s32	s13, s15
+ 266 00a2 9FED366A 		vldr.32	s12, .L12+8
+ 267 00a6 66EE866A 		vmul.f32	s13, s13, s12
+ 268              		.loc 1 106 28 view .LVU78
+ 269 00aa C4ED0A6A 		vstr.32	s13, [r4, #40]
+ 107:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Ay = MPU6050_IMU->Raw_Data.Ay / 16384.0f;
+ 270              		.loc 1 107 2 is_stmt 1 view .LVU79
+ 271              		.loc 1 107 55 is_stmt 0 view .LVU80
+ 272 00ae 07EE902A 		vmov	s15, r2	@ int
+ 273 00b2 B8EEE77A 		vcvt.f32.s32	s14, s15
+ 274 00b6 27EE067A 		vmul.f32	s14, s14, s12
+ 275              		.loc 1 107 28 view .LVU81
+ 276 00ba 84ED0B7A 		vstr.32	s14, [r4, #44]
+ 108:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Az = MPU6050_IMU->Raw_Data.Az / 16384.0f;
+ 277              		.loc 1 108 2 is_stmt 1 view .LVU82
+ 278              		.loc 1 108 55 is_stmt 0 view .LVU83
+ 279 00be 07EE903A 		vmov	s15, r3	@ int
+ 280 00c2 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 281 00c6 67EE867A 		vmul.f32	s15, s15, s12
+ 282              		.loc 1 108 28 view .LVU84
+ 283 00ca C4ED0C7A 		vstr.32	s15, [r4, #48]
+ 109:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Gx = MPU6050_IMU->Raw_Data.Gx / 131.0f;
+ 284              		.loc 1 109 2 is_stmt 1 view .LVU85
+ 285              		.loc 1 109 55 is_stmt 0 view .LVU86
+ 286 00ce 06EE10EA 		vmov	s12, lr	@ int
+ 287 00d2 B8EEC66A 		vcvt.f32.s32	s12, s12
+ 288 00d6 DFED2A5A 		vldr.32	s11, .L12+12
+ 289 00da 86EE254A 		vdiv.f32	s8, s12, s11
+ 290              		.loc 1 109 28 view .LVU87
+ 291 00de 84ED0D4A 		vstr.32	s8, [r4, #52]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 8
+
+
+ 110:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Gy = MPU6050_IMU->Raw_Data.Gy / 131.0f;
+ 292              		.loc 1 110 2 is_stmt 1 view .LVU88
+ 293              		.loc 1 110 55 is_stmt 0 view .LVU89
+ 294 00e2 06EE10CA 		vmov	s12, ip	@ int
+ 295 00e6 B8EEC66A 		vcvt.f32.s32	s12, s12
+ 296 00ea C6EE254A 		vdiv.f32	s9, s12, s11
+ 297              		.loc 1 110 28 view .LVU90
+ 298 00ee C4ED0E4A 		vstr.32	s9, [r4, #56]
+ 111:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Gz = MPU6050_IMU->Raw_Data.Gz / 131.0f;
+ 299              		.loc 1 111 2 is_stmt 1 view .LVU91
+ 300              		.loc 1 111 55 is_stmt 0 view .LVU92
+ 301 00f2 06EE105A 		vmov	s12, r5	@ int
+ 302 00f6 B8EEC66A 		vcvt.f32.s32	s12, s12
+ 303 00fa 86EE255A 		vdiv.f32	s10, s12, s11
+ 304              		.loc 1 111 28 view .LVU93
+ 305 00fe 84ED0F5A 		vstr.32	s10, [r4, #60]
+ 112:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Calc_Data.Temperature = MPU6050_IMU->Raw_Data.Temperature / 340.0f + 36.53f;
+ 306              		.loc 1 112 2 is_stmt 1 view .LVU94
+ 307              		.loc 1 112 73 is_stmt 0 view .LVU95
+ 308 0102 06EE100A 		vmov	s12, r0	@ int
+ 309 0106 B8EEC66A 		vcvt.f32.s32	s12, s12
+ 310 010a DFED1E3A 		vldr.32	s7, .L12+16
+ 311 010e C6EE235A 		vdiv.f32	s11, s12, s7
+ 312              		.loc 1 112 82 view .LVU96
+ 313 0112 9FED1D6A 		vldr.32	s12, .L12+20
+ 314 0116 35EE866A 		vadd.f32	s12, s11, s12
+ 315              		.loc 1 112 37 view .LVU97
+ 316 011a 84ED106A 		vstr.32	s12, [r4, #64]
+ 113:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 114:Devices/Devices.c/MPU6050_IMU.c **** 	if(MPU6050_IMU->Calibrated_Flag == 1)
+ 317              		.loc 1 114 2 is_stmt 1 view .LVU98
+ 318              		.loc 1 114 16 is_stmt 0 view .LVU99
+ 319 011e 94F87830 		ldrb	r3, [r4, #120]	@ zero_extendqisi2
+ 320              		.loc 1 114 4 view .LVU100
+ 321 0122 012B     		cmp	r3, #1
+ 322 0124 00D0     		beq	.L11
+ 323              	.L8:
+ 115:Devices/Devices.c/MPU6050_IMU.c **** 	{
+ 116:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Ax -= MPU6050_IMU->Offset.Ax;
+ 117:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Ay -= MPU6050_IMU->Offset.Ay;
+ 118:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Az -= MPU6050_IMU->Offset.Az;
+ 119:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gx -= MPU6050_IMU->Offset.Gx;
+ 120:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gy -= MPU6050_IMU->Offset.Gy;
+ 121:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gz -= MPU6050_IMU->Offset.Gz;
+ 122:Devices/Devices.c/MPU6050_IMU.c **** 	}
+ 123:Devices/Devices.c/MPU6050_IMU.c **** }
+ 324              		.loc 1 123 1 view .LVU101
+ 325 0126 70BD     		pop	{r4, r5, r6, pc}
+ 326              	.LVL9:
+ 327              	.L11:
+ 116:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Ay -= MPU6050_IMU->Offset.Ay;
+ 328              		.loc 1 116 3 is_stmt 1 view .LVU102
+ 116:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Ay -= MPU6050_IMU->Offset.Ay;
+ 329              		.loc 1 116 51 is_stmt 0 view .LVU103
+ 330 0128 94ED046A 		vldr.32	s12, [r4, #16]
+ 116:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Ay -= MPU6050_IMU->Offset.Ay;
+ 331              		.loc 1 116 29 view .LVU104
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 9
+
+
+ 332 012c 76EEC66A 		vsub.f32	s13, s13, s12
+ 333 0130 C4ED0A6A 		vstr.32	s13, [r4, #40]
+ 117:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Az -= MPU6050_IMU->Offset.Az;
+ 334              		.loc 1 117 3 is_stmt 1 view .LVU105
+ 117:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Az -= MPU6050_IMU->Offset.Az;
+ 335              		.loc 1 117 51 is_stmt 0 view .LVU106
+ 336 0134 D4ED056A 		vldr.32	s13, [r4, #20]
+ 117:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Az -= MPU6050_IMU->Offset.Az;
+ 337              		.loc 1 117 29 view .LVU107
+ 338 0138 37EE667A 		vsub.f32	s14, s14, s13
+ 339 013c 84ED0B7A 		vstr.32	s14, [r4, #44]
+ 118:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gx -= MPU6050_IMU->Offset.Gx;
+ 340              		.loc 1 118 3 is_stmt 1 view .LVU108
+ 118:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gx -= MPU6050_IMU->Offset.Gx;
+ 341              		.loc 1 118 51 is_stmt 0 view .LVU109
+ 342 0140 94ED067A 		vldr.32	s14, [r4, #24]
+ 118:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gx -= MPU6050_IMU->Offset.Gx;
+ 343              		.loc 1 118 29 view .LVU110
+ 344 0144 77EEC77A 		vsub.f32	s15, s15, s14
+ 345 0148 C4ED0C7A 		vstr.32	s15, [r4, #48]
+ 119:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gy -= MPU6050_IMU->Offset.Gy;
+ 346              		.loc 1 119 3 is_stmt 1 view .LVU111
+ 119:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gy -= MPU6050_IMU->Offset.Gy;
+ 347              		.loc 1 119 51 is_stmt 0 view .LVU112
+ 348 014c D4ED077A 		vldr.32	s15, [r4, #28]
+ 119:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gy -= MPU6050_IMU->Offset.Gy;
+ 349              		.loc 1 119 29 view .LVU113
+ 350 0150 34EE674A 		vsub.f32	s8, s8, s15
+ 351 0154 84ED0D4A 		vstr.32	s8, [r4, #52]
+ 120:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gz -= MPU6050_IMU->Offset.Gz;
+ 352              		.loc 1 120 3 is_stmt 1 view .LVU114
+ 120:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gz -= MPU6050_IMU->Offset.Gz;
+ 353              		.loc 1 120 51 is_stmt 0 view .LVU115
+ 354 0158 D4ED087A 		vldr.32	s15, [r4, #32]
+ 120:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Calc_Data.Gz -= MPU6050_IMU->Offset.Gz;
+ 355              		.loc 1 120 29 view .LVU116
+ 356 015c 74EEE74A 		vsub.f32	s9, s9, s15
+ 357 0160 C4ED0E4A 		vstr.32	s9, [r4, #56]
+ 121:Devices/Devices.c/MPU6050_IMU.c **** 	}
+ 358              		.loc 1 121 3 is_stmt 1 view .LVU117
+ 121:Devices/Devices.c/MPU6050_IMU.c **** 	}
+ 359              		.loc 1 121 51 is_stmt 0 view .LVU118
+ 360 0164 D4ED097A 		vldr.32	s15, [r4, #36]
+ 121:Devices/Devices.c/MPU6050_IMU.c **** 	}
+ 361              		.loc 1 121 29 view .LVU119
+ 362 0168 35EE675A 		vsub.f32	s10, s10, s15
+ 363 016c 84ED0F5A 		vstr.32	s10, [r4, #60]
+ 364              		.loc 1 123 1 view .LVU120
+ 365 0170 D9E7     		b	.L8
+ 366              	.L13:
+ 367 0172 00BF     		.align	2
+ 368              	.L12:
+ 369 0174 00007A44 		.word	1148846080
+ 370 0178 00000000 		.word	Buffer
+ 371 017c 00008038 		.word	947912704
+ 372 0180 00000343 		.word	1124270080
+ 373 0184 0000AA43 		.word	1135214592
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 10
+
+
+ 374 0188 B81E1242 		.word	1108483768
+ 375              		.cfi_endproc
+ 376              	.LFE164:
+ 378              		.section	.text.MPU6050_IMU_Calibrate,"ax",%progbits
+ 379              		.align	1
+ 380              		.global	MPU6050_IMU_Calibrate
+ 381              		.syntax unified
+ 382              		.thumb
+ 383              		.thumb_func
+ 385              	MPU6050_IMU_Calibrate:
+ 386              	.LVL10:
+ 387              	.LFB163:
+  58:Devices/Devices.c/MPU6050_IMU.c **** 	if(MPU6050_IMU->Calibrated_Flag == 0)
+ 388              		.loc 1 58 1 is_stmt 1 view -0
+ 389              		.cfi_startproc
+ 390              		@ args = 0, pretend = 0, frame = 24
+ 391              		@ frame_needed = 0, uses_anonymous_args = 0
+  59:Devices/Devices.c/MPU6050_IMU.c **** 	{
+ 392              		.loc 1 59 2 view .LVU122
+  59:Devices/Devices.c/MPU6050_IMU.c **** 	{
+ 393              		.loc 1 59 16 is_stmt 0 view .LVU123
+ 394 0000 90F87830 		ldrb	r3, [r0, #120]	@ zero_extendqisi2
+  59:Devices/Devices.c/MPU6050_IMU.c **** 	{
+ 395              		.loc 1 59 4 view .LVU124
+ 396 0004 002B     		cmp	r3, #0
+ 397 0006 69D0     		beq	.L18
+ 398 0008 7047     		bx	lr
+ 399              	.LVL11:
+ 400              	.L17:
+ 401              	.LCFI5:
+ 402              		.cfi_def_cfa_offset 40
+ 403              		.cfi_offset 4, -12
+ 404              		.cfi_offset 5, -8
+ 405              		.cfi_offset 14, -4
+ 406              	.LBB8:
+ 407              	.LBB9:
+  65:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[0] += MPU6050_IMU->Calc_Data.Ax;
+ 408              		.loc 1 65 4 is_stmt 1 discriminator 3 view .LVU125
+ 409 000a 2046     		mov	r0, r4
+ 410 000c FFF7FEFF 		bl	MPU6050_IMU_Read_Data
+ 411              	.LVL12:
+  66:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[1] += MPU6050_IMU->Calc_Data.Ay;
+ 412              		.loc 1 66 4 discriminator 3 view .LVU126
+  66:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[1] += MPU6050_IMU->Calc_Data.Ay;
+ 413              		.loc 1 66 39 is_stmt 0 discriminator 3 view .LVU127
+ 414 0010 94ED0A7A 		vldr.32	s14, [r4, #40]
+  66:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[1] += MPU6050_IMU->Calc_Data.Ay;
+ 415              		.loc 1 66 14 discriminator 3 view .LVU128
+ 416 0014 DDED007A 		vldr.32	s15, [sp]
+ 417 0018 77EE877A 		vadd.f32	s15, s15, s14
+ 418 001c CDED007A 		vstr.32	s15, [sp]
+  67:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[2] += MPU6050_IMU->Calc_Data.Az;
+ 419              		.loc 1 67 4 is_stmt 1 discriminator 3 view .LVU129
+  67:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[2] += MPU6050_IMU->Calc_Data.Az;
+ 420              		.loc 1 67 39 is_stmt 0 discriminator 3 view .LVU130
+ 421 0020 94ED0B7A 		vldr.32	s14, [r4, #44]
+  67:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[2] += MPU6050_IMU->Calc_Data.Az;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 11
+
+
+ 422              		.loc 1 67 14 discriminator 3 view .LVU131
+ 423 0024 DDED017A 		vldr.32	s15, [sp, #4]
+ 424 0028 77EE877A 		vadd.f32	s15, s15, s14
+ 425 002c CDED017A 		vstr.32	s15, [sp, #4]
+  68:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[3] += MPU6050_IMU->Calc_Data.Gx;
+ 426              		.loc 1 68 4 is_stmt 1 discriminator 3 view .LVU132
+  68:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[3] += MPU6050_IMU->Calc_Data.Gx;
+ 427              		.loc 1 68 39 is_stmt 0 discriminator 3 view .LVU133
+ 428 0030 94ED0C7A 		vldr.32	s14, [r4, #48]
+  68:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[3] += MPU6050_IMU->Calc_Data.Gx;
+ 429              		.loc 1 68 14 discriminator 3 view .LVU134
+ 430 0034 DDED027A 		vldr.32	s15, [sp, #8]
+ 431 0038 77EE877A 		vadd.f32	s15, s15, s14
+ 432 003c CDED027A 		vstr.32	s15, [sp, #8]
+  69:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[4] += MPU6050_IMU->Calc_Data.Gy;
+ 433              		.loc 1 69 4 is_stmt 1 discriminator 3 view .LVU135
+  69:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[4] += MPU6050_IMU->Calc_Data.Gy;
+ 434              		.loc 1 69 39 is_stmt 0 discriminator 3 view .LVU136
+ 435 0040 94ED0D7A 		vldr.32	s14, [r4, #52]
+  69:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[4] += MPU6050_IMU->Calc_Data.Gy;
+ 436              		.loc 1 69 14 discriminator 3 view .LVU137
+ 437 0044 DDED037A 		vldr.32	s15, [sp, #12]
+ 438 0048 77EE877A 		vadd.f32	s15, s15, s14
+ 439 004c CDED037A 		vstr.32	s15, [sp, #12]
+  70:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[5] += MPU6050_IMU->Calc_Data.Gz;
+ 440              		.loc 1 70 4 is_stmt 1 discriminator 3 view .LVU138
+  70:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[5] += MPU6050_IMU->Calc_Data.Gz;
+ 441              		.loc 1 70 39 is_stmt 0 discriminator 3 view .LVU139
+ 442 0050 94ED0E7A 		vldr.32	s14, [r4, #56]
+  70:Devices/Devices.c/MPU6050_IMU.c **** 			Buffer[5] += MPU6050_IMU->Calc_Data.Gz;
+ 443              		.loc 1 70 14 discriminator 3 view .LVU140
+ 444 0054 DDED047A 		vldr.32	s15, [sp, #16]
+ 445 0058 77EE877A 		vadd.f32	s15, s15, s14
+ 446 005c CDED047A 		vstr.32	s15, [sp, #16]
+  71:Devices/Devices.c/MPU6050_IMU.c **** 			HAL_Delay(1);
+ 447              		.loc 1 71 4 is_stmt 1 discriminator 3 view .LVU141
+  71:Devices/Devices.c/MPU6050_IMU.c **** 			HAL_Delay(1);
+ 448              		.loc 1 71 39 is_stmt 0 discriminator 3 view .LVU142
+ 449 0060 94ED0F7A 		vldr.32	s14, [r4, #60]
+  71:Devices/Devices.c/MPU6050_IMU.c **** 			HAL_Delay(1);
+ 450              		.loc 1 71 14 discriminator 3 view .LVU143
+ 451 0064 DDED057A 		vldr.32	s15, [sp, #20]
+ 452 0068 77EE877A 		vadd.f32	s15, s15, s14
+ 453 006c CDED057A 		vstr.32	s15, [sp, #20]
+  72:Devices/Devices.c/MPU6050_IMU.c **** 		}
+ 454              		.loc 1 72 4 is_stmt 1 discriminator 3 view .LVU144
+ 455 0070 0120     		movs	r0, #1
+ 456 0072 FFF7FEFF 		bl	HAL_Delay
+ 457              	.LVL13:
+  63:Devices/Devices.c/MPU6050_IMU.c **** 		{
+ 458              		.loc 1 63 43 discriminator 3 view .LVU145
+ 459 0076 0135     		adds	r5, r5, #1
+ 460              	.LVL14:
+ 461              	.L15:
+  63:Devices/Devices.c/MPU6050_IMU.c **** 		{
+ 462              		.loc 1 63 20 discriminator 1 view .LVU146
+ 463 0078 B5F57A7F 		cmp	r5, #1000
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 12
+
+
+ 464 007c C5DB     		blt	.L17
+ 465              	.LBE9:
+  75:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+ 466              		.loc 1 75 3 view .LVU147
+  75:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+ 467              		.loc 1 75 38 is_stmt 0 view .LVU148
+ 468 007e DFED1A7A 		vldr.32	s15, .L22
+ 469 0082 DDED006A 		vldr.32	s13, [sp]
+ 470 0086 86EEA77A 		vdiv.f32	s14, s13, s15
+  75:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+ 471              		.loc 1 75 26 view .LVU149
+ 472 008a 84ED047A 		vstr.32	s14, [r4, #16]
+  76:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 473              		.loc 1 76 3 is_stmt 1 view .LVU150
+  76:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 474              		.loc 1 76 34 is_stmt 0 view .LVU151
+ 475 008e DDED016A 		vldr.32	s13, [sp, #4]
+  76:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 476              		.loc 1 76 38 view .LVU152
+ 477 0092 86EEA77A 		vdiv.f32	s14, s13, s15
+  76:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 478              		.loc 1 76 26 view .LVU153
+ 479 0096 84ED057A 		vstr.32	s14, [r4, #20]
+  77:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 480              		.loc 1 77 3 is_stmt 1 view .LVU154
+  77:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 481              		.loc 1 77 34 is_stmt 0 view .LVU155
+ 482 009a DDED026A 		vldr.32	s13, [sp, #8]
+  77:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 483              		.loc 1 77 38 view .LVU156
+ 484 009e 86EEA77A 		vdiv.f32	s14, s13, s15
+  77:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 485              		.loc 1 77 59 view .LVU157
+ 486 00a2 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 487 00a6 37EE667A 		vsub.f32	s14, s14, s13
+  77:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 488              		.loc 1 77 26 view .LVU158
+ 489 00aa 84ED067A 		vstr.32	s14, [r4, #24]
+  78:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 490              		.loc 1 78 3 is_stmt 1 view .LVU159
+  78:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 491              		.loc 1 78 34 is_stmt 0 view .LVU160
+ 492 00ae DDED036A 		vldr.32	s13, [sp, #12]
+  78:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 493              		.loc 1 78 38 view .LVU161
+ 494 00b2 86EEA77A 		vdiv.f32	s14, s13, s15
+  78:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 495              		.loc 1 78 26 view .LVU162
+ 496 00b6 84ED077A 		vstr.32	s14, [r4, #28]
+  79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 497              		.loc 1 79 3 is_stmt 1 view .LVU163
+  79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 498              		.loc 1 79 34 is_stmt 0 view .LVU164
+ 499 00ba DDED046A 		vldr.32	s13, [sp, #16]
+  79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 500              		.loc 1 79 38 view .LVU165
+ 501 00be 86EEA77A 		vdiv.f32	s14, s13, s15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 13
+
+
+  79:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 502              		.loc 1 79 26 view .LVU166
+ 503 00c2 84ED087A 		vstr.32	s14, [r4, #32]
+  80:Devices/Devices.c/MPU6050_IMU.c **** 		
+ 504              		.loc 1 80 3 is_stmt 1 view .LVU167
+  80:Devices/Devices.c/MPU6050_IMU.c **** 		
+ 505              		.loc 1 80 34 is_stmt 0 view .LVU168
+ 506 00c6 DDED056A 		vldr.32	s13, [sp, #20]
+  80:Devices/Devices.c/MPU6050_IMU.c **** 		
+ 507              		.loc 1 80 38 view .LVU169
+ 508 00ca 86EEA77A 		vdiv.f32	s14, s13, s15
+  80:Devices/Devices.c/MPU6050_IMU.c **** 		
+ 509              		.loc 1 80 26 view .LVU170
+ 510 00ce 84ED097A 		vstr.32	s14, [r4, #36]
+  82:Devices/Devices.c/MPU6050_IMU.c **** 	}
+ 511              		.loc 1 82 3 is_stmt 1 view .LVU171
+  82:Devices/Devices.c/MPU6050_IMU.c **** 	}
+ 512              		.loc 1 82 32 is_stmt 0 view .LVU172
+ 513 00d2 0123     		movs	r3, #1
+ 514 00d4 84F87830 		strb	r3, [r4, #120]
+ 515              	.LBE8:
+  86:Devices/Devices.c/MPU6050_IMU.c **** 		
+ 516              		.loc 1 86 1 view .LVU173
+ 517 00d8 07B0     		add	sp, sp, #28
+ 518              	.LCFI6:
+ 519              		.cfi_def_cfa_offset 12
+ 520              		@ sp needed
+ 521 00da 30BD     		pop	{r4, r5, pc}
+ 522              	.LVL15:
+ 523              	.L18:
+ 524              	.LCFI7:
+ 525              		.cfi_def_cfa_offset 0
+ 526              		.cfi_restore 4
+ 527              		.cfi_restore 5
+ 528              		.cfi_restore 14
+  58:Devices/Devices.c/MPU6050_IMU.c **** 	if(MPU6050_IMU->Calibrated_Flag == 0)
+ 529              		.loc 1 58 1 view .LVU174
+ 530 00dc 30B5     		push	{r4, r5, lr}
+ 531              	.LCFI8:
+ 532              		.cfi_def_cfa_offset 12
+ 533              		.cfi_offset 4, -12
+ 534              		.cfi_offset 5, -8
+ 535              		.cfi_offset 14, -4
+ 536 00de 87B0     		sub	sp, sp, #28
+ 537              	.LCFI9:
+ 538              		.cfi_def_cfa_offset 40
+ 539 00e0 0446     		mov	r4, r0
+ 540              	.LBB11:
+ 541              	.LBB10:
+  63:Devices/Devices.c/MPU6050_IMU.c **** 		{
+ 542              		.loc 1 63 11 view .LVU175
+ 543 00e2 0025     		movs	r5, #0
+ 544 00e4 C8E7     		b	.L15
+ 545              	.L23:
+ 546 00e6 00BF     		.align	2
+ 547              	.L22:
+ 548 00e8 00007A44 		.word	1148846080
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 14
+
+
+ 549              	.LBE10:
+ 550              	.LBE11:
+ 551              		.cfi_endproc
+ 552              	.LFE163:
+ 554              		.section	.text.FusionAsin,"ax",%progbits
+ 555              		.align	1
+ 556              		.syntax unified
+ 557              		.thumb
+ 558              		.thumb_func
+ 560              	FusionAsin:
+ 561              	.LVL16:
+ 562              	.LFB140:
+ 563              		.file 2 "BSP/BSP.h/FusionMath.h"
+   1:BSP/BSP.h/FusionMath.h **** /**
+   2:BSP/BSP.h/FusionMath.h ****  * @file FusionMath.h
+   3:BSP/BSP.h/FusionMath.h ****  * @author Seb Madgwick
+   4:BSP/BSP.h/FusionMath.h ****  * @brief Math library.
+   5:BSP/BSP.h/FusionMath.h ****  */
+   6:BSP/BSP.h/FusionMath.h **** 
+   7:BSP/BSP.h/FusionMath.h **** #ifndef FUSION_MATH_H
+   8:BSP/BSP.h/FusionMath.h **** #define FUSION_MATH_H
+   9:BSP/BSP.h/FusionMath.h **** 
+  10:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+  11:BSP/BSP.h/FusionMath.h **** // Includes
+  12:BSP/BSP.h/FusionMath.h **** 
+  13:BSP/BSP.h/FusionMath.h **** #include <math.h> // M_PI, sqrtf, atan2f, asinf
+  14:BSP/BSP.h/FusionMath.h **** #include <stdbool.h>
+  15:BSP/BSP.h/FusionMath.h **** #include <stdint.h>
+  16:BSP/BSP.h/FusionMath.h **** 
+  17:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+  18:BSP/BSP.h/FusionMath.h **** // Definitions
+  19:BSP/BSP.h/FusionMath.h **** 
+  20:BSP/BSP.h/FusionMath.h **** /**
+  21:BSP/BSP.h/FusionMath.h ****  * @brief 3D vector.
+  22:BSP/BSP.h/FusionMath.h ****  */
+  23:BSP/BSP.h/FusionMath.h **** typedef union {
+  24:BSP/BSP.h/FusionMath.h ****     float array[3];
+  25:BSP/BSP.h/FusionMath.h **** 
+  26:BSP/BSP.h/FusionMath.h ****     struct {
+  27:BSP/BSP.h/FusionMath.h ****         float x;
+  28:BSP/BSP.h/FusionMath.h ****         float y;
+  29:BSP/BSP.h/FusionMath.h ****         float z;
+  30:BSP/BSP.h/FusionMath.h ****     } axis;
+  31:BSP/BSP.h/FusionMath.h **** } FusionVector;
+  32:BSP/BSP.h/FusionMath.h **** 
+  33:BSP/BSP.h/FusionMath.h **** /**
+  34:BSP/BSP.h/FusionMath.h ****  * @brief Quaternion.
+  35:BSP/BSP.h/FusionMath.h ****  */
+  36:BSP/BSP.h/FusionMath.h **** typedef union {
+  37:BSP/BSP.h/FusionMath.h ****     float array[4];
+  38:BSP/BSP.h/FusionMath.h **** 
+  39:BSP/BSP.h/FusionMath.h ****     struct {
+  40:BSP/BSP.h/FusionMath.h ****         float w;
+  41:BSP/BSP.h/FusionMath.h ****         float x;
+  42:BSP/BSP.h/FusionMath.h ****         float y;
+  43:BSP/BSP.h/FusionMath.h ****         float z;
+  44:BSP/BSP.h/FusionMath.h ****     } element;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 15
+
+
+  45:BSP/BSP.h/FusionMath.h **** } FusionQuaternion;
+  46:BSP/BSP.h/FusionMath.h **** 
+  47:BSP/BSP.h/FusionMath.h **** /**
+  48:BSP/BSP.h/FusionMath.h ****  * @brief 3x3 matrix in row-major order.
+  49:BSP/BSP.h/FusionMath.h ****  * See http://en.wikipedia.org/wiki/Row-major_order
+  50:BSP/BSP.h/FusionMath.h ****  */
+  51:BSP/BSP.h/FusionMath.h **** typedef union {
+  52:BSP/BSP.h/FusionMath.h ****     float array[3][3];
+  53:BSP/BSP.h/FusionMath.h **** 
+  54:BSP/BSP.h/FusionMath.h ****     struct {
+  55:BSP/BSP.h/FusionMath.h ****         float xx;
+  56:BSP/BSP.h/FusionMath.h ****         float xy;
+  57:BSP/BSP.h/FusionMath.h ****         float xz;
+  58:BSP/BSP.h/FusionMath.h ****         float yx;
+  59:BSP/BSP.h/FusionMath.h ****         float yy;
+  60:BSP/BSP.h/FusionMath.h ****         float yz;
+  61:BSP/BSP.h/FusionMath.h ****         float zx;
+  62:BSP/BSP.h/FusionMath.h ****         float zy;
+  63:BSP/BSP.h/FusionMath.h ****         float zz;
+  64:BSP/BSP.h/FusionMath.h ****     } element;
+  65:BSP/BSP.h/FusionMath.h **** } FusionMatrix;
+  66:BSP/BSP.h/FusionMath.h **** 
+  67:BSP/BSP.h/FusionMath.h **** /**
+  68:BSP/BSP.h/FusionMath.h ****  * @brief Euler angles.  Roll, pitch, and yaw correspond to rotations around
+  69:BSP/BSP.h/FusionMath.h ****  * X, Y, and Z respectively.
+  70:BSP/BSP.h/FusionMath.h ****  */
+  71:BSP/BSP.h/FusionMath.h **** typedef union {
+  72:BSP/BSP.h/FusionMath.h ****     float array[3];
+  73:BSP/BSP.h/FusionMath.h **** 
+  74:BSP/BSP.h/FusionMath.h ****     struct {
+  75:BSP/BSP.h/FusionMath.h ****         float roll;
+  76:BSP/BSP.h/FusionMath.h ****         float pitch;
+  77:BSP/BSP.h/FusionMath.h ****         float yaw;
+  78:BSP/BSP.h/FusionMath.h ****     } angle;
+  79:BSP/BSP.h/FusionMath.h **** } FusionEuler;
+  80:BSP/BSP.h/FusionMath.h **** 
+  81:BSP/BSP.h/FusionMath.h **** /**
+  82:BSP/BSP.h/FusionMath.h ****  * @brief Vector of zeros.
+  83:BSP/BSP.h/FusionMath.h ****  */
+  84:BSP/BSP.h/FusionMath.h **** #define FUSION_VECTOR_ZERO ((FusionVector){ .array = {0.0f, 0.0f, 0.0f} })
+  85:BSP/BSP.h/FusionMath.h **** 
+  86:BSP/BSP.h/FusionMath.h **** /**
+  87:BSP/BSP.h/FusionMath.h ****  * @brief Vector of ones.
+  88:BSP/BSP.h/FusionMath.h ****  */
+  89:BSP/BSP.h/FusionMath.h **** #define FUSION_VECTOR_ONES ((FusionVector){ .array = {1.0f, 1.0f, 1.0f} })
+  90:BSP/BSP.h/FusionMath.h **** 
+  91:BSP/BSP.h/FusionMath.h **** /**
+  92:BSP/BSP.h/FusionMath.h ****  * @brief Identity quaternion.
+  93:BSP/BSP.h/FusionMath.h ****  */
+  94:BSP/BSP.h/FusionMath.h **** #define FUSION_IDENTITY_QUATERNION ((FusionQuaternion){ .array = {1.0f, 0.0f, 0.0f, 0.0f} })
+  95:BSP/BSP.h/FusionMath.h **** 
+  96:BSP/BSP.h/FusionMath.h **** /**
+  97:BSP/BSP.h/FusionMath.h ****  * @brief Identity matrix.
+  98:BSP/BSP.h/FusionMath.h ****  */
+  99:BSP/BSP.h/FusionMath.h **** #define FUSION_IDENTITY_MATRIX ((FusionMatrix){ .array = {{1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {
+ 100:BSP/BSP.h/FusionMath.h **** 
+ 101:BSP/BSP.h/FusionMath.h **** /**
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 16
+
+
+ 102:BSP/BSP.h/FusionMath.h ****  * @brief Euler angles of zero.
+ 103:BSP/BSP.h/FusionMath.h ****  */
+ 104:BSP/BSP.h/FusionMath.h **** #define FUSION_EULER_ZERO ((FusionEuler){ .array = {0.0f, 0.0f, 0.0f} })
+ 105:BSP/BSP.h/FusionMath.h **** 
+ 106:BSP/BSP.h/FusionMath.h **** /**
+ 107:BSP/BSP.h/FusionMath.h ****  * @brief Pi. May not be defined in math.h.
+ 108:BSP/BSP.h/FusionMath.h ****  */
+ 109:BSP/BSP.h/FusionMath.h **** #ifndef M_PI
+ 110:BSP/BSP.h/FusionMath.h **** #define M_PI (3.14159265358979323846)
+ 111:BSP/BSP.h/FusionMath.h **** #endif
+ 112:BSP/BSP.h/FusionMath.h **** 
+ 113:BSP/BSP.h/FusionMath.h **** /**
+ 114:BSP/BSP.h/FusionMath.h ****  * @brief Include this definition or add as a preprocessor definition to use
+ 115:BSP/BSP.h/FusionMath.h ****  * normal square root operations.
+ 116:BSP/BSP.h/FusionMath.h ****  */
+ 117:BSP/BSP.h/FusionMath.h **** //#define FUSION_USE_NORMAL_SQRT
+ 118:BSP/BSP.h/FusionMath.h **** 
+ 119:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 120:BSP/BSP.h/FusionMath.h **** // Inline functions - Degrees and radians conversion
+ 121:BSP/BSP.h/FusionMath.h **** 
+ 122:BSP/BSP.h/FusionMath.h **** /**
+ 123:BSP/BSP.h/FusionMath.h ****  * @brief Converts degrees to radians.
+ 124:BSP/BSP.h/FusionMath.h ****  * @param degrees Degrees.
+ 125:BSP/BSP.h/FusionMath.h ****  * @return Radians.
+ 126:BSP/BSP.h/FusionMath.h ****  */
+ 127:BSP/BSP.h/FusionMath.h **** static inline float FusionDegreesToRadians(const float degrees) {
+ 128:BSP/BSP.h/FusionMath.h ****     return degrees * ((float) M_PI / 180.0f);
+ 129:BSP/BSP.h/FusionMath.h **** }
+ 130:BSP/BSP.h/FusionMath.h **** 
+ 131:BSP/BSP.h/FusionMath.h **** /**
+ 132:BSP/BSP.h/FusionMath.h ****  * @brief Converts radians to degrees.
+ 133:BSP/BSP.h/FusionMath.h ****  * @param radians Radians.
+ 134:BSP/BSP.h/FusionMath.h ****  * @return Degrees.
+ 135:BSP/BSP.h/FusionMath.h ****  */
+ 136:BSP/BSP.h/FusionMath.h **** static inline float FusionRadiansToDegrees(const float radians) {
+ 137:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 138:BSP/BSP.h/FusionMath.h **** }
+ 139:BSP/BSP.h/FusionMath.h **** 
+ 140:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 141:BSP/BSP.h/FusionMath.h **** // Inline functions - Arc sine
+ 142:BSP/BSP.h/FusionMath.h **** 
+ 143:BSP/BSP.h/FusionMath.h **** /**
+ 144:BSP/BSP.h/FusionMath.h ****  * @brief Returns the arc sine of the value.
+ 145:BSP/BSP.h/FusionMath.h ****  * @param value Value.
+ 146:BSP/BSP.h/FusionMath.h ****  * @return Arc sine of the value.
+ 147:BSP/BSP.h/FusionMath.h ****  */
+ 148:BSP/BSP.h/FusionMath.h **** static inline float FusionAsin(const float value) {
+ 564              		.loc 2 148 51 is_stmt 1 view -0
+ 565              		.cfi_startproc
+ 566              		@ args = 0, pretend = 0, frame = 0
+ 567              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149:BSP/BSP.h/FusionMath.h ****     if (value <= -1.0f) {
+ 568              		.loc 2 149 5 view .LVU177
+ 569              		.loc 2 149 8 is_stmt 0 view .LVU178
+ 570 0000 FFEE007A 		vmov.f32	s15, #-1.0e+0
+ 571 0004 B4EEE70A 		vcmpe.f32	s0, s15
+ 572 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 17
+
+
+ 573 000c 0DD9     		bls	.L26
+ 150:BSP/BSP.h/FusionMath.h ****         return (float) M_PI / -2.0f;
+ 151:BSP/BSP.h/FusionMath.h ****     }
+ 152:BSP/BSP.h/FusionMath.h ****     if (value >= 1.0f) {
+ 574              		.loc 2 152 5 is_stmt 1 view .LVU179
+ 575              		.loc 2 152 8 is_stmt 0 view .LVU180
+ 576 000e F7EE007A 		vmov.f32	s15, #1.0e+0
+ 577 0012 B4EEE70A 		vcmpe.f32	s0, s15
+ 578 0016 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 579 001a 02DB     		blt	.L32
+ 153:BSP/BSP.h/FusionMath.h ****         return (float) M_PI / 2.0f;
+ 580              		.loc 2 153 29 view .LVU181
+ 581 001c 9FED040A 		vldr.32	s0, .L33
+ 582              	.LVL17:
+ 154:BSP/BSP.h/FusionMath.h ****     }
+ 155:BSP/BSP.h/FusionMath.h ****     return asinf(value);
+ 156:BSP/BSP.h/FusionMath.h **** }
+ 583              		.loc 2 156 1 view .LVU182
+ 584 0020 7047     		bx	lr
+ 585              	.LVL18:
+ 586              	.L32:
+ 148:BSP/BSP.h/FusionMath.h ****     if (value <= -1.0f) {
+ 587              		.loc 2 148 51 view .LVU183
+ 588 0022 08B5     		push	{r3, lr}
+ 589              	.LCFI10:
+ 590              		.cfi_def_cfa_offset 8
+ 591              		.cfi_offset 3, -8
+ 592              		.cfi_offset 14, -4
+ 155:BSP/BSP.h/FusionMath.h **** }
+ 593              		.loc 2 155 5 is_stmt 1 view .LVU184
+ 155:BSP/BSP.h/FusionMath.h **** }
+ 594              		.loc 2 155 12 is_stmt 0 view .LVU185
+ 595 0024 FFF7FEFF 		bl	asinf
+ 596              	.LVL19:
+ 597              		.loc 2 156 1 view .LVU186
+ 598 0028 08BD     		pop	{r3, pc}
+ 599              	.LVL20:
+ 600              	.L26:
+ 601              	.LCFI11:
+ 602              		.cfi_def_cfa_offset 0
+ 603              		.cfi_restore 3
+ 604              		.cfi_restore 14
+ 150:BSP/BSP.h/FusionMath.h ****     }
+ 605              		.loc 2 150 29 view .LVU187
+ 606 002a 9FED020A 		vldr.32	s0, .L33+4
+ 607              	.LVL21:
+ 150:BSP/BSP.h/FusionMath.h ****     }
+ 608              		.loc 2 150 29 view .LVU188
+ 609 002e 7047     		bx	lr
+ 610              	.L34:
+ 611              		.align	2
+ 612              	.L33:
+ 613 0030 DB0FC93F 		.word	1070141403
+ 614 0034 DB0FC9BF 		.word	-1077342245
+ 615              		.cfi_endproc
+ 616              	.LFE140:
+ 618              		.section	.text.FusionQuaternionToEuler,"ax",%progbits
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 18
+
+
+ 619              		.align	1
+ 620              		.syntax unified
+ 621              		.thumb
+ 622              		.thumb_func
+ 624              	FusionQuaternionToEuler:
+ 625              	.LFB158:
+ 157:BSP/BSP.h/FusionMath.h **** 
+ 158:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 159:BSP/BSP.h/FusionMath.h **** // Inline functions - Fast inverse square root
+ 160:BSP/BSP.h/FusionMath.h **** 
+ 161:BSP/BSP.h/FusionMath.h **** #ifndef FUSION_USE_NORMAL_SQRT
+ 162:BSP/BSP.h/FusionMath.h **** 
+ 163:BSP/BSP.h/FusionMath.h **** /**
+ 164:BSP/BSP.h/FusionMath.h ****  * @brief Calculates the reciprocal of the square root.
+ 165:BSP/BSP.h/FusionMath.h ****  * See https://pizer.wordpress.com/2008/10/12/fast-inverse-square-root/
+ 166:BSP/BSP.h/FusionMath.h ****  * @param x Operand.
+ 167:BSP/BSP.h/FusionMath.h ****  * @return Reciprocal of the square root of x.
+ 168:BSP/BSP.h/FusionMath.h ****  */
+ 169:BSP/BSP.h/FusionMath.h **** static inline float FusionFastInverseSqrt(const float x) {
+ 170:BSP/BSP.h/FusionMath.h **** 
+ 171:BSP/BSP.h/FusionMath.h ****     typedef union {
+ 172:BSP/BSP.h/FusionMath.h ****         float f;
+ 173:BSP/BSP.h/FusionMath.h ****         int32_t i;
+ 174:BSP/BSP.h/FusionMath.h ****     } Union32;
+ 175:BSP/BSP.h/FusionMath.h **** 
+ 176:BSP/BSP.h/FusionMath.h ****     Union32 union32 = {.f = x};
+ 177:BSP/BSP.h/FusionMath.h ****     union32.i = 0x5F1F1412 - (union32.i >> 1);
+ 178:BSP/BSP.h/FusionMath.h ****     return union32.f * (1.69000231f - 0.714158168f * x * union32.f * union32.f);
+ 179:BSP/BSP.h/FusionMath.h **** }
+ 180:BSP/BSP.h/FusionMath.h **** 
+ 181:BSP/BSP.h/FusionMath.h **** #endif
+ 182:BSP/BSP.h/FusionMath.h **** 
+ 183:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 184:BSP/BSP.h/FusionMath.h **** // Inline functions - Vector operations
+ 185:BSP/BSP.h/FusionMath.h **** 
+ 186:BSP/BSP.h/FusionMath.h **** /**
+ 187:BSP/BSP.h/FusionMath.h ****  * @brief Returns true if the vector is zero.
+ 188:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 189:BSP/BSP.h/FusionMath.h ****  * @return True if the vector is zero.
+ 190:BSP/BSP.h/FusionMath.h ****  */
+ 191:BSP/BSP.h/FusionMath.h **** static inline bool FusionVectorIsZero(const FusionVector vector) {
+ 192:BSP/BSP.h/FusionMath.h ****     return (vector.axis.x == 0.0f) && (vector.axis.y == 0.0f) && (vector.axis.z == 0.0f);
+ 193:BSP/BSP.h/FusionMath.h **** }
+ 194:BSP/BSP.h/FusionMath.h **** 
+ 195:BSP/BSP.h/FusionMath.h **** /**
+ 196:BSP/BSP.h/FusionMath.h ****  * @brief Returns the sum of two vectors.
+ 197:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 198:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 199:BSP/BSP.h/FusionMath.h ****  * @return Sum of two vectors.
+ 200:BSP/BSP.h/FusionMath.h ****  */
+ 201:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorAdd(const FusionVector vectorA, const FusionVector vectorB) 
+ 202:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 203:BSP/BSP.h/FusionMath.h ****     result.axis.x = vectorA.axis.x + vectorB.axis.x;
+ 204:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y + vectorB.axis.y;
+ 205:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z + vectorB.axis.z;
+ 206:BSP/BSP.h/FusionMath.h ****     return result;
+ 207:BSP/BSP.h/FusionMath.h **** }
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 19
+
+
+ 208:BSP/BSP.h/FusionMath.h **** 
+ 209:BSP/BSP.h/FusionMath.h **** /**
+ 210:BSP/BSP.h/FusionMath.h ****  * @brief Returns vector B subtracted from vector A.
+ 211:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 212:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 213:BSP/BSP.h/FusionMath.h ****  * @return Vector B subtracted from vector A.
+ 214:BSP/BSP.h/FusionMath.h ****  */
+ 215:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorSubtract(const FusionVector vectorA, const FusionVector vect
+ 216:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 217:BSP/BSP.h/FusionMath.h ****     result.axis.x = vectorA.axis.x - vectorB.axis.x;
+ 218:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y - vectorB.axis.y;
+ 219:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z - vectorB.axis.z;
+ 220:BSP/BSP.h/FusionMath.h ****     return result;
+ 221:BSP/BSP.h/FusionMath.h **** }
+ 222:BSP/BSP.h/FusionMath.h **** 
+ 223:BSP/BSP.h/FusionMath.h **** /**
+ 224:BSP/BSP.h/FusionMath.h ****  * @brief Returns the sum of the elements.
+ 225:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 226:BSP/BSP.h/FusionMath.h ****  * @return Sum of the elements.
+ 227:BSP/BSP.h/FusionMath.h ****  */
+ 228:BSP/BSP.h/FusionMath.h **** static inline float FusionVectorSum(const FusionVector vector) {
+ 229:BSP/BSP.h/FusionMath.h ****     return vector.axis.x + vector.axis.y + vector.axis.z;
+ 230:BSP/BSP.h/FusionMath.h **** }
+ 231:BSP/BSP.h/FusionMath.h **** 
+ 232:BSP/BSP.h/FusionMath.h **** /**
+ 233:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of a vector by a scalar.
+ 234:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 235:BSP/BSP.h/FusionMath.h ****  * @param scalar Scalar.
+ 236:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of a vector by a scalar.
+ 237:BSP/BSP.h/FusionMath.h ****  */
+ 238:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorMultiplyScalar(const FusionVector vector, const float scalar
+ 239:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 240:BSP/BSP.h/FusionMath.h ****     result.axis.x = vector.axis.x * scalar;
+ 241:BSP/BSP.h/FusionMath.h ****     result.axis.y = vector.axis.y * scalar;
+ 242:BSP/BSP.h/FusionMath.h ****     result.axis.z = vector.axis.z * scalar;
+ 243:BSP/BSP.h/FusionMath.h ****     return result;
+ 244:BSP/BSP.h/FusionMath.h **** }
+ 245:BSP/BSP.h/FusionMath.h **** 
+ 246:BSP/BSP.h/FusionMath.h **** /**
+ 247:BSP/BSP.h/FusionMath.h ****  * @brief Calculates the Hadamard product (element-wise multiplication).
+ 248:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 249:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 250:BSP/BSP.h/FusionMath.h ****  * @return Hadamard product.
+ 251:BSP/BSP.h/FusionMath.h ****  */
+ 252:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorHadamardProduct(const FusionVector vectorA, const FusionVect
+ 253:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 254:BSP/BSP.h/FusionMath.h ****     result.axis.x = vectorA.axis.x * vectorB.axis.x;
+ 255:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y * vectorB.axis.y;
+ 256:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z * vectorB.axis.z;
+ 257:BSP/BSP.h/FusionMath.h ****     return result;
+ 258:BSP/BSP.h/FusionMath.h **** }
+ 259:BSP/BSP.h/FusionMath.h **** 
+ 260:BSP/BSP.h/FusionMath.h **** /**
+ 261:BSP/BSP.h/FusionMath.h ****  * @brief Returns the cross product.
+ 262:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 263:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 264:BSP/BSP.h/FusionMath.h ****  * @return Cross product.
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 20
+
+
+ 265:BSP/BSP.h/FusionMath.h ****  */
+ 266:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorCrossProduct(const FusionVector vectorA, const FusionVector 
+ 267:BSP/BSP.h/FusionMath.h **** #define A vectorA.axis
+ 268:BSP/BSP.h/FusionMath.h **** #define B vectorB.axis
+ 269:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 270:BSP/BSP.h/FusionMath.h ****     result.axis.x = A.y * B.z - A.z * B.y;
+ 271:BSP/BSP.h/FusionMath.h ****     result.axis.y = A.z * B.x - A.x * B.z;
+ 272:BSP/BSP.h/FusionMath.h ****     result.axis.z = A.x * B.y - A.y * B.x;
+ 273:BSP/BSP.h/FusionMath.h ****     return result;
+ 274:BSP/BSP.h/FusionMath.h **** #undef A
+ 275:BSP/BSP.h/FusionMath.h **** #undef B
+ 276:BSP/BSP.h/FusionMath.h **** }
+ 277:BSP/BSP.h/FusionMath.h **** 
+ 278:BSP/BSP.h/FusionMath.h **** /**
+ 279:BSP/BSP.h/FusionMath.h ****  * @brief Returns the vector magnitude squared.
+ 280:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 281:BSP/BSP.h/FusionMath.h ****  * @return Vector magnitude squared.
+ 282:BSP/BSP.h/FusionMath.h ****  */
+ 283:BSP/BSP.h/FusionMath.h **** static inline float FusionVectorMagnitudeSquared(const FusionVector vector) {
+ 284:BSP/BSP.h/FusionMath.h ****     return FusionVectorSum(FusionVectorHadamardProduct(vector, vector));
+ 285:BSP/BSP.h/FusionMath.h **** }
+ 286:BSP/BSP.h/FusionMath.h **** 
+ 287:BSP/BSP.h/FusionMath.h **** /**
+ 288:BSP/BSP.h/FusionMath.h ****  * @brief Returns the vector magnitude.
+ 289:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 290:BSP/BSP.h/FusionMath.h ****  * @return Vector magnitude.
+ 291:BSP/BSP.h/FusionMath.h ****  */
+ 292:BSP/BSP.h/FusionMath.h **** static inline float FusionVectorMagnitude(const FusionVector vector) {
+ 293:BSP/BSP.h/FusionMath.h ****     return sqrtf(FusionVectorMagnitudeSquared(vector));
+ 294:BSP/BSP.h/FusionMath.h **** }
+ 295:BSP/BSP.h/FusionMath.h **** 
+ 296:BSP/BSP.h/FusionMath.h **** /**
+ 297:BSP/BSP.h/FusionMath.h ****  * @brief Returns the normalised vector.
+ 298:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 299:BSP/BSP.h/FusionMath.h ****  * @return Normalised vector.
+ 300:BSP/BSP.h/FusionMath.h ****  */
+ 301:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorNormalise(const FusionVector vector) {
+ 302:BSP/BSP.h/FusionMath.h **** #ifdef FUSION_USE_NORMAL_SQRT
+ 303:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = 1.0f / sqrtf(FusionVectorMagnitudeSquared(vector));
+ 304:BSP/BSP.h/FusionMath.h **** #else
+ 305:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = FusionFastInverseSqrt(FusionVectorMagnitudeSquared(vector));
+ 306:BSP/BSP.h/FusionMath.h **** #endif
+ 307:BSP/BSP.h/FusionMath.h ****     return FusionVectorMultiplyScalar(vector, magnitudeReciprocal);
+ 308:BSP/BSP.h/FusionMath.h **** }
+ 309:BSP/BSP.h/FusionMath.h **** 
+ 310:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 311:BSP/BSP.h/FusionMath.h **** // Inline functions - Quaternion operations
+ 312:BSP/BSP.h/FusionMath.h **** 
+ 313:BSP/BSP.h/FusionMath.h **** /**
+ 314:BSP/BSP.h/FusionMath.h ****  * @brief Returns the sum of two quaternions.
+ 315:BSP/BSP.h/FusionMath.h ****  * @param quaternionA Quaternion A.
+ 316:BSP/BSP.h/FusionMath.h ****  * @param quaternionB Quaternion B.
+ 317:BSP/BSP.h/FusionMath.h ****  * @return Sum of two quaternions.
+ 318:BSP/BSP.h/FusionMath.h ****  */
+ 319:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionAdd(const FusionQuaternion quaternionA, const Fusion
+ 320:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
+ 321:BSP/BSP.h/FusionMath.h ****     result.element.w = quaternionA.element.w + quaternionB.element.w;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 21
+
+
+ 322:BSP/BSP.h/FusionMath.h ****     result.element.x = quaternionA.element.x + quaternionB.element.x;
+ 323:BSP/BSP.h/FusionMath.h ****     result.element.y = quaternionA.element.y + quaternionB.element.y;
+ 324:BSP/BSP.h/FusionMath.h ****     result.element.z = quaternionA.element.z + quaternionB.element.z;
+ 325:BSP/BSP.h/FusionMath.h ****     return result;
+ 326:BSP/BSP.h/FusionMath.h **** }
+ 327:BSP/BSP.h/FusionMath.h **** 
+ 328:BSP/BSP.h/FusionMath.h **** /**
+ 329:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of two quaternions.
+ 330:BSP/BSP.h/FusionMath.h ****  * @param quaternionA Quaternion A (to be post-multiplied).
+ 331:BSP/BSP.h/FusionMath.h ****  * @param quaternionB Quaternion B (to be pre-multiplied).
+ 332:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of two quaternions.
+ 333:BSP/BSP.h/FusionMath.h ****  */
+ 334:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionMultiply(const FusionQuaternion quaternionA, const F
+ 335:BSP/BSP.h/FusionMath.h **** #define A quaternionA.element
+ 336:BSP/BSP.h/FusionMath.h **** #define B quaternionB.element
+ 337:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
+ 338:BSP/BSP.h/FusionMath.h ****     result.element.w = A.w * B.w - A.x * B.x - A.y * B.y - A.z * B.z;
+ 339:BSP/BSP.h/FusionMath.h ****     result.element.x = A.w * B.x + A.x * B.w + A.y * B.z - A.z * B.y;
+ 340:BSP/BSP.h/FusionMath.h ****     result.element.y = A.w * B.y - A.x * B.z + A.y * B.w + A.z * B.x;
+ 341:BSP/BSP.h/FusionMath.h ****     result.element.z = A.w * B.z + A.x * B.y - A.y * B.x + A.z * B.w;
+ 342:BSP/BSP.h/FusionMath.h ****     return result;
+ 343:BSP/BSP.h/FusionMath.h **** #undef A
+ 344:BSP/BSP.h/FusionMath.h **** #undef B
+ 345:BSP/BSP.h/FusionMath.h **** }
+ 346:BSP/BSP.h/FusionMath.h **** 
+ 347:BSP/BSP.h/FusionMath.h **** /**
+ 348:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of a quaternion with a vector.  This is a
+ 349:BSP/BSP.h/FusionMath.h ****  * normal quaternion multiplication where the vector is treated a
+ 350:BSP/BSP.h/FusionMath.h ****  * quaternion with a W element value of zero.  The quaternion is post-
+ 351:BSP/BSP.h/FusionMath.h ****  * multiplied by the vector.
+ 352:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 353:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 354:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of a quaternion with a vector.
+ 355:BSP/BSP.h/FusionMath.h ****  */
+ 356:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionMultiplyVector(const FusionQuaternion quaternion, co
+ 357:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ 358:BSP/BSP.h/FusionMath.h **** #define V vector.axis
+ 359:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
+ 360:BSP/BSP.h/FusionMath.h ****     result.element.w = -Q.x * V.x - Q.y * V.y - Q.z * V.z;
+ 361:BSP/BSP.h/FusionMath.h ****     result.element.x = Q.w * V.x + Q.y * V.z - Q.z * V.y;
+ 362:BSP/BSP.h/FusionMath.h ****     result.element.y = Q.w * V.y - Q.x * V.z + Q.z * V.x;
+ 363:BSP/BSP.h/FusionMath.h ****     result.element.z = Q.w * V.z + Q.x * V.y - Q.y * V.x;
+ 364:BSP/BSP.h/FusionMath.h ****     return result;
+ 365:BSP/BSP.h/FusionMath.h **** #undef Q
+ 366:BSP/BSP.h/FusionMath.h **** #undef V
+ 367:BSP/BSP.h/FusionMath.h **** }
+ 368:BSP/BSP.h/FusionMath.h **** 
+ 369:BSP/BSP.h/FusionMath.h **** /**
+ 370:BSP/BSP.h/FusionMath.h ****  * @brief Returns the normalised quaternion.
+ 371:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 372:BSP/BSP.h/FusionMath.h ****  * @return Normalised quaternion.
+ 373:BSP/BSP.h/FusionMath.h ****  */
+ 374:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionNormalise(const FusionQuaternion quaternion) {
+ 375:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ 376:BSP/BSP.h/FusionMath.h **** #ifdef FUSION_USE_NORMAL_SQRT
+ 377:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = 1.0f / sqrtf(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z * Q.z);
+ 378:BSP/BSP.h/FusionMath.h **** #else
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 22
+
+
+ 379:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = FusionFastInverseSqrt(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z
+ 380:BSP/BSP.h/FusionMath.h **** #endif
+ 381:BSP/BSP.h/FusionMath.h ****     FusionQuaternion normalisedQuaternion;
+ 382:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.w = Q.w * magnitudeReciprocal;
+ 383:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.x = Q.x * magnitudeReciprocal;
+ 384:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.y = Q.y * magnitudeReciprocal;
+ 385:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.z = Q.z * magnitudeReciprocal;
+ 386:BSP/BSP.h/FusionMath.h ****     return normalisedQuaternion;
+ 387:BSP/BSP.h/FusionMath.h **** #undef Q
+ 388:BSP/BSP.h/FusionMath.h **** }
+ 389:BSP/BSP.h/FusionMath.h **** 
+ 390:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 391:BSP/BSP.h/FusionMath.h **** // Inline functions - Matrix operations
+ 392:BSP/BSP.h/FusionMath.h **** 
+ 393:BSP/BSP.h/FusionMath.h **** /**
+ 394:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of a matrix with a vector.
+ 395:BSP/BSP.h/FusionMath.h ****  * @param matrix Matrix.
+ 396:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 397:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of a matrix with a vector.
+ 398:BSP/BSP.h/FusionMath.h ****  */
+ 399:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionMatrixMultiplyVector(const FusionMatrix matrix, const FusionVector
+ 400:BSP/BSP.h/FusionMath.h **** #define R matrix.element
+ 401:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 402:BSP/BSP.h/FusionMath.h ****     result.axis.x = R.xx * vector.axis.x + R.xy * vector.axis.y + R.xz * vector.axis.z;
+ 403:BSP/BSP.h/FusionMath.h ****     result.axis.y = R.yx * vector.axis.x + R.yy * vector.axis.y + R.yz * vector.axis.z;
+ 404:BSP/BSP.h/FusionMath.h ****     result.axis.z = R.zx * vector.axis.x + R.zy * vector.axis.y + R.zz * vector.axis.z;
+ 405:BSP/BSP.h/FusionMath.h ****     return result;
+ 406:BSP/BSP.h/FusionMath.h **** #undef R
+ 407:BSP/BSP.h/FusionMath.h **** }
+ 408:BSP/BSP.h/FusionMath.h **** 
+ 409:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 410:BSP/BSP.h/FusionMath.h **** // Inline functions - Conversion operations
+ 411:BSP/BSP.h/FusionMath.h **** 
+ 412:BSP/BSP.h/FusionMath.h **** /**
+ 413:BSP/BSP.h/FusionMath.h ****  * @brief Converts a quaternion to a rotation matrix.
+ 414:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 415:BSP/BSP.h/FusionMath.h ****  * @return Rotation matrix.
+ 416:BSP/BSP.h/FusionMath.h ****  */
+ 417:BSP/BSP.h/FusionMath.h **** static inline FusionMatrix FusionQuaternionToMatrix(const FusionQuaternion quaternion) {
+ 418:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ 419:BSP/BSP.h/FusionMath.h ****     const float qwqw = Q.w * Q.w; // calculate common terms to avoid repeated operations
+ 420:BSP/BSP.h/FusionMath.h ****     const float qwqx = Q.w * Q.x;
+ 421:BSP/BSP.h/FusionMath.h ****     const float qwqy = Q.w * Q.y;
+ 422:BSP/BSP.h/FusionMath.h ****     const float qwqz = Q.w * Q.z;
+ 423:BSP/BSP.h/FusionMath.h ****     const float qxqy = Q.x * Q.y;
+ 424:BSP/BSP.h/FusionMath.h ****     const float qxqz = Q.x * Q.z;
+ 425:BSP/BSP.h/FusionMath.h ****     const float qyqz = Q.y * Q.z;
+ 426:BSP/BSP.h/FusionMath.h ****     FusionMatrix matrix;
+ 427:BSP/BSP.h/FusionMath.h ****     matrix.element.xx = 2.0f * (qwqw - 0.5f + Q.x * Q.x);
+ 428:BSP/BSP.h/FusionMath.h ****     matrix.element.xy = 2.0f * (qxqy - qwqz);
+ 429:BSP/BSP.h/FusionMath.h ****     matrix.element.xz = 2.0f * (qxqz + qwqy);
+ 430:BSP/BSP.h/FusionMath.h ****     matrix.element.yx = 2.0f * (qxqy + qwqz);
+ 431:BSP/BSP.h/FusionMath.h ****     matrix.element.yy = 2.0f * (qwqw - 0.5f + Q.y * Q.y);
+ 432:BSP/BSP.h/FusionMath.h ****     matrix.element.yz = 2.0f * (qyqz - qwqx);
+ 433:BSP/BSP.h/FusionMath.h ****     matrix.element.zx = 2.0f * (qxqz - qwqy);
+ 434:BSP/BSP.h/FusionMath.h ****     matrix.element.zy = 2.0f * (qyqz + qwqx);
+ 435:BSP/BSP.h/FusionMath.h ****     matrix.element.zz = 2.0f * (qwqw - 0.5f + Q.z * Q.z);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 23
+
+
+ 436:BSP/BSP.h/FusionMath.h ****     return matrix;
+ 437:BSP/BSP.h/FusionMath.h **** #undef Q
+ 438:BSP/BSP.h/FusionMath.h **** }
+ 439:BSP/BSP.h/FusionMath.h **** 
+ 440:BSP/BSP.h/FusionMath.h **** /**
+ 441:BSP/BSP.h/FusionMath.h ****  * @brief Converts a quaternion to ZYX Euler angles in degrees.
+ 442:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 443:BSP/BSP.h/FusionMath.h ****  * @return Euler angles in degrees.
+ 444:BSP/BSP.h/FusionMath.h ****  */
+ 445:BSP/BSP.h/FusionMath.h **** static inline FusionEuler FusionQuaternionToEuler(const FusionQuaternion quaternion) {
+ 626              		.loc 2 445 86 is_stmt 1 view -0
+ 627              		.cfi_startproc
+ 628              		@ args = 0, pretend = 0, frame = 56
+ 629              		@ frame_needed = 0, uses_anonymous_args = 0
+ 630 0000 00B5     		push	{lr}
+ 631              	.LCFI12:
+ 632              		.cfi_def_cfa_offset 4
+ 633              		.cfi_offset 14, -4
+ 634 0002 2DED068B 		vpush.64	{d8, d9, d10}
+ 635              	.LCFI13:
+ 636              		.cfi_def_cfa_offset 28
+ 637              		.cfi_offset 80, -28
+ 638              		.cfi_offset 81, -24
+ 639              		.cfi_offset 82, -20
+ 640              		.cfi_offset 83, -16
+ 641              		.cfi_offset 84, -12
+ 642              		.cfi_offset 85, -8
+ 643 0006 8FB0     		sub	sp, sp, #60
+ 644              	.LCFI14:
+ 645              		.cfi_def_cfa_offset 88
+ 646 0008 B0EE409A 		vmov.f32	s18, s0
+ 647 000c F0EE609A 		vmov.f32	s19, s1
+ 648 0010 B0EE418A 		vmov.f32	s16, s2
+ 649 0014 F0EE618A 		vmov.f32	s17, s3
+ 650 0018 8DED040A 		vstr.32	s0, [sp, #16]
+ 651 001c CDED050A 		vstr.32	s1, [sp, #20]
+ 652 0020 8DED061A 		vstr.32	s2, [sp, #24]
+ 653 0024 CDED071A 		vstr.32	s3, [sp, #28]
+ 446:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ 447:BSP/BSP.h/FusionMath.h ****     const float halfMinusQySquared = 0.5f - Q.y * Q.y; // calculate common terms to avoid repeated 
+ 654              		.loc 2 447 5 view .LVU190
+ 655              		.loc 2 447 49 is_stmt 0 view .LVU191
+ 656 0028 61EE017A 		vmul.f32	s15, s2, s2
+ 657              		.loc 2 447 17 view .LVU192
+ 658 002c B6EE00AA 		vmov.f32	s20, #5.0e-1
+ 659 0030 3AEE67AA 		vsub.f32	s20, s20, s15
+ 660              	.LVL22:
+ 448:BSP/BSP.h/FusionMath.h ****     FusionEuler euler;
+ 661              		.loc 2 448 5 is_stmt 1 view .LVU193
+ 449:BSP/BSP.h/FusionMath.h ****     euler.angle.roll = FusionRadiansToDegrees(atan2f(Q.w * Q.x + Q.y * Q.z, halfMinusQySquared - Q.
+ 662              		.loc 2 449 5 view .LVU194
+ 663              		.loc 2 449 58 is_stmt 0 view .LVU195
+ 664 0034 20EE200A 		vmul.f32	s0, s0, s1
+ 665              		.loc 2 449 70 view .LVU196
+ 666 0038 61EE217A 		vmul.f32	s15, s2, s3
+ 667              		.loc 2 449 102 view .LVU197
+ 668 003c 60EEA00A 		vmul.f32	s1, s1, s1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 24
+
+
+ 669              		.loc 2 449 24 view .LVU198
+ 670 0040 7AEE600A 		vsub.f32	s1, s20, s1
+ 671 0044 30EE270A 		vadd.f32	s0, s0, s15
+ 672 0048 FFF7FEFF 		bl	atan2f
+ 673              	.LVL23:
+ 674              	.LBB12:
+ 675              	.LBI12:
+ 136:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 676              		.loc 2 136 21 is_stmt 1 view .LVU199
+ 677              	.LBB13:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 678              		.loc 2 137 5 view .LVU200
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 679              		.loc 2 137 20 is_stmt 0 view .LVU201
+ 680 004c DFED1AAA 		vldr.32	s21, .L37
+ 681 0050 20EE2A0A 		vmul.f32	s0, s0, s21
+ 682              	.LVL24:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 683              		.loc 2 137 20 view .LVU202
+ 684              	.LBE13:
+ 685              	.LBE12:
+ 686              		.loc 2 449 22 view .LVU203
+ 687 0054 8DED080A 		vstr.32	s0, [sp, #32]
+ 450:BSP/BSP.h/FusionMath.h ****     euler.angle.pitch = FusionRadiansToDegrees(FusionAsin(2.0f * (Q.w * Q.y - Q.z * Q.x)));
+ 688              		.loc 2 450 5 is_stmt 1 view .LVU204
+ 689              		.loc 2 450 71 is_stmt 0 view .LVU205
+ 690 0058 28EE090A 		vmul.f32	s0, s16, s18
+ 691              		.loc 2 450 83 view .LVU206
+ 692 005c 69EEA87A 		vmul.f32	s15, s19, s17
+ 693              		.loc 2 450 77 view .LVU207
+ 694 0060 30EE670A 		vsub.f32	s0, s0, s15
+ 695              		.loc 2 450 25 view .LVU208
+ 696 0064 30EE000A 		vadd.f32	s0, s0, s0
+ 697 0068 FFF7FEFF 		bl	FusionAsin
+ 698              	.LVL25:
+ 699              	.LBB14:
+ 700              	.LBI14:
+ 136:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 701              		.loc 2 136 21 is_stmt 1 view .LVU209
+ 702              	.LBB15:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 703              		.loc 2 137 5 view .LVU210
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 704              		.loc 2 137 20 is_stmt 0 view .LVU211
+ 705 006c 20EE2A0A 		vmul.f32	s0, s0, s21
+ 706              	.LVL26:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 707              		.loc 2 137 20 view .LVU212
+ 708              	.LBE15:
+ 709              	.LBE14:
+ 710              		.loc 2 450 23 view .LVU213
+ 711 0070 8DED090A 		vstr.32	s0, [sp, #36]
+ 451:BSP/BSP.h/FusionMath.h ****     euler.angle.yaw = FusionRadiansToDegrees(atan2f(Q.w * Q.z + Q.x * Q.y, halfMinusQySquared - Q.z
+ 712              		.loc 2 451 5 is_stmt 1 view .LVU214
+ 713              		.loc 2 451 57 is_stmt 0 view .LVU215
+ 714 0074 29EE280A 		vmul.f32	s0, s18, s17
+ 715              		.loc 2 451 69 view .LVU216
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 25
+
+
+ 716 0078 28EE298A 		vmul.f32	s16, s16, s19
+ 717              		.loc 2 451 101 view .LVU217
+ 718 007c 68EEA88A 		vmul.f32	s17, s17, s17
+ 719              		.loc 2 451 23 view .LVU218
+ 720 0080 7AEE680A 		vsub.f32	s1, s20, s17
+ 721 0084 30EE080A 		vadd.f32	s0, s0, s16
+ 722 0088 FFF7FEFF 		bl	atan2f
+ 723              	.LVL27:
+ 724              	.LBB16:
+ 725              	.LBI16:
+ 136:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 726              		.loc 2 136 21 is_stmt 1 view .LVU219
+ 727              	.LBB17:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 728              		.loc 2 137 5 view .LVU220
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 729              		.loc 2 137 20 is_stmt 0 view .LVU221
+ 730 008c 20EE2A0A 		vmul.f32	s0, s0, s21
+ 731              	.LVL28:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 732              		.loc 2 137 20 view .LVU222
+ 733              	.LBE17:
+ 734              	.LBE16:
+ 735              		.loc 2 451 21 view .LVU223
+ 736 0090 8DED0A0A 		vstr.32	s0, [sp, #40]
+ 452:BSP/BSP.h/FusionMath.h ****     return euler;
+ 737              		.loc 2 452 5 is_stmt 1 view .LVU224
+ 738              		.loc 2 452 12 is_stmt 0 view .LVU225
+ 739 0094 08AB     		add	r3, sp, #32
+ 740 0096 93E80700 		ldm	r3, {r0, r1, r2}
+ 741 009a 0EAB     		add	r3, sp, #56
+ 742 009c 03E90700 		stmdb	r3, {r0, r1, r2}
+ 453:BSP/BSP.h/FusionMath.h **** #undef Q
+ 454:BSP/BSP.h/FusionMath.h **** }
+ 743              		.loc 2 454 1 view .LVU226
+ 744 00a0 9DED0B0A 		vldr.32	s0, [sp, #44]
+ 745 00a4 DDED0C0A 		vldr.32	s1, [sp, #48]
+ 746 00a8 9DED0D1A 		vldr.32	s2, [sp, #52]
+ 747 00ac 0FB0     		add	sp, sp, #60
+ 748              	.LCFI15:
+ 749              		.cfi_def_cfa_offset 28
+ 750              		@ sp needed
+ 751 00ae BDEC068B 		vldm	sp!, {d8-d10}
+ 752              	.LCFI16:
+ 753              		.cfi_restore 84
+ 754              		.cfi_restore 85
+ 755              		.cfi_restore 82
+ 756              		.cfi_restore 83
+ 757              		.cfi_restore 80
+ 758              		.cfi_restore 81
+ 759              		.cfi_def_cfa_offset 4
+ 760              	.LVL29:
+ 761              		.loc 2 454 1 view .LVU227
+ 762 00b2 5DF804FB 		ldr	pc, [sp], #4
+ 763              	.LVL30:
+ 764              	.L38:
+ 765              		.loc 2 454 1 view .LVU228
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 26
+
+
+ 766 00b6 00BF     		.align	2
+ 767              	.L37:
+ 768 00b8 E02E6542 		.word	1113927392
+ 769              		.cfi_endproc
+ 770              	.LFE158:
+ 772              		.section	.text.MPU6050_IMU_Calc_Angle,"ax",%progbits
+ 773              		.align	1
+ 774              		.global	MPU6050_IMU_Calc_Angle
+ 775              		.syntax unified
+ 776              		.thumb
+ 777              		.thumb_func
+ 779              	MPU6050_IMU_Calc_Angle:
+ 780              	.LVL31:
+ 781              	.LFB165:
+ 124:Devices/Devices.c/MPU6050_IMU.c **** 
+ 125:Devices/Devices.c/MPU6050_IMU.c **** void MPU6050_IMU_Calc_Angle(MPU6050_IMU_t *MPU6050_IMU)
+ 126:Devices/Devices.c/MPU6050_IMU.c **** {
+ 782              		.loc 1 126 1 is_stmt 1 view -0
+ 783              		.cfi_startproc
+ 784              		@ args = 0, pretend = 0, frame = 56
+ 785              		@ frame_needed = 0, uses_anonymous_args = 0
+ 786              		.loc 1 126 1 is_stmt 0 view .LVU230
+ 787 0000 30B5     		push	{r4, r5, lr}
+ 788              	.LCFI17:
+ 789              		.cfi_def_cfa_offset 12
+ 790              		.cfi_offset 4, -12
+ 791              		.cfi_offset 5, -8
+ 792              		.cfi_offset 14, -4
+ 793 0002 8FB0     		sub	sp, sp, #60
+ 794              	.LCFI18:
+ 795              		.cfi_def_cfa_offset 72
+ 796 0004 0446     		mov	r4, r0
+ 127:Devices/Devices.c/MPU6050_IMU.c **** 	//Use fusion for AHRS estimation
+ 128:Devices/Devices.c/MPU6050_IMU.c **** 	const FusionVector MPU6050_IMU_Accel = {MPU6050_IMU->Calc_Data.Ax, MPU6050_IMU->Calc_Data.Ay, MPU6
+ 797              		.loc 1 128 2 is_stmt 1 view .LVU231
+ 798              		.loc 1 128 64 is_stmt 0 view .LVU232
+ 799 0006 D0ED0A1A 		vldr.32	s3, [r0, #40]
+ 800              		.loc 1 128 21 view .LVU233
+ 801 000a CDED071A 		vstr.32	s3, [sp, #28]
+ 802              		.loc 1 128 91 view .LVU234
+ 803 000e 90ED0B2A 		vldr.32	s4, [r0, #44]
+ 804              		.loc 1 128 21 view .LVU235
+ 805 0012 8DED082A 		vstr.32	s4, [sp, #32]
+ 806              		.loc 1 128 118 view .LVU236
+ 807 0016 D0ED0C2A 		vldr.32	s5, [r0, #48]
+ 808              		.loc 1 128 21 view .LVU237
+ 809 001a CDED092A 		vstr.32	s5, [sp, #36]
+ 129:Devices/Devices.c/MPU6050_IMU.c **** 	const FusionVector MPU6050_IMU_Gyro = {MPU6050_IMU->Calc_Data.Gx, MPU6050_IMU->Calc_Data.Gy, MPU60
+ 810              		.loc 1 129 2 is_stmt 1 view .LVU238
+ 811              		.loc 1 129 63 is_stmt 0 view .LVU239
+ 812 001e 90ED0D0A 		vldr.32	s0, [r0, #52]
+ 813              		.loc 1 129 21 view .LVU240
+ 814 0022 8DED040A 		vstr.32	s0, [sp, #16]
+ 815              		.loc 1 129 90 view .LVU241
+ 816 0026 D0ED0E0A 		vldr.32	s1, [r0, #56]
+ 817              		.loc 1 129 21 view .LVU242
+ 818 002a CDED050A 		vstr.32	s1, [sp, #20]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 27
+
+
+ 819              		.loc 1 129 117 view .LVU243
+ 820 002e 90ED0F1A 		vldr.32	s2, [r0, #60]
+ 821              		.loc 1 129 21 view .LVU244
+ 822 0032 8DED061A 		vstr.32	s2, [sp, #24]
+ 130:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 131:Devices/Devices.c/MPU6050_IMU.c **** 	FusionAhrsUpdateNoMagnetometer(&MPU6050_IMU_AHRS, MPU6050_IMU_Gyro, MPU6050_IMU_Accel, MPU6050_IMU
+ 823              		.loc 1 131 2 is_stmt 1 view .LVU245
+ 824 0036 334D     		ldr	r5, .L48
+ 825 0038 90ED1D3A 		vldr.32	s6, [r0, #116]
+ 826 003c 2846     		mov	r0, r5
+ 827              	.LVL32:
+ 828              		.loc 1 131 2 is_stmt 0 view .LVU246
+ 829 003e FFF7FEFF 		bl	FusionAhrsUpdateNoMagnetometer
+ 830              	.LVL33:
+ 132:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 133:Devices/Devices.c/MPU6050_IMU.c **** 	const FusionEuler MPU6050_IMU_Euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&MPU6050_IMU
+ 831              		.loc 1 133 2 is_stmt 1 view .LVU247
+ 832              		.loc 1 133 40 is_stmt 0 view .LVU248
+ 833 0042 2846     		mov	r0, r5
+ 834 0044 FFF7FEFF 		bl	FusionAhrsGetQuaternion
+ 835              	.LVL34:
+ 836 0048 8DED0A0A 		vstr.32	s0, [sp, #40]
+ 837 004c CDED0B0A 		vstr.32	s1, [sp, #44]
+ 838 0050 8DED0C1A 		vstr.32	s2, [sp, #48]
+ 839 0054 CDED0D1A 		vstr.32	s3, [sp, #52]
+ 840 0058 FFF7FEFF 		bl	FusionQuaternionToEuler
+ 841              	.LVL35:
+ 842 005c 8DED010A 		vstr.32	s0, [sp, #4]
+ 843 0060 CDED020A 		vstr.32	s1, [sp, #8]
+ 844 0064 8DED031A 		vstr.32	s2, [sp, #12]
+ 134:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 135:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Prev_Yaw = MPU6050_IMU->Export_Data.Yaw;
+ 845              		.loc 1 135 2 is_stmt 1 view .LVU249
+ 846              		.loc 1 135 62 is_stmt 0 view .LVU250
+ 847 0068 D4ED117A 		vldr.32	s15, [r4, #68]
+ 848              		.loc 1 135 36 view .LVU251
+ 849 006c C4ED147A 		vstr.32	s15, [r4, #80]
+ 136:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 137:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Yaw = MPU6050_IMU_Euler.angle.yaw;
+ 850              		.loc 1 137 2 is_stmt 1 view .LVU252
+ 851              		.loc 1 137 31 is_stmt 0 view .LVU253
+ 852 0070 84ED111A 		vstr.32	s2, [r4, #68]
+ 138:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Pitch = MPU6050_IMU_Euler.angle.pitch;
+ 853              		.loc 1 138 2 is_stmt 1 view .LVU254
+ 854              		.loc 1 138 33 is_stmt 0 view .LVU255
+ 855 0074 C4ED120A 		vstr.32	s1, [r4, #72]
+ 139:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Roll = MPU6050_IMU_Euler.angle.roll;
+ 856              		.loc 1 139 2 is_stmt 1 view .LVU256
+ 857              		.loc 1 139 32 is_stmt 0 view .LVU257
+ 858 0078 84ED130A 		vstr.32	s0, [r4, #76]
+ 140:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Gyro_Yaw = MPU6050_IMU->Calc_Data.Gx / 6.0f; // degree/s to RPM
+ 859              		.loc 1 140 2 is_stmt 1 view .LVU258
+ 860              		.loc 1 140 60 is_stmt 0 view .LVU259
+ 861 007c 94ED0D6A 		vldr.32	s12, [r4, #52]
+ 862              		.loc 1 140 64 view .LVU260
+ 863 0080 B1EE087A 		vmov.f32	s14, #6.0e+0
+ 864 0084 C6EE076A 		vdiv.f32	s13, s12, s14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 28
+
+
+ 865              		.loc 1 140 36 view .LVU261
+ 866 0088 C4ED176A 		vstr.32	s13, [r4, #92]
+ 141:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Gyro_Pitch = MPU6050_IMU->Calc_Data.Gy / 6.0f; // degree/s to RPM
+ 867              		.loc 1 141 2 is_stmt 1 view .LVU262
+ 868              		.loc 1 141 62 is_stmt 0 view .LVU263
+ 869 008c 94ED0E6A 		vldr.32	s12, [r4, #56]
+ 870              		.loc 1 141 66 view .LVU264
+ 871 0090 C6EE076A 		vdiv.f32	s13, s12, s14
+ 872              		.loc 1 141 38 view .LVU265
+ 873 0094 C4ED186A 		vstr.32	s13, [r4, #96]
+ 142:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Gyro_Roll = MPU6050_IMU->Calc_Data.Gz / 6.0f; // degree/s to RPM
+ 874              		.loc 1 142 2 is_stmt 1 view .LVU266
+ 875              		.loc 1 142 61 is_stmt 0 view .LVU267
+ 876 0098 94ED0F6A 		vldr.32	s12, [r4, #60]
+ 877              		.loc 1 142 65 view .LVU268
+ 878 009c C6EE076A 		vdiv.f32	s13, s12, s14
+ 879              		.loc 1 142 37 view .LVU269
+ 880 00a0 C4ED196A 		vstr.32	s13, [r4, #100]
+ 143:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Temperature = MPU6050_IMU->Calc_Data.Temperature;
+ 881              		.loc 1 143 2 is_stmt 1 view .LVU270
+ 882              		.loc 1 143 63 is_stmt 0 view .LVU271
+ 883 00a4 236C     		ldr	r3, [r4, #64]	@ float
+ 884              		.loc 1 143 39 view .LVU272
+ 885 00a6 A366     		str	r3, [r4, #104]	@ float
+ 144:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 145:Devices/Devices.c/MPU6050_IMU.c **** 	//Record number of turns
+ 146:Devices/Devices.c/MPU6050_IMU.c **** 	if((MPU6050_IMU->Export_Data.Yaw - MPU6050_IMU->Export_Data.Prev_Yaw) < - 300)
+ 886              		.loc 1 146 2 is_stmt 1 view .LVU273
+ 887              		.loc 1 146 35 is_stmt 0 view .LVU274
+ 888 00a8 71EE677A 		vsub.f32	s15, s2, s15
+ 889              		.loc 1 146 4 view .LVU275
+ 890 00ac 9FED167A 		vldr.32	s14, .L48+4
+ 891 00b0 F4EEC77A 		vcmpe.f32	s15, s14
+ 892 00b4 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 893 00b8 13D5     		bpl	.L46
+ 147:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Export_Data.Turn_Count++;
+ 894              		.loc 1 147 3 is_stmt 1 view .LVU276
+ 895              		.loc 1 147 27 is_stmt 0 view .LVU277
+ 896 00ba D4ED167A 		vldr.32	s15, [r4, #88]
+ 897              		.loc 1 147 38 view .LVU278
+ 898 00be B7EE007A 		vmov.f32	s14, #1.0e+0
+ 899 00c2 77EE877A 		vadd.f32	s15, s15, s14
+ 900 00c6 C4ED167A 		vstr.32	s15, [r4, #88]
+ 901              	.L42:
+ 148:Devices/Devices.c/MPU6050_IMU.c **** 	else if((MPU6050_IMU->Export_Data.Yaw - MPU6050_IMU->Export_Data.Prev_Yaw) > 300)
+ 149:Devices/Devices.c/MPU6050_IMU.c **** 		MPU6050_IMU->Export_Data.Turn_Count--;
+ 150:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 151:Devices/Devices.c/MPU6050_IMU.c **** 	MPU6050_IMU->Export_Data.Total_Yaw = MPU6050_IMU->Export_Data.Yaw + 360.0f * MPU6050_IMU->Export_D
+ 902              		.loc 1 151 2 is_stmt 1 view .LVU279
+ 903              		.loc 1 151 103 is_stmt 0 view .LVU280
+ 904 00ca D4ED167A 		vldr.32	s15, [r4, #88]
+ 905              		.loc 1 151 77 view .LVU281
+ 906 00ce 9FED0F7A 		vldr.32	s14, .L48+8
+ 907 00d2 67EE877A 		vmul.f32	s15, s15, s14
+ 908              		.loc 1 151 68 view .LVU282
+ 909 00d6 31EE271A 		vadd.f32	s2, s2, s15
+ 910              		.loc 1 151 37 view .LVU283
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 29
+
+
+ 911 00da 84ED151A 		vstr.32	s2, [r4, #84]
+ 152:Devices/Devices.c/MPU6050_IMU.c **** }
+ 912              		.loc 1 152 1 view .LVU284
+ 913 00de 0FB0     		add	sp, sp, #60
+ 914              	.LCFI19:
+ 915              		.cfi_remember_state
+ 916              		.cfi_def_cfa_offset 12
+ 917              		@ sp needed
+ 918 00e0 30BD     		pop	{r4, r5, pc}
+ 919              	.LVL36:
+ 920              	.L46:
+ 921              	.LCFI20:
+ 922              		.cfi_restore_state
+ 148:Devices/Devices.c/MPU6050_IMU.c **** 	else if((MPU6050_IMU->Export_Data.Yaw - MPU6050_IMU->Export_Data.Prev_Yaw) > 300)
+ 923              		.loc 1 148 7 is_stmt 1 view .LVU285
+ 148:Devices/Devices.c/MPU6050_IMU.c **** 	else if((MPU6050_IMU->Export_Data.Yaw - MPU6050_IMU->Export_Data.Prev_Yaw) > 300)
+ 924              		.loc 1 148 9 is_stmt 0 view .LVU286
+ 925 00e2 9FED0B7A 		vldr.32	s14, .L48+12
+ 926 00e6 F4EEC77A 		vcmpe.f32	s15, s14
+ 927 00ea F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 928 00ee ECDD     		ble	.L42
+ 149:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 929              		.loc 1 149 3 is_stmt 1 view .LVU287
+ 149:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 930              		.loc 1 149 27 is_stmt 0 view .LVU288
+ 931 00f0 D4ED167A 		vldr.32	s15, [r4, #88]
+ 149:Devices/Devices.c/MPU6050_IMU.c **** 	
+ 932              		.loc 1 149 38 view .LVU289
+ 933 00f4 B7EE007A 		vmov.f32	s14, #1.0e+0
+ 934 00f8 77EEC77A 		vsub.f32	s15, s15, s14
+ 935 00fc C4ED167A 		vstr.32	s15, [r4, #88]
+ 936 0100 E3E7     		b	.L42
+ 937              	.L49:
+ 938 0102 00BF     		.align	2
+ 939              	.L48:
+ 940 0104 00000000 		.word	MPU6050_IMU_AHRS
+ 941 0108 000096C3 		.word	-1013579776
+ 942 010c 0000B443 		.word	1135869952
+ 943 0110 00009643 		.word	1133903872
+ 944              		.cfi_endproc
+ 945              	.LFE165:
+ 947              		.global	MPU6050_IMU_Func
+ 948              		.section	.data.MPU6050_IMU_Func,"aw"
+ 949              		.align	2
+ 952              	MPU6050_IMU_Func:
+ 953 0000 00000000 		.word	MPU6050_IMU_Init
+ 954 0004 00000000 		.word	MPU6050_IMU_Calibrate
+ 955 0008 00000000 		.word	MPU6050_IMU_Read_Data
+ 956 000c 00000000 		.word	MPU6050_IMU_Calc_Angle
+ 957              		.section	.bss.Buffer,"aw",%nobits
+ 958              		.align	2
+ 961              	Buffer:
+ 962 0000 00000000 		.space	14
+ 962      00000000 
+ 962      00000000 
+ 962      0000
+ 963              		.global	MPU6050_IMU_AHRS
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 30
+
+
+ 964              		.section	.bss.MPU6050_IMU_AHRS,"aw",%nobits
+ 965              		.align	2
+ 968              	MPU6050_IMU_AHRS:
+ 969 0000 00000000 		.space	100
+ 969      00000000 
+ 969      00000000 
+ 969      00000000 
+ 969      00000000 
+ 970              		.global	MPU6050_IMU
+ 971              		.section	.bss.MPU6050_IMU,"aw",%nobits
+ 972              		.align	2
+ 975              	MPU6050_IMU:
+ 976 0000 00000000 		.space	124
+ 976      00000000 
+ 976      00000000 
+ 976      00000000 
+ 976      00000000 
+ 977              		.text
+ 978              	.Letext0:
+ 979              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 980              		.file 4 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 981              		.file 5 "BSP/BSP.h/FusionAhrs.h"
+ 982              		.file 6 "Devices/Devices.h/MPU6050_IMU.h"
+ 983              		.file 7 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\math.h"
+ 984              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 985              		.file 9 "BSP/BSP.h/I2C_Setup.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s 			page 31
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 MPU6050_IMU.c
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:21     .text.MPU6050_IMU_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:27     .text.MPU6050_IMU_Init:00000000 MPU6050_IMU_Init
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:135    .text.MPU6050_IMU_Init:00000090 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:975    .bss.MPU6050_IMU:00000000 MPU6050_IMU
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:140    .text.MPU6050_IMU_Read_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:146    .text.MPU6050_IMU_Read_Data:00000000 MPU6050_IMU_Read_Data
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:369    .text.MPU6050_IMU_Read_Data:00000174 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:961    .bss.Buffer:00000000 Buffer
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:379    .text.MPU6050_IMU_Calibrate:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:385    .text.MPU6050_IMU_Calibrate:00000000 MPU6050_IMU_Calibrate
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:548    .text.MPU6050_IMU_Calibrate:000000e8 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:555    .text.FusionAsin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:560    .text.FusionAsin:00000000 FusionAsin
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:613    .text.FusionAsin:00000030 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:619    .text.FusionQuaternionToEuler:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:624    .text.FusionQuaternionToEuler:00000000 FusionQuaternionToEuler
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:768    .text.FusionQuaternionToEuler:000000b8 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:773    .text.MPU6050_IMU_Calc_Angle:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:779    .text.MPU6050_IMU_Calc_Angle:00000000 MPU6050_IMU_Calc_Angle
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:940    .text.MPU6050_IMU_Calc_Angle:00000104 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:968    .bss.MPU6050_IMU_AHRS:00000000 MPU6050_IMU_AHRS
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:952    .data.MPU6050_IMU_Func:00000000 MPU6050_IMU_Func
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:949    .data.MPU6050_IMU_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:958    .bss.Buffer:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:965    .bss.MPU6050_IMU_AHRS:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccRGI6T4.s:972    .bss.MPU6050_IMU:00000000 $d
+
+UNDEFINED SYMBOLS
+I2C_Read_8_Bytes
+I2C_Write_8_Bytes
+HAL_GetTick
+HAL_Delay
+asinf
+atan2f
+FusionAhrsUpdateNoMagnetometer
+FusionAhrsGetQuaternion

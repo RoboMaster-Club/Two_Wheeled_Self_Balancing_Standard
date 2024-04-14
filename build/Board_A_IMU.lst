@@ -1,0 +1,3141 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Board_A_IMU.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/Board_A_IMU.c"
+  20              		.section	.text.Board_A_IMU_Reset,"ax",%progbits
+  21              		.align	1
+  22              		.global	Board_A_IMU_Reset
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Board_A_IMU_Reset:
+  28              	.LVL0:
+  29              	.LFB173:
+   1:Devices/Devices.c/Board_A_IMU.c **** /**
+   2:Devices/Devices.c/Board_A_IMU.c ****  * @file Board_A_IMU.c
+   3:Devices/Devices.c/Board_A_IMU.c ****  * @author Leo Liu
+   4:Devices/Devices.c/Board_A_IMU.c ****  * @brief communicate and obtain data from board A IMU_Calculated_Data
+   5:Devices/Devices.c/Board_A_IMU.c ****  * @version 1.0
+   6:Devices/Devices.c/Board_A_IMU.c ****  * @date 2022-07-05
+   7:Devices/Devices.c/Board_A_IMU.c ****  * 
+   8:Devices/Devices.c/Board_A_IMU.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/Board_A_IMU.c ****  * 
+  10:Devices/Devices.c/Board_A_IMU.c ****  */
+  11:Devices/Devices.c/Board_A_IMU.c **** 
+  12:Devices/Devices.c/Board_A_IMU.c **** #include "Board_A_IMU.h"
+  13:Devices/Devices.c/Board_A_IMU.c **** 
+  14:Devices/Devices.c/Board_A_IMU.c **** #define BOARD_A_IMU_SPI hspi5 
+  15:Devices/Devices.c/Board_A_IMU.c **** #define SPI_NSS_LOW HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_RESET)
+  16:Devices/Devices.c/Board_A_IMU.c **** #define SPI_NSS_HIGH HAL_GPIO_WritePin(GPIOF, GPIO_PIN_6, GPIO_PIN_SET)
+  17:Devices/Devices.c/Board_A_IMU.c **** 
+  18:Devices/Devices.c/Board_A_IMU.c **** Board_A_IMU_t Board_A_IMU;
+  19:Devices/Devices.c/Board_A_IMU.c **** FusionAhrs Board_A_IMU_AHRS;
+  20:Devices/Devices.c/Board_A_IMU.c **** 
+  21:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Init(void);
+  22:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Calibrate(Board_A_IMU_t *Board_A_IMU);
+  23:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Read_Data(Board_A_IMU_t *Board_A_IMU);
+  24:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Calc_Angle(Board_A_IMU_t *Board_A_IMU);
+  25:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Reset(Board_A_IMU_t *Board_A_IMU);
+  26:Devices/Devices.c/Board_A_IMU.c **** 
+  27:Devices/Devices.c/Board_A_IMU.c **** Board_A_IMU_Func_t Board_A_IMU_Func = Board_A_IMU_Func_GroundInit;
+  28:Devices/Devices.c/Board_A_IMU.c **** #undef Board_A_IMU_Func_GroundInit
+  29:Devices/Devices.c/Board_A_IMU.c **** 
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 2
+
+
+  30:Devices/Devices.c/Board_A_IMU.c **** static uint8_t tx, rx;
+  31:Devices/Devices.c/Board_A_IMU.c **** static uint8_t tx_buff[14] = {0xff};
+  32:Devices/Devices.c/Board_A_IMU.c **** 
+  33:Devices/Devices.c/Board_A_IMU.c **** static HAL_StatusTypeDef Board_A_IMU_Read_Bytes(uint8_t const regAddr, uint8_t *pData, uint8_t len)
+  34:Devices/Devices.c/Board_A_IMU.c **** static uint8_t Board_A_IMU_Read_Byte(uint8_t const reg);
+  35:Devices/Devices.c/Board_A_IMU.c **** static uint8_t Board_A_IMU_Write_Byte(uint8_t const reg, uint8_t const data);
+  36:Devices/Devices.c/Board_A_IMU.c **** static uint8_t IST8310_Init(void);;
+  37:Devices/Devices.c/Board_A_IMU.c **** static void IST8310_Write_Byte(uint8_t addr, uint8_t data);
+  38:Devices/Devices.c/Board_A_IMU.c **** static void Board_A_IMU_I2C_Config(uint8_t device_address, uint8_t reg_base_addr, uint8_t data_num)
+  39:Devices/Devices.c/Board_A_IMU.c **** static uint8_t IST8310_Read_Byte(uint8_t addr);
+  40:Devices/Devices.c/Board_A_IMU.c **** 
+  41:Devices/Devices.c/Board_A_IMU.c **** 
+  42:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Init(void)
+  43:Devices/Devices.c/Board_A_IMU.c **** {
+  44:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t i = 0;
+  45:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t MPU6500_Init_Data[10][2] = {
+  46:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_PWR_MGMT_1, 0x80},     /* Reset Device */
+  47:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_PWR_MGMT_1, 0x03},     /* Clock Source - Gyro-Z */
+  48:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_PWR_MGMT_2, 0x00},     /* Enable Acc & Gyro */
+  49:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_CONFIG, 0x04},         /* LPF 41Hz */
+  50:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_GYRO_CONFIG, 0x18},    /* +-2000dps */
+  51:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_ACCEL_CONFIG, 0x10},   /* +-8G */
+  52:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_ACCEL_CONFIG_2, 0x02}, /* Enable LowPassFilter  Set Acc LPF */
+  53:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_USER_CTRL, 0x20},
+  54:Devices/Devices.c/Board_A_IMU.c **** 	}; /* Enable AUX */
+  55:Devices/Devices.c/Board_A_IMU.c **** 	for (i = 0; i < 10; i++)
+  56:Devices/Devices.c/Board_A_IMU.c **** 	{
+  57:Devices/Devices.c/Board_A_IMU.c **** 			Board_A_IMU_Write_Byte(MPU6500_Init_Data[i][0], MPU6500_Init_Data[i][1]);
+  58:Devices/Devices.c/Board_A_IMU.c **** 			HAL_Delay(1);
+  59:Devices/Devices.c/Board_A_IMU.c **** 	}
+  60:Devices/Devices.c/Board_A_IMU.c **** 	IST8310_Init();
+  61:Devices/Devices.c/Board_A_IMU.c **** }
+  62:Devices/Devices.c/Board_A_IMU.c **** 
+  63:Devices/Devices.c/Board_A_IMU.c **** static HAL_StatusTypeDef Board_A_IMU_Read_Bytes(uint8_t const regAddr, uint8_t *pData, uint8_t len)
+  64:Devices/Devices.c/Board_A_IMU.c **** {
+  65:Devices/Devices.c/Board_A_IMU.c ****     HAL_StatusTypeDef Info_Update_Flag = HAL_ERROR;
+  66:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+  67:Devices/Devices.c/Board_A_IMU.c ****     tx = regAddr | 0x80;
+  68:Devices/Devices.c/Board_A_IMU.c ****     tx_buff[0] = tx;
+  69:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  70:Devices/Devices.c/Board_A_IMU.c ****     Info_Update_Flag = HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, tx_buff, pData, len, 55);
+  71:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_HIGH;
+  72:Devices/Devices.c/Board_A_IMU.c ****     return Info_Update_Flag;
+  73:Devices/Devices.c/Board_A_IMU.c **** }
+  74:Devices/Devices.c/Board_A_IMU.c **** 
+  75:Devices/Devices.c/Board_A_IMU.c **** static uint8_t Board_A_IMU_Read_Byte(uint8_t const reg)
+  76:Devices/Devices.c/Board_A_IMU.c **** {
+  77:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+  78:Devices/Devices.c/Board_A_IMU.c ****     tx = reg | 0x80;
+  79:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  80:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  81:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_HIGH;
+  82:Devices/Devices.c/Board_A_IMU.c ****     return rx;
+  83:Devices/Devices.c/Board_A_IMU.c **** }
+  84:Devices/Devices.c/Board_A_IMU.c **** 
+  85:Devices/Devices.c/Board_A_IMU.c **** static uint8_t Board_A_IMU_Write_Byte(uint8_t const reg, uint8_t const data)
+  86:Devices/Devices.c/Board_A_IMU.c **** {
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 3
+
+
+  87:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+  88:Devices/Devices.c/Board_A_IMU.c ****     tx = reg & 0x7F;
+  89:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  90:Devices/Devices.c/Board_A_IMU.c ****     tx = data;
+  91:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  92:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_HIGH;
+  93:Devices/Devices.c/Board_A_IMU.c ****     return 0;
+  94:Devices/Devices.c/Board_A_IMU.c **** }
+  95:Devices/Devices.c/Board_A_IMU.c **** 
+  96:Devices/Devices.c/Board_A_IMU.c **** static uint8_t IST8310_Init(void)
+  97:Devices/Devices.c/Board_A_IMU.c **** {
+  98:Devices/Devices.c/Board_A_IMU.c ****     /* enable iic master mode */
+  99:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_USER_CTRL, 0x30);
+ 100:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 101:Devices/Devices.c/Board_A_IMU.c ****     /* enable iic 400khz */
+ 102:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_MST_CTRL, 0x0d);
+ 103:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 104:Devices/Devices.c/Board_A_IMU.c **** 
+ 105:Devices/Devices.c/Board_A_IMU.c ****     /* turn on slave 1 for ist write and slave 4 to ist read */
+ 106:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_ADDR, IST8310_ADDRESS);
+ 107:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 108:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_ADDR, 0x80 | IST8310_ADDRESS);
+ 109:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 110:Devices/Devices.c/Board_A_IMU.c **** 
+ 111:Devices/Devices.c/Board_A_IMU.c ****     /* IST8310_R_CONFB 0x01 = device rst */
+ 112:Devices/Devices.c/Board_A_IMU.c ****     IST8310_Write_Byte(IST8310_R_CONFB, 0x01);
+ 113:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 114:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_DEVICE_ID_A != IST8310_Read_Byte(IST8310_WHO_AM_I))
+ 115:Devices/Devices.c/Board_A_IMU.c ****         return 1;
+ 116:Devices/Devices.c/Board_A_IMU.c **** 
+ 117:Devices/Devices.c/Board_A_IMU.c ****     /* soft reset */
+ 118:Devices/Devices.c/Board_A_IMU.c ****     IST8310_Write_Byte(IST8310_R_CONFB, 0x01);
+ 119:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 120:Devices/Devices.c/Board_A_IMU.c **** 
+ 121:Devices/Devices.c/Board_A_IMU.c ****     /* config as ready mode to access register */
+ 122:Devices/Devices.c/Board_A_IMU.c ****     IST8310_Write_Byte(IST8310_R_CONFA, 0x00);
+ 123:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_R_CONFA) != 0x00)
+ 124:Devices/Devices.c/Board_A_IMU.c ****         return 2;
+ 125:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 126:Devices/Devices.c/Board_A_IMU.c **** 
+ 127:Devices/Devices.c/Board_A_IMU.c ****     /* normal state, no int */
+ 128:Devices/Devices.c/Board_A_IMU.c ****     IST8310_Write_Byte(IST8310_R_CONFB, 0x00);
+ 129:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_R_CONFB) != 0x00)
+ 130:Devices/Devices.c/Board_A_IMU.c ****         return 3;
+ 131:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 132:Devices/Devices.c/Board_A_IMU.c **** 
+ 133:Devices/Devices.c/Board_A_IMU.c ****     /* config low noise mode, x,y,z axis 16 time 1 avg */
+ 134:Devices/Devices.c/Board_A_IMU.c ****     IST8310_Write_Byte(IST8310_AVGCNTL, 0x24); //100100
+ 135:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_AVGCNTL) != 0x24)
+ 136:Devices/Devices.c/Board_A_IMU.c ****         return 4;
+ 137:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 138:Devices/Devices.c/Board_A_IMU.c **** 
+ 139:Devices/Devices.c/Board_A_IMU.c ****     /* Set/Reset pulse duration setup,normal mode */
+ 140:Devices/Devices.c/Board_A_IMU.c ****     IST8310_Write_Byte(IST8310_PDCNTL, 0xc0);
+ 141:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_PDCNTL) != 0xc0)
+ 142:Devices/Devices.c/Board_A_IMU.c ****         return 5;
+ 143:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 4
+
+
+ 144:Devices/Devices.c/Board_A_IMU.c **** 
+ 145:Devices/Devices.c/Board_A_IMU.c ****     /* turn off slave1 & slave 4 */
+ 146:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_CTRL, 0x00);
+ 147:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 148:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_CTRL, 0x00);
+ 149:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 150:Devices/Devices.c/Board_A_IMU.c **** 
+ 151:Devices/Devices.c/Board_A_IMU.c ****     /* configure and turn on slave 0 */
+ 152:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_I2C_Config(IST8310_ADDRESS, IST8310_R_XL, 0x06);
+ 153:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(100);
+ 154:Devices/Devices.c/Board_A_IMU.c ****     return 0;
+ 155:Devices/Devices.c/Board_A_IMU.c **** }
+ 156:Devices/Devices.c/Board_A_IMU.c **** 
+ 157:Devices/Devices.c/Board_A_IMU.c **** static void IST8310_Write_Byte(uint8_t addr, uint8_t data)
+ 158:Devices/Devices.c/Board_A_IMU.c **** {
+ 159:Devices/Devices.c/Board_A_IMU.c ****     /* turn off slave 1 at first */
+ 160:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_CTRL, 0x00);
+ 161:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 162:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_REG, addr);
+ 163:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 164:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_DO, data);
+ 165:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 166:Devices/Devices.c/Board_A_IMU.c ****     /* turn on slave 1 with one byte transmitting */
+ 167:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_CTRL, 0x80 | 0x01);
+ 168:Devices/Devices.c/Board_A_IMU.c ****     /* wait longer to ensure the data is transmitted from slave 1 */
+ 169:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 170:Devices/Devices.c/Board_A_IMU.c **** }
+ 171:Devices/Devices.c/Board_A_IMU.c **** 
+ 172:Devices/Devices.c/Board_A_IMU.c **** static uint8_t IST8310_Read_Byte(uint8_t addr)
+ 173:Devices/Devices.c/Board_A_IMU.c **** {
+ 174:Devices/Devices.c/Board_A_IMU.c ****     uint8_t retval;
+ 175:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_REG, addr);
+ 176:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 177:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_CTRL, 0x80);
+ 178:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 179:Devices/Devices.c/Board_A_IMU.c ****     retval = Board_A_IMU_Read_Byte(MPU6500_I2C_SLV4_DI);
+ 180:Devices/Devices.c/Board_A_IMU.c ****     /* turn off slave4 after read */
+ 181:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_CTRL, 0x00);
+ 182:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 183:Devices/Devices.c/Board_A_IMU.c ****     return retval;
+ 184:Devices/Devices.c/Board_A_IMU.c **** }   
+ 185:Devices/Devices.c/Board_A_IMU.c **** 
+ 186:Devices/Devices.c/Board_A_IMU.c **** static void Board_A_IMU_I2C_Config(uint8_t device_address, uint8_t reg_base_addr, uint8_t data_num)
+ 187:Devices/Devices.c/Board_A_IMU.c **** {
+ 188:Devices/Devices.c/Board_A_IMU.c ****     /* 
+ 189:Devices/Devices.c/Board_A_IMU.c **** 	   * configure the device address of the IST8310 
+ 190:Devices/Devices.c/Board_A_IMU.c ****      * use slave1, auto transmit single measure mode 
+ 191:Devices/Devices.c/Board_A_IMU.c **** 	   */
+ 192:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_ADDR, device_address);
+ 193:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 194:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_REG, IST8310_R_CONFA);
+ 195:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 196:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_DO, IST8310_ODR_MODE);
+ 197:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 198:Devices/Devices.c/Board_A_IMU.c **** 
+ 199:Devices/Devices.c/Board_A_IMU.c ****     /* use slave0,auto read data */
+ 200:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV0_ADDR, 0x80 | device_address);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 5
+
+
+ 201:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 202:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV0_REG, reg_base_addr);
+ 203:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 204:Devices/Devices.c/Board_A_IMU.c **** 
+ 205:Devices/Devices.c/Board_A_IMU.c ****     /* every eight mpu6500 internal samples one i2c master read */
+ 206:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_CTRL, 0x03);
+ 207:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 208:Devices/Devices.c/Board_A_IMU.c ****     /* enable slave 0 and 1 access delay */
+ 209:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_MST_DELAY_CTRL, 0x01 | 0x02);
+ 210:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 211:Devices/Devices.c/Board_A_IMU.c ****     /* enable slave 1 auto transmit */
+ 212:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_CTRL, 0x80 | 0x01);
+ 213:Devices/Devices.c/Board_A_IMU.c ****     /* Wait 6ms (minimum waiting time for 16 times internal average setup) */
+ 214:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(6);
+ 215:Devices/Devices.c/Board_A_IMU.c ****     /* enable slave 0 with data_num bytes reading */
+ 216:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV0_CTRL, 0x80 | data_num);
+ 217:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 218:Devices/Devices.c/Board_A_IMU.c **** }
+ 219:Devices/Devices.c/Board_A_IMU.c **** 
+ 220:Devices/Devices.c/Board_A_IMU.c **** //Calibrate board A IMU to reduce zero deviation
+ 221:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Calibrate(Board_A_IMU_t *Board_A_IMU)
+ 222:Devices/Devices.c/Board_A_IMU.c **** {
+ 223:Devices/Devices.c/Board_A_IMU.c **** 	if(Board_A_IMU->Calibrated_Flag == 0)
+ 224:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 225:Devices/Devices.c/Board_A_IMU.c **** 		float Buffer[6];
+ 226:Devices/Devices.c/Board_A_IMU.c **** 		
+ 227:Devices/Devices.c/Board_A_IMU.c **** 		for(int i = 0; i < CALIBRATION_SAMPLE; i++)
+ 228:Devices/Devices.c/Board_A_IMU.c **** 		{
+ 229:Devices/Devices.c/Board_A_IMU.c **** 			Board_A_IMU_Read_Data(Board_A_IMU);
+ 230:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[0] += Board_A_IMU->Calc_Data.Ax;
+ 231:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[1] += Board_A_IMU->Calc_Data.Ay;
+ 232:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[2] += Board_A_IMU->Calc_Data.Az;
+ 233:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[3] += Board_A_IMU->Calc_Data.Gx;
+ 234:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[4] += Board_A_IMU->Calc_Data.Gy;
+ 235:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[5] += Board_A_IMU->Calc_Data.Gz;
+ 236:Devices/Devices.c/Board_A_IMU.c **** 			HAL_Delay(1);
+ 237:Devices/Devices.c/Board_A_IMU.c **** 		}
+ 238:Devices/Devices.c/Board_A_IMU.c **** 
+ 239:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Ax = Buffer[0] / CALIBRATION_SAMPLE;
+ 240:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+ 241:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 242:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 243:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 244:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 245:Devices/Devices.c/Board_A_IMU.c **** 		
+ 246:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calibrated_Flag = 1;
+ 247:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 248:Devices/Devices.c/Board_A_IMU.c **** 	else
+ 249:Devices/Devices.c/Board_A_IMU.c **** 		;
+ 250:Devices/Devices.c/Board_A_IMU.c **** }
+ 251:Devices/Devices.c/Board_A_IMU.c **** 
+ 252:Devices/Devices.c/Board_A_IMU.c **** 
+ 253:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Read_Data(Board_A_IMU_t *Board_A_IMU)
+ 254:Devices/Devices.c/Board_A_IMU.c **** {
+ 255:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t Buffer[14];
+ 256:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t Buffer_Mag[6];
+ 257:Devices/Devices.c/Board_A_IMU.c **** 	
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 6
+
+
+ 258:Devices/Devices.c/Board_A_IMU.c **** 	//Calculate sampling period
+ 259:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 260:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Period = Board_A_IMU->Sample.Now_Time - Board_A_IMU->Sample.Prev_Time;
+ 261:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Prev_Time = Board_A_IMU->Sample.Now_Time;
+ 262:Devices/Devices.c/Board_A_IMU.c **** 	
+ 263:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Offline_Flag = Board_A_IMU_Read_Bytes(MPU6500_ACCEL_XOUT_H, Buffer, 14);
+ 264:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU_Read_Bytes(MPU6500_EXT_SENS_DATA_00, Buffer_Mag, 6);
+ 265:Devices/Devices.c/Board_A_IMU.c **** 
+ 266:Devices/Devices.c/Board_A_IMU.c **** 	//Obtain data from buffer
+ 267:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Ax = ((int16_t)Buffer[0] << 8) | Buffer[1];
+ 268:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Ay = ((int16_t)Buffer[2] << 8) | Buffer[3];
+ 269:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Az = ((int16_t)Buffer[4] << 8) | Buffer[5];
+ 270:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Temperature = ((int16_t)Buffer[6] << 8) | Buffer[7];
+ 271:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gx = ((int16_t)Buffer[8] << 8) | Buffer[9];
+ 272:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
+ 273:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gz = ((int16_t)Buffer[12] << 8) | Buffer[13];	
+ 274:Devices/Devices.c/Board_A_IMU.c **** 	memcpy(&Board_A_IMU->Raw_Data.Mx, Buffer_Mag, 6);
+ 275:Devices/Devices.c/Board_A_IMU.c **** 	
+ 276:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Ax = Board_A_IMU->Raw_Data.Ax / 4096.0f * 9.81f;
+ 277:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Ay = Board_A_IMU->Raw_Data.Ay / 4096.0f * 9.81f;
+ 278:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Az = Board_A_IMU->Raw_Data.Az / 4096.0f * 9.81f;
+ 279:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gx = Board_A_IMU->Raw_Data.Gx / 16.384f;
+ 280:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gy = Board_A_IMU->Raw_Data.Gy / 16.384f;
+ 281:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gz = Board_A_IMU->Raw_Data.Gz / 16.384f;
+ 282:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mx = Board_A_IMU->Raw_Data.Mx;
+ 283:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.My = Board_A_IMU->Raw_Data.My;
+ 284:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mz = Board_A_IMU->Raw_Data.Mz;
+ 285:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Temperature = Board_A_IMU->Raw_Data.Temperature / 333.87f + 21.0f;
+ 286:Devices/Devices.c/Board_A_IMU.c **** 	
+ 287:Devices/Devices.c/Board_A_IMU.c **** 	if(Board_A_IMU->Calibrated_Flag == 1) //If calibration is done, offset should be deducted
+ 288:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 289:Devices/Devices.c/Board_A_IMU.c **** //		Board_A_IMU->Calc_Data.Ax -= Board_A_IMU->Offset.Ax;
+ 290:Devices/Devices.c/Board_A_IMU.c **** //		Board_A_IMU->Calc_Data.Ay -= Board_A_IMU->Offset.Ay;
+ 291:Devices/Devices.c/Board_A_IMU.c **** //		Board_A_IMU->Calc_Data.Az -= Board_A_IMU->Offset.Az;
+ 292:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gx -= Board_A_IMU->Offset.Gx;
+ 293:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gy -= Board_A_IMU->Offset.Gy;
+ 294:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gz -= Board_A_IMU->Offset.Gz;
+ 295:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 296:Devices/Devices.c/Board_A_IMU.c **** }
+ 297:Devices/Devices.c/Board_A_IMU.c **** 
+ 298:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Calc_Angle(Board_A_IMU_t *Board_A_IMU)
+ 299:Devices/Devices.c/Board_A_IMU.c **** {
+ 300:Devices/Devices.c/Board_A_IMU.c **** 	//Use fusion to do the AHRS estimation
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Accel = {Board_A_IMU->Calc_Data.Ax, Board_A_IMU->Calc_Data.Ay, Boar
+ 302:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 303:Devices/Devices.c/Board_A_IMU.c **** 
+ 304:Devices/Devices.c/Board_A_IMU.c **** 	#ifdef BOARD_A_IMU_USE_MAGN
+ 305:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Magn = {Board_A_IMU->Calc_Data.Mx, Board_A_IMU->Calc_Data.My, Board
+ 306:Devices/Devices.c/Board_A_IMU.c **** 	FusionAhrsUpdate(&Board_A_IMU_AHRS, Board_A_IMU_Gyro, Board_A_IMU_Accel, Board_A_IMU_Magn, Board_A
+ 307:Devices/Devices.c/Board_A_IMU.c **** 	#endif
+ 308:Devices/Devices.c/Board_A_IMU.c **** 	
+ 309:Devices/Devices.c/Board_A_IMU.c **** 	#ifndef BOARD_A_IMU_USE_MAGN
+ 310:Devices/Devices.c/Board_A_IMU.c **** 	FusionAhrsUpdateNoMagnetometer(&Board_A_IMU_AHRS, Board_A_IMU_Gyro, Board_A_IMU_Accel, Board_A_IMU
+ 311:Devices/Devices.c/Board_A_IMU.c **** 	#endif
+ 312:Devices/Devices.c/Board_A_IMU.c **** 	
+ 313:Devices/Devices.c/Board_A_IMU.c **** 	const FusionEuler Board_A_IMU_Euler = FusionQuaternionToEuler(FusionAhrsGetQuaternion(&Board_A_IMU
+ 314:Devices/Devices.c/Board_A_IMU.c **** 	
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 7
+
+
+ 315:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Prev_Yaw = Board_A_IMU->Export_Data.Yaw;
+ 316:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Yaw = Board_A_IMU_Euler.angle.yaw;
+ 317:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Pitch = Board_A_IMU_Euler.angle.pitch;
+ 318:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Roll = Board_A_IMU_Euler.angle.roll;
+ 319:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Yaw = Board_A_IMU->Calc_Data.Gz / 6.0f; // degree/s to RPM
+ 320:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Pitch = Board_A_IMU->Calc_Data.Gy / 6.0f; // degree/s to RPM
+ 321:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Roll = Board_A_IMU->Calc_Data.Gx / 6.0f; // degree/s to RPM
+ 322:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Temperature = Board_A_IMU->Calc_Data.Temperature;
+ 323:Devices/Devices.c/Board_A_IMU.c **** 	
+ 324:Devices/Devices.c/Board_A_IMU.c **** 	//Record number of turns
+ 325:Devices/Devices.c/Board_A_IMU.c **** 	if((Board_A_IMU->Export_Data.Yaw - Board_A_IMU->Export_Data.Prev_Yaw) < - 300)
+ 326:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Export_Data.Turn_Count++;
+ 327:Devices/Devices.c/Board_A_IMU.c **** 	else if((Board_A_IMU->Export_Data.Yaw - Board_A_IMU->Export_Data.Prev_Yaw) > 300)
+ 328:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Export_Data.Turn_Count--;
+ 329:Devices/Devices.c/Board_A_IMU.c **** 	
+ 330:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Total_Yaw = Board_A_IMU->Export_Data.Yaw + 360.0f * Board_A_IMU->Export_D
+ 331:Devices/Devices.c/Board_A_IMU.c **** }
+ 332:Devices/Devices.c/Board_A_IMU.c **** 
+ 333:Devices/Devices.c/Board_A_IMU.c **** void Board_A_IMU_Reset(Board_A_IMU_t *Board_A_IMU)
+ 334:Devices/Devices.c/Board_A_IMU.c **** {
+  30              		.loc 1 334 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+ 335:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Prev_Yaw = Board_A_IMU->Export_Data.Yaw;
+  35              		.loc 1 335 2 view .LVU1
+  36              		.loc 1 335 62 is_stmt 0 view .LVU2
+  37 0000 436D     		ldr	r3, [r0, #84]	@ float
+  38              		.loc 1 335 36 view .LVU3
+  39 0002 0366     		str	r3, [r0, #96]	@ float
+ 336:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Total_Yaw = 0;
+  40              		.loc 1 336 2 is_stmt 1 view .LVU4
+  41              		.loc 1 336 37 is_stmt 0 view .LVU5
+  42 0004 0023     		movs	r3, #0
+  43 0006 4366     		str	r3, [r0, #100]	@ float
+ 337:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Turn_Count = 0;
+  44              		.loc 1 337 2 is_stmt 1 view .LVU6
+  45              		.loc 1 337 38 is_stmt 0 view .LVU7
+  46 0008 8366     		str	r3, [r0, #104]	@ float
+ 338:Devices/Devices.c/Board_A_IMU.c **** }
+  47              		.loc 1 338 1 view .LVU8
+  48 000a 7047     		bx	lr
+  49              		.cfi_endproc
+  50              	.LFE173:
+  52              		.section	.text.Board_A_IMU_Write_Byte,"ax",%progbits
+  53              		.align	1
+  54              		.syntax unified
+  55              		.thumb
+  56              		.thumb_func
+  58              	Board_A_IMU_Write_Byte:
+  59              	.LVL1:
+  60              	.LFB165:
+  86:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+  61              		.loc 1 86 1 is_stmt 1 view -0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 8
+
+
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  86:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+  65              		.loc 1 86 1 is_stmt 0 view .LVU10
+  66 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  67              	.LCFI0:
+  68              		.cfi_def_cfa_offset 28
+  69              		.cfi_offset 4, -28
+  70              		.cfi_offset 5, -24
+  71              		.cfi_offset 6, -20
+  72              		.cfi_offset 7, -16
+  73              		.cfi_offset 8, -12
+  74              		.cfi_offset 9, -8
+  75              		.cfi_offset 14, -4
+  76 0004 83B0     		sub	sp, sp, #12
+  77              	.LCFI1:
+  78              		.cfi_def_cfa_offset 40
+  79 0006 0446     		mov	r4, r0
+  80 0008 0E46     		mov	r6, r1
+  87:Devices/Devices.c/Board_A_IMU.c ****     tx = reg & 0x7F;
+  81              		.loc 1 87 5 is_stmt 1 view .LVU11
+  82 000a 144F     		ldr	r7, .L4
+  83 000c 0022     		movs	r2, #0
+  84 000e 4021     		movs	r1, #64
+  85              	.LVL2:
+  87:Devices/Devices.c/Board_A_IMU.c ****     tx = reg & 0x7F;
+  86              		.loc 1 87 5 is_stmt 0 view .LVU12
+  87 0010 3846     		mov	r0, r7
+  88              	.LVL3:
+  87:Devices/Devices.c/Board_A_IMU.c ****     tx = reg & 0x7F;
+  89              		.loc 1 87 5 view .LVU13
+  90 0012 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  91              	.LVL4:
+  88:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  92              		.loc 1 88 5 is_stmt 1 view .LVU14
+  88:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  93              		.loc 1 88 14 is_stmt 0 view .LVU15
+  94 0016 04F07F04 		and	r4, r4, #127
+  88:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+  95              		.loc 1 88 8 view .LVU16
+  96 001a 114D     		ldr	r5, .L4+4
+  97 001c 2C70     		strb	r4, [r5]
+  89:Devices/Devices.c/Board_A_IMU.c ****     tx = data;
+  98              		.loc 1 89 5 is_stmt 1 view .LVU17
+  99 001e DFF84880 		ldr	r8, .L4+12
+ 100 0022 104C     		ldr	r4, .L4+8
+ 101 0024 4FF03709 		mov	r9, #55
+ 102 0028 CDF80090 		str	r9, [sp]
+ 103 002c 0123     		movs	r3, #1
+ 104 002e 4246     		mov	r2, r8
+ 105 0030 2946     		mov	r1, r5
+ 106 0032 2046     		mov	r0, r4
+ 107 0034 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+ 108              	.LVL5:
+  90:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+ 109              		.loc 1 90 5 view .LVU18
+  90:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+ 110              		.loc 1 90 8 is_stmt 0 view .LVU19
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 9
+
+
+ 111 0038 2E70     		strb	r6, [r5]
+  91:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_HIGH;
+ 112              		.loc 1 91 5 is_stmt 1 view .LVU20
+ 113 003a CDF80090 		str	r9, [sp]
+ 114 003e 0123     		movs	r3, #1
+ 115 0040 4246     		mov	r2, r8
+ 116 0042 2946     		mov	r1, r5
+ 117 0044 2046     		mov	r0, r4
+ 118 0046 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+ 119              	.LVL6:
+  92:Devices/Devices.c/Board_A_IMU.c ****     return 0;
+ 120              		.loc 1 92 5 view .LVU21
+ 121 004a 0122     		movs	r2, #1
+ 122 004c 4021     		movs	r1, #64
+ 123 004e 3846     		mov	r0, r7
+ 124 0050 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 125              	.LVL7:
+  93:Devices/Devices.c/Board_A_IMU.c **** }
+ 126              		.loc 1 93 5 view .LVU22
+  94:Devices/Devices.c/Board_A_IMU.c **** 
+ 127              		.loc 1 94 1 is_stmt 0 view .LVU23
+ 128 0054 0020     		movs	r0, #0
+ 129 0056 03B0     		add	sp, sp, #12
+ 130              	.LCFI2:
+ 131              		.cfi_def_cfa_offset 28
+ 132              		@ sp needed
+ 133 0058 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 134              	.L5:
+ 135              		.align	2
+ 136              	.L4:
+ 137 005c 00140240 		.word	1073878016
+ 138 0060 00000000 		.word	tx
+ 139 0064 00000000 		.word	hspi5
+ 140 0068 00000000 		.word	rx
+ 141              		.cfi_endproc
+ 142              	.LFE165:
+ 144              		.section	.text.IST8310_Write_Byte,"ax",%progbits
+ 145              		.align	1
+ 146              		.syntax unified
+ 147              		.thumb
+ 148              		.thumb_func
+ 150              	IST8310_Write_Byte:
+ 151              	.LVL8:
+ 152              	.LFB167:
+ 158:Devices/Devices.c/Board_A_IMU.c ****     /* turn off slave 1 at first */
+ 153              		.loc 1 158 1 is_stmt 1 view -0
+ 154              		.cfi_startproc
+ 155              		@ args = 0, pretend = 0, frame = 0
+ 156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158:Devices/Devices.c/Board_A_IMU.c ****     /* turn off slave 1 at first */
+ 157              		.loc 1 158 1 is_stmt 0 view .LVU25
+ 158 0000 38B5     		push	{r3, r4, r5, lr}
+ 159              	.LCFI3:
+ 160              		.cfi_def_cfa_offset 16
+ 161              		.cfi_offset 3, -16
+ 162              		.cfi_offset 4, -12
+ 163              		.cfi_offset 5, -8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 10
+
+
+ 164              		.cfi_offset 14, -4
+ 165 0002 0546     		mov	r5, r0
+ 166 0004 0C46     		mov	r4, r1
+ 160:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 167              		.loc 1 160 5 is_stmt 1 view .LVU26
+ 168 0006 0021     		movs	r1, #0
+ 169              	.LVL9:
+ 160:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 170              		.loc 1 160 5 is_stmt 0 view .LVU27
+ 171 0008 2A20     		movs	r0, #42
+ 172              	.LVL10:
+ 160:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 173              		.loc 1 160 5 view .LVU28
+ 174 000a FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 175              	.LVL11:
+ 161:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_REG, addr);
+ 176              		.loc 1 161 5 is_stmt 1 view .LVU29
+ 177 000e 0220     		movs	r0, #2
+ 178 0010 FFF7FEFF 		bl	HAL_Delay
+ 179              	.LVL12:
+ 162:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 180              		.loc 1 162 5 view .LVU30
+ 181 0014 2946     		mov	r1, r5
+ 182 0016 2920     		movs	r0, #41
+ 183 0018 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 184              	.LVL13:
+ 163:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_DO, data);
+ 185              		.loc 1 163 5 view .LVU31
+ 186 001c 0220     		movs	r0, #2
+ 187 001e FFF7FEFF 		bl	HAL_Delay
+ 188              	.LVL14:
+ 164:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 189              		.loc 1 164 5 view .LVU32
+ 190 0022 2146     		mov	r1, r4
+ 191 0024 6420     		movs	r0, #100
+ 192 0026 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 193              	.LVL15:
+ 165:Devices/Devices.c/Board_A_IMU.c ****     /* turn on slave 1 with one byte transmitting */
+ 194              		.loc 1 165 5 view .LVU33
+ 195 002a 0220     		movs	r0, #2
+ 196 002c FFF7FEFF 		bl	HAL_Delay
+ 197              	.LVL16:
+ 167:Devices/Devices.c/Board_A_IMU.c ****     /* wait longer to ensure the data is transmitted from slave 1 */
+ 198              		.loc 1 167 5 view .LVU34
+ 199 0030 8121     		movs	r1, #129
+ 200 0032 2A20     		movs	r0, #42
+ 201 0034 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 202              	.LVL17:
+ 169:Devices/Devices.c/Board_A_IMU.c **** }
+ 203              		.loc 1 169 5 view .LVU35
+ 204 0038 0A20     		movs	r0, #10
+ 205 003a FFF7FEFF 		bl	HAL_Delay
+ 206              	.LVL18:
+ 170:Devices/Devices.c/Board_A_IMU.c **** 
+ 207              		.loc 1 170 1 is_stmt 0 view .LVU36
+ 208 003e 38BD     		pop	{r3, r4, r5, pc}
+ 209              		.cfi_endproc
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 11
+
+
+ 210              	.LFE167:
+ 212              		.section	.text.Board_A_IMU_I2C_Config,"ax",%progbits
+ 213              		.align	1
+ 214              		.syntax unified
+ 215              		.thumb
+ 216              		.thumb_func
+ 218              	Board_A_IMU_I2C_Config:
+ 219              	.LVL19:
+ 220              	.LFB169:
+ 187:Devices/Devices.c/Board_A_IMU.c ****     /* 
+ 221              		.loc 1 187 1 is_stmt 1 view -0
+ 222              		.cfi_startproc
+ 223              		@ args = 0, pretend = 0, frame = 0
+ 224              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187:Devices/Devices.c/Board_A_IMU.c ****     /* 
+ 225              		.loc 1 187 1 is_stmt 0 view .LVU38
+ 226 0000 70B5     		push	{r4, r5, r6, lr}
+ 227              	.LCFI4:
+ 228              		.cfi_def_cfa_offset 16
+ 229              		.cfi_offset 4, -16
+ 230              		.cfi_offset 5, -12
+ 231              		.cfi_offset 6, -8
+ 232              		.cfi_offset 14, -4
+ 233 0002 0446     		mov	r4, r0
+ 234 0004 0E46     		mov	r6, r1
+ 235 0006 1546     		mov	r5, r2
+ 192:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 236              		.loc 1 192 5 is_stmt 1 view .LVU39
+ 237 0008 0146     		mov	r1, r0
+ 238              	.LVL20:
+ 192:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 239              		.loc 1 192 5 is_stmt 0 view .LVU40
+ 240 000a 2820     		movs	r0, #40
+ 241              	.LVL21:
+ 192:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 242              		.loc 1 192 5 view .LVU41
+ 243 000c FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 244              	.LVL22:
+ 193:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_REG, IST8310_R_CONFA);
+ 245              		.loc 1 193 5 is_stmt 1 view .LVU42
+ 246 0010 0220     		movs	r0, #2
+ 247 0012 FFF7FEFF 		bl	HAL_Delay
+ 248              	.LVL23:
+ 194:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 249              		.loc 1 194 5 view .LVU43
+ 250 0016 0A21     		movs	r1, #10
+ 251 0018 2920     		movs	r0, #41
+ 252 001a FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 253              	.LVL24:
+ 195:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV1_DO, IST8310_ODR_MODE);
+ 254              		.loc 1 195 5 view .LVU44
+ 255 001e 0220     		movs	r0, #2
+ 256 0020 FFF7FEFF 		bl	HAL_Delay
+ 257              	.LVL25:
+ 196:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 258              		.loc 1 196 5 view .LVU45
+ 259 0024 0121     		movs	r1, #1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 12
+
+
+ 260 0026 6420     		movs	r0, #100
+ 261 0028 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 262              	.LVL26:
+ 197:Devices/Devices.c/Board_A_IMU.c **** 
+ 263              		.loc 1 197 5 view .LVU46
+ 264 002c 0220     		movs	r0, #2
+ 265 002e FFF7FEFF 		bl	HAL_Delay
+ 266              	.LVL27:
+ 200:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 267              		.loc 1 200 5 view .LVU47
+ 268 0032 44F08001 		orr	r1, r4, #128
+ 269 0036 2520     		movs	r0, #37
+ 270 0038 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 271              	.LVL28:
+ 201:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV0_REG, reg_base_addr);
+ 272              		.loc 1 201 5 view .LVU48
+ 273 003c 0220     		movs	r0, #2
+ 274 003e FFF7FEFF 		bl	HAL_Delay
+ 275              	.LVL29:
+ 202:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 276              		.loc 1 202 5 view .LVU49
+ 277 0042 3146     		mov	r1, r6
+ 278 0044 2620     		movs	r0, #38
+ 279 0046 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 280              	.LVL30:
+ 203:Devices/Devices.c/Board_A_IMU.c **** 
+ 281              		.loc 1 203 5 view .LVU50
+ 282 004a 0220     		movs	r0, #2
+ 283 004c FFF7FEFF 		bl	HAL_Delay
+ 284              	.LVL31:
+ 206:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 285              		.loc 1 206 5 view .LVU51
+ 286 0050 0321     		movs	r1, #3
+ 287 0052 3420     		movs	r0, #52
+ 288 0054 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 289              	.LVL32:
+ 207:Devices/Devices.c/Board_A_IMU.c ****     /* enable slave 0 and 1 access delay */
+ 290              		.loc 1 207 5 view .LVU52
+ 291 0058 0220     		movs	r0, #2
+ 292 005a FFF7FEFF 		bl	HAL_Delay
+ 293              	.LVL33:
+ 209:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 294              		.loc 1 209 5 view .LVU53
+ 295 005e 0321     		movs	r1, #3
+ 296 0060 6720     		movs	r0, #103
+ 297 0062 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 298              	.LVL34:
+ 210:Devices/Devices.c/Board_A_IMU.c ****     /* enable slave 1 auto transmit */
+ 299              		.loc 1 210 5 view .LVU54
+ 300 0066 0220     		movs	r0, #2
+ 301 0068 FFF7FEFF 		bl	HAL_Delay
+ 302              	.LVL35:
+ 212:Devices/Devices.c/Board_A_IMU.c ****     /* Wait 6ms (minimum waiting time for 16 times internal average setup) */
+ 303              		.loc 1 212 5 view .LVU55
+ 304 006c 8121     		movs	r1, #129
+ 305 006e 2A20     		movs	r0, #42
+ 306 0070 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 13
+
+
+ 307              	.LVL36:
+ 214:Devices/Devices.c/Board_A_IMU.c ****     /* enable slave 0 with data_num bytes reading */
+ 308              		.loc 1 214 5 view .LVU56
+ 309 0074 0620     		movs	r0, #6
+ 310 0076 FFF7FEFF 		bl	HAL_Delay
+ 311              	.LVL37:
+ 216:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(2);
+ 312              		.loc 1 216 5 view .LVU57
+ 313 007a 45F08001 		orr	r1, r5, #128
+ 314 007e 2720     		movs	r0, #39
+ 315 0080 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 316              	.LVL38:
+ 217:Devices/Devices.c/Board_A_IMU.c **** }
+ 317              		.loc 1 217 5 view .LVU58
+ 318 0084 0220     		movs	r0, #2
+ 319 0086 FFF7FEFF 		bl	HAL_Delay
+ 320              	.LVL39:
+ 218:Devices/Devices.c/Board_A_IMU.c **** 
+ 321              		.loc 1 218 1 is_stmt 0 view .LVU59
+ 322 008a 70BD     		pop	{r4, r5, r6, pc}
+ 323              		.cfi_endproc
+ 324              	.LFE169:
+ 326              		.section	.text.Board_A_IMU_Read_Byte,"ax",%progbits
+ 327              		.align	1
+ 328              		.syntax unified
+ 329              		.thumb
+ 330              		.thumb_func
+ 332              	Board_A_IMU_Read_Byte:
+ 333              	.LVL40:
+ 334              	.LFB164:
+  76:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+ 335              		.loc 1 76 1 is_stmt 1 view -0
+ 336              		.cfi_startproc
+ 337              		@ args = 0, pretend = 0, frame = 0
+ 338              		@ frame_needed = 0, uses_anonymous_args = 0
+  76:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+ 339              		.loc 1 76 1 is_stmt 0 view .LVU61
+ 340 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 341              	.LCFI5:
+ 342              		.cfi_def_cfa_offset 24
+ 343              		.cfi_offset 4, -24
+ 344              		.cfi_offset 5, -20
+ 345              		.cfi_offset 6, -16
+ 346              		.cfi_offset 7, -12
+ 347              		.cfi_offset 8, -8
+ 348              		.cfi_offset 14, -4
+ 349 0004 82B0     		sub	sp, sp, #8
+ 350              	.LCFI6:
+ 351              		.cfi_def_cfa_offset 32
+ 352 0006 0446     		mov	r4, r0
+  77:Devices/Devices.c/Board_A_IMU.c ****     tx = reg | 0x80;
+ 353              		.loc 1 77 5 is_stmt 1 view .LVU62
+ 354 0008 134E     		ldr	r6, .L12
+ 355 000a 0022     		movs	r2, #0
+ 356 000c 4021     		movs	r1, #64
+ 357 000e 3046     		mov	r0, r6
+ 358              	.LVL41:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 14
+
+
+  77:Devices/Devices.c/Board_A_IMU.c ****     tx = reg | 0x80;
+ 359              		.loc 1 77 5 is_stmt 0 view .LVU63
+ 360 0010 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 361              	.LVL42:
+  78:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+ 362              		.loc 1 78 5 is_stmt 1 view .LVU64
+  78:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+ 363              		.loc 1 78 8 is_stmt 0 view .LVU65
+ 364 0014 114D     		ldr	r5, .L12+4
+ 365 0016 64F07F04 		orn	r4, r4, #127
+ 366 001a 2C70     		strb	r4, [r5]
+  79:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+ 367              		.loc 1 79 5 is_stmt 1 view .LVU66
+ 368 001c 104C     		ldr	r4, .L12+8
+ 369 001e 114F     		ldr	r7, .L12+12
+ 370 0020 4FF03708 		mov	r8, #55
+ 371 0024 CDF80080 		str	r8, [sp]
+ 372 0028 0123     		movs	r3, #1
+ 373 002a 2246     		mov	r2, r4
+ 374 002c 2946     		mov	r1, r5
+ 375 002e 3846     		mov	r0, r7
+ 376 0030 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+ 377              	.LVL43:
+  80:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_HIGH;
+ 378              		.loc 1 80 5 view .LVU67
+ 379 0034 CDF80080 		str	r8, [sp]
+ 380 0038 0123     		movs	r3, #1
+ 381 003a 2246     		mov	r2, r4
+ 382 003c 2946     		mov	r1, r5
+ 383 003e 3846     		mov	r0, r7
+ 384 0040 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+ 385              	.LVL44:
+  81:Devices/Devices.c/Board_A_IMU.c ****     return rx;
+ 386              		.loc 1 81 5 view .LVU68
+ 387 0044 0122     		movs	r2, #1
+ 388 0046 4021     		movs	r1, #64
+ 389 0048 3046     		mov	r0, r6
+ 390 004a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 391              	.LVL45:
+  82:Devices/Devices.c/Board_A_IMU.c **** }
+ 392              		.loc 1 82 5 view .LVU69
+  83:Devices/Devices.c/Board_A_IMU.c **** 
+ 393              		.loc 1 83 1 is_stmt 0 view .LVU70
+ 394 004e 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 395 0050 02B0     		add	sp, sp, #8
+ 396              	.LCFI7:
+ 397              		.cfi_def_cfa_offset 24
+ 398              		@ sp needed
+ 399 0052 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 400              	.L13:
+ 401 0056 00BF     		.align	2
+ 402              	.L12:
+ 403 0058 00140240 		.word	1073878016
+ 404 005c 00000000 		.word	tx
+ 405 0060 00000000 		.word	rx
+ 406 0064 00000000 		.word	hspi5
+ 407              		.cfi_endproc
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 15
+
+
+ 408              	.LFE164:
+ 410              		.section	.text.IST8310_Read_Byte,"ax",%progbits
+ 411              		.align	1
+ 412              		.syntax unified
+ 413              		.thumb
+ 414              		.thumb_func
+ 416              	IST8310_Read_Byte:
+ 417              	.LVL46:
+ 418              	.LFB168:
+ 173:Devices/Devices.c/Board_A_IMU.c ****     uint8_t retval;
+ 419              		.loc 1 173 1 is_stmt 1 view -0
+ 420              		.cfi_startproc
+ 421              		@ args = 0, pretend = 0, frame = 0
+ 422              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173:Devices/Devices.c/Board_A_IMU.c ****     uint8_t retval;
+ 423              		.loc 1 173 1 is_stmt 0 view .LVU72
+ 424 0000 10B5     		push	{r4, lr}
+ 425              	.LCFI8:
+ 426              		.cfi_def_cfa_offset 8
+ 427              		.cfi_offset 4, -8
+ 428              		.cfi_offset 14, -4
+ 429 0002 0146     		mov	r1, r0
+ 174:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_REG, addr);
+ 430              		.loc 1 174 5 is_stmt 1 view .LVU73
+ 175:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 431              		.loc 1 175 5 view .LVU74
+ 432 0004 3220     		movs	r0, #50
+ 433              	.LVL47:
+ 175:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 434              		.loc 1 175 5 is_stmt 0 view .LVU75
+ 435 0006 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 436              	.LVL48:
+ 176:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_CTRL, 0x80);
+ 437              		.loc 1 176 5 is_stmt 1 view .LVU76
+ 438 000a 0A20     		movs	r0, #10
+ 439 000c FFF7FEFF 		bl	HAL_Delay
+ 440              	.LVL49:
+ 177:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 441              		.loc 1 177 5 view .LVU77
+ 442 0010 8021     		movs	r1, #128
+ 443 0012 3420     		movs	r0, #52
+ 444 0014 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 445              	.LVL50:
+ 178:Devices/Devices.c/Board_A_IMU.c ****     retval = Board_A_IMU_Read_Byte(MPU6500_I2C_SLV4_DI);
+ 446              		.loc 1 178 5 view .LVU78
+ 447 0018 0A20     		movs	r0, #10
+ 448 001a FFF7FEFF 		bl	HAL_Delay
+ 449              	.LVL51:
+ 179:Devices/Devices.c/Board_A_IMU.c ****     /* turn off slave4 after read */
+ 450              		.loc 1 179 5 view .LVU79
+ 179:Devices/Devices.c/Board_A_IMU.c ****     /* turn off slave4 after read */
+ 451              		.loc 1 179 14 is_stmt 0 view .LVU80
+ 452 001e 3520     		movs	r0, #53
+ 453 0020 FFF7FEFF 		bl	Board_A_IMU_Read_Byte
+ 454              	.LVL52:
+ 455 0024 0446     		mov	r4, r0
+ 456              	.LVL53:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 16
+
+
+ 181:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 457              		.loc 1 181 5 is_stmt 1 view .LVU81
+ 458 0026 0021     		movs	r1, #0
+ 459 0028 3420     		movs	r0, #52
+ 460 002a FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 461              	.LVL54:
+ 182:Devices/Devices.c/Board_A_IMU.c ****     return retval;
+ 462              		.loc 1 182 5 view .LVU82
+ 463 002e 0A20     		movs	r0, #10
+ 464 0030 FFF7FEFF 		bl	HAL_Delay
+ 465              	.LVL55:
+ 183:Devices/Devices.c/Board_A_IMU.c **** }   
+ 466              		.loc 1 183 5 view .LVU83
+ 184:Devices/Devices.c/Board_A_IMU.c **** 
+ 467              		.loc 1 184 1 is_stmt 0 view .LVU84
+ 468 0034 2046     		mov	r0, r4
+ 469 0036 10BD     		pop	{r4, pc}
+ 184:Devices/Devices.c/Board_A_IMU.c **** 
+ 470              		.loc 1 184 1 view .LVU85
+ 471              		.cfi_endproc
+ 472              	.LFE168:
+ 474              		.section	.text.IST8310_Init,"ax",%progbits
+ 475              		.align	1
+ 476              		.syntax unified
+ 477              		.thumb
+ 478              		.thumb_func
+ 480              	IST8310_Init:
+ 481              	.LFB166:
+  97:Devices/Devices.c/Board_A_IMU.c ****     /* enable iic master mode */
+ 482              		.loc 1 97 1 is_stmt 1 view -0
+ 483              		.cfi_startproc
+ 484              		@ args = 0, pretend = 0, frame = 0
+ 485              		@ frame_needed = 0, uses_anonymous_args = 0
+ 486 0000 10B5     		push	{r4, lr}
+ 487              	.LCFI9:
+ 488              		.cfi_def_cfa_offset 8
+ 489              		.cfi_offset 4, -8
+ 490              		.cfi_offset 14, -4
+  99:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 491              		.loc 1 99 5 view .LVU87
+ 492 0002 3021     		movs	r1, #48
+ 493 0004 6A20     		movs	r0, #106
+ 494 0006 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 495              	.LVL56:
+ 100:Devices/Devices.c/Board_A_IMU.c ****     /* enable iic 400khz */
+ 496              		.loc 1 100 5 view .LVU88
+ 497 000a 0A20     		movs	r0, #10
+ 498 000c FFF7FEFF 		bl	HAL_Delay
+ 499              	.LVL57:
+ 102:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 500              		.loc 1 102 5 view .LVU89
+ 501 0010 0D21     		movs	r1, #13
+ 502 0012 2420     		movs	r0, #36
+ 503 0014 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 504              	.LVL58:
+ 103:Devices/Devices.c/Board_A_IMU.c **** 
+ 505              		.loc 1 103 5 view .LVU90
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 17
+
+
+ 506 0018 0A20     		movs	r0, #10
+ 507 001a FFF7FEFF 		bl	HAL_Delay
+ 508              	.LVL59:
+ 106:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 509              		.loc 1 106 5 view .LVU91
+ 510 001e 0E21     		movs	r1, #14
+ 511 0020 2820     		movs	r0, #40
+ 512 0022 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 513              	.LVL60:
+ 107:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_ADDR, 0x80 | IST8310_ADDRESS);
+ 514              		.loc 1 107 5 view .LVU92
+ 515 0026 0A20     		movs	r0, #10
+ 516 0028 FFF7FEFF 		bl	HAL_Delay
+ 517              	.LVL61:
+ 108:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 518              		.loc 1 108 5 view .LVU93
+ 519 002c 8E21     		movs	r1, #142
+ 520 002e 3120     		movs	r0, #49
+ 521 0030 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 522              	.LVL62:
+ 109:Devices/Devices.c/Board_A_IMU.c **** 
+ 523              		.loc 1 109 5 view .LVU94
+ 524 0034 0A20     		movs	r0, #10
+ 525 0036 FFF7FEFF 		bl	HAL_Delay
+ 526              	.LVL63:
+ 112:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 527              		.loc 1 112 5 view .LVU95
+ 528 003a 0121     		movs	r1, #1
+ 529 003c 0B20     		movs	r0, #11
+ 530 003e FFF7FEFF 		bl	IST8310_Write_Byte
+ 531              	.LVL64:
+ 113:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_DEVICE_ID_A != IST8310_Read_Byte(IST8310_WHO_AM_I))
+ 532              		.loc 1 113 5 view .LVU96
+ 533 0042 0A20     		movs	r0, #10
+ 534 0044 FFF7FEFF 		bl	HAL_Delay
+ 535              	.LVL65:
+ 114:Devices/Devices.c/Board_A_IMU.c ****         return 1;
+ 536              		.loc 1 114 5 view .LVU97
+ 114:Devices/Devices.c/Board_A_IMU.c ****         return 1;
+ 537              		.loc 1 114 32 is_stmt 0 view .LVU98
+ 538 0048 0020     		movs	r0, #0
+ 539 004a FFF7FEFF 		bl	IST8310_Read_Byte
+ 540              	.LVL66:
+ 114:Devices/Devices.c/Board_A_IMU.c ****         return 1;
+ 541              		.loc 1 114 8 view .LVU99
+ 542 004e 1028     		cmp	r0, #16
+ 543 0050 02D0     		beq	.L24
+ 115:Devices/Devices.c/Board_A_IMU.c **** 
+ 544              		.loc 1 115 16 view .LVU100
+ 545 0052 0124     		movs	r4, #1
+ 546              	.L17:
+ 155:Devices/Devices.c/Board_A_IMU.c **** 
+ 547              		.loc 1 155 1 view .LVU101
+ 548 0054 2046     		mov	r0, r4
+ 549 0056 10BD     		pop	{r4, pc}
+ 550              	.L24:
+ 118:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 18
+
+
+ 551              		.loc 1 118 5 is_stmt 1 view .LVU102
+ 552 0058 0121     		movs	r1, #1
+ 553 005a 0B20     		movs	r0, #11
+ 554 005c FFF7FEFF 		bl	IST8310_Write_Byte
+ 555              	.LVL67:
+ 119:Devices/Devices.c/Board_A_IMU.c **** 
+ 556              		.loc 1 119 5 view .LVU103
+ 557 0060 0A20     		movs	r0, #10
+ 558 0062 FFF7FEFF 		bl	HAL_Delay
+ 559              	.LVL68:
+ 122:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_R_CONFA) != 0x00)
+ 560              		.loc 1 122 5 view .LVU104
+ 561 0066 0021     		movs	r1, #0
+ 562 0068 0A20     		movs	r0, #10
+ 563 006a FFF7FEFF 		bl	IST8310_Write_Byte
+ 564              	.LVL69:
+ 123:Devices/Devices.c/Board_A_IMU.c ****         return 2;
+ 565              		.loc 1 123 5 view .LVU105
+ 123:Devices/Devices.c/Board_A_IMU.c ****         return 2;
+ 566              		.loc 1 123 9 is_stmt 0 view .LVU106
+ 567 006e 0A20     		movs	r0, #10
+ 568 0070 FFF7FEFF 		bl	IST8310_Read_Byte
+ 569              	.LVL70:
+ 123:Devices/Devices.c/Board_A_IMU.c ****         return 2;
+ 570              		.loc 1 123 8 view .LVU107
+ 571 0074 0028     		cmp	r0, #0
+ 572 0076 41D1     		bne	.L19
+ 125:Devices/Devices.c/Board_A_IMU.c **** 
+ 573              		.loc 1 125 5 is_stmt 1 view .LVU108
+ 574 0078 0A20     		movs	r0, #10
+ 575 007a FFF7FEFF 		bl	HAL_Delay
+ 576              	.LVL71:
+ 128:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_R_CONFB) != 0x00)
+ 577              		.loc 1 128 5 view .LVU109
+ 578 007e 0021     		movs	r1, #0
+ 579 0080 0B20     		movs	r0, #11
+ 580 0082 FFF7FEFF 		bl	IST8310_Write_Byte
+ 581              	.LVL72:
+ 129:Devices/Devices.c/Board_A_IMU.c ****         return 3;
+ 582              		.loc 1 129 5 view .LVU110
+ 129:Devices/Devices.c/Board_A_IMU.c ****         return 3;
+ 583              		.loc 1 129 9 is_stmt 0 view .LVU111
+ 584 0086 0B20     		movs	r0, #11
+ 585 0088 FFF7FEFF 		bl	IST8310_Read_Byte
+ 586              	.LVL73:
+ 129:Devices/Devices.c/Board_A_IMU.c ****         return 3;
+ 587              		.loc 1 129 8 view .LVU112
+ 588 008c 0446     		mov	r4, r0
+ 589 008e B8BB     		cbnz	r0, .L20
+ 131:Devices/Devices.c/Board_A_IMU.c **** 
+ 590              		.loc 1 131 5 is_stmt 1 view .LVU113
+ 591 0090 0A20     		movs	r0, #10
+ 592 0092 FFF7FEFF 		bl	HAL_Delay
+ 593              	.LVL74:
+ 134:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_AVGCNTL) != 0x24)
+ 594              		.loc 1 134 5 view .LVU114
+ 595 0096 2421     		movs	r1, #36
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 19
+
+
+ 596 0098 4120     		movs	r0, #65
+ 597 009a FFF7FEFF 		bl	IST8310_Write_Byte
+ 598              	.LVL75:
+ 135:Devices/Devices.c/Board_A_IMU.c ****         return 4;
+ 599              		.loc 1 135 5 view .LVU115
+ 135:Devices/Devices.c/Board_A_IMU.c ****         return 4;
+ 600              		.loc 1 135 9 is_stmt 0 view .LVU116
+ 601 009e 4120     		movs	r0, #65
+ 602 00a0 FFF7FEFF 		bl	IST8310_Read_Byte
+ 603              	.LVL76:
+ 135:Devices/Devices.c/Board_A_IMU.c ****         return 4;
+ 604              		.loc 1 135 8 view .LVU117
+ 605 00a4 2428     		cmp	r0, #36
+ 606 00a6 01D0     		beq	.L25
+ 136:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 607              		.loc 1 136 16 view .LVU118
+ 608 00a8 0424     		movs	r4, #4
+ 609 00aa D3E7     		b	.L17
+ 610              	.L25:
+ 137:Devices/Devices.c/Board_A_IMU.c **** 
+ 611              		.loc 1 137 5 is_stmt 1 view .LVU119
+ 612 00ac 0A20     		movs	r0, #10
+ 613 00ae FFF7FEFF 		bl	HAL_Delay
+ 614              	.LVL77:
+ 140:Devices/Devices.c/Board_A_IMU.c ****     if (IST8310_Read_Byte(IST8310_PDCNTL) != 0xc0)
+ 615              		.loc 1 140 5 view .LVU120
+ 616 00b2 C021     		movs	r1, #192
+ 617 00b4 4220     		movs	r0, #66
+ 618 00b6 FFF7FEFF 		bl	IST8310_Write_Byte
+ 619              	.LVL78:
+ 141:Devices/Devices.c/Board_A_IMU.c ****         return 5;
+ 620              		.loc 1 141 5 view .LVU121
+ 141:Devices/Devices.c/Board_A_IMU.c ****         return 5;
+ 621              		.loc 1 141 9 is_stmt 0 view .LVU122
+ 622 00ba 4220     		movs	r0, #66
+ 623 00bc FFF7FEFF 		bl	IST8310_Read_Byte
+ 624              	.LVL79:
+ 141:Devices/Devices.c/Board_A_IMU.c ****         return 5;
+ 625              		.loc 1 141 8 view .LVU123
+ 626 00c0 C028     		cmp	r0, #192
+ 627 00c2 01D0     		beq	.L26
+ 142:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 628              		.loc 1 142 16 view .LVU124
+ 629 00c4 0524     		movs	r4, #5
+ 630 00c6 C5E7     		b	.L17
+ 631              	.L26:
+ 143:Devices/Devices.c/Board_A_IMU.c **** 
+ 632              		.loc 1 143 5 is_stmt 1 view .LVU125
+ 633 00c8 0A20     		movs	r0, #10
+ 634 00ca FFF7FEFF 		bl	HAL_Delay
+ 635              	.LVL80:
+ 146:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 636              		.loc 1 146 5 view .LVU126
+ 637 00ce 0021     		movs	r1, #0
+ 638 00d0 2A20     		movs	r0, #42
+ 639 00d2 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 640              	.LVL81:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 20
+
+
+ 147:Devices/Devices.c/Board_A_IMU.c ****     Board_A_IMU_Write_Byte(MPU6500_I2C_SLV4_CTRL, 0x00);
+ 641              		.loc 1 147 5 view .LVU127
+ 642 00d6 0A20     		movs	r0, #10
+ 643 00d8 FFF7FEFF 		bl	HAL_Delay
+ 644              	.LVL82:
+ 148:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 645              		.loc 1 148 5 view .LVU128
+ 646 00dc 0021     		movs	r1, #0
+ 647 00de 3420     		movs	r0, #52
+ 648 00e0 FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 649              	.LVL83:
+ 149:Devices/Devices.c/Board_A_IMU.c **** 
+ 650              		.loc 1 149 5 view .LVU129
+ 651 00e4 0A20     		movs	r0, #10
+ 652 00e6 FFF7FEFF 		bl	HAL_Delay
+ 653              	.LVL84:
+ 152:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(100);
+ 654              		.loc 1 152 5 view .LVU130
+ 655 00ea 0622     		movs	r2, #6
+ 656 00ec 0321     		movs	r1, #3
+ 657 00ee 0E20     		movs	r0, #14
+ 658 00f0 FFF7FEFF 		bl	Board_A_IMU_I2C_Config
+ 659              	.LVL85:
+ 153:Devices/Devices.c/Board_A_IMU.c ****     return 0;
+ 660              		.loc 1 153 5 view .LVU131
+ 661 00f4 6420     		movs	r0, #100
+ 662 00f6 FFF7FEFF 		bl	HAL_Delay
+ 663              	.LVL86:
+ 154:Devices/Devices.c/Board_A_IMU.c **** }
+ 664              		.loc 1 154 5 view .LVU132
+ 154:Devices/Devices.c/Board_A_IMU.c **** }
+ 665              		.loc 1 154 12 is_stmt 0 view .LVU133
+ 666 00fa ABE7     		b	.L17
+ 667              	.L19:
+ 124:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 668              		.loc 1 124 16 view .LVU134
+ 669 00fc 0224     		movs	r4, #2
+ 670 00fe A9E7     		b	.L17
+ 671              	.L20:
+ 130:Devices/Devices.c/Board_A_IMU.c ****     HAL_Delay(10);
+ 672              		.loc 1 130 16 view .LVU135
+ 673 0100 0324     		movs	r4, #3
+ 674 0102 A7E7     		b	.L17
+ 675              		.cfi_endproc
+ 676              	.LFE166:
+ 678              		.section	.text.Board_A_IMU_Init,"ax",%progbits
+ 679              		.align	1
+ 680              		.global	Board_A_IMU_Init
+ 681              		.syntax unified
+ 682              		.thumb
+ 683              		.thumb_func
+ 685              	Board_A_IMU_Init:
+ 686              	.LFB162:
+  43:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t i = 0;
+ 687              		.loc 1 43 1 is_stmt 1 view -0
+ 688              		.cfi_startproc
+ 689              		@ args = 0, pretend = 0, frame = 24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 21
+
+
+ 690              		@ frame_needed = 0, uses_anonymous_args = 0
+ 691 0000 10B5     		push	{r4, lr}
+ 692              	.LCFI10:
+ 693              		.cfi_def_cfa_offset 8
+ 694              		.cfi_offset 4, -8
+ 695              		.cfi_offset 14, -4
+ 696 0002 86B0     		sub	sp, sp, #24
+ 697              	.LCFI11:
+ 698              		.cfi_def_cfa_offset 32
+  44:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t MPU6500_Init_Data[10][2] = {
+ 699              		.loc 1 44 2 view .LVU137
+ 700              	.LVL87:
+  45:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_PWR_MGMT_1, 0x80},     /* Reset Device */
+ 701              		.loc 1 45 2 view .LVU138
+  45:Devices/Devices.c/Board_A_IMU.c **** 			{MPU6500_PWR_MGMT_1, 0x80},     /* Reset Device */
+ 702              		.loc 1 45 10 is_stmt 0 view .LVU139
+ 703 0004 0024     		movs	r4, #0
+ 704 0006 0194     		str	r4, [sp, #4]
+ 705 0008 0294     		str	r4, [sp, #8]
+ 706 000a 0394     		str	r4, [sp, #12]
+ 707 000c 0494     		str	r4, [sp, #16]
+ 708 000e 0594     		str	r4, [sp, #20]
+ 709 0010 48F26B03 		movw	r3, #32875
+ 710 0014 ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 711 0018 40F26B33 		movw	r3, #875
+ 712 001c ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 713 0020 6C23     		movs	r3, #108
+ 714 0022 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 715 0026 40F21A43 		movw	r3, #1050
+ 716 002a ADF80A30 		strh	r3, [sp, #10]	@ movhi
+ 717 002e 41F61B03 		movw	r3, #6171
+ 718 0032 ADF80C30 		strh	r3, [sp, #12]	@ movhi
+ 719 0036 41F21C03 		movw	r3, #4124
+ 720 003a ADF80E30 		strh	r3, [sp, #14]	@ movhi
+ 721 003e 40F21D23 		movw	r3, #541
+ 722 0042 ADF81030 		strh	r3, [sp, #16]	@ movhi
+ 723 0046 42F26A03 		movw	r3, #8298
+ 724 004a ADF81230 		strh	r3, [sp, #18]	@ movhi
+  55:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 725              		.loc 1 55 2 is_stmt 1 view .LVU140
+  55:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 726              		.loc 1 55 2 is_stmt 0 view .LVU141
+ 727 004e 0DE0     		b	.L28
+ 728              	.LVL88:
+ 729              	.L29:
+  57:Devices/Devices.c/Board_A_IMU.c **** 			HAL_Delay(1);
+ 730              		.loc 1 57 4 is_stmt 1 discriminator 3 view .LVU142
+ 731 0050 06AB     		add	r3, sp, #24
+ 732 0052 03EB4403 		add	r3, r3, r4, lsl #1
+ 733 0056 13F8131C 		ldrb	r1, [r3, #-19]	@ zero_extendqisi2
+ 734 005a 13F8140C 		ldrb	r0, [r3, #-20]	@ zero_extendqisi2
+ 735 005e FFF7FEFF 		bl	Board_A_IMU_Write_Byte
+ 736              	.LVL89:
+  58:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 737              		.loc 1 58 4 discriminator 3 view .LVU143
+ 738 0062 0120     		movs	r0, #1
+ 739 0064 FFF7FEFF 		bl	HAL_Delay
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 22
+
+
+ 740              	.LVL90:
+  55:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 741              		.loc 1 55 23 discriminator 3 view .LVU144
+ 742 0068 0134     		adds	r4, r4, #1
+ 743              	.LVL91:
+  55:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 744              		.loc 1 55 23 is_stmt 0 discriminator 3 view .LVU145
+ 745 006a E4B2     		uxtb	r4, r4
+ 746              	.LVL92:
+ 747              	.L28:
+  55:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 748              		.loc 1 55 16 is_stmt 1 discriminator 1 view .LVU146
+ 749 006c 092C     		cmp	r4, #9
+ 750 006e EFD9     		bls	.L29
+  60:Devices/Devices.c/Board_A_IMU.c **** }
+ 751              		.loc 1 60 2 view .LVU147
+ 752 0070 FFF7FEFF 		bl	IST8310_Init
+ 753              	.LVL93:
+  61:Devices/Devices.c/Board_A_IMU.c **** 
+ 754              		.loc 1 61 1 is_stmt 0 view .LVU148
+ 755 0074 06B0     		add	sp, sp, #24
+ 756              	.LCFI12:
+ 757              		.cfi_def_cfa_offset 8
+ 758              		@ sp needed
+ 759 0076 10BD     		pop	{r4, pc}
+  61:Devices/Devices.c/Board_A_IMU.c **** 
+ 760              		.loc 1 61 1 view .LVU149
+ 761              		.cfi_endproc
+ 762              	.LFE162:
+ 764              		.section	.text.Board_A_IMU_Read_Bytes,"ax",%progbits
+ 765              		.align	1
+ 766              		.syntax unified
+ 767              		.thumb
+ 768              		.thumb_func
+ 770              	Board_A_IMU_Read_Bytes:
+ 771              	.LVL94:
+ 772              	.LFB163:
+  64:Devices/Devices.c/Board_A_IMU.c ****     HAL_StatusTypeDef Info_Update_Flag = HAL_ERROR;
+ 773              		.loc 1 64 1 is_stmt 1 view -0
+ 774              		.cfi_startproc
+ 775              		@ args = 0, pretend = 0, frame = 0
+ 776              		@ frame_needed = 0, uses_anonymous_args = 0
+  64:Devices/Devices.c/Board_A_IMU.c ****     HAL_StatusTypeDef Info_Update_Flag = HAL_ERROR;
+ 777              		.loc 1 64 1 is_stmt 0 view .LVU151
+ 778 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 779              	.LCFI13:
+ 780              		.cfi_def_cfa_offset 28
+ 781              		.cfi_offset 4, -28
+ 782              		.cfi_offset 5, -24
+ 783              		.cfi_offset 6, -20
+ 784              		.cfi_offset 7, -16
+ 785              		.cfi_offset 8, -12
+ 786              		.cfi_offset 9, -8
+ 787              		.cfi_offset 14, -4
+ 788 0004 83B0     		sub	sp, sp, #12
+ 789              	.LCFI14:
+ 790              		.cfi_def_cfa_offset 40
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 23
+
+
+ 791 0006 0446     		mov	r4, r0
+ 792 0008 0D46     		mov	r5, r1
+ 793 000a 1646     		mov	r6, r2
+  65:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_LOW;
+ 794              		.loc 1 65 5 is_stmt 1 view .LVU152
+ 795              	.LVL95:
+  66:Devices/Devices.c/Board_A_IMU.c ****     tx = regAddr | 0x80;
+ 796              		.loc 1 66 5 view .LVU153
+ 797 000c 144F     		ldr	r7, .L33
+ 798 000e 0022     		movs	r2, #0
+ 799              	.LVL96:
+  66:Devices/Devices.c/Board_A_IMU.c ****     tx = regAddr | 0x80;
+ 800              		.loc 1 66 5 is_stmt 0 view .LVU154
+ 801 0010 4021     		movs	r1, #64
+ 802              	.LVL97:
+  66:Devices/Devices.c/Board_A_IMU.c ****     tx = regAddr | 0x80;
+ 803              		.loc 1 66 5 view .LVU155
+ 804 0012 3846     		mov	r0, r7
+ 805              	.LVL98:
+  66:Devices/Devices.c/Board_A_IMU.c ****     tx = regAddr | 0x80;
+ 806              		.loc 1 66 5 view .LVU156
+ 807 0014 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 808              	.LVL99:
+  67:Devices/Devices.c/Board_A_IMU.c ****     tx_buff[0] = tx;
+ 809              		.loc 1 67 5 is_stmt 1 view .LVU157
+  67:Devices/Devices.c/Board_A_IMU.c ****     tx_buff[0] = tx;
+ 810              		.loc 1 67 8 is_stmt 0 view .LVU158
+ 811 0018 44F08000 		orr	r0, r4, #128
+ 812 001c 1149     		ldr	r1, .L33+4
+ 813 001e 0870     		strb	r0, [r1]
+  68:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+ 814              		.loc 1 68 5 is_stmt 1 view .LVU159
+  68:Devices/Devices.c/Board_A_IMU.c ****     HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, &tx, &rx, 1, 55);
+ 815              		.loc 1 68 16 is_stmt 0 view .LVU160
+ 816 0020 DFF84C80 		ldr	r8, .L33+16
+ 817 0024 88F80000 		strb	r0, [r8]
+  69:Devices/Devices.c/Board_A_IMU.c ****     Info_Update_Flag = HAL_SPI_TransmitReceive(&BOARD_A_IMU_SPI, tx_buff, pData, len, 55);
+ 818              		.loc 1 69 5 is_stmt 1 view .LVU161
+ 819 0028 0F4C     		ldr	r4, .L33+8
+ 820 002a 4FF03709 		mov	r9, #55
+ 821 002e CDF80090 		str	r9, [sp]
+ 822 0032 0123     		movs	r3, #1
+ 823 0034 0D4A     		ldr	r2, .L33+12
+ 824 0036 2046     		mov	r0, r4
+ 825 0038 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+ 826              	.LVL100:
+  70:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_HIGH;
+ 827              		.loc 1 70 5 view .LVU162
+  70:Devices/Devices.c/Board_A_IMU.c ****     SPI_NSS_HIGH;
+ 828              		.loc 1 70 24 is_stmt 0 view .LVU163
+ 829 003c CDF80090 		str	r9, [sp]
+ 830 0040 3346     		mov	r3, r6
+ 831 0042 2A46     		mov	r2, r5
+ 832 0044 4146     		mov	r1, r8
+ 833 0046 2046     		mov	r0, r4
+ 834 0048 FFF7FEFF 		bl	HAL_SPI_TransmitReceive
+ 835              	.LVL101:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 24
+
+
+ 836 004c 0446     		mov	r4, r0
+ 837              	.LVL102:
+  71:Devices/Devices.c/Board_A_IMU.c ****     return Info_Update_Flag;
+ 838              		.loc 1 71 5 is_stmt 1 view .LVU164
+ 839 004e 0122     		movs	r2, #1
+ 840 0050 4021     		movs	r1, #64
+ 841 0052 3846     		mov	r0, r7
+ 842 0054 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 843              	.LVL103:
+  72:Devices/Devices.c/Board_A_IMU.c **** }
+ 844              		.loc 1 72 5 view .LVU165
+  73:Devices/Devices.c/Board_A_IMU.c **** 
+ 845              		.loc 1 73 1 is_stmt 0 view .LVU166
+ 846 0058 2046     		mov	r0, r4
+ 847 005a 03B0     		add	sp, sp, #12
+ 848              	.LCFI15:
+ 849              		.cfi_def_cfa_offset 28
+ 850              		@ sp needed
+ 851 005c BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 852              	.LVL104:
+ 853              	.L34:
+  73:Devices/Devices.c/Board_A_IMU.c **** 
+ 854              		.loc 1 73 1 view .LVU167
+ 855              		.align	2
+ 856              	.L33:
+ 857 0060 00140240 		.word	1073878016
+ 858 0064 00000000 		.word	tx
+ 859 0068 00000000 		.word	hspi5
+ 860 006c 00000000 		.word	rx
+ 861 0070 00000000 		.word	tx_buff
+ 862              		.cfi_endproc
+ 863              	.LFE163:
+ 865              		.section	.text.Board_A_IMU_Read_Data,"ax",%progbits
+ 866              		.align	1
+ 867              		.global	Board_A_IMU_Read_Data
+ 868              		.syntax unified
+ 869              		.thumb
+ 870              		.thumb_func
+ 872              	Board_A_IMU_Read_Data:
+ 873              	.LVL105:
+ 874              	.LFB171:
+ 254:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t Buffer[14];
+ 875              		.loc 1 254 1 is_stmt 1 view -0
+ 876              		.cfi_startproc
+ 877              		@ args = 0, pretend = 0, frame = 24
+ 878              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t Buffer[14];
+ 879              		.loc 1 254 1 is_stmt 0 view .LVU169
+ 880 0000 70B5     		push	{r4, r5, r6, lr}
+ 881              	.LCFI16:
+ 882              		.cfi_def_cfa_offset 16
+ 883              		.cfi_offset 4, -16
+ 884              		.cfi_offset 5, -12
+ 885              		.cfi_offset 6, -8
+ 886              		.cfi_offset 14, -4
+ 887 0002 86B0     		sub	sp, sp, #24
+ 888              	.LCFI17:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 25
+
+
+ 889              		.cfi_def_cfa_offset 40
+ 890 0004 0446     		mov	r4, r0
+ 255:Devices/Devices.c/Board_A_IMU.c **** 	uint8_t Buffer_Mag[6];
+ 891              		.loc 1 255 2 is_stmt 1 view .LVU170
+ 256:Devices/Devices.c/Board_A_IMU.c **** 	
+ 892              		.loc 1 256 2 view .LVU171
+ 259:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Period = Board_A_IMU->Sample.Now_Time - Board_A_IMU->Sample.Prev_Time;
+ 893              		.loc 1 259 2 view .LVU172
+ 259:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Period = Board_A_IMU->Sample.Now_Time - Board_A_IMU->Sample.Prev_Time;
+ 894              		.loc 1 259 33 is_stmt 0 view .LVU173
+ 895 0006 FFF7FEFF 		bl	HAL_GetTick
+ 896              	.LVL106:
+ 259:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Period = Board_A_IMU->Sample.Now_Time - Board_A_IMU->Sample.Prev_Time;
+ 897              		.loc 1 259 33 view .LVU174
+ 898 000a 07EE100A 		vmov	s14, r0	@ int
+ 259:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Period = Board_A_IMU->Sample.Now_Time - Board_A_IMU->Sample.Prev_Time;
+ 899              		.loc 1 259 47 view .LVU175
+ 900 000e B8EE477A 		vcvt.f32.u32	s14, s14
+ 901 0012 DFED6B6A 		vldr.32	s13, .L39
+ 902 0016 C7EE267A 		vdiv.f32	s15, s14, s13
+ 259:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Period = Board_A_IMU->Sample.Now_Time - Board_A_IMU->Sample.Prev_Time;
+ 903              		.loc 1 259 31 view .LVU176
+ 904 001a C4ED1F7A 		vstr.32	s15, [r4, #124]
+ 260:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Prev_Time = Board_A_IMU->Sample.Now_Time;
+ 905              		.loc 1 260 2 is_stmt 1 view .LVU177
+ 260:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Prev_Time = Board_A_IMU->Sample.Now_Time;
+ 906              		.loc 1 260 81 is_stmt 0 view .LVU178
+ 907 001e 94ED207A 		vldr.32	s14, [r4, #128]
+ 260:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Prev_Time = Board_A_IMU->Sample.Now_Time;
+ 908              		.loc 1 260 60 view .LVU179
+ 909 0022 37EEC77A 		vsub.f32	s14, s15, s14
+ 260:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Sample.Prev_Time = Board_A_IMU->Sample.Now_Time;
+ 910              		.loc 1 260 29 view .LVU180
+ 911 0026 84ED217A 		vstr.32	s14, [r4, #132]
+ 261:Devices/Devices.c/Board_A_IMU.c **** 	
+ 912              		.loc 1 261 2 is_stmt 1 view .LVU181
+ 261:Devices/Devices.c/Board_A_IMU.c **** 	
+ 913              		.loc 1 261 32 is_stmt 0 view .LVU182
+ 914 002a C4ED207A 		vstr.32	s15, [r4, #128]
+ 263:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU_Read_Bytes(MPU6500_EXT_SENS_DATA_00, Buffer_Mag, 6);
+ 915              		.loc 1 263 2 is_stmt 1 view .LVU183
+ 263:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU_Read_Bytes(MPU6500_EXT_SENS_DATA_00, Buffer_Mag, 6);
+ 916              		.loc 1 263 30 is_stmt 0 view .LVU184
+ 917 002e 0E22     		movs	r2, #14
+ 918 0030 02A9     		add	r1, sp, #8
+ 919 0032 3B20     		movs	r0, #59
+ 920 0034 FFF7FEFF 		bl	Board_A_IMU_Read_Bytes
+ 921              	.LVL107:
+ 263:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU_Read_Bytes(MPU6500_EXT_SENS_DATA_00, Buffer_Mag, 6);
+ 922              		.loc 1 263 28 view .LVU185
+ 923 0038 84F88B00 		strb	r0, [r4, #139]
+ 264:Devices/Devices.c/Board_A_IMU.c **** 
+ 924              		.loc 1 264 2 is_stmt 1 view .LVU186
+ 925 003c 0622     		movs	r2, #6
+ 926 003e 6946     		mov	r1, sp
+ 927 0040 4920     		movs	r0, #73
+ 928 0042 FFF7FEFF 		bl	Board_A_IMU_Read_Bytes
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 26
+
+
+ 929              	.LVL108:
+ 267:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Ay = ((int16_t)Buffer[2] << 8) | Buffer[3];
+ 930              		.loc 1 267 2 view .LVU187
+ 267:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Ay = ((int16_t)Buffer[2] << 8) | Buffer[3];
+ 931              		.loc 1 267 45 is_stmt 0 view .LVU188
+ 932 0046 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 267:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Ay = ((int16_t)Buffer[2] << 8) | Buffer[3];
+ 933              		.loc 1 267 63 view .LVU189
+ 934 004a 9DF80910 		ldrb	r1, [sp, #9]	@ zero_extendqisi2
+ 267:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Ay = ((int16_t)Buffer[2] << 8) | Buffer[3];
+ 935              		.loc 1 267 55 view .LVU190
+ 936 004e 41EA0321 		orr	r1, r1, r3, lsl #8
+ 937 0052 09B2     		sxth	r1, r1
+ 267:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Ay = ((int16_t)Buffer[2] << 8) | Buffer[3];
+ 938              		.loc 1 267 27 view .LVU191
+ 939 0054 2180     		strh	r1, [r4]	@ movhi
+ 268:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Az = ((int16_t)Buffer[4] << 8) | Buffer[5];
+ 940              		.loc 1 268 2 is_stmt 1 view .LVU192
+ 268:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Az = ((int16_t)Buffer[4] << 8) | Buffer[5];
+ 941              		.loc 1 268 45 is_stmt 0 view .LVU193
+ 942 0056 9DF80A30 		ldrb	r3, [sp, #10]	@ zero_extendqisi2
+ 268:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Az = ((int16_t)Buffer[4] << 8) | Buffer[5];
+ 943              		.loc 1 268 63 view .LVU194
+ 944 005a 9DF80B20 		ldrb	r2, [sp, #11]	@ zero_extendqisi2
+ 268:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Az = ((int16_t)Buffer[4] << 8) | Buffer[5];
+ 945              		.loc 1 268 55 view .LVU195
+ 946 005e 42EA0322 		orr	r2, r2, r3, lsl #8
+ 947 0062 12B2     		sxth	r2, r2
+ 268:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Az = ((int16_t)Buffer[4] << 8) | Buffer[5];
+ 948              		.loc 1 268 27 view .LVU196
+ 949 0064 6280     		strh	r2, [r4, #2]	@ movhi
+ 269:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Temperature = ((int16_t)Buffer[6] << 8) | Buffer[7];
+ 950              		.loc 1 269 2 is_stmt 1 view .LVU197
+ 269:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Temperature = ((int16_t)Buffer[6] << 8) | Buffer[7];
+ 951              		.loc 1 269 45 is_stmt 0 view .LVU198
+ 952 0066 9DF80C00 		ldrb	r0, [sp, #12]	@ zero_extendqisi2
+ 269:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Temperature = ((int16_t)Buffer[6] << 8) | Buffer[7];
+ 953              		.loc 1 269 63 view .LVU199
+ 954 006a 9DF80D30 		ldrb	r3, [sp, #13]	@ zero_extendqisi2
+ 269:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Temperature = ((int16_t)Buffer[6] << 8) | Buffer[7];
+ 955              		.loc 1 269 55 view .LVU200
+ 956 006e 43EA0023 		orr	r3, r3, r0, lsl #8
+ 957 0072 1BB2     		sxth	r3, r3
+ 269:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Temperature = ((int16_t)Buffer[6] << 8) | Buffer[7];
+ 958              		.loc 1 269 27 view .LVU201
+ 959 0074 A380     		strh	r3, [r4, #4]	@ movhi
+ 270:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gx = ((int16_t)Buffer[8] << 8) | Buffer[9];
+ 960              		.loc 1 270 2 is_stmt 1 view .LVU202
+ 270:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gx = ((int16_t)Buffer[8] << 8) | Buffer[9];
+ 961              		.loc 1 270 54 is_stmt 0 view .LVU203
+ 962 0076 9DF80E00 		ldrb	r0, [sp, #14]	@ zero_extendqisi2
+ 270:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gx = ((int16_t)Buffer[8] << 8) | Buffer[9];
+ 963              		.loc 1 270 72 view .LVU204
+ 964 007a 9DF80FC0 		ldrb	ip, [sp, #15]	@ zero_extendqisi2
+ 270:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gx = ((int16_t)Buffer[8] << 8) | Buffer[9];
+ 965              		.loc 1 270 64 view .LVU205
+ 966 007e 4CEA002C 		orr	ip, ip, r0, lsl #8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 27
+
+
+ 967 0082 0FFA8CFC 		sxth	ip, ip
+ 270:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gx = ((int16_t)Buffer[8] << 8) | Buffer[9];
+ 968              		.loc 1 270 36 view .LVU206
+ 969 0086 A4F812C0 		strh	ip, [r4, #18]	@ movhi
+ 271:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
+ 970              		.loc 1 271 2 is_stmt 1 view .LVU207
+ 271:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
+ 971              		.loc 1 271 45 is_stmt 0 view .LVU208
+ 972 008a 9DF81000 		ldrb	r0, [sp, #16]	@ zero_extendqisi2
+ 271:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
+ 973              		.loc 1 271 63 view .LVU209
+ 974 008e 9DF81160 		ldrb	r6, [sp, #17]	@ zero_extendqisi2
+ 271:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
+ 975              		.loc 1 271 55 view .LVU210
+ 976 0092 46EA0026 		orr	r6, r6, r0, lsl #8
+ 977 0096 36B2     		sxth	r6, r6
+ 271:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gy = ((int16_t)Buffer[10] << 8) | Buffer[11];
+ 978              		.loc 1 271 27 view .LVU211
+ 979 0098 E680     		strh	r6, [r4, #6]	@ movhi
+ 272:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gz = ((int16_t)Buffer[12] << 8) | Buffer[13];	
+ 980              		.loc 1 272 2 is_stmt 1 view .LVU212
+ 272:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gz = ((int16_t)Buffer[12] << 8) | Buffer[13];	
+ 981              		.loc 1 272 45 is_stmt 0 view .LVU213
+ 982 009a 9DF81200 		ldrb	r0, [sp, #18]	@ zero_extendqisi2
+ 272:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gz = ((int16_t)Buffer[12] << 8) | Buffer[13];	
+ 983              		.loc 1 272 64 view .LVU214
+ 984 009e 9DF81350 		ldrb	r5, [sp, #19]	@ zero_extendqisi2
+ 272:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gz = ((int16_t)Buffer[12] << 8) | Buffer[13];	
+ 985              		.loc 1 272 56 view .LVU215
+ 986 00a2 45EA0025 		orr	r5, r5, r0, lsl #8
+ 987 00a6 2DB2     		sxth	r5, r5
+ 272:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Raw_Data.Gz = ((int16_t)Buffer[12] << 8) | Buffer[13];	
+ 988              		.loc 1 272 27 view .LVU216
+ 989 00a8 2581     		strh	r5, [r4, #8]	@ movhi
+ 273:Devices/Devices.c/Board_A_IMU.c **** 	memcpy(&Board_A_IMU->Raw_Data.Mx, Buffer_Mag, 6);
+ 990              		.loc 1 273 2 is_stmt 1 view .LVU217
+ 273:Devices/Devices.c/Board_A_IMU.c **** 	memcpy(&Board_A_IMU->Raw_Data.Mx, Buffer_Mag, 6);
+ 991              		.loc 1 273 45 is_stmt 0 view .LVU218
+ 992 00aa 9DF81400 		ldrb	r0, [sp, #20]	@ zero_extendqisi2
+ 273:Devices/Devices.c/Board_A_IMU.c **** 	memcpy(&Board_A_IMU->Raw_Data.Mx, Buffer_Mag, 6);
+ 993              		.loc 1 273 64 view .LVU219
+ 994 00ae 9DF815E0 		ldrb	lr, [sp, #21]	@ zero_extendqisi2
+ 273:Devices/Devices.c/Board_A_IMU.c **** 	memcpy(&Board_A_IMU->Raw_Data.Mx, Buffer_Mag, 6);
+ 995              		.loc 1 273 56 view .LVU220
+ 996 00b2 4EEA002E 		orr	lr, lr, r0, lsl #8
+ 997 00b6 0FFA8EFE 		sxth	lr, lr
+ 273:Devices/Devices.c/Board_A_IMU.c **** 	memcpy(&Board_A_IMU->Raw_Data.Mx, Buffer_Mag, 6);
+ 998              		.loc 1 273 27 view .LVU221
+ 999 00ba A4F80AE0 		strh	lr, [r4, #10]	@ movhi
+ 274:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1000              		.loc 1 274 2 is_stmt 1 view .LVU222
+ 1001 00be 0098     		ldr	r0, [sp]
+ 1002 00c0 E060     		str	r0, [r4, #12]	@ unaligned
+ 1003 00c2 BDF80400 		ldrh	r0, [sp, #4]	@ unaligned
+ 1004 00c6 2082     		strh	r0, [r4, #16]	@ unaligned
+ 276:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Ay = Board_A_IMU->Raw_Data.Ay / 4096.0f * 9.81f;
+ 1005              		.loc 1 276 2 view .LVU223
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 28
+
+
+ 276:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Ay = Board_A_IMU->Raw_Data.Ay / 4096.0f * 9.81f;
+ 1006              		.loc 1 276 55 is_stmt 0 view .LVU224
+ 1007 00c8 07EE901A 		vmov	s15, r1	@ int
+ 1008 00cc F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1009 00d0 DFED3C6A 		vldr.32	s13, .L39+4
+ 1010 00d4 67EEA67A 		vmul.f32	s15, s15, s13
+ 276:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Ay = Board_A_IMU->Raw_Data.Ay / 4096.0f * 9.81f;
+ 1011              		.loc 1 276 65 view .LVU225
+ 1012 00d8 9FED3B7A 		vldr.32	s14, .L39+8
+ 1013 00dc 67EE877A 		vmul.f32	s15, s15, s14
+ 276:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Ay = Board_A_IMU->Raw_Data.Ay / 4096.0f * 9.81f;
+ 1014              		.loc 1 276 28 view .LVU226
+ 1015 00e0 C4ED0B7A 		vstr.32	s15, [r4, #44]
+ 277:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Az = Board_A_IMU->Raw_Data.Az / 4096.0f * 9.81f;
+ 1016              		.loc 1 277 2 is_stmt 1 view .LVU227
+ 277:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Az = Board_A_IMU->Raw_Data.Az / 4096.0f * 9.81f;
+ 1017              		.loc 1 277 55 is_stmt 0 view .LVU228
+ 1018 00e4 07EE902A 		vmov	s15, r2	@ int
+ 1019 00e8 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1020 00ec 67EEA67A 		vmul.f32	s15, s15, s13
+ 277:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Az = Board_A_IMU->Raw_Data.Az / 4096.0f * 9.81f;
+ 1021              		.loc 1 277 65 view .LVU229
+ 1022 00f0 67EE877A 		vmul.f32	s15, s15, s14
+ 277:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Az = Board_A_IMU->Raw_Data.Az / 4096.0f * 9.81f;
+ 1023              		.loc 1 277 28 view .LVU230
+ 1024 00f4 C4ED0C7A 		vstr.32	s15, [r4, #48]
+ 278:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gx = Board_A_IMU->Raw_Data.Gx / 16.384f;
+ 1025              		.loc 1 278 2 is_stmt 1 view .LVU231
+ 278:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gx = Board_A_IMU->Raw_Data.Gx / 16.384f;
+ 1026              		.loc 1 278 55 is_stmt 0 view .LVU232
+ 1027 00f8 07EE903A 		vmov	s15, r3	@ int
+ 1028 00fc F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1029 0100 67EEA67A 		vmul.f32	s15, s15, s13
+ 278:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gx = Board_A_IMU->Raw_Data.Gx / 16.384f;
+ 1030              		.loc 1 278 65 view .LVU233
+ 1031 0104 67EE877A 		vmul.f32	s15, s15, s14
+ 278:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gx = Board_A_IMU->Raw_Data.Gx / 16.384f;
+ 1032              		.loc 1 278 28 view .LVU234
+ 1033 0108 C4ED0D7A 		vstr.32	s15, [r4, #52]
+ 279:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gy = Board_A_IMU->Raw_Data.Gy / 16.384f;
+ 1034              		.loc 1 279 2 is_stmt 1 view .LVU235
+ 279:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gy = Board_A_IMU->Raw_Data.Gy / 16.384f;
+ 1035              		.loc 1 279 55 is_stmt 0 view .LVU236
+ 1036 010c 07EE906A 		vmov	s15, r6	@ int
+ 1037 0110 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1038 0114 9FED2D7A 		vldr.32	s14, .L39+12
+ 1039 0118 C7EE875A 		vdiv.f32	s11, s15, s14
+ 279:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gy = Board_A_IMU->Raw_Data.Gy / 16.384f;
+ 1040              		.loc 1 279 28 view .LVU237
+ 1041 011c C4ED0E5A 		vstr.32	s11, [r4, #56]
+ 280:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gz = Board_A_IMU->Raw_Data.Gz / 16.384f;
+ 1042              		.loc 1 280 2 is_stmt 1 view .LVU238
+ 280:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gz = Board_A_IMU->Raw_Data.Gz / 16.384f;
+ 1043              		.loc 1 280 55 is_stmt 0 view .LVU239
+ 1044 0120 07EE905A 		vmov	s15, r5	@ int
+ 1045 0124 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1046 0128 87EE876A 		vdiv.f32	s12, s15, s14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 29
+
+
+ 280:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Gz = Board_A_IMU->Raw_Data.Gz / 16.384f;
+ 1047              		.loc 1 280 28 view .LVU240
+ 1048 012c 84ED0F6A 		vstr.32	s12, [r4, #60]
+ 281:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mx = Board_A_IMU->Raw_Data.Mx;
+ 1049              		.loc 1 281 2 is_stmt 1 view .LVU241
+ 281:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mx = Board_A_IMU->Raw_Data.Mx;
+ 1050              		.loc 1 281 55 is_stmt 0 view .LVU242
+ 1051 0130 07EE90EA 		vmov	s15, lr	@ int
+ 1052 0134 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1053 0138 C7EE876A 		vdiv.f32	s13, s15, s14
+ 281:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mx = Board_A_IMU->Raw_Data.Mx;
+ 1054              		.loc 1 281 28 view .LVU243
+ 1055 013c C4ED106A 		vstr.32	s13, [r4, #64]
+ 282:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.My = Board_A_IMU->Raw_Data.My;
+ 1056              		.loc 1 282 2 is_stmt 1 view .LVU244
+ 282:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.My = Board_A_IMU->Raw_Data.My;
+ 1057              		.loc 1 282 51 is_stmt 0 view .LVU245
+ 1058 0140 B4F90C30 		ldrsh	r3, [r4, #12]
+ 1059 0144 07EE903A 		vmov	s15, r3	@ int
+ 282:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.My = Board_A_IMU->Raw_Data.My;
+ 1060              		.loc 1 282 28 view .LVU246
+ 1061 0148 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1062 014c C4ED117A 		vstr.32	s15, [r4, #68]
+ 283:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mz = Board_A_IMU->Raw_Data.Mz;
+ 1063              		.loc 1 283 2 is_stmt 1 view .LVU247
+ 283:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mz = Board_A_IMU->Raw_Data.Mz;
+ 1064              		.loc 1 283 51 is_stmt 0 view .LVU248
+ 1065 0150 B4F90E30 		ldrsh	r3, [r4, #14]
+ 1066 0154 07EE903A 		vmov	s15, r3	@ int
+ 283:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Mz = Board_A_IMU->Raw_Data.Mz;
+ 1067              		.loc 1 283 28 view .LVU249
+ 1068 0158 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1069 015c C4ED127A 		vstr.32	s15, [r4, #72]
+ 284:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Temperature = Board_A_IMU->Raw_Data.Temperature / 333.87f + 21.0f;
+ 1070              		.loc 1 284 2 is_stmt 1 view .LVU250
+ 284:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Temperature = Board_A_IMU->Raw_Data.Temperature / 333.87f + 21.0f;
+ 1071              		.loc 1 284 51 is_stmt 0 view .LVU251
+ 1072 0160 B4F91030 		ldrsh	r3, [r4, #16]
+ 1073 0164 07EE903A 		vmov	s15, r3	@ int
+ 284:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Calc_Data.Temperature = Board_A_IMU->Raw_Data.Temperature / 333.87f + 21.0f;
+ 1074              		.loc 1 284 28 view .LVU252
+ 1075 0168 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1076 016c C4ED137A 		vstr.32	s15, [r4, #76]
+ 285:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1077              		.loc 1 285 2 is_stmt 1 view .LVU253
+ 285:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1078              		.loc 1 285 73 is_stmt 0 view .LVU254
+ 1079 0170 07EE90CA 		vmov	s15, ip	@ int
+ 1080 0174 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1081 0178 9FED155A 		vldr.32	s10, .L39+16
+ 1082 017c 87EE857A 		vdiv.f32	s14, s15, s10
+ 285:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1083              		.loc 1 285 83 view .LVU255
+ 1084 0180 F3EE057A 		vmov.f32	s15, #2.1e+1
+ 1085 0184 77EE277A 		vadd.f32	s15, s14, s15
+ 285:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1086              		.loc 1 285 37 view .LVU256
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 30
+
+
+ 1087 0188 C4ED147A 		vstr.32	s15, [r4, #80]
+ 287:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 1088              		.loc 1 287 2 is_stmt 1 view .LVU257
+ 287:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 1089              		.loc 1 287 16 is_stmt 0 view .LVU258
+ 1090 018c 94F88A30 		ldrb	r3, [r4, #138]	@ zero_extendqisi2
+ 287:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 1091              		.loc 1 287 4 view .LVU259
+ 1092 0190 012B     		cmp	r3, #1
+ 1093 0192 01D0     		beq	.L38
+ 1094              	.L35:
+ 296:Devices/Devices.c/Board_A_IMU.c **** 
+ 1095              		.loc 1 296 1 view .LVU260
+ 1096 0194 06B0     		add	sp, sp, #24
+ 1097              	.LCFI18:
+ 1098              		.cfi_remember_state
+ 1099              		.cfi_def_cfa_offset 16
+ 1100              		@ sp needed
+ 1101 0196 70BD     		pop	{r4, r5, r6, pc}
+ 1102              	.LVL109:
+ 1103              	.L38:
+ 1104              	.LCFI19:
+ 1105              		.cfi_restore_state
+ 292:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gy -= Board_A_IMU->Offset.Gy;
+ 1106              		.loc 1 292 3 is_stmt 1 view .LVU261
+ 292:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gy -= Board_A_IMU->Offset.Gy;
+ 1107              		.loc 1 292 51 is_stmt 0 view .LVU262
+ 1108 0198 D4ED087A 		vldr.32	s15, [r4, #32]
+ 292:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gy -= Board_A_IMU->Offset.Gy;
+ 1109              		.loc 1 292 29 view .LVU263
+ 1110 019c 75EEE75A 		vsub.f32	s11, s11, s15
+ 1111 01a0 C4ED0E5A 		vstr.32	s11, [r4, #56]
+ 293:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gz -= Board_A_IMU->Offset.Gz;
+ 1112              		.loc 1 293 3 is_stmt 1 view .LVU264
+ 293:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gz -= Board_A_IMU->Offset.Gz;
+ 1113              		.loc 1 293 51 is_stmt 0 view .LVU265
+ 1114 01a4 D4ED097A 		vldr.32	s15, [r4, #36]
+ 293:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Calc_Data.Gz -= Board_A_IMU->Offset.Gz;
+ 1115              		.loc 1 293 29 view .LVU266
+ 1116 01a8 36EE676A 		vsub.f32	s12, s12, s15
+ 1117 01ac 84ED0F6A 		vstr.32	s12, [r4, #60]
+ 294:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 1118              		.loc 1 294 3 is_stmt 1 view .LVU267
+ 294:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 1119              		.loc 1 294 51 is_stmt 0 view .LVU268
+ 1120 01b0 D4ED0A7A 		vldr.32	s15, [r4, #40]
+ 294:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 1121              		.loc 1 294 29 view .LVU269
+ 1122 01b4 76EEE76A 		vsub.f32	s13, s13, s15
+ 1123 01b8 C4ED106A 		vstr.32	s13, [r4, #64]
+ 296:Devices/Devices.c/Board_A_IMU.c **** 
+ 1124              		.loc 1 296 1 view .LVU270
+ 1125 01bc EAE7     		b	.L35
+ 1126              	.L40:
+ 1127 01be 00BF     		.align	2
+ 1128              	.L39:
+ 1129 01c0 00007A44 		.word	1148846080
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 31
+
+
+ 1130 01c4 00008039 		.word	964689920
+ 1131 01c8 C3F51C41 		.word	1092416963
+ 1132 01cc 6F128341 		.word	1099108975
+ 1133 01d0 5CEFA643 		.word	1135013724
+ 1134              		.cfi_endproc
+ 1135              	.LFE171:
+ 1137              		.section	.text.Board_A_IMU_Calibrate,"ax",%progbits
+ 1138              		.align	1
+ 1139              		.global	Board_A_IMU_Calibrate
+ 1140              		.syntax unified
+ 1141              		.thumb
+ 1142              		.thumb_func
+ 1144              	Board_A_IMU_Calibrate:
+ 1145              	.LVL110:
+ 1146              	.LFB170:
+ 222:Devices/Devices.c/Board_A_IMU.c **** 	if(Board_A_IMU->Calibrated_Flag == 0)
+ 1147              		.loc 1 222 1 is_stmt 1 view -0
+ 1148              		.cfi_startproc
+ 1149              		@ args = 0, pretend = 0, frame = 24
+ 1150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 223:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 1151              		.loc 1 223 2 view .LVU272
+ 223:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 1152              		.loc 1 223 16 is_stmt 0 view .LVU273
+ 1153 0000 90F88A30 		ldrb	r3, [r0, #138]	@ zero_extendqisi2
+ 223:Devices/Devices.c/Board_A_IMU.c **** 	{
+ 1154              		.loc 1 223 4 view .LVU274
+ 1155 0004 002B     		cmp	r3, #0
+ 1156 0006 69D0     		beq	.L45
+ 1157 0008 7047     		bx	lr
+ 1158              	.LVL111:
+ 1159              	.L44:
+ 1160              	.LCFI20:
+ 1161              		.cfi_def_cfa_offset 40
+ 1162              		.cfi_offset 4, -12
+ 1163              		.cfi_offset 5, -8
+ 1164              		.cfi_offset 14, -4
+ 1165              	.LBB8:
+ 1166              	.LBB9:
+ 229:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[0] += Board_A_IMU->Calc_Data.Ax;
+ 1167              		.loc 1 229 4 is_stmt 1 discriminator 3 view .LVU275
+ 1168 000a 2046     		mov	r0, r4
+ 1169 000c FFF7FEFF 		bl	Board_A_IMU_Read_Data
+ 1170              	.LVL112:
+ 230:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[1] += Board_A_IMU->Calc_Data.Ay;
+ 1171              		.loc 1 230 4 discriminator 3 view .LVU276
+ 230:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[1] += Board_A_IMU->Calc_Data.Ay;
+ 1172              		.loc 1 230 39 is_stmt 0 discriminator 3 view .LVU277
+ 1173 0010 94ED0B7A 		vldr.32	s14, [r4, #44]
+ 230:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[1] += Board_A_IMU->Calc_Data.Ay;
+ 1174              		.loc 1 230 14 discriminator 3 view .LVU278
+ 1175 0014 DDED007A 		vldr.32	s15, [sp]
+ 1176 0018 77EE877A 		vadd.f32	s15, s15, s14
+ 1177 001c CDED007A 		vstr.32	s15, [sp]
+ 231:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[2] += Board_A_IMU->Calc_Data.Az;
+ 1178              		.loc 1 231 4 is_stmt 1 discriminator 3 view .LVU279
+ 231:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[2] += Board_A_IMU->Calc_Data.Az;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 32
+
+
+ 1179              		.loc 1 231 39 is_stmt 0 discriminator 3 view .LVU280
+ 1180 0020 94ED0C7A 		vldr.32	s14, [r4, #48]
+ 231:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[2] += Board_A_IMU->Calc_Data.Az;
+ 1181              		.loc 1 231 14 discriminator 3 view .LVU281
+ 1182 0024 DDED017A 		vldr.32	s15, [sp, #4]
+ 1183 0028 77EE877A 		vadd.f32	s15, s15, s14
+ 1184 002c CDED017A 		vstr.32	s15, [sp, #4]
+ 232:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[3] += Board_A_IMU->Calc_Data.Gx;
+ 1185              		.loc 1 232 4 is_stmt 1 discriminator 3 view .LVU282
+ 232:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[3] += Board_A_IMU->Calc_Data.Gx;
+ 1186              		.loc 1 232 39 is_stmt 0 discriminator 3 view .LVU283
+ 1187 0030 94ED0D7A 		vldr.32	s14, [r4, #52]
+ 232:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[3] += Board_A_IMU->Calc_Data.Gx;
+ 1188              		.loc 1 232 14 discriminator 3 view .LVU284
+ 1189 0034 DDED027A 		vldr.32	s15, [sp, #8]
+ 1190 0038 77EE877A 		vadd.f32	s15, s15, s14
+ 1191 003c CDED027A 		vstr.32	s15, [sp, #8]
+ 233:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[4] += Board_A_IMU->Calc_Data.Gy;
+ 1192              		.loc 1 233 4 is_stmt 1 discriminator 3 view .LVU285
+ 233:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[4] += Board_A_IMU->Calc_Data.Gy;
+ 1193              		.loc 1 233 39 is_stmt 0 discriminator 3 view .LVU286
+ 1194 0040 94ED0E7A 		vldr.32	s14, [r4, #56]
+ 233:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[4] += Board_A_IMU->Calc_Data.Gy;
+ 1195              		.loc 1 233 14 discriminator 3 view .LVU287
+ 1196 0044 DDED037A 		vldr.32	s15, [sp, #12]
+ 1197 0048 77EE877A 		vadd.f32	s15, s15, s14
+ 1198 004c CDED037A 		vstr.32	s15, [sp, #12]
+ 234:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[5] += Board_A_IMU->Calc_Data.Gz;
+ 1199              		.loc 1 234 4 is_stmt 1 discriminator 3 view .LVU288
+ 234:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[5] += Board_A_IMU->Calc_Data.Gz;
+ 1200              		.loc 1 234 39 is_stmt 0 discriminator 3 view .LVU289
+ 1201 0050 94ED0F7A 		vldr.32	s14, [r4, #60]
+ 234:Devices/Devices.c/Board_A_IMU.c **** 			Buffer[5] += Board_A_IMU->Calc_Data.Gz;
+ 1202              		.loc 1 234 14 discriminator 3 view .LVU290
+ 1203 0054 DDED047A 		vldr.32	s15, [sp, #16]
+ 1204 0058 77EE877A 		vadd.f32	s15, s15, s14
+ 1205 005c CDED047A 		vstr.32	s15, [sp, #16]
+ 235:Devices/Devices.c/Board_A_IMU.c **** 			HAL_Delay(1);
+ 1206              		.loc 1 235 4 is_stmt 1 discriminator 3 view .LVU291
+ 235:Devices/Devices.c/Board_A_IMU.c **** 			HAL_Delay(1);
+ 1207              		.loc 1 235 39 is_stmt 0 discriminator 3 view .LVU292
+ 1208 0060 94ED107A 		vldr.32	s14, [r4, #64]
+ 235:Devices/Devices.c/Board_A_IMU.c **** 			HAL_Delay(1);
+ 1209              		.loc 1 235 14 discriminator 3 view .LVU293
+ 1210 0064 DDED057A 		vldr.32	s15, [sp, #20]
+ 1211 0068 77EE877A 		vadd.f32	s15, s15, s14
+ 1212 006c CDED057A 		vstr.32	s15, [sp, #20]
+ 236:Devices/Devices.c/Board_A_IMU.c **** 		}
+ 1213              		.loc 1 236 4 is_stmt 1 discriminator 3 view .LVU294
+ 1214 0070 0120     		movs	r0, #1
+ 1215 0072 FFF7FEFF 		bl	HAL_Delay
+ 1216              	.LVL113:
+ 227:Devices/Devices.c/Board_A_IMU.c **** 		{
+ 1217              		.loc 1 227 43 discriminator 3 view .LVU295
+ 1218 0076 0135     		adds	r5, r5, #1
+ 1219              	.LVL114:
+ 1220              	.L42:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 33
+
+
+ 227:Devices/Devices.c/Board_A_IMU.c **** 		{
+ 1221              		.loc 1 227 20 discriminator 1 view .LVU296
+ 1222 0078 B5F57A7F 		cmp	r5, #1000
+ 1223 007c C5DB     		blt	.L44
+ 1224              	.LBE9:
+ 239:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+ 1225              		.loc 1 239 3 view .LVU297
+ 239:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+ 1226              		.loc 1 239 38 is_stmt 0 view .LVU298
+ 1227 007e DFED1A7A 		vldr.32	s15, .L49
+ 1228 0082 DDED006A 		vldr.32	s13, [sp]
+ 1229 0086 86EEA77A 		vdiv.f32	s14, s13, s15
+ 239:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Ay = Buffer[1] / CALIBRATION_SAMPLE;
+ 1230              		.loc 1 239 26 view .LVU299
+ 1231 008a 84ED057A 		vstr.32	s14, [r4, #20]
+ 240:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 1232              		.loc 1 240 3 is_stmt 1 view .LVU300
+ 240:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 1233              		.loc 1 240 34 is_stmt 0 view .LVU301
+ 1234 008e DDED016A 		vldr.32	s13, [sp, #4]
+ 240:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 1235              		.loc 1 240 38 view .LVU302
+ 1236 0092 86EEA77A 		vdiv.f32	s14, s13, s15
+ 240:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Az = Buffer[2] / CALIBRATION_SAMPLE - 1.0f;
+ 1237              		.loc 1 240 26 view .LVU303
+ 1238 0096 84ED067A 		vstr.32	s14, [r4, #24]
+ 241:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 1239              		.loc 1 241 3 is_stmt 1 view .LVU304
+ 241:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 1240              		.loc 1 241 34 is_stmt 0 view .LVU305
+ 1241 009a DDED026A 		vldr.32	s13, [sp, #8]
+ 241:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 1242              		.loc 1 241 38 view .LVU306
+ 1243 009e 86EEA77A 		vdiv.f32	s14, s13, s15
+ 241:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 1244              		.loc 1 241 59 view .LVU307
+ 1245 00a2 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 1246 00a6 37EE667A 		vsub.f32	s14, s14, s13
+ 241:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gx = Buffer[3] / CALIBRATION_SAMPLE;
+ 1247              		.loc 1 241 26 view .LVU308
+ 1248 00aa 84ED077A 		vstr.32	s14, [r4, #28]
+ 242:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 1249              		.loc 1 242 3 is_stmt 1 view .LVU309
+ 242:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 1250              		.loc 1 242 34 is_stmt 0 view .LVU310
+ 1251 00ae DDED036A 		vldr.32	s13, [sp, #12]
+ 242:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 1252              		.loc 1 242 38 view .LVU311
+ 1253 00b2 86EEA77A 		vdiv.f32	s14, s13, s15
+ 242:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gy = Buffer[4] / CALIBRATION_SAMPLE;
+ 1254              		.loc 1 242 26 view .LVU312
+ 1255 00b6 84ED087A 		vstr.32	s14, [r4, #32]
+ 243:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 1256              		.loc 1 243 3 is_stmt 1 view .LVU313
+ 243:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 1257              		.loc 1 243 34 is_stmt 0 view .LVU314
+ 1258 00ba DDED046A 		vldr.32	s13, [sp, #16]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 34
+
+
+ 243:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 1259              		.loc 1 243 38 view .LVU315
+ 1260 00be 86EEA77A 		vdiv.f32	s14, s13, s15
+ 243:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Offset.Gz = Buffer[5] / CALIBRATION_SAMPLE;
+ 1261              		.loc 1 243 26 view .LVU316
+ 1262 00c2 84ED097A 		vstr.32	s14, [r4, #36]
+ 244:Devices/Devices.c/Board_A_IMU.c **** 		
+ 1263              		.loc 1 244 3 is_stmt 1 view .LVU317
+ 244:Devices/Devices.c/Board_A_IMU.c **** 		
+ 1264              		.loc 1 244 34 is_stmt 0 view .LVU318
+ 1265 00c6 DDED056A 		vldr.32	s13, [sp, #20]
+ 244:Devices/Devices.c/Board_A_IMU.c **** 		
+ 1266              		.loc 1 244 38 view .LVU319
+ 1267 00ca 86EEA77A 		vdiv.f32	s14, s13, s15
+ 244:Devices/Devices.c/Board_A_IMU.c **** 		
+ 1268              		.loc 1 244 26 view .LVU320
+ 1269 00ce 84ED0A7A 		vstr.32	s14, [r4, #40]
+ 246:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 1270              		.loc 1 246 3 is_stmt 1 view .LVU321
+ 246:Devices/Devices.c/Board_A_IMU.c **** 	}
+ 1271              		.loc 1 246 32 is_stmt 0 view .LVU322
+ 1272 00d2 0123     		movs	r3, #1
+ 1273 00d4 84F88A30 		strb	r3, [r4, #138]
+ 1274              	.LBE8:
+ 250:Devices/Devices.c/Board_A_IMU.c **** 
+ 1275              		.loc 1 250 1 view .LVU323
+ 1276 00d8 07B0     		add	sp, sp, #28
+ 1277              	.LCFI21:
+ 1278              		.cfi_def_cfa_offset 12
+ 1279              		@ sp needed
+ 1280 00da 30BD     		pop	{r4, r5, pc}
+ 1281              	.LVL115:
+ 1282              	.L45:
+ 1283              	.LCFI22:
+ 1284              		.cfi_def_cfa_offset 0
+ 1285              		.cfi_restore 4
+ 1286              		.cfi_restore 5
+ 1287              		.cfi_restore 14
+ 222:Devices/Devices.c/Board_A_IMU.c **** 	if(Board_A_IMU->Calibrated_Flag == 0)
+ 1288              		.loc 1 222 1 view .LVU324
+ 1289 00dc 30B5     		push	{r4, r5, lr}
+ 1290              	.LCFI23:
+ 1291              		.cfi_def_cfa_offset 12
+ 1292              		.cfi_offset 4, -12
+ 1293              		.cfi_offset 5, -8
+ 1294              		.cfi_offset 14, -4
+ 1295 00de 87B0     		sub	sp, sp, #28
+ 1296              	.LCFI24:
+ 1297              		.cfi_def_cfa_offset 40
+ 1298 00e0 0446     		mov	r4, r0
+ 1299              	.LBB11:
+ 1300              	.LBB10:
+ 227:Devices/Devices.c/Board_A_IMU.c **** 		{
+ 1301              		.loc 1 227 11 view .LVU325
+ 1302 00e2 0025     		movs	r5, #0
+ 1303 00e4 C8E7     		b	.L42
+ 1304              	.L50:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 35
+
+
+ 1305 00e6 00BF     		.align	2
+ 1306              	.L49:
+ 1307 00e8 00007A44 		.word	1148846080
+ 1308              	.LBE10:
+ 1309              	.LBE11:
+ 1310              		.cfi_endproc
+ 1311              	.LFE170:
+ 1313              		.section	.text.FusionAsin,"ax",%progbits
+ 1314              		.align	1
+ 1315              		.syntax unified
+ 1316              		.thumb
+ 1317              		.thumb_func
+ 1319              	FusionAsin:
+ 1320              	.LVL116:
+ 1321              	.LFB135:
+ 1322              		.file 2 "BSP/BSP.h/FusionMath.h"
+   1:BSP/BSP.h/FusionMath.h **** /**
+   2:BSP/BSP.h/FusionMath.h ****  * @file FusionMath.h
+   3:BSP/BSP.h/FusionMath.h ****  * @author Seb Madgwick
+   4:BSP/BSP.h/FusionMath.h ****  * @brief Math library.
+   5:BSP/BSP.h/FusionMath.h ****  */
+   6:BSP/BSP.h/FusionMath.h **** 
+   7:BSP/BSP.h/FusionMath.h **** #ifndef FUSION_MATH_H
+   8:BSP/BSP.h/FusionMath.h **** #define FUSION_MATH_H
+   9:BSP/BSP.h/FusionMath.h **** 
+  10:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+  11:BSP/BSP.h/FusionMath.h **** // Includes
+  12:BSP/BSP.h/FusionMath.h **** 
+  13:BSP/BSP.h/FusionMath.h **** #include <math.h> // M_PI, sqrtf, atan2f, asinf
+  14:BSP/BSP.h/FusionMath.h **** #include <stdbool.h>
+  15:BSP/BSP.h/FusionMath.h **** #include <stdint.h>
+  16:BSP/BSP.h/FusionMath.h **** 
+  17:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+  18:BSP/BSP.h/FusionMath.h **** // Definitions
+  19:BSP/BSP.h/FusionMath.h **** 
+  20:BSP/BSP.h/FusionMath.h **** /**
+  21:BSP/BSP.h/FusionMath.h ****  * @brief 3D vector.
+  22:BSP/BSP.h/FusionMath.h ****  */
+  23:BSP/BSP.h/FusionMath.h **** typedef union {
+  24:BSP/BSP.h/FusionMath.h ****     float array[3];
+  25:BSP/BSP.h/FusionMath.h **** 
+  26:BSP/BSP.h/FusionMath.h ****     struct {
+  27:BSP/BSP.h/FusionMath.h ****         float x;
+  28:BSP/BSP.h/FusionMath.h ****         float y;
+  29:BSP/BSP.h/FusionMath.h ****         float z;
+  30:BSP/BSP.h/FusionMath.h ****     } axis;
+  31:BSP/BSP.h/FusionMath.h **** } FusionVector;
+  32:BSP/BSP.h/FusionMath.h **** 
+  33:BSP/BSP.h/FusionMath.h **** /**
+  34:BSP/BSP.h/FusionMath.h ****  * @brief Quaternion.
+  35:BSP/BSP.h/FusionMath.h ****  */
+  36:BSP/BSP.h/FusionMath.h **** typedef union {
+  37:BSP/BSP.h/FusionMath.h ****     float array[4];
+  38:BSP/BSP.h/FusionMath.h **** 
+  39:BSP/BSP.h/FusionMath.h ****     struct {
+  40:BSP/BSP.h/FusionMath.h ****         float w;
+  41:BSP/BSP.h/FusionMath.h ****         float x;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 36
+
+
+  42:BSP/BSP.h/FusionMath.h ****         float y;
+  43:BSP/BSP.h/FusionMath.h ****         float z;
+  44:BSP/BSP.h/FusionMath.h ****     } element;
+  45:BSP/BSP.h/FusionMath.h **** } FusionQuaternion;
+  46:BSP/BSP.h/FusionMath.h **** 
+  47:BSP/BSP.h/FusionMath.h **** /**
+  48:BSP/BSP.h/FusionMath.h ****  * @brief 3x3 matrix in row-major order.
+  49:BSP/BSP.h/FusionMath.h ****  * See http://en.wikipedia.org/wiki/Row-major_order
+  50:BSP/BSP.h/FusionMath.h ****  */
+  51:BSP/BSP.h/FusionMath.h **** typedef union {
+  52:BSP/BSP.h/FusionMath.h ****     float array[3][3];
+  53:BSP/BSP.h/FusionMath.h **** 
+  54:BSP/BSP.h/FusionMath.h ****     struct {
+  55:BSP/BSP.h/FusionMath.h ****         float xx;
+  56:BSP/BSP.h/FusionMath.h ****         float xy;
+  57:BSP/BSP.h/FusionMath.h ****         float xz;
+  58:BSP/BSP.h/FusionMath.h ****         float yx;
+  59:BSP/BSP.h/FusionMath.h ****         float yy;
+  60:BSP/BSP.h/FusionMath.h ****         float yz;
+  61:BSP/BSP.h/FusionMath.h ****         float zx;
+  62:BSP/BSP.h/FusionMath.h ****         float zy;
+  63:BSP/BSP.h/FusionMath.h ****         float zz;
+  64:BSP/BSP.h/FusionMath.h ****     } element;
+  65:BSP/BSP.h/FusionMath.h **** } FusionMatrix;
+  66:BSP/BSP.h/FusionMath.h **** 
+  67:BSP/BSP.h/FusionMath.h **** /**
+  68:BSP/BSP.h/FusionMath.h ****  * @brief Euler angles.  Roll, pitch, and yaw correspond to rotations around
+  69:BSP/BSP.h/FusionMath.h ****  * X, Y, and Z respectively.
+  70:BSP/BSP.h/FusionMath.h ****  */
+  71:BSP/BSP.h/FusionMath.h **** typedef union {
+  72:BSP/BSP.h/FusionMath.h ****     float array[3];
+  73:BSP/BSP.h/FusionMath.h **** 
+  74:BSP/BSP.h/FusionMath.h ****     struct {
+  75:BSP/BSP.h/FusionMath.h ****         float roll;
+  76:BSP/BSP.h/FusionMath.h ****         float pitch;
+  77:BSP/BSP.h/FusionMath.h ****         float yaw;
+  78:BSP/BSP.h/FusionMath.h ****     } angle;
+  79:BSP/BSP.h/FusionMath.h **** } FusionEuler;
+  80:BSP/BSP.h/FusionMath.h **** 
+  81:BSP/BSP.h/FusionMath.h **** /**
+  82:BSP/BSP.h/FusionMath.h ****  * @brief Vector of zeros.
+  83:BSP/BSP.h/FusionMath.h ****  */
+  84:BSP/BSP.h/FusionMath.h **** #define FUSION_VECTOR_ZERO ((FusionVector){ .array = {0.0f, 0.0f, 0.0f} })
+  85:BSP/BSP.h/FusionMath.h **** 
+  86:BSP/BSP.h/FusionMath.h **** /**
+  87:BSP/BSP.h/FusionMath.h ****  * @brief Vector of ones.
+  88:BSP/BSP.h/FusionMath.h ****  */
+  89:BSP/BSP.h/FusionMath.h **** #define FUSION_VECTOR_ONES ((FusionVector){ .array = {1.0f, 1.0f, 1.0f} })
+  90:BSP/BSP.h/FusionMath.h **** 
+  91:BSP/BSP.h/FusionMath.h **** /**
+  92:BSP/BSP.h/FusionMath.h ****  * @brief Identity quaternion.
+  93:BSP/BSP.h/FusionMath.h ****  */
+  94:BSP/BSP.h/FusionMath.h **** #define FUSION_IDENTITY_QUATERNION ((FusionQuaternion){ .array = {1.0f, 0.0f, 0.0f, 0.0f} })
+  95:BSP/BSP.h/FusionMath.h **** 
+  96:BSP/BSP.h/FusionMath.h **** /**
+  97:BSP/BSP.h/FusionMath.h ****  * @brief Identity matrix.
+  98:BSP/BSP.h/FusionMath.h ****  */
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 37
+
+
+  99:BSP/BSP.h/FusionMath.h **** #define FUSION_IDENTITY_MATRIX ((FusionMatrix){ .array = {{1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {
+ 100:BSP/BSP.h/FusionMath.h **** 
+ 101:BSP/BSP.h/FusionMath.h **** /**
+ 102:BSP/BSP.h/FusionMath.h ****  * @brief Euler angles of zero.
+ 103:BSP/BSP.h/FusionMath.h ****  */
+ 104:BSP/BSP.h/FusionMath.h **** #define FUSION_EULER_ZERO ((FusionEuler){ .array = {0.0f, 0.0f, 0.0f} })
+ 105:BSP/BSP.h/FusionMath.h **** 
+ 106:BSP/BSP.h/FusionMath.h **** /**
+ 107:BSP/BSP.h/FusionMath.h ****  * @brief Pi. May not be defined in math.h.
+ 108:BSP/BSP.h/FusionMath.h ****  */
+ 109:BSP/BSP.h/FusionMath.h **** #ifndef M_PI
+ 110:BSP/BSP.h/FusionMath.h **** #define M_PI (3.14159265358979323846)
+ 111:BSP/BSP.h/FusionMath.h **** #endif
+ 112:BSP/BSP.h/FusionMath.h **** 
+ 113:BSP/BSP.h/FusionMath.h **** /**
+ 114:BSP/BSP.h/FusionMath.h ****  * @brief Include this definition or add as a preprocessor definition to use
+ 115:BSP/BSP.h/FusionMath.h ****  * normal square root operations.
+ 116:BSP/BSP.h/FusionMath.h ****  */
+ 117:BSP/BSP.h/FusionMath.h **** //#define FUSION_USE_NORMAL_SQRT
+ 118:BSP/BSP.h/FusionMath.h **** 
+ 119:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 120:BSP/BSP.h/FusionMath.h **** // Inline functions - Degrees and radians conversion
+ 121:BSP/BSP.h/FusionMath.h **** 
+ 122:BSP/BSP.h/FusionMath.h **** /**
+ 123:BSP/BSP.h/FusionMath.h ****  * @brief Converts degrees to radians.
+ 124:BSP/BSP.h/FusionMath.h ****  * @param degrees Degrees.
+ 125:BSP/BSP.h/FusionMath.h ****  * @return Radians.
+ 126:BSP/BSP.h/FusionMath.h ****  */
+ 127:BSP/BSP.h/FusionMath.h **** static inline float FusionDegreesToRadians(const float degrees) {
+ 128:BSP/BSP.h/FusionMath.h ****     return degrees * ((float) M_PI / 180.0f);
+ 129:BSP/BSP.h/FusionMath.h **** }
+ 130:BSP/BSP.h/FusionMath.h **** 
+ 131:BSP/BSP.h/FusionMath.h **** /**
+ 132:BSP/BSP.h/FusionMath.h ****  * @brief Converts radians to degrees.
+ 133:BSP/BSP.h/FusionMath.h ****  * @param radians Radians.
+ 134:BSP/BSP.h/FusionMath.h ****  * @return Degrees.
+ 135:BSP/BSP.h/FusionMath.h ****  */
+ 136:BSP/BSP.h/FusionMath.h **** static inline float FusionRadiansToDegrees(const float radians) {
+ 137:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 138:BSP/BSP.h/FusionMath.h **** }
+ 139:BSP/BSP.h/FusionMath.h **** 
+ 140:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 141:BSP/BSP.h/FusionMath.h **** // Inline functions - Arc sine
+ 142:BSP/BSP.h/FusionMath.h **** 
+ 143:BSP/BSP.h/FusionMath.h **** /**
+ 144:BSP/BSP.h/FusionMath.h ****  * @brief Returns the arc sine of the value.
+ 145:BSP/BSP.h/FusionMath.h ****  * @param value Value.
+ 146:BSP/BSP.h/FusionMath.h ****  * @return Arc sine of the value.
+ 147:BSP/BSP.h/FusionMath.h ****  */
+ 148:BSP/BSP.h/FusionMath.h **** static inline float FusionAsin(const float value) {
+ 1323              		.loc 2 148 51 is_stmt 1 view -0
+ 1324              		.cfi_startproc
+ 1325              		@ args = 0, pretend = 0, frame = 0
+ 1326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149:BSP/BSP.h/FusionMath.h ****     if (value <= -1.0f) {
+ 1327              		.loc 2 149 5 view .LVU327
+ 1328              		.loc 2 149 8 is_stmt 0 view .LVU328
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 38
+
+
+ 1329 0000 FFEE007A 		vmov.f32	s15, #-1.0e+0
+ 1330 0004 B4EEE70A 		vcmpe.f32	s0, s15
+ 1331 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1332 000c 0DD9     		bls	.L53
+ 150:BSP/BSP.h/FusionMath.h ****         return (float) M_PI / -2.0f;
+ 151:BSP/BSP.h/FusionMath.h ****     }
+ 152:BSP/BSP.h/FusionMath.h ****     if (value >= 1.0f) {
+ 1333              		.loc 2 152 5 is_stmt 1 view .LVU329
+ 1334              		.loc 2 152 8 is_stmt 0 view .LVU330
+ 1335 000e F7EE007A 		vmov.f32	s15, #1.0e+0
+ 1336 0012 B4EEE70A 		vcmpe.f32	s0, s15
+ 1337 0016 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1338 001a 02DB     		blt	.L59
+ 153:BSP/BSP.h/FusionMath.h ****         return (float) M_PI / 2.0f;
+ 1339              		.loc 2 153 29 view .LVU331
+ 1340 001c 9FED040A 		vldr.32	s0, .L60
+ 1341              	.LVL117:
+ 154:BSP/BSP.h/FusionMath.h ****     }
+ 155:BSP/BSP.h/FusionMath.h ****     return asinf(value);
+ 156:BSP/BSP.h/FusionMath.h **** }
+ 1342              		.loc 2 156 1 view .LVU332
+ 1343 0020 7047     		bx	lr
+ 1344              	.LVL118:
+ 1345              	.L59:
+ 148:BSP/BSP.h/FusionMath.h ****     if (value <= -1.0f) {
+ 1346              		.loc 2 148 51 view .LVU333
+ 1347 0022 08B5     		push	{r3, lr}
+ 1348              	.LCFI25:
+ 1349              		.cfi_def_cfa_offset 8
+ 1350              		.cfi_offset 3, -8
+ 1351              		.cfi_offset 14, -4
+ 155:BSP/BSP.h/FusionMath.h **** }
+ 1352              		.loc 2 155 5 is_stmt 1 view .LVU334
+ 155:BSP/BSP.h/FusionMath.h **** }
+ 1353              		.loc 2 155 12 is_stmt 0 view .LVU335
+ 1354 0024 FFF7FEFF 		bl	asinf
+ 1355              	.LVL119:
+ 1356              		.loc 2 156 1 view .LVU336
+ 1357 0028 08BD     		pop	{r3, pc}
+ 1358              	.LVL120:
+ 1359              	.L53:
+ 1360              	.LCFI26:
+ 1361              		.cfi_def_cfa_offset 0
+ 1362              		.cfi_restore 3
+ 1363              		.cfi_restore 14
+ 150:BSP/BSP.h/FusionMath.h ****     }
+ 1364              		.loc 2 150 29 view .LVU337
+ 1365 002a 9FED020A 		vldr.32	s0, .L60+4
+ 1366              	.LVL121:
+ 150:BSP/BSP.h/FusionMath.h ****     }
+ 1367              		.loc 2 150 29 view .LVU338
+ 1368 002e 7047     		bx	lr
+ 1369              	.L61:
+ 1370              		.align	2
+ 1371              	.L60:
+ 1372 0030 DB0FC93F 		.word	1070141403
+ 1373 0034 DB0FC9BF 		.word	-1077342245
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 39
+
+
+ 1374              		.cfi_endproc
+ 1375              	.LFE135:
+ 1377              		.section	.text.FusionQuaternionToEuler,"ax",%progbits
+ 1378              		.align	1
+ 1379              		.syntax unified
+ 1380              		.thumb
+ 1381              		.thumb_func
+ 1383              	FusionQuaternionToEuler:
+ 1384              	.LFB153:
+ 157:BSP/BSP.h/FusionMath.h **** 
+ 158:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 159:BSP/BSP.h/FusionMath.h **** // Inline functions - Fast inverse square root
+ 160:BSP/BSP.h/FusionMath.h **** 
+ 161:BSP/BSP.h/FusionMath.h **** #ifndef FUSION_USE_NORMAL_SQRT
+ 162:BSP/BSP.h/FusionMath.h **** 
+ 163:BSP/BSP.h/FusionMath.h **** /**
+ 164:BSP/BSP.h/FusionMath.h ****  * @brief Calculates the reciprocal of the square root.
+ 165:BSP/BSP.h/FusionMath.h ****  * See https://pizer.wordpress.com/2008/10/12/fast-inverse-square-root/
+ 166:BSP/BSP.h/FusionMath.h ****  * @param x Operand.
+ 167:BSP/BSP.h/FusionMath.h ****  * @return Reciprocal of the square root of x.
+ 168:BSP/BSP.h/FusionMath.h ****  */
+ 169:BSP/BSP.h/FusionMath.h **** static inline float FusionFastInverseSqrt(const float x) {
+ 170:BSP/BSP.h/FusionMath.h **** 
+ 171:BSP/BSP.h/FusionMath.h ****     typedef union {
+ 172:BSP/BSP.h/FusionMath.h ****         float f;
+ 173:BSP/BSP.h/FusionMath.h ****         int32_t i;
+ 174:BSP/BSP.h/FusionMath.h ****     } Union32;
+ 175:BSP/BSP.h/FusionMath.h **** 
+ 176:BSP/BSP.h/FusionMath.h ****     Union32 union32 = {.f = x};
+ 177:BSP/BSP.h/FusionMath.h ****     union32.i = 0x5F1F1412 - (union32.i >> 1);
+ 178:BSP/BSP.h/FusionMath.h ****     return union32.f * (1.69000231f - 0.714158168f * x * union32.f * union32.f);
+ 179:BSP/BSP.h/FusionMath.h **** }
+ 180:BSP/BSP.h/FusionMath.h **** 
+ 181:BSP/BSP.h/FusionMath.h **** #endif
+ 182:BSP/BSP.h/FusionMath.h **** 
+ 183:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 184:BSP/BSP.h/FusionMath.h **** // Inline functions - Vector operations
+ 185:BSP/BSP.h/FusionMath.h **** 
+ 186:BSP/BSP.h/FusionMath.h **** /**
+ 187:BSP/BSP.h/FusionMath.h ****  * @brief Returns true if the vector is zero.
+ 188:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 189:BSP/BSP.h/FusionMath.h ****  * @return True if the vector is zero.
+ 190:BSP/BSP.h/FusionMath.h ****  */
+ 191:BSP/BSP.h/FusionMath.h **** static inline bool FusionVectorIsZero(const FusionVector vector) {
+ 192:BSP/BSP.h/FusionMath.h ****     return (vector.axis.x == 0.0f) && (vector.axis.y == 0.0f) && (vector.axis.z == 0.0f);
+ 193:BSP/BSP.h/FusionMath.h **** }
+ 194:BSP/BSP.h/FusionMath.h **** 
+ 195:BSP/BSP.h/FusionMath.h **** /**
+ 196:BSP/BSP.h/FusionMath.h ****  * @brief Returns the sum of two vectors.
+ 197:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 198:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 199:BSP/BSP.h/FusionMath.h ****  * @return Sum of two vectors.
+ 200:BSP/BSP.h/FusionMath.h ****  */
+ 201:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorAdd(const FusionVector vectorA, const FusionVector vectorB) 
+ 202:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 203:BSP/BSP.h/FusionMath.h ****     result.axis.x = vectorA.axis.x + vectorB.axis.x;
+ 204:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y + vectorB.axis.y;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 40
+
+
+ 205:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z + vectorB.axis.z;
+ 206:BSP/BSP.h/FusionMath.h ****     return result;
+ 207:BSP/BSP.h/FusionMath.h **** }
+ 208:BSP/BSP.h/FusionMath.h **** 
+ 209:BSP/BSP.h/FusionMath.h **** /**
+ 210:BSP/BSP.h/FusionMath.h ****  * @brief Returns vector B subtracted from vector A.
+ 211:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 212:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 213:BSP/BSP.h/FusionMath.h ****  * @return Vector B subtracted from vector A.
+ 214:BSP/BSP.h/FusionMath.h ****  */
+ 215:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorSubtract(const FusionVector vectorA, const FusionVector vect
+ 216:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 217:BSP/BSP.h/FusionMath.h ****     result.axis.x = vectorA.axis.x - vectorB.axis.x;
+ 218:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y - vectorB.axis.y;
+ 219:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z - vectorB.axis.z;
+ 220:BSP/BSP.h/FusionMath.h ****     return result;
+ 221:BSP/BSP.h/FusionMath.h **** }
+ 222:BSP/BSP.h/FusionMath.h **** 
+ 223:BSP/BSP.h/FusionMath.h **** /**
+ 224:BSP/BSP.h/FusionMath.h ****  * @brief Returns the sum of the elements.
+ 225:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 226:BSP/BSP.h/FusionMath.h ****  * @return Sum of the elements.
+ 227:BSP/BSP.h/FusionMath.h ****  */
+ 228:BSP/BSP.h/FusionMath.h **** static inline float FusionVectorSum(const FusionVector vector) {
+ 229:BSP/BSP.h/FusionMath.h ****     return vector.axis.x + vector.axis.y + vector.axis.z;
+ 230:BSP/BSP.h/FusionMath.h **** }
+ 231:BSP/BSP.h/FusionMath.h **** 
+ 232:BSP/BSP.h/FusionMath.h **** /**
+ 233:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of a vector by a scalar.
+ 234:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 235:BSP/BSP.h/FusionMath.h ****  * @param scalar Scalar.
+ 236:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of a vector by a scalar.
+ 237:BSP/BSP.h/FusionMath.h ****  */
+ 238:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorMultiplyScalar(const FusionVector vector, const float scalar
+ 239:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 240:BSP/BSP.h/FusionMath.h ****     result.axis.x = vector.axis.x * scalar;
+ 241:BSP/BSP.h/FusionMath.h ****     result.axis.y = vector.axis.y * scalar;
+ 242:BSP/BSP.h/FusionMath.h ****     result.axis.z = vector.axis.z * scalar;
+ 243:BSP/BSP.h/FusionMath.h ****     return result;
+ 244:BSP/BSP.h/FusionMath.h **** }
+ 245:BSP/BSP.h/FusionMath.h **** 
+ 246:BSP/BSP.h/FusionMath.h **** /**
+ 247:BSP/BSP.h/FusionMath.h ****  * @brief Calculates the Hadamard product (element-wise multiplication).
+ 248:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 249:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 250:BSP/BSP.h/FusionMath.h ****  * @return Hadamard product.
+ 251:BSP/BSP.h/FusionMath.h ****  */
+ 252:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorHadamardProduct(const FusionVector vectorA, const FusionVect
+ 253:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 254:BSP/BSP.h/FusionMath.h ****     result.axis.x = vectorA.axis.x * vectorB.axis.x;
+ 255:BSP/BSP.h/FusionMath.h ****     result.axis.y = vectorA.axis.y * vectorB.axis.y;
+ 256:BSP/BSP.h/FusionMath.h ****     result.axis.z = vectorA.axis.z * vectorB.axis.z;
+ 257:BSP/BSP.h/FusionMath.h ****     return result;
+ 258:BSP/BSP.h/FusionMath.h **** }
+ 259:BSP/BSP.h/FusionMath.h **** 
+ 260:BSP/BSP.h/FusionMath.h **** /**
+ 261:BSP/BSP.h/FusionMath.h ****  * @brief Returns the cross product.
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 41
+
+
+ 262:BSP/BSP.h/FusionMath.h ****  * @param vectorA Vector A.
+ 263:BSP/BSP.h/FusionMath.h ****  * @param vectorB Vector B.
+ 264:BSP/BSP.h/FusionMath.h ****  * @return Cross product.
+ 265:BSP/BSP.h/FusionMath.h ****  */
+ 266:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorCrossProduct(const FusionVector vectorA, const FusionVector 
+ 267:BSP/BSP.h/FusionMath.h **** #define A vectorA.axis
+ 268:BSP/BSP.h/FusionMath.h **** #define B vectorB.axis
+ 269:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 270:BSP/BSP.h/FusionMath.h ****     result.axis.x = A.y * B.z - A.z * B.y;
+ 271:BSP/BSP.h/FusionMath.h ****     result.axis.y = A.z * B.x - A.x * B.z;
+ 272:BSP/BSP.h/FusionMath.h ****     result.axis.z = A.x * B.y - A.y * B.x;
+ 273:BSP/BSP.h/FusionMath.h ****     return result;
+ 274:BSP/BSP.h/FusionMath.h **** #undef A
+ 275:BSP/BSP.h/FusionMath.h **** #undef B
+ 276:BSP/BSP.h/FusionMath.h **** }
+ 277:BSP/BSP.h/FusionMath.h **** 
+ 278:BSP/BSP.h/FusionMath.h **** /**
+ 279:BSP/BSP.h/FusionMath.h ****  * @brief Returns the vector magnitude squared.
+ 280:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 281:BSP/BSP.h/FusionMath.h ****  * @return Vector magnitude squared.
+ 282:BSP/BSP.h/FusionMath.h ****  */
+ 283:BSP/BSP.h/FusionMath.h **** static inline float FusionVectorMagnitudeSquared(const FusionVector vector) {
+ 284:BSP/BSP.h/FusionMath.h ****     return FusionVectorSum(FusionVectorHadamardProduct(vector, vector));
+ 285:BSP/BSP.h/FusionMath.h **** }
+ 286:BSP/BSP.h/FusionMath.h **** 
+ 287:BSP/BSP.h/FusionMath.h **** /**
+ 288:BSP/BSP.h/FusionMath.h ****  * @brief Returns the vector magnitude.
+ 289:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 290:BSP/BSP.h/FusionMath.h ****  * @return Vector magnitude.
+ 291:BSP/BSP.h/FusionMath.h ****  */
+ 292:BSP/BSP.h/FusionMath.h **** static inline float FusionVectorMagnitude(const FusionVector vector) {
+ 293:BSP/BSP.h/FusionMath.h ****     return sqrtf(FusionVectorMagnitudeSquared(vector));
+ 294:BSP/BSP.h/FusionMath.h **** }
+ 295:BSP/BSP.h/FusionMath.h **** 
+ 296:BSP/BSP.h/FusionMath.h **** /**
+ 297:BSP/BSP.h/FusionMath.h ****  * @brief Returns the normalised vector.
+ 298:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 299:BSP/BSP.h/FusionMath.h ****  * @return Normalised vector.
+ 300:BSP/BSP.h/FusionMath.h ****  */
+ 301:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionVectorNormalise(const FusionVector vector) {
+ 302:BSP/BSP.h/FusionMath.h **** #ifdef FUSION_USE_NORMAL_SQRT
+ 303:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = 1.0f / sqrtf(FusionVectorMagnitudeSquared(vector));
+ 304:BSP/BSP.h/FusionMath.h **** #else
+ 305:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = FusionFastInverseSqrt(FusionVectorMagnitudeSquared(vector));
+ 306:BSP/BSP.h/FusionMath.h **** #endif
+ 307:BSP/BSP.h/FusionMath.h ****     return FusionVectorMultiplyScalar(vector, magnitudeReciprocal);
+ 308:BSP/BSP.h/FusionMath.h **** }
+ 309:BSP/BSP.h/FusionMath.h **** 
+ 310:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 311:BSP/BSP.h/FusionMath.h **** // Inline functions - Quaternion operations
+ 312:BSP/BSP.h/FusionMath.h **** 
+ 313:BSP/BSP.h/FusionMath.h **** /**
+ 314:BSP/BSP.h/FusionMath.h ****  * @brief Returns the sum of two quaternions.
+ 315:BSP/BSP.h/FusionMath.h ****  * @param quaternionA Quaternion A.
+ 316:BSP/BSP.h/FusionMath.h ****  * @param quaternionB Quaternion B.
+ 317:BSP/BSP.h/FusionMath.h ****  * @return Sum of two quaternions.
+ 318:BSP/BSP.h/FusionMath.h ****  */
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 42
+
+
+ 319:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionAdd(const FusionQuaternion quaternionA, const Fusion
+ 320:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
+ 321:BSP/BSP.h/FusionMath.h ****     result.element.w = quaternionA.element.w + quaternionB.element.w;
+ 322:BSP/BSP.h/FusionMath.h ****     result.element.x = quaternionA.element.x + quaternionB.element.x;
+ 323:BSP/BSP.h/FusionMath.h ****     result.element.y = quaternionA.element.y + quaternionB.element.y;
+ 324:BSP/BSP.h/FusionMath.h ****     result.element.z = quaternionA.element.z + quaternionB.element.z;
+ 325:BSP/BSP.h/FusionMath.h ****     return result;
+ 326:BSP/BSP.h/FusionMath.h **** }
+ 327:BSP/BSP.h/FusionMath.h **** 
+ 328:BSP/BSP.h/FusionMath.h **** /**
+ 329:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of two quaternions.
+ 330:BSP/BSP.h/FusionMath.h ****  * @param quaternionA Quaternion A (to be post-multiplied).
+ 331:BSP/BSP.h/FusionMath.h ****  * @param quaternionB Quaternion B (to be pre-multiplied).
+ 332:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of two quaternions.
+ 333:BSP/BSP.h/FusionMath.h ****  */
+ 334:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionMultiply(const FusionQuaternion quaternionA, const F
+ 335:BSP/BSP.h/FusionMath.h **** #define A quaternionA.element
+ 336:BSP/BSP.h/FusionMath.h **** #define B quaternionB.element
+ 337:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
+ 338:BSP/BSP.h/FusionMath.h ****     result.element.w = A.w * B.w - A.x * B.x - A.y * B.y - A.z * B.z;
+ 339:BSP/BSP.h/FusionMath.h ****     result.element.x = A.w * B.x + A.x * B.w + A.y * B.z - A.z * B.y;
+ 340:BSP/BSP.h/FusionMath.h ****     result.element.y = A.w * B.y - A.x * B.z + A.y * B.w + A.z * B.x;
+ 341:BSP/BSP.h/FusionMath.h ****     result.element.z = A.w * B.z + A.x * B.y - A.y * B.x + A.z * B.w;
+ 342:BSP/BSP.h/FusionMath.h ****     return result;
+ 343:BSP/BSP.h/FusionMath.h **** #undef A
+ 344:BSP/BSP.h/FusionMath.h **** #undef B
+ 345:BSP/BSP.h/FusionMath.h **** }
+ 346:BSP/BSP.h/FusionMath.h **** 
+ 347:BSP/BSP.h/FusionMath.h **** /**
+ 348:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of a quaternion with a vector.  This is a
+ 349:BSP/BSP.h/FusionMath.h ****  * normal quaternion multiplication where the vector is treated a
+ 350:BSP/BSP.h/FusionMath.h ****  * quaternion with a W element value of zero.  The quaternion is post-
+ 351:BSP/BSP.h/FusionMath.h ****  * multiplied by the vector.
+ 352:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 353:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 354:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of a quaternion with a vector.
+ 355:BSP/BSP.h/FusionMath.h ****  */
+ 356:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionMultiplyVector(const FusionQuaternion quaternion, co
+ 357:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ 358:BSP/BSP.h/FusionMath.h **** #define V vector.axis
+ 359:BSP/BSP.h/FusionMath.h ****     FusionQuaternion result;
+ 360:BSP/BSP.h/FusionMath.h ****     result.element.w = -Q.x * V.x - Q.y * V.y - Q.z * V.z;
+ 361:BSP/BSP.h/FusionMath.h ****     result.element.x = Q.w * V.x + Q.y * V.z - Q.z * V.y;
+ 362:BSP/BSP.h/FusionMath.h ****     result.element.y = Q.w * V.y - Q.x * V.z + Q.z * V.x;
+ 363:BSP/BSP.h/FusionMath.h ****     result.element.z = Q.w * V.z + Q.x * V.y - Q.y * V.x;
+ 364:BSP/BSP.h/FusionMath.h ****     return result;
+ 365:BSP/BSP.h/FusionMath.h **** #undef Q
+ 366:BSP/BSP.h/FusionMath.h **** #undef V
+ 367:BSP/BSP.h/FusionMath.h **** }
+ 368:BSP/BSP.h/FusionMath.h **** 
+ 369:BSP/BSP.h/FusionMath.h **** /**
+ 370:BSP/BSP.h/FusionMath.h ****  * @brief Returns the normalised quaternion.
+ 371:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 372:BSP/BSP.h/FusionMath.h ****  * @return Normalised quaternion.
+ 373:BSP/BSP.h/FusionMath.h ****  */
+ 374:BSP/BSP.h/FusionMath.h **** static inline FusionQuaternion FusionQuaternionNormalise(const FusionQuaternion quaternion) {
+ 375:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 43
+
+
+ 376:BSP/BSP.h/FusionMath.h **** #ifdef FUSION_USE_NORMAL_SQRT
+ 377:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = 1.0f / sqrtf(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z * Q.z);
+ 378:BSP/BSP.h/FusionMath.h **** #else
+ 379:BSP/BSP.h/FusionMath.h ****     const float magnitudeReciprocal = FusionFastInverseSqrt(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z
+ 380:BSP/BSP.h/FusionMath.h **** #endif
+ 381:BSP/BSP.h/FusionMath.h ****     FusionQuaternion normalisedQuaternion;
+ 382:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.w = Q.w * magnitudeReciprocal;
+ 383:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.x = Q.x * magnitudeReciprocal;
+ 384:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.y = Q.y * magnitudeReciprocal;
+ 385:BSP/BSP.h/FusionMath.h ****     normalisedQuaternion.element.z = Q.z * magnitudeReciprocal;
+ 386:BSP/BSP.h/FusionMath.h ****     return normalisedQuaternion;
+ 387:BSP/BSP.h/FusionMath.h **** #undef Q
+ 388:BSP/BSP.h/FusionMath.h **** }
+ 389:BSP/BSP.h/FusionMath.h **** 
+ 390:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 391:BSP/BSP.h/FusionMath.h **** // Inline functions - Matrix operations
+ 392:BSP/BSP.h/FusionMath.h **** 
+ 393:BSP/BSP.h/FusionMath.h **** /**
+ 394:BSP/BSP.h/FusionMath.h ****  * @brief Returns the multiplication of a matrix with a vector.
+ 395:BSP/BSP.h/FusionMath.h ****  * @param matrix Matrix.
+ 396:BSP/BSP.h/FusionMath.h ****  * @param vector Vector.
+ 397:BSP/BSP.h/FusionMath.h ****  * @return Multiplication of a matrix with a vector.
+ 398:BSP/BSP.h/FusionMath.h ****  */
+ 399:BSP/BSP.h/FusionMath.h **** static inline FusionVector FusionMatrixMultiplyVector(const FusionMatrix matrix, const FusionVector
+ 400:BSP/BSP.h/FusionMath.h **** #define R matrix.element
+ 401:BSP/BSP.h/FusionMath.h ****     FusionVector result;
+ 402:BSP/BSP.h/FusionMath.h ****     result.axis.x = R.xx * vector.axis.x + R.xy * vector.axis.y + R.xz * vector.axis.z;
+ 403:BSP/BSP.h/FusionMath.h ****     result.axis.y = R.yx * vector.axis.x + R.yy * vector.axis.y + R.yz * vector.axis.z;
+ 404:BSP/BSP.h/FusionMath.h ****     result.axis.z = R.zx * vector.axis.x + R.zy * vector.axis.y + R.zz * vector.axis.z;
+ 405:BSP/BSP.h/FusionMath.h ****     return result;
+ 406:BSP/BSP.h/FusionMath.h **** #undef R
+ 407:BSP/BSP.h/FusionMath.h **** }
+ 408:BSP/BSP.h/FusionMath.h **** 
+ 409:BSP/BSP.h/FusionMath.h **** //------------------------------------------------------------------------------
+ 410:BSP/BSP.h/FusionMath.h **** // Inline functions - Conversion operations
+ 411:BSP/BSP.h/FusionMath.h **** 
+ 412:BSP/BSP.h/FusionMath.h **** /**
+ 413:BSP/BSP.h/FusionMath.h ****  * @brief Converts a quaternion to a rotation matrix.
+ 414:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 415:BSP/BSP.h/FusionMath.h ****  * @return Rotation matrix.
+ 416:BSP/BSP.h/FusionMath.h ****  */
+ 417:BSP/BSP.h/FusionMath.h **** static inline FusionMatrix FusionQuaternionToMatrix(const FusionQuaternion quaternion) {
+ 418:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ 419:BSP/BSP.h/FusionMath.h ****     const float qwqw = Q.w * Q.w; // calculate common terms to avoid repeated operations
+ 420:BSP/BSP.h/FusionMath.h ****     const float qwqx = Q.w * Q.x;
+ 421:BSP/BSP.h/FusionMath.h ****     const float qwqy = Q.w * Q.y;
+ 422:BSP/BSP.h/FusionMath.h ****     const float qwqz = Q.w * Q.z;
+ 423:BSP/BSP.h/FusionMath.h ****     const float qxqy = Q.x * Q.y;
+ 424:BSP/BSP.h/FusionMath.h ****     const float qxqz = Q.x * Q.z;
+ 425:BSP/BSP.h/FusionMath.h ****     const float qyqz = Q.y * Q.z;
+ 426:BSP/BSP.h/FusionMath.h ****     FusionMatrix matrix;
+ 427:BSP/BSP.h/FusionMath.h ****     matrix.element.xx = 2.0f * (qwqw - 0.5f + Q.x * Q.x);
+ 428:BSP/BSP.h/FusionMath.h ****     matrix.element.xy = 2.0f * (qxqy - qwqz);
+ 429:BSP/BSP.h/FusionMath.h ****     matrix.element.xz = 2.0f * (qxqz + qwqy);
+ 430:BSP/BSP.h/FusionMath.h ****     matrix.element.yx = 2.0f * (qxqy + qwqz);
+ 431:BSP/BSP.h/FusionMath.h ****     matrix.element.yy = 2.0f * (qwqw - 0.5f + Q.y * Q.y);
+ 432:BSP/BSP.h/FusionMath.h ****     matrix.element.yz = 2.0f * (qyqz - qwqx);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 44
+
+
+ 433:BSP/BSP.h/FusionMath.h ****     matrix.element.zx = 2.0f * (qxqz - qwqy);
+ 434:BSP/BSP.h/FusionMath.h ****     matrix.element.zy = 2.0f * (qyqz + qwqx);
+ 435:BSP/BSP.h/FusionMath.h ****     matrix.element.zz = 2.0f * (qwqw - 0.5f + Q.z * Q.z);
+ 436:BSP/BSP.h/FusionMath.h ****     return matrix;
+ 437:BSP/BSP.h/FusionMath.h **** #undef Q
+ 438:BSP/BSP.h/FusionMath.h **** }
+ 439:BSP/BSP.h/FusionMath.h **** 
+ 440:BSP/BSP.h/FusionMath.h **** /**
+ 441:BSP/BSP.h/FusionMath.h ****  * @brief Converts a quaternion to ZYX Euler angles in degrees.
+ 442:BSP/BSP.h/FusionMath.h ****  * @param quaternion Quaternion.
+ 443:BSP/BSP.h/FusionMath.h ****  * @return Euler angles in degrees.
+ 444:BSP/BSP.h/FusionMath.h ****  */
+ 445:BSP/BSP.h/FusionMath.h **** static inline FusionEuler FusionQuaternionToEuler(const FusionQuaternion quaternion) {
+ 1385              		.loc 2 445 86 is_stmt 1 view -0
+ 1386              		.cfi_startproc
+ 1387              		@ args = 0, pretend = 0, frame = 56
+ 1388              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1389 0000 00B5     		push	{lr}
+ 1390              	.LCFI27:
+ 1391              		.cfi_def_cfa_offset 4
+ 1392              		.cfi_offset 14, -4
+ 1393 0002 2DED068B 		vpush.64	{d8, d9, d10}
+ 1394              	.LCFI28:
+ 1395              		.cfi_def_cfa_offset 28
+ 1396              		.cfi_offset 80, -28
+ 1397              		.cfi_offset 81, -24
+ 1398              		.cfi_offset 82, -20
+ 1399              		.cfi_offset 83, -16
+ 1400              		.cfi_offset 84, -12
+ 1401              		.cfi_offset 85, -8
+ 1402 0006 8FB0     		sub	sp, sp, #60
+ 1403              	.LCFI29:
+ 1404              		.cfi_def_cfa_offset 88
+ 1405 0008 B0EE409A 		vmov.f32	s18, s0
+ 1406 000c F0EE609A 		vmov.f32	s19, s1
+ 1407 0010 B0EE418A 		vmov.f32	s16, s2
+ 1408 0014 F0EE618A 		vmov.f32	s17, s3
+ 1409 0018 8DED040A 		vstr.32	s0, [sp, #16]
+ 1410 001c CDED050A 		vstr.32	s1, [sp, #20]
+ 1411 0020 8DED061A 		vstr.32	s2, [sp, #24]
+ 1412 0024 CDED071A 		vstr.32	s3, [sp, #28]
+ 446:BSP/BSP.h/FusionMath.h **** #define Q quaternion.element
+ 447:BSP/BSP.h/FusionMath.h ****     const float halfMinusQySquared = 0.5f - Q.y * Q.y; // calculate common terms to avoid repeated 
+ 1413              		.loc 2 447 5 view .LVU340
+ 1414              		.loc 2 447 49 is_stmt 0 view .LVU341
+ 1415 0028 61EE017A 		vmul.f32	s15, s2, s2
+ 1416              		.loc 2 447 17 view .LVU342
+ 1417 002c B6EE00AA 		vmov.f32	s20, #5.0e-1
+ 1418 0030 3AEE67AA 		vsub.f32	s20, s20, s15
+ 1419              	.LVL122:
+ 448:BSP/BSP.h/FusionMath.h ****     FusionEuler euler;
+ 1420              		.loc 2 448 5 is_stmt 1 view .LVU343
+ 449:BSP/BSP.h/FusionMath.h ****     euler.angle.roll = FusionRadiansToDegrees(atan2f(Q.w * Q.x + Q.y * Q.z, halfMinusQySquared - Q.
+ 1421              		.loc 2 449 5 view .LVU344
+ 1422              		.loc 2 449 58 is_stmt 0 view .LVU345
+ 1423 0034 20EE200A 		vmul.f32	s0, s0, s1
+ 1424              		.loc 2 449 70 view .LVU346
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 45
+
+
+ 1425 0038 61EE217A 		vmul.f32	s15, s2, s3
+ 1426              		.loc 2 449 102 view .LVU347
+ 1427 003c 60EEA00A 		vmul.f32	s1, s1, s1
+ 1428              		.loc 2 449 24 view .LVU348
+ 1429 0040 7AEE600A 		vsub.f32	s1, s20, s1
+ 1430 0044 30EE270A 		vadd.f32	s0, s0, s15
+ 1431 0048 FFF7FEFF 		bl	atan2f
+ 1432              	.LVL123:
+ 1433              	.LBB12:
+ 1434              	.LBI12:
+ 136:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 1435              		.loc 2 136 21 is_stmt 1 view .LVU349
+ 1436              	.LBB13:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1437              		.loc 2 137 5 view .LVU350
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1438              		.loc 2 137 20 is_stmt 0 view .LVU351
+ 1439 004c DFED1AAA 		vldr.32	s21, .L64
+ 1440 0050 20EE2A0A 		vmul.f32	s0, s0, s21
+ 1441              	.LVL124:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1442              		.loc 2 137 20 view .LVU352
+ 1443              	.LBE13:
+ 1444              	.LBE12:
+ 1445              		.loc 2 449 22 view .LVU353
+ 1446 0054 8DED080A 		vstr.32	s0, [sp, #32]
+ 450:BSP/BSP.h/FusionMath.h ****     euler.angle.pitch = FusionRadiansToDegrees(FusionAsin(2.0f * (Q.w * Q.y - Q.z * Q.x)));
+ 1447              		.loc 2 450 5 is_stmt 1 view .LVU354
+ 1448              		.loc 2 450 71 is_stmt 0 view .LVU355
+ 1449 0058 28EE090A 		vmul.f32	s0, s16, s18
+ 1450              		.loc 2 450 83 view .LVU356
+ 1451 005c 69EEA87A 		vmul.f32	s15, s19, s17
+ 1452              		.loc 2 450 77 view .LVU357
+ 1453 0060 30EE670A 		vsub.f32	s0, s0, s15
+ 1454              		.loc 2 450 25 view .LVU358
+ 1455 0064 30EE000A 		vadd.f32	s0, s0, s0
+ 1456 0068 FFF7FEFF 		bl	FusionAsin
+ 1457              	.LVL125:
+ 1458              	.LBB14:
+ 1459              	.LBI14:
+ 136:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 1460              		.loc 2 136 21 is_stmt 1 view .LVU359
+ 1461              	.LBB15:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1462              		.loc 2 137 5 view .LVU360
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1463              		.loc 2 137 20 is_stmt 0 view .LVU361
+ 1464 006c 20EE2A0A 		vmul.f32	s0, s0, s21
+ 1465              	.LVL126:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1466              		.loc 2 137 20 view .LVU362
+ 1467              	.LBE15:
+ 1468              	.LBE14:
+ 1469              		.loc 2 450 23 view .LVU363
+ 1470 0070 8DED090A 		vstr.32	s0, [sp, #36]
+ 451:BSP/BSP.h/FusionMath.h ****     euler.angle.yaw = FusionRadiansToDegrees(atan2f(Q.w * Q.z + Q.x * Q.y, halfMinusQySquared - Q.z
+ 1471              		.loc 2 451 5 is_stmt 1 view .LVU364
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 46
+
+
+ 1472              		.loc 2 451 57 is_stmt 0 view .LVU365
+ 1473 0074 29EE280A 		vmul.f32	s0, s18, s17
+ 1474              		.loc 2 451 69 view .LVU366
+ 1475 0078 28EE298A 		vmul.f32	s16, s16, s19
+ 1476              		.loc 2 451 101 view .LVU367
+ 1477 007c 68EEA88A 		vmul.f32	s17, s17, s17
+ 1478              		.loc 2 451 23 view .LVU368
+ 1479 0080 7AEE680A 		vsub.f32	s1, s20, s17
+ 1480 0084 30EE080A 		vadd.f32	s0, s0, s16
+ 1481 0088 FFF7FEFF 		bl	atan2f
+ 1482              	.LVL127:
+ 1483              	.LBB16:
+ 1484              	.LBI16:
+ 136:BSP/BSP.h/FusionMath.h ****     return radians * (180.0f / (float) M_PI);
+ 1485              		.loc 2 136 21 is_stmt 1 view .LVU369
+ 1486              	.LBB17:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1487              		.loc 2 137 5 view .LVU370
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1488              		.loc 2 137 20 is_stmt 0 view .LVU371
+ 1489 008c 20EE2A0A 		vmul.f32	s0, s0, s21
+ 1490              	.LVL128:
+ 137:BSP/BSP.h/FusionMath.h **** }
+ 1491              		.loc 2 137 20 view .LVU372
+ 1492              	.LBE17:
+ 1493              	.LBE16:
+ 1494              		.loc 2 451 21 view .LVU373
+ 1495 0090 8DED0A0A 		vstr.32	s0, [sp, #40]
+ 452:BSP/BSP.h/FusionMath.h ****     return euler;
+ 1496              		.loc 2 452 5 is_stmt 1 view .LVU374
+ 1497              		.loc 2 452 12 is_stmt 0 view .LVU375
+ 1498 0094 08AB     		add	r3, sp, #32
+ 1499 0096 93E80700 		ldm	r3, {r0, r1, r2}
+ 1500 009a 0EAB     		add	r3, sp, #56
+ 1501 009c 03E90700 		stmdb	r3, {r0, r1, r2}
+ 453:BSP/BSP.h/FusionMath.h **** #undef Q
+ 454:BSP/BSP.h/FusionMath.h **** }
+ 1502              		.loc 2 454 1 view .LVU376
+ 1503 00a0 9DED0B0A 		vldr.32	s0, [sp, #44]
+ 1504 00a4 DDED0C0A 		vldr.32	s1, [sp, #48]
+ 1505 00a8 9DED0D1A 		vldr.32	s2, [sp, #52]
+ 1506 00ac 0FB0     		add	sp, sp, #60
+ 1507              	.LCFI30:
+ 1508              		.cfi_def_cfa_offset 28
+ 1509              		@ sp needed
+ 1510 00ae BDEC068B 		vldm	sp!, {d8-d10}
+ 1511              	.LCFI31:
+ 1512              		.cfi_restore 84
+ 1513              		.cfi_restore 85
+ 1514              		.cfi_restore 82
+ 1515              		.cfi_restore 83
+ 1516              		.cfi_restore 80
+ 1517              		.cfi_restore 81
+ 1518              		.cfi_def_cfa_offset 4
+ 1519              	.LVL129:
+ 1520              		.loc 2 454 1 view .LVU377
+ 1521 00b2 5DF804FB 		ldr	pc, [sp], #4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 47
+
+
+ 1522              	.LVL130:
+ 1523              	.L65:
+ 1524              		.loc 2 454 1 view .LVU378
+ 1525 00b6 00BF     		.align	2
+ 1526              	.L64:
+ 1527 00b8 E02E6542 		.word	1113927392
+ 1528              		.cfi_endproc
+ 1529              	.LFE153:
+ 1531              		.section	.text.Board_A_IMU_Calc_Angle,"ax",%progbits
+ 1532              		.align	1
+ 1533              		.global	Board_A_IMU_Calc_Angle
+ 1534              		.syntax unified
+ 1535              		.thumb
+ 1536              		.thumb_func
+ 1538              	Board_A_IMU_Calc_Angle:
+ 1539              	.LVL131:
+ 1540              	.LFB172:
+ 299:Devices/Devices.c/Board_A_IMU.c **** 	//Use fusion to do the AHRS estimation
+ 1541              		.loc 1 299 1 is_stmt 1 view -0
+ 1542              		.cfi_startproc
+ 1543              		@ args = 0, pretend = 0, frame = 56
+ 1544              		@ frame_needed = 0, uses_anonymous_args = 0
+ 299:Devices/Devices.c/Board_A_IMU.c **** 	//Use fusion to do the AHRS estimation
+ 1545              		.loc 1 299 1 is_stmt 0 view .LVU380
+ 1546 0000 30B5     		push	{r4, r5, lr}
+ 1547              	.LCFI32:
+ 1548              		.cfi_def_cfa_offset 12
+ 1549              		.cfi_offset 4, -12
+ 1550              		.cfi_offset 5, -8
+ 1551              		.cfi_offset 14, -4
+ 1552 0002 8FB0     		sub	sp, sp, #60
+ 1553              	.LCFI33:
+ 1554              		.cfi_def_cfa_offset 72
+ 1555 0004 0446     		mov	r4, r0
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 1556              		.loc 1 301 2 is_stmt 1 view .LVU381
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 1557              		.loc 1 301 64 is_stmt 0 view .LVU382
+ 1558 0006 D0ED0B1A 		vldr.32	s3, [r0, #44]
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 1559              		.loc 1 301 21 view .LVU383
+ 1560 000a CDED071A 		vstr.32	s3, [sp, #28]
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 1561              		.loc 1 301 91 view .LVU384
+ 1562 000e 90ED0C2A 		vldr.32	s4, [r0, #48]
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 1563              		.loc 1 301 21 view .LVU385
+ 1564 0012 8DED082A 		vstr.32	s4, [sp, #32]
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 1565              		.loc 1 301 118 view .LVU386
+ 1566 0016 D0ED0D2A 		vldr.32	s5, [r0, #52]
+ 301:Devices/Devices.c/Board_A_IMU.c **** 	const FusionVector Board_A_IMU_Gyro = {Board_A_IMU->Calc_Data.Gx, Board_A_IMU->Calc_Data.Gy, Board
+ 1567              		.loc 1 301 21 view .LVU387
+ 1568 001a CDED092A 		vstr.32	s5, [sp, #36]
+ 302:Devices/Devices.c/Board_A_IMU.c **** 
+ 1569              		.loc 1 302 2 is_stmt 1 view .LVU388
+ 302:Devices/Devices.c/Board_A_IMU.c **** 
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 48
+
+
+ 1570              		.loc 1 302 63 is_stmt 0 view .LVU389
+ 1571 001e 90ED0E0A 		vldr.32	s0, [r0, #56]
+ 302:Devices/Devices.c/Board_A_IMU.c **** 
+ 1572              		.loc 1 302 21 view .LVU390
+ 1573 0022 8DED040A 		vstr.32	s0, [sp, #16]
+ 302:Devices/Devices.c/Board_A_IMU.c **** 
+ 1574              		.loc 1 302 90 view .LVU391
+ 1575 0026 D0ED0F0A 		vldr.32	s1, [r0, #60]
+ 302:Devices/Devices.c/Board_A_IMU.c **** 
+ 1576              		.loc 1 302 21 view .LVU392
+ 1577 002a CDED050A 		vstr.32	s1, [sp, #20]
+ 302:Devices/Devices.c/Board_A_IMU.c **** 
+ 1578              		.loc 1 302 117 view .LVU393
+ 1579 002e 90ED101A 		vldr.32	s2, [r0, #64]
+ 302:Devices/Devices.c/Board_A_IMU.c **** 
+ 1580              		.loc 1 302 21 view .LVU394
+ 1581 0032 8DED061A 		vstr.32	s2, [sp, #24]
+ 310:Devices/Devices.c/Board_A_IMU.c **** 	#endif
+ 1582              		.loc 1 310 2 is_stmt 1 view .LVU395
+ 1583 0036 334D     		ldr	r5, .L75
+ 1584 0038 90ED213A 		vldr.32	s6, [r0, #132]
+ 1585 003c 2846     		mov	r0, r5
+ 1586              	.LVL132:
+ 310:Devices/Devices.c/Board_A_IMU.c **** 	#endif
+ 1587              		.loc 1 310 2 is_stmt 0 view .LVU396
+ 1588 003e FFF7FEFF 		bl	FusionAhrsUpdateNoMagnetometer
+ 1589              	.LVL133:
+ 313:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1590              		.loc 1 313 2 is_stmt 1 view .LVU397
+ 313:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1591              		.loc 1 313 40 is_stmt 0 view .LVU398
+ 1592 0042 2846     		mov	r0, r5
+ 1593 0044 FFF7FEFF 		bl	FusionAhrsGetQuaternion
+ 1594              	.LVL134:
+ 1595 0048 8DED0A0A 		vstr.32	s0, [sp, #40]
+ 1596 004c CDED0B0A 		vstr.32	s1, [sp, #44]
+ 1597 0050 8DED0C1A 		vstr.32	s2, [sp, #48]
+ 1598 0054 CDED0D1A 		vstr.32	s3, [sp, #52]
+ 1599 0058 FFF7FEFF 		bl	FusionQuaternionToEuler
+ 1600              	.LVL135:
+ 1601 005c 8DED010A 		vstr.32	s0, [sp, #4]
+ 1602 0060 CDED020A 		vstr.32	s1, [sp, #8]
+ 1603 0064 8DED031A 		vstr.32	s2, [sp, #12]
+ 315:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Yaw = Board_A_IMU_Euler.angle.yaw;
+ 1604              		.loc 1 315 2 is_stmt 1 view .LVU399
+ 315:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Yaw = Board_A_IMU_Euler.angle.yaw;
+ 1605              		.loc 1 315 62 is_stmt 0 view .LVU400
+ 1606 0068 D4ED157A 		vldr.32	s15, [r4, #84]
+ 315:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Yaw = Board_A_IMU_Euler.angle.yaw;
+ 1607              		.loc 1 315 36 view .LVU401
+ 1608 006c C4ED187A 		vstr.32	s15, [r4, #96]
+ 316:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Pitch = Board_A_IMU_Euler.angle.pitch;
+ 1609              		.loc 1 316 2 is_stmt 1 view .LVU402
+ 316:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Pitch = Board_A_IMU_Euler.angle.pitch;
+ 1610              		.loc 1 316 31 is_stmt 0 view .LVU403
+ 1611 0070 84ED151A 		vstr.32	s2, [r4, #84]
+ 317:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Roll = Board_A_IMU_Euler.angle.roll;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 49
+
+
+ 1612              		.loc 1 317 2 is_stmt 1 view .LVU404
+ 317:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Roll = Board_A_IMU_Euler.angle.roll;
+ 1613              		.loc 1 317 33 is_stmt 0 view .LVU405
+ 1614 0074 C4ED160A 		vstr.32	s1, [r4, #88]
+ 318:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Yaw = Board_A_IMU->Calc_Data.Gz / 6.0f; // degree/s to RPM
+ 1615              		.loc 1 318 2 is_stmt 1 view .LVU406
+ 318:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Yaw = Board_A_IMU->Calc_Data.Gz / 6.0f; // degree/s to RPM
+ 1616              		.loc 1 318 32 is_stmt 0 view .LVU407
+ 1617 0078 84ED170A 		vstr.32	s0, [r4, #92]
+ 319:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Pitch = Board_A_IMU->Calc_Data.Gy / 6.0f; // degree/s to RPM
+ 1618              		.loc 1 319 2 is_stmt 1 view .LVU408
+ 319:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Pitch = Board_A_IMU->Calc_Data.Gy / 6.0f; // degree/s to RPM
+ 1619              		.loc 1 319 60 is_stmt 0 view .LVU409
+ 1620 007c 94ED106A 		vldr.32	s12, [r4, #64]
+ 319:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Pitch = Board_A_IMU->Calc_Data.Gy / 6.0f; // degree/s to RPM
+ 1621              		.loc 1 319 64 view .LVU410
+ 1622 0080 B1EE087A 		vmov.f32	s14, #6.0e+0
+ 1623 0084 C6EE076A 		vdiv.f32	s13, s12, s14
+ 319:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Pitch = Board_A_IMU->Calc_Data.Gy / 6.0f; // degree/s to RPM
+ 1624              		.loc 1 319 36 view .LVU411
+ 1625 0088 C4ED1B6A 		vstr.32	s13, [r4, #108]
+ 320:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Roll = Board_A_IMU->Calc_Data.Gx / 6.0f; // degree/s to RPM
+ 1626              		.loc 1 320 2 is_stmt 1 view .LVU412
+ 320:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Roll = Board_A_IMU->Calc_Data.Gx / 6.0f; // degree/s to RPM
+ 1627              		.loc 1 320 62 is_stmt 0 view .LVU413
+ 1628 008c 94ED0F6A 		vldr.32	s12, [r4, #60]
+ 320:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Roll = Board_A_IMU->Calc_Data.Gx / 6.0f; // degree/s to RPM
+ 1629              		.loc 1 320 66 view .LVU414
+ 1630 0090 C6EE076A 		vdiv.f32	s13, s12, s14
+ 320:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Gyro_Roll = Board_A_IMU->Calc_Data.Gx / 6.0f; // degree/s to RPM
+ 1631              		.loc 1 320 38 view .LVU415
+ 1632 0094 C4ED1C6A 		vstr.32	s13, [r4, #112]
+ 321:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Temperature = Board_A_IMU->Calc_Data.Temperature;
+ 1633              		.loc 1 321 2 is_stmt 1 view .LVU416
+ 321:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Temperature = Board_A_IMU->Calc_Data.Temperature;
+ 1634              		.loc 1 321 61 is_stmt 0 view .LVU417
+ 1635 0098 94ED0E6A 		vldr.32	s12, [r4, #56]
+ 321:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Temperature = Board_A_IMU->Calc_Data.Temperature;
+ 1636              		.loc 1 321 65 view .LVU418
+ 1637 009c C6EE076A 		vdiv.f32	s13, s12, s14
+ 321:Devices/Devices.c/Board_A_IMU.c **** 	Board_A_IMU->Export_Data.Temperature = Board_A_IMU->Calc_Data.Temperature;
+ 1638              		.loc 1 321 37 view .LVU419
+ 1639 00a0 C4ED1D6A 		vstr.32	s13, [r4, #116]
+ 322:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1640              		.loc 1 322 2 is_stmt 1 view .LVU420
+ 322:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1641              		.loc 1 322 63 is_stmt 0 view .LVU421
+ 1642 00a4 236D     		ldr	r3, [r4, #80]	@ float
+ 322:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1643              		.loc 1 322 39 view .LVU422
+ 1644 00a6 A367     		str	r3, [r4, #120]	@ float
+ 325:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Export_Data.Turn_Count++;
+ 1645              		.loc 1 325 2 is_stmt 1 view .LVU423
+ 325:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Export_Data.Turn_Count++;
+ 1646              		.loc 1 325 35 is_stmt 0 view .LVU424
+ 1647 00a8 71EE677A 		vsub.f32	s15, s2, s15
+ 325:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Export_Data.Turn_Count++;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 50
+
+
+ 1648              		.loc 1 325 4 view .LVU425
+ 1649 00ac 9FED167A 		vldr.32	s14, .L75+4
+ 1650 00b0 F4EEC77A 		vcmpe.f32	s15, s14
+ 1651 00b4 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1652 00b8 13D5     		bpl	.L73
+ 326:Devices/Devices.c/Board_A_IMU.c **** 	else if((Board_A_IMU->Export_Data.Yaw - Board_A_IMU->Export_Data.Prev_Yaw) > 300)
+ 1653              		.loc 1 326 3 is_stmt 1 view .LVU426
+ 326:Devices/Devices.c/Board_A_IMU.c **** 	else if((Board_A_IMU->Export_Data.Yaw - Board_A_IMU->Export_Data.Prev_Yaw) > 300)
+ 1654              		.loc 1 326 27 is_stmt 0 view .LVU427
+ 1655 00ba D4ED1A7A 		vldr.32	s15, [r4, #104]
+ 326:Devices/Devices.c/Board_A_IMU.c **** 	else if((Board_A_IMU->Export_Data.Yaw - Board_A_IMU->Export_Data.Prev_Yaw) > 300)
+ 1656              		.loc 1 326 38 view .LVU428
+ 1657 00be B7EE007A 		vmov.f32	s14, #1.0e+0
+ 1658 00c2 77EE877A 		vadd.f32	s15, s15, s14
+ 1659 00c6 C4ED1A7A 		vstr.32	s15, [r4, #104]
+ 1660              	.L69:
+ 330:Devices/Devices.c/Board_A_IMU.c **** }
+ 1661              		.loc 1 330 2 is_stmt 1 view .LVU429
+ 330:Devices/Devices.c/Board_A_IMU.c **** }
+ 1662              		.loc 1 330 103 is_stmt 0 view .LVU430
+ 1663 00ca D4ED1A7A 		vldr.32	s15, [r4, #104]
+ 330:Devices/Devices.c/Board_A_IMU.c **** }
+ 1664              		.loc 1 330 77 view .LVU431
+ 1665 00ce 9FED0F7A 		vldr.32	s14, .L75+8
+ 1666 00d2 67EE877A 		vmul.f32	s15, s15, s14
+ 330:Devices/Devices.c/Board_A_IMU.c **** }
+ 1667              		.loc 1 330 68 view .LVU432
+ 1668 00d6 31EE271A 		vadd.f32	s2, s2, s15
+ 330:Devices/Devices.c/Board_A_IMU.c **** }
+ 1669              		.loc 1 330 37 view .LVU433
+ 1670 00da 84ED191A 		vstr.32	s2, [r4, #100]
+ 331:Devices/Devices.c/Board_A_IMU.c **** 
+ 1671              		.loc 1 331 1 view .LVU434
+ 1672 00de 0FB0     		add	sp, sp, #60
+ 1673              	.LCFI34:
+ 1674              		.cfi_remember_state
+ 1675              		.cfi_def_cfa_offset 12
+ 1676              		@ sp needed
+ 1677 00e0 30BD     		pop	{r4, r5, pc}
+ 1678              	.LVL136:
+ 1679              	.L73:
+ 1680              	.LCFI35:
+ 1681              		.cfi_restore_state
+ 327:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Export_Data.Turn_Count--;
+ 1682              		.loc 1 327 7 is_stmt 1 view .LVU435
+ 327:Devices/Devices.c/Board_A_IMU.c **** 		Board_A_IMU->Export_Data.Turn_Count--;
+ 1683              		.loc 1 327 9 is_stmt 0 view .LVU436
+ 1684 00e2 9FED0B7A 		vldr.32	s14, .L75+12
+ 1685 00e6 F4EEC77A 		vcmpe.f32	s15, s14
+ 1686 00ea F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1687 00ee ECDD     		ble	.L69
+ 328:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1688              		.loc 1 328 3 is_stmt 1 view .LVU437
+ 328:Devices/Devices.c/Board_A_IMU.c **** 	
+ 1689              		.loc 1 328 27 is_stmt 0 view .LVU438
+ 1690 00f0 D4ED1A7A 		vldr.32	s15, [r4, #104]
+ 328:Devices/Devices.c/Board_A_IMU.c **** 	
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 51
+
+
+ 1691              		.loc 1 328 38 view .LVU439
+ 1692 00f4 B7EE007A 		vmov.f32	s14, #1.0e+0
+ 1693 00f8 77EEC77A 		vsub.f32	s15, s15, s14
+ 1694 00fc C4ED1A7A 		vstr.32	s15, [r4, #104]
+ 1695 0100 E3E7     		b	.L69
+ 1696              	.L76:
+ 1697 0102 00BF     		.align	2
+ 1698              	.L75:
+ 1699 0104 00000000 		.word	Board_A_IMU_AHRS
+ 1700 0108 000096C3 		.word	-1013579776
+ 1701 010c 0000B443 		.word	1135869952
+ 1702 0110 00009643 		.word	1133903872
+ 1703              		.cfi_endproc
+ 1704              	.LFE172:
+ 1706              		.section	.data.tx_buff,"aw"
+ 1707              		.align	2
+ 1710              	tx_buff:
+ 1711 0000 FF00     		.ascii	"\377\000"
+ 1712 0002 00000000 		.space	12
+ 1712      00000000 
+ 1712      00000000 
+ 1713              		.section	.bss.rx,"aw",%nobits
+ 1716              	rx:
+ 1717 0000 00       		.space	1
+ 1718              		.section	.bss.tx,"aw",%nobits
+ 1721              	tx:
+ 1722 0000 00       		.space	1
+ 1723              		.global	Board_A_IMU_Func
+ 1724              		.section	.data.Board_A_IMU_Func,"aw"
+ 1725              		.align	2
+ 1728              	Board_A_IMU_Func:
+ 1729 0000 00000000 		.word	Board_A_IMU_Init
+ 1730 0004 00000000 		.word	Board_A_IMU_Calibrate
+ 1731 0008 00000000 		.word	Board_A_IMU_Read_Data
+ 1732 000c 00000000 		.word	Board_A_IMU_Calc_Angle
+ 1733 0010 00000000 		.word	Board_A_IMU_Reset
+ 1734              		.global	Board_A_IMU_AHRS
+ 1735              		.section	.bss.Board_A_IMU_AHRS,"aw",%nobits
+ 1736              		.align	2
+ 1739              	Board_A_IMU_AHRS:
+ 1740 0000 00000000 		.space	100
+ 1740      00000000 
+ 1740      00000000 
+ 1740      00000000 
+ 1740      00000000 
+ 1741              		.global	Board_A_IMU
+ 1742              		.section	.bss.Board_A_IMU,"aw",%nobits
+ 1743              		.align	2
+ 1746              	Board_A_IMU:
+ 1747 0000 00000000 		.space	140
+ 1747      00000000 
+ 1747      00000000 
+ 1747      00000000 
+ 1747      00000000 
+ 1748              		.text
+ 1749              	.Letext0:
+ 1750              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 52
+
+
+ 1751              		.file 4 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 1752              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 1753              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 1754              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 1755              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 1756              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h"
+ 1757              		.file 10 "BSP/BSP.h/FusionAhrs.h"
+ 1758              		.file 11 "Devices/Devices.h/Board_A_IMU.h"
+ 1759              		.file 12 "Core/Inc/spi.h"
+ 1760              		.file 13 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\math.h"
+ 1761              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 53
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Board_A_IMU.c
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:21     .text.Board_A_IMU_Reset:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:27     .text.Board_A_IMU_Reset:00000000 Board_A_IMU_Reset
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:53     .text.Board_A_IMU_Write_Byte:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:58     .text.Board_A_IMU_Write_Byte:00000000 Board_A_IMU_Write_Byte
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:137    .text.Board_A_IMU_Write_Byte:0000005c $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1721   .bss.tx:00000000 tx
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1716   .bss.rx:00000000 rx
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:145    .text.IST8310_Write_Byte:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:150    .text.IST8310_Write_Byte:00000000 IST8310_Write_Byte
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:213    .text.Board_A_IMU_I2C_Config:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:218    .text.Board_A_IMU_I2C_Config:00000000 Board_A_IMU_I2C_Config
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:327    .text.Board_A_IMU_Read_Byte:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:332    .text.Board_A_IMU_Read_Byte:00000000 Board_A_IMU_Read_Byte
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:403    .text.Board_A_IMU_Read_Byte:00000058 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:411    .text.IST8310_Read_Byte:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:416    .text.IST8310_Read_Byte:00000000 IST8310_Read_Byte
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:475    .text.IST8310_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:480    .text.IST8310_Init:00000000 IST8310_Init
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:679    .text.Board_A_IMU_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:685    .text.Board_A_IMU_Init:00000000 Board_A_IMU_Init
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:765    .text.Board_A_IMU_Read_Bytes:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:770    .text.Board_A_IMU_Read_Bytes:00000000 Board_A_IMU_Read_Bytes
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:857    .text.Board_A_IMU_Read_Bytes:00000060 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1710   .data.tx_buff:00000000 tx_buff
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:866    .text.Board_A_IMU_Read_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:872    .text.Board_A_IMU_Read_Data:00000000 Board_A_IMU_Read_Data
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1129   .text.Board_A_IMU_Read_Data:000001c0 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1138   .text.Board_A_IMU_Calibrate:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1144   .text.Board_A_IMU_Calibrate:00000000 Board_A_IMU_Calibrate
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1307   .text.Board_A_IMU_Calibrate:000000e8 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1314   .text.FusionAsin:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1319   .text.FusionAsin:00000000 FusionAsin
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1372   .text.FusionAsin:00000030 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1378   .text.FusionQuaternionToEuler:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1383   .text.FusionQuaternionToEuler:00000000 FusionQuaternionToEuler
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1527   .text.FusionQuaternionToEuler:000000b8 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1532   .text.Board_A_IMU_Calc_Angle:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1538   .text.Board_A_IMU_Calc_Angle:00000000 Board_A_IMU_Calc_Angle
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1699   .text.Board_A_IMU_Calc_Angle:00000104 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1739   .bss.Board_A_IMU_AHRS:00000000 Board_A_IMU_AHRS
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1707   .data.tx_buff:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1717   .bss.rx:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1722   .bss.tx:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1728   .data.Board_A_IMU_Func:00000000 Board_A_IMU_Func
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1725   .data.Board_A_IMU_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1736   .bss.Board_A_IMU_AHRS:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1746   .bss.Board_A_IMU:00000000 Board_A_IMU
+C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s:1743   .bss.Board_A_IMU:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_SPI_TransmitReceive
+hspi5
+HAL_Delay
+HAL_GetTick
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccXvP4Ll.s 			page 54
+
+
+asinf
+atan2f
+FusionAhrsUpdateNoMagnetometer
+FusionAhrsGetQuaternion

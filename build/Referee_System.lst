@@ -1,0 +1,1732 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Referee_System.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/Referee_System.c"
+  20              		.section	.text.Referee_Set_Robot_State,"ax",%progbits
+  21              		.align	1
+  22              		.global	Referee_Set_Robot_State
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Referee_Set_Robot_State:
+  28              	.LFB162:
+   1:Devices/Devices.c/Referee_System.c **** /**
+   2:Devices/Devices.c/Referee_System.c ****  * @file Referee_System.c
+   3:Devices/Devices.c/Referee_System.c ****  * @author Leo Liu
+   4:Devices/Devices.c/Referee_System.c ****  * @brief reading data from the referee system
+   5:Devices/Devices.c/Referee_System.c ****  * @version 1.0
+   6:Devices/Devices.c/Referee_System.c ****  * @date 2022-07-19
+   7:Devices/Devices.c/Referee_System.c ****  * 
+   8:Devices/Devices.c/Referee_System.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/Referee_System.c ****  * 
+  10:Devices/Devices.c/Referee_System.c ****  */
+  11:Devices/Devices.c/Referee_System.c **** #include "Referee_System.h"
+  12:Devices/Devices.c/Referee_System.c **** 
+  13:Devices/Devices.c/Referee_System.c **** Referee_System_t Referee_System;
+  14:Devices/Devices.c/Referee_System.c **** Referee_Robot_State_t Referee_Robot_State;
+  15:Devices/Devices.c/Referee_System.c **** 
+  16:Devices/Devices.c/Referee_System.c **** HAL_StatusTypeDef Referee_UART_Receive_DMA_No_Interrupt(UART_HandleTypeDef *huart, uint8_t *pData, 
+  17:Devices/Devices.c/Referee_System.c **** HAL_StatusTypeDef Referee_UART_Receive_Interrupt(UART_HandleTypeDef *huart, uint8_t *pData, uint16_
+  18:Devices/Devices.c/Referee_System.c **** void Referee_System_Handler(UART_HandleTypeDef *huart);
+  19:Devices/Devices.c/Referee_System.c **** void Referee_Get_Data(uint16_t Data_Length);
+  20:Devices/Devices.c/Referee_System.c **** void Referee_Set_Robot_State(void);
+  21:Devices/Devices.c/Referee_System.c **** 
+  22:Devices/Devices.c/Referee_System.c **** Referee_System_Func_t Referee_System_Func = Referee_System_Func_GroundInit;
+  23:Devices/Devices.c/Referee_System.c **** #undef Referee_System_Func_GroundInit
+  24:Devices/Devices.c/Referee_System.c **** 
+  25:Devices/Devices.c/Referee_System.c **** void Referee_Set_Robot_State(void)
+  26:Devices/Devices.c/Referee_System.c **** {
+  29              		.loc 1 26 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 2
+
+
+  33              		@ link register save eliminated.
+  27:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Game_Type = Referee_System.Game_Status.Type; 
+  34              		.loc 1 27 2 view .LVU1
+  35              		.loc 1 27 60 is_stmt 0 view .LVU2
+  36 0000 314A     		ldr	r2, .L14
+  37 0002 92F88711 		ldrb	r1, [r2, #391]	@ zero_extendqisi2
+  38              		.loc 1 27 32 view .LVU3
+  39 0006 314B     		ldr	r3, .L14+4
+  40 0008 1970     		strb	r1, [r3]
+  28:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.ID = Referee_System.Robot_State.ID; 
+  41              		.loc 1 28 2 is_stmt 1 view .LVU4
+  42              		.loc 1 28 53 is_stmt 0 view .LVU5
+  43 000a 92F8BE11 		ldrb	r1, [r2, #446]	@ zero_extendqisi2
+  44              		.loc 1 28 25 view .LVU6
+  45 000e 5970     		strb	r1, [r3, #1]
+  29:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Level = Referee_System.Robot_State.Level;
+  46              		.loc 1 29 2 is_stmt 1 view .LVU7
+  47              		.loc 1 29 56 is_stmt 0 view .LVU8
+  48 0010 92F8BF11 		ldrb	r1, [r2, #447]	@ zero_extendqisi2
+  49              		.loc 1 29 28 view .LVU9
+  50 0014 9970     		strb	r1, [r3, #2]
+  30:Devices/Devices.c/Referee_System.c **** 	
+  31:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Cooling_Rate = Referee_System.Robot_State.Shooter_1_Cooling_Rate_17mm;
+  51              		.loc 1 31 2 is_stmt 1 view .LVU10
+  52              		.loc 1 31 63 is_stmt 0 view .LVU11
+  53 0016 B2F8C411 		ldrh	r1, [r2, #452]
+  54              		.loc 1 31 35 view .LVU12
+  55 001a 9980     		strh	r1, [r3, #4]	@ movhi
+  32:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Heat_Max = Referee_System.Robot_State.Shooter_1_Heat_Max_17mm; 	
+  56              		.loc 1 32 2 is_stmt 1 view .LVU13
+  57              		.loc 1 32 59 is_stmt 0 view .LVU14
+  58 001c B2F8C611 		ldrh	r1, [r2, #454]
+  59              		.loc 1 32 31 view .LVU15
+  60 0020 D980     		strh	r1, [r3, #6]	@ movhi
+  33:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Bullet_Speed_Max = Referee_System.Robot_State.Shooter_1_Speed_Limit_17mm;
+  61              		.loc 1 33 2 is_stmt 1 view .LVU16
+  62              		.loc 1 33 67 is_stmt 0 view .LVU17
+  63 0022 B2F8C801 		ldrh	r0, [r2, #456]
+  64              		.loc 1 33 39 view .LVU18
+  65 0026 1881     		strh	r0, [r3, #8]	@ movhi
+  34:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Chassis_Power_Max = Referee_System.Robot_State.Chassis_Power_Max;
+  66              		.loc 1 34 2 is_stmt 1 view .LVU19
+  67              		.loc 1 34 68 is_stmt 0 view .LVU20
+  68 0028 B2F8D611 		ldrh	r1, [r2, #470]
+  69              		.loc 1 34 40 view .LVU21
+  70 002c 5981     		strh	r1, [r3, #10]	@ movhi
+  35:Devices/Devices.c/Referee_System.c **** 	
+  36:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Chassis_Power = Referee_System.Power_n_Heat.Chassis_Power; 
+  71              		.loc 1 36 2 is_stmt 1 view .LVU22
+  72              		.loc 1 36 65 is_stmt 0 view .LVU23
+  73 002e D2F8DDC1 		ldr	ip, [r2, #477]	@ unaligned
+  74              		.loc 1 36 36 view .LVU24
+  75 0032 C3F80CC0 		str	ip, [r3, #12]	@ float
+  37:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Power_Buffer = Referee_System.Power_n_Heat.Chassis_Power_Buffer; 
+  76              		.loc 1 37 2 is_stmt 1 view .LVU25
+  77              		.loc 1 37 64 is_stmt 0 view .LVU26
+  78 0036 B2F8E1C1 		ldrh	ip, [r2, #481]	@ unaligned
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 3
+
+
+  79 003a 07EE90CA 		vmov	s15, ip	@ int
+  80              		.loc 1 37 35 view .LVU27
+  81 003e F8EE677A 		vcvt.f32.u32	s15, s15
+  82 0042 C3ED047A 		vstr.32	s15, [r3, #16]
+  38:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Shooter_Heat = Referee_System.Power_n_Heat.Shooter_1_Heat; 
+  83              		.loc 1 38 2 is_stmt 1 view .LVU28
+  84              		.loc 1 38 64 is_stmt 0 view .LVU29
+  85 0046 B2F8E3C1 		ldrh	ip, [r2, #483]	@ unaligned
+  86              		.loc 1 38 35 view .LVU30
+  87 004a A3F814C0 		strh	ip, [r3, #20]	@ movhi
+  39:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Shooting_Frequency = Referee_System.Shooter.Frequency; 
+  88              		.loc 1 39 2 is_stmt 1 view .LVU31
+  89              		.loc 1 39 65 is_stmt 0 view .LVU32
+  90 004e 92F8FEC1 		ldrb	ip, [r2, #510]	@ zero_extendqisi2
+  91              		.loc 1 39 41 view .LVU33
+  92 0052 83F816C0 		strb	ip, [r3, #22]
+  40:Devices/Devices.c/Referee_System.c **** 	Referee_Robot_State.Shooting_Speed = Referee_System.Shooter.Speed; 
+  93              		.loc 1 40 2 is_stmt 1 view .LVU34
+  94              		.loc 1 40 61 is_stmt 0 view .LVU35
+  95 0056 D2F8FF21 		ldr	r2, [r2, #511]	@ unaligned
+  96              		.loc 1 40 37 view .LVU36
+  97 005a 9A61     		str	r2, [r3, #24]	@ float
+  41:Devices/Devices.c/Referee_System.c **** 	
+  42:Devices/Devices.c/Referee_System.c **** 	switch(Referee_Robot_State.Bullet_Speed_Max)
+  98              		.loc 1 42 2 is_stmt 1 view .LVU37
+  99 005c 1228     		cmp	r0, #18
+ 100 005e 17D0     		beq	.L2
+ 101 0060 1E28     		cmp	r0, #30
+ 102 0062 1AD0     		beq	.L3
+ 103 0064 0F28     		cmp	r0, #15
+ 104 0066 04D0     		beq	.L13
+  43:Devices/Devices.c/Referee_System.c **** 	{
+  44:Devices/Devices.c/Referee_System.c **** 		case 15:
+  45:Devices/Devices.c/Referee_System.c **** 			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
+  46:Devices/Devices.c/Referee_System.c **** 			break;
+  47:Devices/Devices.c/Referee_System.c **** 		case 18:
+  48:Devices/Devices.c/Referee_System.c **** 			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
+  49:Devices/Devices.c/Referee_System.c **** 			break;
+  50:Devices/Devices.c/Referee_System.c **** 		case 30:
+  51:Devices/Devices.c/Referee_System.c **** 			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
+  52:Devices/Devices.c/Referee_System.c **** 			break;
+  53:Devices/Devices.c/Referee_System.c **** 		default:
+  54:Devices/Devices.c/Referee_System.c **** 			Shooting.Fric_Wheel.Target_Speed = FRIC_SPEED_30;
+ 105              		.loc 1 54 4 view .LVU38
+ 106              		.loc 1 54 37 is_stmt 0 view .LVU39
+ 107 0068 194B     		ldr	r3, .L14+8
+ 108 006a 42F20802 		movw	r2, #8200
+ 109 006e 9A81     		strh	r2, [r3, #12]	@ movhi
+  55:Devices/Devices.c/Referee_System.c **** 			break;
+ 110              		.loc 1 55 4 is_stmt 1 view .LVU40
+ 111 0070 03E0     		b	.L5
+ 112              	.L13:
+  45:Devices/Devices.c/Referee_System.c **** 			break;
+ 113              		.loc 1 45 4 view .LVU41
+  45:Devices/Devices.c/Referee_System.c **** 			break;
+ 114              		.loc 1 45 37 is_stmt 0 view .LVU42
+ 115 0072 174B     		ldr	r3, .L14+8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 4
+
+
+ 116 0074 42F20802 		movw	r2, #8200
+ 117 0078 9A81     		strh	r2, [r3, #12]	@ movhi
+  46:Devices/Devices.c/Referee_System.c **** 		case 18:
+ 118              		.loc 1 46 4 is_stmt 1 view .LVU43
+ 119              	.L5:
+  56:Devices/Devices.c/Referee_System.c **** 	}
+  57:Devices/Devices.c/Referee_System.c **** 	
+  58:Devices/Devices.c/Referee_System.c **** 	switch(Referee_Robot_State.Chassis_Power_Max)
+ 120              		.loc 1 58 2 view .LVU44
+ 121 007a 6429     		cmp	r1, #100
+ 122 007c 1CD0     		beq	.L6
+ 123 007e 11D8     		bhi	.L7
+ 124 0080 3C29     		cmp	r1, #60
+ 125 0082 15D0     		beq	.L8
+ 126 0084 5029     		cmp	r1, #80
+ 127 0086 1BD1     		bne	.L10
+  59:Devices/Devices.c/Referee_System.c **** 	{
+  60:Devices/Devices.c/Referee_System.c **** 		case 60:
+  61:Devices/Devices.c/Referee_System.c **** 			Chassis.Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_60;
+  62:Devices/Devices.c/Referee_System.c **** 			break;
+  63:Devices/Devices.c/Referee_System.c **** 		case 80:
+  64:Devices/Devices.c/Referee_System.c **** 			Chassis.Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_80;
+ 128              		.loc 1 64 4 view .LVU45
+ 129              		.loc 1 64 36 is_stmt 0 view .LVU46
+ 130 0088 124B     		ldr	r3, .L14+12
+ 131 008a 134A     		ldr	r2, .L14+16
+ 132 008c 1A65     		str	r2, [r3, #80]	@ float
+  65:Devices/Devices.c/Referee_System.c **** 			break;
+ 133              		.loc 1 65 4 is_stmt 1 view .LVU47
+ 134 008e 7047     		bx	lr
+ 135              	.L2:
+  48:Devices/Devices.c/Referee_System.c **** 			break;
+ 136              		.loc 1 48 4 view .LVU48
+  48:Devices/Devices.c/Referee_System.c **** 			break;
+ 137              		.loc 1 48 37 is_stmt 0 view .LVU49
+ 138 0090 0F4B     		ldr	r3, .L14+8
+ 139 0092 42F20802 		movw	r2, #8200
+ 140 0096 9A81     		strh	r2, [r3, #12]	@ movhi
+  49:Devices/Devices.c/Referee_System.c **** 		case 30:
+ 141              		.loc 1 49 4 is_stmt 1 view .LVU50
+ 142 0098 EFE7     		b	.L5
+ 143              	.L3:
+  51:Devices/Devices.c/Referee_System.c **** 			break;
+ 144              		.loc 1 51 4 view .LVU51
+  51:Devices/Devices.c/Referee_System.c **** 			break;
+ 145              		.loc 1 51 37 is_stmt 0 view .LVU52
+ 146 009a 0D4B     		ldr	r3, .L14+8
+ 147 009c 42F20802 		movw	r2, #8200
+ 148 00a0 9A81     		strh	r2, [r3, #12]	@ movhi
+  52:Devices/Devices.c/Referee_System.c **** 		default:
+ 149              		.loc 1 52 4 is_stmt 1 view .LVU53
+ 150 00a2 EAE7     		b	.L5
+ 151              	.L7:
+  58:Devices/Devices.c/Referee_System.c **** 	{
+ 152              		.loc 1 58 2 is_stmt 0 view .LVU54
+ 153 00a4 9629     		cmp	r1, #150
+ 154 00a6 0BD1     		bne	.L10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 5
+
+
+  66:Devices/Devices.c/Referee_System.c **** 		case 100:
+  67:Devices/Devices.c/Referee_System.c **** 			Chassis.Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_100;
+  68:Devices/Devices.c/Referee_System.c **** 			break;
+  69:Devices/Devices.c/Referee_System.c **** 		case 150:
+  70:Devices/Devices.c/Referee_System.c **** 			Chassis.Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_150;
+ 155              		.loc 1 70 4 is_stmt 1 view .LVU55
+ 156              		.loc 1 70 36 is_stmt 0 view .LVU56
+ 157 00a8 0A4B     		ldr	r3, .L14+12
+ 158 00aa 0C4A     		ldr	r2, .L14+20
+ 159 00ac 1A65     		str	r2, [r3, #80]	@ float
+  71:Devices/Devices.c/Referee_System.c **** 			break;
+ 160              		.loc 1 71 4 is_stmt 1 view .LVU57
+ 161 00ae 7047     		bx	lr
+ 162              	.L8:
+  61:Devices/Devices.c/Referee_System.c **** 			break;
+ 163              		.loc 1 61 4 view .LVU58
+  61:Devices/Devices.c/Referee_System.c **** 			break;
+ 164              		.loc 1 61 36 is_stmt 0 view .LVU59
+ 165 00b0 084B     		ldr	r3, .L14+12
+ 166 00b2 0B4A     		ldr	r2, .L14+24
+ 167 00b4 1A65     		str	r2, [r3, #80]	@ float
+  62:Devices/Devices.c/Referee_System.c **** 		case 80:
+ 168              		.loc 1 62 4 is_stmt 1 view .LVU60
+ 169 00b6 7047     		bx	lr
+ 170              	.L6:
+  67:Devices/Devices.c/Referee_System.c **** 			break;
+ 171              		.loc 1 67 4 view .LVU61
+  67:Devices/Devices.c/Referee_System.c **** 			break;
+ 172              		.loc 1 67 36 is_stmt 0 view .LVU62
+ 173 00b8 064B     		ldr	r3, .L14+12
+ 174 00ba 0A4A     		ldr	r2, .L14+28
+ 175 00bc 1A65     		str	r2, [r3, #80]	@ float
+  68:Devices/Devices.c/Referee_System.c **** 		case 150:
+ 176              		.loc 1 68 4 is_stmt 1 view .LVU63
+ 177 00be 7047     		bx	lr
+ 178              	.L10:
+  72:Devices/Devices.c/Referee_System.c **** 		default:
+  73:Devices/Devices.c/Referee_System.c **** 			Chassis.Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_60;
+ 179              		.loc 1 73 4 view .LVU64
+ 180              		.loc 1 73 36 is_stmt 0 view .LVU65
+ 181 00c0 044B     		ldr	r3, .L14+12
+ 182 00c2 074A     		ldr	r2, .L14+24
+ 183 00c4 1A65     		str	r2, [r3, #80]	@ float
+  74:Devices/Devices.c/Referee_System.c **** 			break;
+ 184              		.loc 1 74 4 is_stmt 1 view .LVU66
+  75:Devices/Devices.c/Referee_System.c **** 	}
+  76:Devices/Devices.c/Referee_System.c **** }
+ 185              		.loc 1 76 1 is_stmt 0 view .LVU67
+ 186 00c6 7047     		bx	lr
+ 187              	.L15:
+ 188              		.align	2
+ 189              	.L14:
+ 190 00c8 00000000 		.word	Referee_System
+ 191 00cc 00000000 		.word	Referee_Robot_State
+ 192 00d0 00000000 		.word	Shooting
+ 193 00d4 00000000 		.word	Chassis
+ 194 00d8 00004843 		.word	1128792064
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 6
+
+
+ 195 00dc 00009643 		.word	1133903872
+ 196 00e0 00001643 		.word	1125515264
+ 197 00e4 00007A43 		.word	1132068864
+ 198              		.cfi_endproc
+ 199              	.LFE162:
+ 201              		.section	.text.Referee_System_Handler,"ax",%progbits
+ 202              		.align	1
+ 203              		.global	Referee_System_Handler
+ 204              		.syntax unified
+ 205              		.thumb
+ 206              		.thumb_func
+ 208              	Referee_System_Handler:
+ 209              	.LVL0:
+ 210              	.LFB165:
+  77:Devices/Devices.c/Referee_System.c **** 
+  78:Devices/Devices.c/Referee_System.c **** HAL_StatusTypeDef Referee_UART_Receive_DMA_No_Interrupt(UART_HandleTypeDef *huart, uint8_t *pData, 
+  79:Devices/Devices.c/Referee_System.c **** {
+  80:Devices/Devices.c/Referee_System.c **** 	if (huart->RxState == HAL_UART_STATE_READY)
+  81:Devices/Devices.c/Referee_System.c ****   {
+  82:Devices/Devices.c/Referee_System.c ****     if ((pData == NULL) || (Size == 0))
+  83:Devices/Devices.c/Referee_System.c ****     {
+  84:Devices/Devices.c/Referee_System.c ****       return HAL_ERROR;
+  85:Devices/Devices.c/Referee_System.c ****     }
+  86:Devices/Devices.c/Referee_System.c **** 
+  87:Devices/Devices.c/Referee_System.c **** 		huart->pRxBuffPtr = pData;
+  88:Devices/Devices.c/Referee_System.c **** 		huart->RxXferSize = Size;
+  89:Devices/Devices.c/Referee_System.c **** 		huart->ErrorCode = HAL_UART_ERROR_NONE;
+  90:Devices/Devices.c/Referee_System.c **** 		
+  91:Devices/Devices.c/Referee_System.c **** 		/* Enable the DMA Stream */
+  92:Devices/Devices.c/Referee_System.c **** 		HAL_DMA_Start(huart->hdmarx,(uint32_t)&huart->Instance->DR,(uint32_t)pData, Size);
+  93:Devices/Devices.c/Referee_System.c **** 		/* Enable the DMA transfer for the receiver request by setting the DMAR bit in the UART CR3 regis
+  94:Devices/Devices.c/Referee_System.c **** 		SET_BIT(huart->Instance->CR3, USART_CR3_DMAR);
+  95:Devices/Devices.c/Referee_System.c **** 		
+  96:Devices/Devices.c/Referee_System.c ****     return HAL_OK;
+  97:Devices/Devices.c/Referee_System.c ****   }
+  98:Devices/Devices.c/Referee_System.c ****   else
+  99:Devices/Devices.c/Referee_System.c ****   {
+ 100:Devices/Devices.c/Referee_System.c ****     return HAL_BUSY;
+ 101:Devices/Devices.c/Referee_System.c ****   }
+ 102:Devices/Devices.c/Referee_System.c **** }
+ 103:Devices/Devices.c/Referee_System.c **** 
+ 104:Devices/Devices.c/Referee_System.c **** HAL_StatusTypeDef Referee_UART_Receive_Interrupt(UART_HandleTypeDef *huart, uint8_t *pData, uint16_
+ 105:Devices/Devices.c/Referee_System.c **** {
+ 106:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_CLEAR_IDLEFLAG(huart);
+ 107:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE(huart);
+ 108:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE_IT(huart,UART_IT_IDLE);
+ 109:Devices/Devices.c/Referee_System.c **** 	Referee_UART_Receive_DMA_No_Interrupt(huart,pData,Size);
+ 110:Devices/Devices.c/Referee_System.c **** 	
+ 111:Devices/Devices.c/Referee_System.c **** 	return HAL_OK;
+ 112:Devices/Devices.c/Referee_System.c **** }
+ 113:Devices/Devices.c/Referee_System.c **** 
+ 114:Devices/Devices.c/Referee_System.c **** 
+ 115:Devices/Devices.c/Referee_System.c **** void Referee_System_Handler(UART_HandleTypeDef *huart)
+ 116:Devices/Devices.c/Referee_System.c **** {
+ 211              		.loc 1 116 1 is_stmt 1 view -0
+ 212              		.cfi_startproc
+ 213              		@ args = 0, pretend = 0, frame = 8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 7
+
+
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              		.loc 1 116 1 is_stmt 0 view .LVU69
+ 216 0000 30B5     		push	{r4, r5, lr}
+ 217              	.LCFI0:
+ 218              		.cfi_def_cfa_offset 12
+ 219              		.cfi_offset 4, -12
+ 220              		.cfi_offset 5, -8
+ 221              		.cfi_offset 14, -4
+ 222 0002 83B0     		sub	sp, sp, #12
+ 223              	.LCFI1:
+ 224              		.cfi_def_cfa_offset 24
+ 225 0004 0446     		mov	r4, r0
+ 117:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_CLEAR_IDLEFLAG(huart);
+ 226              		.loc 1 117 2 is_stmt 1 view .LVU70
+ 227              	.LBB2:
+ 228              		.loc 1 117 2 view .LVU71
+ 229 0006 0023     		movs	r3, #0
+ 230 0008 0193     		str	r3, [sp, #4]
+ 231              		.loc 1 117 2 view .LVU72
+ 232 000a 0368     		ldr	r3, [r0]
+ 233 000c 1A68     		ldr	r2, [r3]
+ 234 000e 0192     		str	r2, [sp, #4]
+ 235              		.loc 1 117 2 view .LVU73
+ 236 0010 5B68     		ldr	r3, [r3, #4]
+ 237 0012 0193     		str	r3, [sp, #4]
+ 238              		.loc 1 117 2 view .LVU74
+ 239 0014 019B     		ldr	r3, [sp, #4]
+ 240              	.LBE2:
+ 241              		.loc 1 117 2 view .LVU75
+ 118:Devices/Devices.c/Referee_System.c ****   __HAL_DMA_DISABLE(huart->hdmarx);
+ 242              		.loc 1 118 3 view .LVU76
+ 243 0016 836B     		ldr	r3, [r0, #56]
+ 244 0018 1A68     		ldr	r2, [r3]
+ 245 001a 1368     		ldr	r3, [r2]
+ 246 001c 23F00103 		bic	r3, r3, #1
+ 247 0020 1360     		str	r3, [r2]
+ 119:Devices/Devices.c/Referee_System.c **** 
+ 120:Devices/Devices.c/Referee_System.c ****   Referee_System.DMA_Counter = __HAL_DMA_GET_COUNTER(huart->hdmarx);
+ 248              		.loc 1 120 3 view .LVU77
+ 249              		.loc 1 120 32 is_stmt 0 view .LVU78
+ 250 0022 836B     		ldr	r3, [r0, #56]
+ 251 0024 1B68     		ldr	r3, [r3]
+ 252 0026 5868     		ldr	r0, [r3, #4]
+ 253              	.LVL1:
+ 254              		.loc 1 120 30 view .LVU79
+ 255 0028 80B2     		uxth	r0, r0
+ 256 002a 0A4B     		ldr	r3, .L18
+ 257 002c 1880     		strh	r0, [r3]	@ movhi
+ 121:Devices/Devices.c/Referee_System.c ****   Referee_System_Func.Referee_Get_Data(REFEREE_BUFFER_LEN - Referee_System.DMA_Counter);
+ 258              		.loc 1 121 3 is_stmt 1 view .LVU80
+ 259              		.loc 1 121 22 is_stmt 0 view .LVU81
+ 260 002e 0A4B     		ldr	r3, .L18+4
+ 261 0030 9B68     		ldr	r3, [r3, #8]
+ 262              		.loc 1 121 3 view .LVU82
+ 263 0032 40F28515 		movw	r5, #389
+ 264 0036 281A     		subs	r0, r5, r0
+ 265 0038 80B2     		uxth	r0, r0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 8
+
+
+ 266 003a 9847     		blx	r3
+ 267              	.LVL2:
+ 122:Devices/Devices.c/Referee_System.c **** 
+ 123:Devices/Devices.c/Referee_System.c ****   __HAL_DMA_SET_COUNTER(huart->hdmarx, REFEREE_BUFFER_LEN);
+ 268              		.loc 1 123 3 is_stmt 1 view .LVU83
+ 269 003c A36B     		ldr	r3, [r4, #56]
+ 270 003e 1B68     		ldr	r3, [r3]
+ 271 0040 5D60     		str	r5, [r3, #4]
+ 124:Devices/Devices.c/Referee_System.c ****   __HAL_DMA_ENABLE(huart->hdmarx);
+ 272              		.loc 1 124 3 view .LVU84
+ 273 0042 A36B     		ldr	r3, [r4, #56]
+ 274 0044 1A68     		ldr	r2, [r3]
+ 275 0046 1368     		ldr	r3, [r2]
+ 276 0048 43F00103 		orr	r3, r3, #1
+ 277 004c 1360     		str	r3, [r2]
+ 125:Devices/Devices.c/Referee_System.c **** }
+ 278              		.loc 1 125 1 is_stmt 0 view .LVU85
+ 279 004e 03B0     		add	sp, sp, #12
+ 280              	.LCFI2:
+ 281              		.cfi_def_cfa_offset 12
+ 282              		@ sp needed
+ 283 0050 30BD     		pop	{r4, r5, pc}
+ 284              	.LVL3:
+ 285              	.L19:
+ 286              		.loc 1 125 1 view .LVU86
+ 287 0052 00BF     		.align	2
+ 288              	.L18:
+ 289 0054 00000000 		.word	Referee_System
+ 290 0058 00000000 		.word	Referee_System_Func
+ 291              		.cfi_endproc
+ 292              	.LFE165:
+ 294              		.section	.text.Referee_Get_Data,"ax",%progbits
+ 295              		.align	1
+ 296              		.global	Referee_Get_Data
+ 297              		.syntax unified
+ 298              		.thumb
+ 299              		.thumb_func
+ 301              	Referee_Get_Data:
+ 302              	.LVL4:
+ 303              	.LFB166:
+ 126:Devices/Devices.c/Referee_System.c **** 
+ 127:Devices/Devices.c/Referee_System.c **** //Get referee system data based on ID
+ 128:Devices/Devices.c/Referee_System.c **** void Referee_Get_Data(uint16_t Data_Length)
+ 129:Devices/Devices.c/Referee_System.c **** {
+ 304              		.loc 1 129 1 is_stmt 1 view -0
+ 305              		.cfi_startproc
+ 306              		@ args = 0, pretend = 0, frame = 0
+ 307              		@ frame_needed = 0, uses_anonymous_args = 0
+ 308              		.loc 1 129 1 is_stmt 0 view .LVU88
+ 309 0000 38B5     		push	{r3, r4, r5, lr}
+ 310              	.LCFI3:
+ 311              		.cfi_def_cfa_offset 16
+ 312              		.cfi_offset 3, -16
+ 313              		.cfi_offset 4, -12
+ 314              		.cfi_offset 5, -8
+ 315              		.cfi_offset 14, -4
+ 316 0002 0546     		mov	r5, r0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 9
+
+
+ 130:Devices/Devices.c/Referee_System.c **** 	for(int n = 0; n < Data_Length;)
+ 317              		.loc 1 130 2 is_stmt 1 view .LVU89
+ 318              	.LBB3:
+ 319              		.loc 1 130 6 view .LVU90
+ 320              	.LVL5:
+ 321              		.loc 1 130 10 is_stmt 0 view .LVU91
+ 322 0004 0024     		movs	r4, #0
+ 323              	.LVL6:
+ 324              	.L21:
+ 325              		.loc 1 130 19 is_stmt 1 discriminator 1 view .LVU92
+ 326 0006 A542     		cmp	r5, r4
+ 327 0008 40F37F81 		ble	.L57
+ 131:Devices/Devices.c/Referee_System.c **** 	{
+ 132:Devices/Devices.c/Referee_System.c **** 		if(Referee_System.Buffer[n] == REFEREE_FRAME_HEADER_START)
+ 328              		.loc 1 132 3 view .LVU93
+ 329              		.loc 1 132 27 is_stmt 0 view .LVU94
+ 330 000c A74B     		ldr	r3, .L63
+ 331 000e 2344     		add	r3, r3, r4
+ 332 0010 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 333              		.loc 1 132 5 view .LVU95
+ 334 0012 A52B     		cmp	r3, #165
+ 335 0014 01D0     		beq	.L58
+ 133:Devices/Devices.c/Referee_System.c **** 		{
+ 134:Devices/Devices.c/Referee_System.c **** 			switch(Referee_System.Buffer[n + 5] | Referee_System.Buffer[n + 6] << 8)
+ 135:Devices/Devices.c/Referee_System.c **** 			{
+ 136:Devices/Devices.c/Referee_System.c **** 				case REFEREE_GAME_STATUS:
+ 137:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_GAME_S
+ 138:Devices/Devices.c/Referee_System.c ****                 {
+ 139:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Game_Status, &Referee_System.Buffer[n + 7], sizeof(uint8
+ 140:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_STATUS_LEN;
+ 141:Devices/Devices.c/Referee_System.c ****                 }
+ 142:Devices/Devices.c/Referee_System.c ****                 else
+ 143:Devices/Devices.c/Referee_System.c ****                     n++;
+ 144:Devices/Devices.c/Referee_System.c ****                 break;
+ 145:Devices/Devices.c/Referee_System.c ****             case REFEREE_GAME_RESULT:
+ 146:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_GAME_R
+ 147:Devices/Devices.c/Referee_System.c ****                 {
+ 148:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Game_Result, &Referee_System.Buffer[n + 7], sizeof(uint8
+ 149:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_RESULT_LEN;
+ 150:Devices/Devices.c/Referee_System.c ****                 }
+ 151:Devices/Devices.c/Referee_System.c ****                 else
+ 152:Devices/Devices.c/Referee_System.c ****                     n++;
+ 153:Devices/Devices.c/Referee_System.c ****                 break;
+ 154:Devices/Devices.c/Referee_System.c ****             case REFEREE_ROBOT_HP:
+ 155:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_ROBOT_
+ 156:Devices/Devices.c/Referee_System.c ****                 {
+ 157:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Alive_Robot, &Referee_System.Buffer[n + 7], sizeof(uint8
+ 158:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_HP_LEN;
+ 159:Devices/Devices.c/Referee_System.c ****                 }
+ 160:Devices/Devices.c/Referee_System.c ****                 else
+ 161:Devices/Devices.c/Referee_System.c ****                     n++;
+ 162:Devices/Devices.c/Referee_System.c ****                 break;
+ 163:Devices/Devices.c/Referee_System.c ****             case REFEREE_EVENT_DATA:
+ 164:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_EVENT_
+ 165:Devices/Devices.c/Referee_System.c ****                 {
+ 166:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Event, &Referee_System.Buffer[n + 7], sizeof(uint8_t[4])
+ 167:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_EVENT_DATA_LEN;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 10
+
+
+ 168:Devices/Devices.c/Referee_System.c ****                 }
+ 169:Devices/Devices.c/Referee_System.c ****                 else
+ 170:Devices/Devices.c/Referee_System.c ****                     n++;
+ 171:Devices/Devices.c/Referee_System.c ****                 break;
+ 172:Devices/Devices.c/Referee_System.c ****             case REFEREE_REFEREE_WARNING: 
+ 173:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_REFERE
+ 174:Devices/Devices.c/Referee_System.c ****                 {
+ 175:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Warning, &Referee_System.Buffer[n + 7], sizeof(uint8_t[2
+ 176:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REFEREE_WARNING_LEN;
+ 177:Devices/Devices.c/Referee_System.c ****                 }
+ 178:Devices/Devices.c/Referee_System.c ****                 else
+ 179:Devices/Devices.c/Referee_System.c ****                     n++;
+ 180:Devices/Devices.c/Referee_System.c ****                 break;
+ 181:Devices/Devices.c/Referee_System.c ****             case REFEREE_ROBOT_STATE:
+ 182:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_ROBOT_
+ 183:Devices/Devices.c/Referee_System.c ****                 {
+ 184:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Robot_State, &Referee_System.Buffer[n + 7], sizeof(uint8
+ 185:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_STATE_LEN;
+ 186:Devices/Devices.c/Referee_System.c ****                 }
+ 187:Devices/Devices.c/Referee_System.c ****                 else
+ 188:Devices/Devices.c/Referee_System.c ****                     n++;
+ 189:Devices/Devices.c/Referee_System.c ****                 break;
+ 190:Devices/Devices.c/Referee_System.c ****             case REFEREE_POWER_HEAT:
+ 191:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_POWER_
+ 192:Devices/Devices.c/Referee_System.c ****                 {
+ 193:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Power_n_Heat, &Referee_System.Buffer[n + 7], sizeof(uint
+ 194:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_POWER_HEAT_LEN;
+ 195:Devices/Devices.c/Referee_System.c ****                 }
+ 196:Devices/Devices.c/Referee_System.c ****                 else
+ 197:Devices/Devices.c/Referee_System.c ****                     n++;
+ 198:Devices/Devices.c/Referee_System.c ****                 break;
+ 199:Devices/Devices.c/Referee_System.c ****             case REFEREE_ROBOT_POSITION:
+ 200:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_ROBOT_
+ 201:Devices/Devices.c/Referee_System.c ****                 {
+ 202:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Location, &Referee_System.Buffer[n + 7], sizeof(uint8_t[
+ 203:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_POSITION_LEN;
+ 204:Devices/Devices.c/Referee_System.c ****                 }
+ 205:Devices/Devices.c/Referee_System.c ****                 else
+ 206:Devices/Devices.c/Referee_System.c ****                     n++;
+ 207:Devices/Devices.c/Referee_System.c ****                 break;
+ 208:Devices/Devices.c/Referee_System.c ****             case REFEREE_ROBOT_BUFF:
+ 209:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_ROBOT_
+ 210:Devices/Devices.c/Referee_System.c ****                 {
+ 211:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Robot_Buff, &Referee_System.Buffer[n + 7], sizeof(uint8_
+ 212:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_BUFF_LEN;
+ 213:Devices/Devices.c/Referee_System.c ****                 }
+ 214:Devices/Devices.c/Referee_System.c ****                 else
+ 215:Devices/Devices.c/Referee_System.c ****                     n++;
+ 216:Devices/Devices.c/Referee_System.c ****                 break;
+ 217:Devices/Devices.c/Referee_System.c ****             case REFEREE_INJURY_STATE:
+ 218:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_INJURY
+ 219:Devices/Devices.c/Referee_System.c ****                 {
+ 220:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Damage, &Referee_System.Buffer[n + 7], sizeof(uint8_t[1]
+ 221:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_INJURY_STATE_LEN;
+ 222:Devices/Devices.c/Referee_System.c ****                 }
+ 223:Devices/Devices.c/Referee_System.c ****                 else
+ 224:Devices/Devices.c/Referee_System.c ****                     n++;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 11
+
+
+ 225:Devices/Devices.c/Referee_System.c ****                 break;
+ 226:Devices/Devices.c/Referee_System.c ****             case REFEREE_SHOOTER_STATE:
+ 227:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_SHOOTE
+ 228:Devices/Devices.c/Referee_System.c ****                 {
+ 229:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Shooter, &Referee_System.Buffer[n + 7], sizeof(uint8_t[7
+ 230:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_SHOOTER_STATE_LEN;
+ 231:Devices/Devices.c/Referee_System.c ****                 }
+ 232:Devices/Devices.c/Referee_System.c ****                 else
+ 233:Devices/Devices.c/Referee_System.c ****                     n++;
+ 234:Devices/Devices.c/Referee_System.c ****                 break;
+ 235:Devices/Devices.c/Referee_System.c ****             case REFEREE_REMAINING_AMMO:
+ 236:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_REMAIN
+ 237:Devices/Devices.c/Referee_System.c ****                 {
+ 238:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.Remaining_Ammo, &Referee_System.Buffer[n + 7], sizeof(ui
+ 239:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REMAINING_AMMO_LEN;
+ 240:Devices/Devices.c/Referee_System.c ****                 }
+ 241:Devices/Devices.c/Referee_System.c ****                 else
+ 242:Devices/Devices.c/Referee_System.c ****                     n++;
+ 243:Devices/Devices.c/Referee_System.c ****                 break;
+ 244:Devices/Devices.c/Referee_System.c ****             case REFEREE_ROBOT_RFID:
+ 245:Devices/Devices.c/Referee_System.c ****                 if (CRC_Verif_Func.Verify_CRC16_Check_Sum(Referee_System.Buffer + n, REFEREE_ROBOT_
+ 246:Devices/Devices.c/Referee_System.c ****                 {
+ 247:Devices/Devices.c/Referee_System.c ****                     memcpy(&Referee_System.RFID, &Referee_System.Buffer[n + 7], sizeof(uint8_t[4]))
+ 248:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_RFID_LEN;
+ 249:Devices/Devices.c/Referee_System.c ****                 }
+ 250:Devices/Devices.c/Referee_System.c ****                 else
+ 251:Devices/Devices.c/Referee_System.c ****                     n++;
+ 252:Devices/Devices.c/Referee_System.c ****                 break;
+ 253:Devices/Devices.c/Referee_System.c ****             default:
+ 254:Devices/Devices.c/Referee_System.c ****                 n++;
+ 255:Devices/Devices.c/Referee_System.c ****                 break;
+ 256:Devices/Devices.c/Referee_System.c ****           }
+ 257:Devices/Devices.c/Referee_System.c **** 			}
+ 258:Devices/Devices.c/Referee_System.c ****       else
+ 259:Devices/Devices.c/Referee_System.c **** 				n++;
+ 336              		.loc 1 259 5 is_stmt 1 view .LVU96
+ 337              		.loc 1 259 6 is_stmt 0 view .LVU97
+ 338 0016 0134     		adds	r4, r4, #1
+ 339              	.LVL7:
+ 340              		.loc 1 259 6 view .LVU98
+ 341 0018 F5E7     		b	.L21
+ 342              	.L58:
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 343              		.loc 1 134 4 is_stmt 1 view .LVU99
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 344              		.loc 1 134 35 is_stmt 0 view .LVU100
+ 345 001a 631D     		adds	r3, r4, #5
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 346              		.loc 1 134 32 view .LVU101
+ 347 001c A34A     		ldr	r2, .L63
+ 348 001e 1344     		add	r3, r3, r2
+ 349 0020 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 350              		.loc 1 134 66 view .LVU102
+ 351 0022 A11D     		adds	r1, r4, #6
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 352              		.loc 1 134 63 view .LVU103
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 12
+
+
+ 353 0024 0A44     		add	r2, r2, r1
+ 354 0026 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 355              		.loc 1 134 40 view .LVU104
+ 356 0028 43EA0223 		orr	r3, r3, r2, lsl #8
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 357              		.loc 1 134 4 view .LVU105
+ 358 002c 40F20922 		movw	r2, #521
+ 359 0030 9342     		cmp	r3, r2
+ 360 0032 00F36881 		bgt	.L23
+ 361 0036 B3F5007F 		cmp	r3, #512
+ 362 003a 0FDD     		ble	.L59
+ 363 003c A3F20123 		subw	r3, r3, #513
+ 364 0040 082B     		cmp	r3, #8
+ 365 0042 00F26081 		bhi	.L23
+ 366 0046 DFE813F0 		tbh	[pc, r3, lsl #1]
+ 367              	.L30:
+ 368 004a 8F00     		.2byte	(.L37-.L30)/2
+ 369 004c BB00     		.2byte	(.L36-.L30)/2
+ 370 004e D900     		.2byte	(.L35-.L30)/2
+ 371 0050 F700     		.2byte	(.L34-.L30)/2
+ 372 0052 5E01     		.2byte	(.L23-.L30)/2
+ 373 0054 0801     		.2byte	(.L33-.L30)/2
+ 374 0056 1901     		.2byte	(.L32-.L30)/2
+ 375 0058 3701     		.2byte	(.L31-.L30)/2
+ 376 005a 4C01     		.2byte	(.L29-.L30)/2
+ 377              		.p2align 1
+ 378              	.L59:
+ 379 005c 032B     		cmp	r3, #3
+ 380 005e 4AD0     		beq	.L25
+ 381 0060 17DD     		ble	.L60
+ 382 0062 40F20112 		movw	r2, #257
+ 383 0066 9342     		cmp	r3, r2
+ 384 0068 6AD0     		beq	.L38
+ 385 006a B3F5827F 		cmp	r3, #260
+ 386 006e 40F04A81 		bne	.L23
+ 173:Devices/Devices.c/Referee_System.c ****                 {
+ 387              		.loc 1 173 17 is_stmt 1 view .LVU106
+ 173:Devices/Devices.c/Referee_System.c ****                 {
+ 388              		.loc 1 173 35 is_stmt 0 view .LVU107
+ 389 0072 8F4B     		ldr	r3, .L63+4
+ 390 0074 1B69     		ldr	r3, [r3, #16]
+ 173:Devices/Devices.c/Referee_System.c ****                 {
+ 391              		.loc 1 173 21 view .LVU108
+ 392 0076 0B21     		movs	r1, #11
+ 393 0078 8E48     		ldr	r0, .L63+8
+ 394 007a 2044     		add	r0, r0, r4
+ 395 007c 9847     		blx	r3
+ 396              	.LVL8:
+ 173:Devices/Devices.c/Referee_System.c ****                 {
+ 397              		.loc 1 173 20 view .LVU109
+ 398 007e 0028     		cmp	r0, #0
+ 399 0080 70D0     		beq	.L45
+ 175:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REFEREE_WARNING_LEN;
+ 400              		.loc 1 175 21 is_stmt 1 view .LVU110
+ 175:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REFEREE_WARNING_LEN;
+ 401              		.loc 1 175 78 is_stmt 0 view .LVU111
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 13
+
+
+ 402 0082 E31D     		adds	r3, r4, #7
+ 175:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REFEREE_WARNING_LEN;
+ 403              		.loc 1 175 53 view .LVU112
+ 404 0084 894A     		ldr	r2, .L63
+ 405 0086 1344     		add	r3, r3, r2
+ 175:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REFEREE_WARNING_LEN;
+ 406              		.loc 1 175 21 view .LVU113
+ 407 0088 5B88     		ldrh	r3, [r3, #2]	@ unaligned
+ 408 008a A2F8BC31 		strh	r3, [r2, #444]	@ movhi
+ 176:Devices/Devices.c/Referee_System.c ****                 }
+ 409              		.loc 1 176 21 is_stmt 1 view .LVU114
+ 176:Devices/Devices.c/Referee_System.c ****                 }
+ 410              		.loc 1 176 23 is_stmt 0 view .LVU115
+ 411 008e 0B34     		adds	r4, r4, #11
+ 412              	.LVL9:
+ 176:Devices/Devices.c/Referee_System.c ****                 }
+ 413              		.loc 1 176 23 view .LVU116
+ 414 0090 B9E7     		b	.L21
+ 415              	.L60:
+ 134:Devices/Devices.c/Referee_System.c **** 			{
+ 416              		.loc 1 134 4 view .LVU117
+ 417 0092 012B     		cmp	r3, #1
+ 418 0094 11D0     		beq	.L27
+ 419 0096 022B     		cmp	r3, #2
+ 420 0098 40F03581 		bne	.L23
+ 146:Devices/Devices.c/Referee_System.c ****                 {
+ 421              		.loc 1 146 17 is_stmt 1 view .LVU118
+ 146:Devices/Devices.c/Referee_System.c ****                 {
+ 422              		.loc 1 146 35 is_stmt 0 view .LVU119
+ 423 009c 844B     		ldr	r3, .L63+4
+ 424 009e 1B69     		ldr	r3, [r3, #16]
+ 146:Devices/Devices.c/Referee_System.c ****                 {
+ 425              		.loc 1 146 21 view .LVU120
+ 426 00a0 0A21     		movs	r1, #10
+ 427 00a2 8448     		ldr	r0, .L63+8
+ 428 00a4 2044     		add	r0, r0, r4
+ 429 00a6 9847     		blx	r3
+ 430              	.LVL10:
+ 146:Devices/Devices.c/Referee_System.c ****                 {
+ 431              		.loc 1 146 20 view .LVU121
+ 432 00a8 18B3     		cbz	r0, .L42
+ 148:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_RESULT_LEN;
+ 433              		.loc 1 148 21 is_stmt 1 view .LVU122
+ 148:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_RESULT_LEN;
+ 434              		.loc 1 148 82 is_stmt 0 view .LVU123
+ 435 00aa E31D     		adds	r3, r4, #7
+ 148:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_RESULT_LEN;
+ 436              		.loc 1 148 21 view .LVU124
+ 437 00ac 7F4A     		ldr	r2, .L63
+ 438 00ae 1344     		add	r3, r3, r2
+ 439 00b0 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 440 00b2 82F89331 		strb	r3, [r2, #403]
+ 149:Devices/Devices.c/Referee_System.c ****                 }
+ 441              		.loc 1 149 21 is_stmt 1 view .LVU125
+ 149:Devices/Devices.c/Referee_System.c ****                 }
+ 442              		.loc 1 149 23 is_stmt 0 view .LVU126
+ 443 00b6 0A34     		adds	r4, r4, #10
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 14
+
+
+ 444              	.LVL11:
+ 149:Devices/Devices.c/Referee_System.c ****                 }
+ 445              		.loc 1 149 23 view .LVU127
+ 446 00b8 A5E7     		b	.L21
+ 447              	.L27:
+ 137:Devices/Devices.c/Referee_System.c ****                 {
+ 448              		.loc 1 137 17 is_stmt 1 view .LVU128
+ 137:Devices/Devices.c/Referee_System.c ****                 {
+ 449              		.loc 1 137 35 is_stmt 0 view .LVU129
+ 450 00ba 7D4B     		ldr	r3, .L63+4
+ 451 00bc 1B69     		ldr	r3, [r3, #16]
+ 137:Devices/Devices.c/Referee_System.c ****                 {
+ 452              		.loc 1 137 21 view .LVU130
+ 453 00be 1421     		movs	r1, #20
+ 454 00c0 7C48     		ldr	r0, .L63+8
+ 455 00c2 2044     		add	r0, r0, r4
+ 456 00c4 9847     		blx	r3
+ 457              	.LVL12:
+ 137:Devices/Devices.c/Referee_System.c ****                 {
+ 458              		.loc 1 137 20 view .LVU131
+ 459 00c6 08B9     		cbnz	r0, .L61
+ 143:Devices/Devices.c/Referee_System.c ****                 break;
+ 460              		.loc 1 143 21 is_stmt 1 view .LVU132
+ 143:Devices/Devices.c/Referee_System.c ****                 break;
+ 461              		.loc 1 143 22 is_stmt 0 view .LVU133
+ 462 00c8 0134     		adds	r4, r4, #1
+ 463              	.LVL13:
+ 143:Devices/Devices.c/Referee_System.c ****                 break;
+ 464              		.loc 1 143 22 view .LVU134
+ 465 00ca 9CE7     		b	.L21
+ 466              	.L61:
+ 139:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_STATUS_LEN;
+ 467              		.loc 1 139 21 is_stmt 1 view .LVU135
+ 139:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_STATUS_LEN;
+ 468              		.loc 1 139 82 is_stmt 0 view .LVU136
+ 469 00cc E31D     		adds	r3, r4, #7
+ 139:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_STATUS_LEN;
+ 470              		.loc 1 139 57 view .LVU137
+ 471 00ce 774A     		ldr	r2, .L63
+ 472 00d0 1344     		add	r3, r3, r2
+ 139:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_GAME_STATUS_LEN;
+ 473              		.loc 1 139 21 view .LVU138
+ 474 00d2 D3F80200 		ldr	r0, [r3, #2]	@ unaligned
+ 475 00d6 D3F80610 		ldr	r1, [r3, #6]	@ unaligned
+ 476 00da C2F88701 		str	r0, [r2, #391]	@ unaligned
+ 477 00de C2F88B11 		str	r1, [r2, #395]	@ unaligned
+ 478 00e2 5989     		ldrh	r1, [r3, #10]	@ unaligned
+ 479 00e4 1B7B     		ldrb	r3, [r3, #12]	@ zero_extendqisi2
+ 480 00e6 A2F88F11 		strh	r1, [r2, #399]	@ unaligned
+ 481 00ea 82F89131 		strb	r3, [r2, #401]
+ 140:Devices/Devices.c/Referee_System.c ****                 }
+ 482              		.loc 1 140 21 is_stmt 1 view .LVU139
+ 140:Devices/Devices.c/Referee_System.c ****                 }
+ 483              		.loc 1 140 23 is_stmt 0 view .LVU140
+ 484 00ee 1434     		adds	r4, r4, #20
+ 485              	.LVL14:
+ 140:Devices/Devices.c/Referee_System.c ****                 }
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 15
+
+
+ 486              		.loc 1 140 23 view .LVU141
+ 487 00f0 89E7     		b	.L21
+ 488              	.L42:
+ 152:Devices/Devices.c/Referee_System.c ****                 break;
+ 489              		.loc 1 152 21 is_stmt 1 view .LVU142
+ 152:Devices/Devices.c/Referee_System.c ****                 break;
+ 490              		.loc 1 152 22 is_stmt 0 view .LVU143
+ 491 00f2 0134     		adds	r4, r4, #1
+ 492              	.LVL15:
+ 152:Devices/Devices.c/Referee_System.c ****                 break;
+ 493              		.loc 1 152 22 view .LVU144
+ 494 00f4 87E7     		b	.L21
+ 495              	.L25:
+ 155:Devices/Devices.c/Referee_System.c ****                 {
+ 496              		.loc 1 155 17 is_stmt 1 view .LVU145
+ 155:Devices/Devices.c/Referee_System.c ****                 {
+ 497              		.loc 1 155 35 is_stmt 0 view .LVU146
+ 498 00f6 6E4B     		ldr	r3, .L63+4
+ 499 00f8 1B69     		ldr	r3, [r3, #16]
+ 155:Devices/Devices.c/Referee_System.c ****                 {
+ 500              		.loc 1 155 21 view .LVU147
+ 501 00fa 2921     		movs	r1, #41
+ 502 00fc 6D48     		ldr	r0, .L63+8
+ 503 00fe 2044     		add	r0, r0, r4
+ 504 0100 9847     		blx	r3
+ 505              	.LVL16:
+ 155:Devices/Devices.c/Referee_System.c ****                 {
+ 506              		.loc 1 155 20 view .LVU148
+ 507 0102 08B9     		cbnz	r0, .L62
+ 161:Devices/Devices.c/Referee_System.c ****                 break;
+ 508              		.loc 1 161 21 is_stmt 1 view .LVU149
+ 161:Devices/Devices.c/Referee_System.c ****                 break;
+ 509              		.loc 1 161 22 is_stmt 0 view .LVU150
+ 510 0104 0134     		adds	r4, r4, #1
+ 511              	.LVL17:
+ 161:Devices/Devices.c/Referee_System.c ****                 break;
+ 512              		.loc 1 161 22 view .LVU151
+ 513 0106 7EE7     		b	.L21
+ 514              	.L62:
+ 157:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_HP_LEN;
+ 515              		.loc 1 157 21 is_stmt 1 view .LVU152
+ 157:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_HP_LEN;
+ 516              		.loc 1 157 82 is_stmt 0 view .LVU153
+ 517 0108 04F1070E 		add	lr, r4, #7
+ 157:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_HP_LEN;
+ 518              		.loc 1 157 57 view .LVU154
+ 519 010c 674B     		ldr	r3, .L63
+ 520 010e 9E44     		add	lr, lr, r3
+ 157:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_HP_LEN;
+ 521              		.loc 1 157 21 view .LVU155
+ 522 0110 03F5CA7C 		add	ip, r3, #404
+ 523 0114 DEF80200 		ldr	r0, [lr, #2]	@ unaligned
+ 524 0118 DEF80610 		ldr	r1, [lr, #6]	@ unaligned
+ 525 011c DEF80A20 		ldr	r2, [lr, #10]	@ unaligned
+ 526 0120 DEF80E30 		ldr	r3, [lr, #14]	@ unaligned
+ 527 0124 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 528 0128 DEF81200 		ldr	r0, [lr, #18]	@ unaligned
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 16
+
+
+ 529 012c DEF81610 		ldr	r1, [lr, #22]	@ unaligned
+ 530 0130 DEF81A20 		ldr	r2, [lr, #26]	@ unaligned
+ 531 0134 DEF81E30 		ldr	r3, [lr, #30]	@ unaligned
+ 532 0138 ACE80F00 		stmia	ip!, {r0, r1, r2, r3}
+ 158:Devices/Devices.c/Referee_System.c ****                 }
+ 533              		.loc 1 158 21 is_stmt 1 view .LVU156
+ 158:Devices/Devices.c/Referee_System.c ****                 }
+ 534              		.loc 1 158 23 is_stmt 0 view .LVU157
+ 535 013c 2934     		adds	r4, r4, #41
+ 536              	.LVL18:
+ 158:Devices/Devices.c/Referee_System.c ****                 }
+ 537              		.loc 1 158 23 view .LVU158
+ 538 013e 62E7     		b	.L21
+ 539              	.L38:
+ 164:Devices/Devices.c/Referee_System.c ****                 {
+ 540              		.loc 1 164 17 is_stmt 1 view .LVU159
+ 164:Devices/Devices.c/Referee_System.c ****                 {
+ 541              		.loc 1 164 35 is_stmt 0 view .LVU160
+ 542 0140 5B4B     		ldr	r3, .L63+4
+ 543 0142 1B69     		ldr	r3, [r3, #16]
+ 164:Devices/Devices.c/Referee_System.c ****                 {
+ 544              		.loc 1 164 21 view .LVU161
+ 545 0144 0D21     		movs	r1, #13
+ 546 0146 5B48     		ldr	r0, .L63+8
+ 547 0148 2044     		add	r0, r0, r4
+ 548 014a 9847     		blx	r3
+ 549              	.LVL19:
+ 164:Devices/Devices.c/Referee_System.c ****                 {
+ 550              		.loc 1 164 20 view .LVU162
+ 551 014c 40B1     		cbz	r0, .L44
+ 166:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_EVENT_DATA_LEN;
+ 552              		.loc 1 166 21 is_stmt 1 view .LVU163
+ 166:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_EVENT_DATA_LEN;
+ 553              		.loc 1 166 76 is_stmt 0 view .LVU164
+ 554 014e E31D     		adds	r3, r4, #7
+ 166:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_EVENT_DATA_LEN;
+ 555              		.loc 1 166 51 view .LVU165
+ 556 0150 564A     		ldr	r2, .L63
+ 557 0152 1344     		add	r3, r3, r2
+ 166:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_EVENT_DATA_LEN;
+ 558              		.loc 1 166 21 view .LVU166
+ 559 0154 D3F80230 		ldr	r3, [r3, #2]	@ unaligned
+ 560 0158 C2F8B831 		str	r3, [r2, #440]
+ 167:Devices/Devices.c/Referee_System.c ****                 }
+ 561              		.loc 1 167 21 is_stmt 1 view .LVU167
+ 167:Devices/Devices.c/Referee_System.c ****                 }
+ 562              		.loc 1 167 23 is_stmt 0 view .LVU168
+ 563 015c 0D34     		adds	r4, r4, #13
+ 564              	.LVL20:
+ 167:Devices/Devices.c/Referee_System.c ****                 }
+ 565              		.loc 1 167 23 view .LVU169
+ 566 015e 52E7     		b	.L21
+ 567              	.L44:
+ 170:Devices/Devices.c/Referee_System.c ****                 break;
+ 568              		.loc 1 170 21 is_stmt 1 view .LVU170
+ 170:Devices/Devices.c/Referee_System.c ****                 break;
+ 569              		.loc 1 170 22 is_stmt 0 view .LVU171
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 17
+
+
+ 570 0160 0134     		adds	r4, r4, #1
+ 571              	.LVL21:
+ 170:Devices/Devices.c/Referee_System.c ****                 break;
+ 572              		.loc 1 170 22 view .LVU172
+ 573 0162 50E7     		b	.L21
+ 574              	.L45:
+ 179:Devices/Devices.c/Referee_System.c ****                 break;
+ 575              		.loc 1 179 21 is_stmt 1 view .LVU173
+ 179:Devices/Devices.c/Referee_System.c ****                 break;
+ 576              		.loc 1 179 22 is_stmt 0 view .LVU174
+ 577 0164 0134     		adds	r4, r4, #1
+ 578              	.LVL22:
+ 179:Devices/Devices.c/Referee_System.c ****                 break;
+ 579              		.loc 1 179 22 view .LVU175
+ 580 0166 4EE7     		b	.L21
+ 581              	.L37:
+ 182:Devices/Devices.c/Referee_System.c ****                 {
+ 582              		.loc 1 182 17 is_stmt 1 view .LVU176
+ 182:Devices/Devices.c/Referee_System.c ****                 {
+ 583              		.loc 1 182 35 is_stmt 0 view .LVU177
+ 584 0168 514B     		ldr	r3, .L63+4
+ 585 016a 1B69     		ldr	r3, [r3, #16]
+ 182:Devices/Devices.c/Referee_System.c ****                 {
+ 586              		.loc 1 182 21 view .LVU178
+ 587 016c 2421     		movs	r1, #36
+ 588 016e 5148     		ldr	r0, .L63+8
+ 589 0170 2044     		add	r0, r0, r4
+ 590 0172 9847     		blx	r3
+ 591              	.LVL23:
+ 182:Devices/Devices.c/Referee_System.c ****                 {
+ 592              		.loc 1 182 20 view .LVU179
+ 593 0174 10B3     		cbz	r0, .L46
+ 184:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_STATE_LEN;
+ 594              		.loc 1 184 21 is_stmt 1 view .LVU180
+ 184:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_STATE_LEN;
+ 595              		.loc 1 184 82 is_stmt 0 view .LVU181
+ 596 0176 E31D     		adds	r3, r4, #7
+ 184:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_STATE_LEN;
+ 597              		.loc 1 184 57 view .LVU182
+ 598 0178 4C4A     		ldr	r2, .L63
+ 599 017a 1344     		add	r3, r3, r2
+ 184:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_STATE_LEN;
+ 600              		.loc 1 184 21 view .LVU183
+ 601 017c D3F80200 		ldr	r0, [r3, #2]	@ unaligned
+ 602 0180 D3F80610 		ldr	r1, [r3, #6]	@ unaligned
+ 603 0184 D3F80AE0 		ldr	lr, [r3, #10]	@ unaligned
+ 604 0188 D3F80EC0 		ldr	ip, [r3, #14]	@ unaligned
+ 605 018c C2F8BE01 		str	r0, [r2, #446]	@ unaligned
+ 606 0190 C2F8C211 		str	r1, [r2, #450]	@ unaligned
+ 607 0194 C2F8C6E1 		str	lr, [r2, #454]	@ unaligned
+ 608 0198 C2F8CAC1 		str	ip, [r2, #458]	@ unaligned
+ 609 019c D3F81200 		ldr	r0, [r3, #18]	@ unaligned
+ 610 01a0 D3F81610 		ldr	r1, [r3, #22]	@ unaligned
+ 611 01a4 C2F8CE01 		str	r0, [r2, #462]	@ unaligned
+ 612 01a8 C2F8D211 		str	r1, [r2, #466]	@ unaligned
+ 613 01ac 598B     		ldrh	r1, [r3, #26]	@ unaligned
+ 614 01ae 1B7F     		ldrb	r3, [r3, #28]	@ zero_extendqisi2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 18
+
+
+ 615 01b0 A2F8D611 		strh	r1, [r2, #470]	@ unaligned
+ 616 01b4 82F8D831 		strb	r3, [r2, #472]
+ 185:Devices/Devices.c/Referee_System.c ****                 }
+ 617              		.loc 1 185 21 is_stmt 1 view .LVU184
+ 185:Devices/Devices.c/Referee_System.c ****                 }
+ 618              		.loc 1 185 23 is_stmt 0 view .LVU185
+ 619 01b8 2434     		adds	r4, r4, #36
+ 620              	.LVL24:
+ 185:Devices/Devices.c/Referee_System.c ****                 }
+ 621              		.loc 1 185 23 view .LVU186
+ 622 01ba 24E7     		b	.L21
+ 623              	.L46:
+ 188:Devices/Devices.c/Referee_System.c ****                 break;
+ 624              		.loc 1 188 21 is_stmt 1 view .LVU187
+ 188:Devices/Devices.c/Referee_System.c ****                 break;
+ 625              		.loc 1 188 22 is_stmt 0 view .LVU188
+ 626 01bc 0134     		adds	r4, r4, #1
+ 627              	.LVL25:
+ 188:Devices/Devices.c/Referee_System.c ****                 break;
+ 628              		.loc 1 188 22 view .LVU189
+ 629 01be 22E7     		b	.L21
+ 630              	.L36:
+ 191:Devices/Devices.c/Referee_System.c ****                 {
+ 631              		.loc 1 191 17 is_stmt 1 view .LVU190
+ 191:Devices/Devices.c/Referee_System.c ****                 {
+ 632              		.loc 1 191 35 is_stmt 0 view .LVU191
+ 633 01c0 3B4B     		ldr	r3, .L63+4
+ 634 01c2 1B69     		ldr	r3, [r3, #16]
+ 191:Devices/Devices.c/Referee_System.c ****                 {
+ 635              		.loc 1 191 21 view .LVU192
+ 636 01c4 1921     		movs	r1, #25
+ 637 01c6 3B48     		ldr	r0, .L63+8
+ 638 01c8 2044     		add	r0, r0, r4
+ 639 01ca 9847     		blx	r3
+ 640              	.LVL26:
+ 191:Devices/Devices.c/Referee_System.c ****                 {
+ 641              		.loc 1 191 20 view .LVU193
+ 642 01cc A0B1     		cbz	r0, .L47
+ 193:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_POWER_HEAT_LEN;
+ 643              		.loc 1 193 21 is_stmt 1 view .LVU194
+ 193:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_POWER_HEAT_LEN;
+ 644              		.loc 1 193 83 is_stmt 0 view .LVU195
+ 645 01ce E31D     		adds	r3, r4, #7
+ 193:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_POWER_HEAT_LEN;
+ 646              		.loc 1 193 58 view .LVU196
+ 647 01d0 364A     		ldr	r2, .L63
+ 648 01d2 1344     		add	r3, r3, r2
+ 193:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_POWER_HEAT_LEN;
+ 649              		.loc 1 193 21 view .LVU197
+ 650 01d4 D3F802C0 		ldr	ip, [r3, #2]	@ unaligned
+ 651 01d8 D3F80600 		ldr	r0, [r3, #6]	@ unaligned
+ 652 01dc D3F80A10 		ldr	r1, [r3, #10]	@ unaligned
+ 653 01e0 D3F80E30 		ldr	r3, [r3, #14]	@ unaligned
+ 654 01e4 C2F8D9C1 		str	ip, [r2, #473]	@ unaligned
+ 655 01e8 C2F8DD01 		str	r0, [r2, #477]	@ unaligned
+ 656 01ec C2F8E111 		str	r1, [r2, #481]	@ unaligned
+ 657 01f0 C2F8E531 		str	r3, [r2, #485]	@ unaligned
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 19
+
+
+ 194:Devices/Devices.c/Referee_System.c ****                 }
+ 658              		.loc 1 194 21 is_stmt 1 view .LVU198
+ 194:Devices/Devices.c/Referee_System.c ****                 }
+ 659              		.loc 1 194 23 is_stmt 0 view .LVU199
+ 660 01f4 1934     		adds	r4, r4, #25
+ 661              	.LVL27:
+ 194:Devices/Devices.c/Referee_System.c ****                 }
+ 662              		.loc 1 194 23 view .LVU200
+ 663 01f6 06E7     		b	.L21
+ 664              	.L47:
+ 197:Devices/Devices.c/Referee_System.c ****                 break;
+ 665              		.loc 1 197 21 is_stmt 1 view .LVU201
+ 197:Devices/Devices.c/Referee_System.c ****                 break;
+ 666              		.loc 1 197 22 is_stmt 0 view .LVU202
+ 667 01f8 0134     		adds	r4, r4, #1
+ 668              	.LVL28:
+ 197:Devices/Devices.c/Referee_System.c ****                 break;
+ 669              		.loc 1 197 22 view .LVU203
+ 670 01fa 04E7     		b	.L21
+ 671              	.L35:
+ 200:Devices/Devices.c/Referee_System.c ****                 {
+ 672              		.loc 1 200 17 is_stmt 1 view .LVU204
+ 200:Devices/Devices.c/Referee_System.c ****                 {
+ 673              		.loc 1 200 35 is_stmt 0 view .LVU205
+ 674 01fc 2C4B     		ldr	r3, .L63+4
+ 675 01fe 1B69     		ldr	r3, [r3, #16]
+ 200:Devices/Devices.c/Referee_System.c ****                 {
+ 676              		.loc 1 200 21 view .LVU206
+ 677 0200 1921     		movs	r1, #25
+ 678 0202 2C48     		ldr	r0, .L63+8
+ 679 0204 2044     		add	r0, r0, r4
+ 680 0206 9847     		blx	r3
+ 681              	.LVL29:
+ 200:Devices/Devices.c/Referee_System.c ****                 {
+ 682              		.loc 1 200 20 view .LVU207
+ 683 0208 A0B1     		cbz	r0, .L48
+ 202:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_POSITION_LEN;
+ 684              		.loc 1 202 21 is_stmt 1 view .LVU208
+ 202:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_POSITION_LEN;
+ 685              		.loc 1 202 79 is_stmt 0 view .LVU209
+ 686 020a E31D     		adds	r3, r4, #7
+ 202:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_POSITION_LEN;
+ 687              		.loc 1 202 54 view .LVU210
+ 688 020c 274A     		ldr	r2, .L63
+ 689 020e 1344     		add	r3, r3, r2
+ 202:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_POSITION_LEN;
+ 690              		.loc 1 202 21 view .LVU211
+ 691 0210 D3F802C0 		ldr	ip, [r3, #2]	@ unaligned
+ 692 0214 D3F80600 		ldr	r0, [r3, #6]	@ unaligned
+ 693 0218 D3F80A10 		ldr	r1, [r3, #10]	@ unaligned
+ 694 021c D3F80E30 		ldr	r3, [r3, #14]	@ unaligned
+ 695 0220 C2F8E9C1 		str	ip, [r2, #489]	@ unaligned
+ 696 0224 C2F8ED01 		str	r0, [r2, #493]	@ unaligned
+ 697 0228 C2F8F111 		str	r1, [r2, #497]	@ unaligned
+ 698 022c C2F8F531 		str	r3, [r2, #501]	@ unaligned
+ 203:Devices/Devices.c/Referee_System.c ****                 }
+ 699              		.loc 1 203 21 is_stmt 1 view .LVU212
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 20
+
+
+ 203:Devices/Devices.c/Referee_System.c ****                 }
+ 700              		.loc 1 203 23 is_stmt 0 view .LVU213
+ 701 0230 1934     		adds	r4, r4, #25
+ 702              	.LVL30:
+ 203:Devices/Devices.c/Referee_System.c ****                 }
+ 703              		.loc 1 203 23 view .LVU214
+ 704 0232 E8E6     		b	.L21
+ 705              	.L48:
+ 206:Devices/Devices.c/Referee_System.c ****                 break;
+ 706              		.loc 1 206 21 is_stmt 1 view .LVU215
+ 206:Devices/Devices.c/Referee_System.c ****                 break;
+ 707              		.loc 1 206 22 is_stmt 0 view .LVU216
+ 708 0234 0134     		adds	r4, r4, #1
+ 709              	.LVL31:
+ 206:Devices/Devices.c/Referee_System.c ****                 break;
+ 710              		.loc 1 206 22 view .LVU217
+ 711 0236 E6E6     		b	.L21
+ 712              	.L34:
+ 209:Devices/Devices.c/Referee_System.c ****                 {
+ 713              		.loc 1 209 17 is_stmt 1 view .LVU218
+ 209:Devices/Devices.c/Referee_System.c ****                 {
+ 714              		.loc 1 209 35 is_stmt 0 view .LVU219
+ 715 0238 1D4B     		ldr	r3, .L63+4
+ 716 023a 1B69     		ldr	r3, [r3, #16]
+ 209:Devices/Devices.c/Referee_System.c ****                 {
+ 717              		.loc 1 209 21 view .LVU220
+ 718 023c 0A21     		movs	r1, #10
+ 719 023e 1D48     		ldr	r0, .L63+8
+ 720 0240 2044     		add	r0, r0, r4
+ 721 0242 9847     		blx	r3
+ 722              	.LVL32:
+ 209:Devices/Devices.c/Referee_System.c ****                 {
+ 723              		.loc 1 209 20 view .LVU221
+ 724 0244 38B1     		cbz	r0, .L49
+ 211:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_BUFF_LEN;
+ 725              		.loc 1 211 21 is_stmt 1 view .LVU222
+ 211:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_BUFF_LEN;
+ 726              		.loc 1 211 81 is_stmt 0 view .LVU223
+ 727 0246 E31D     		adds	r3, r4, #7
+ 211:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_BUFF_LEN;
+ 728              		.loc 1 211 21 view .LVU224
+ 729 0248 184A     		ldr	r2, .L63
+ 730 024a 1344     		add	r3, r3, r2
+ 731 024c 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 732 024e 82F8F931 		strb	r3, [r2, #505]
+ 212:Devices/Devices.c/Referee_System.c ****                 }
+ 733              		.loc 1 212 21 is_stmt 1 view .LVU225
+ 212:Devices/Devices.c/Referee_System.c ****                 }
+ 734              		.loc 1 212 23 is_stmt 0 view .LVU226
+ 735 0252 0A34     		adds	r4, r4, #10
+ 736              	.LVL33:
+ 212:Devices/Devices.c/Referee_System.c ****                 }
+ 737              		.loc 1 212 23 view .LVU227
+ 738 0254 D7E6     		b	.L21
+ 739              	.L49:
+ 215:Devices/Devices.c/Referee_System.c ****                 break;
+ 740              		.loc 1 215 21 is_stmt 1 view .LVU228
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 21
+
+
+ 215:Devices/Devices.c/Referee_System.c ****                 break;
+ 741              		.loc 1 215 22 is_stmt 0 view .LVU229
+ 742 0256 0134     		adds	r4, r4, #1
+ 743              	.LVL34:
+ 215:Devices/Devices.c/Referee_System.c ****                 break;
+ 744              		.loc 1 215 22 view .LVU230
+ 745 0258 D5E6     		b	.L21
+ 746              	.L33:
+ 218:Devices/Devices.c/Referee_System.c ****                 {
+ 747              		.loc 1 218 17 is_stmt 1 view .LVU231
+ 218:Devices/Devices.c/Referee_System.c ****                 {
+ 748              		.loc 1 218 35 is_stmt 0 view .LVU232
+ 749 025a 154B     		ldr	r3, .L63+4
+ 750 025c 1B69     		ldr	r3, [r3, #16]
+ 218:Devices/Devices.c/Referee_System.c ****                 {
+ 751              		.loc 1 218 21 view .LVU233
+ 752 025e 0A21     		movs	r1, #10
+ 753 0260 1448     		ldr	r0, .L63+8
+ 754 0262 2044     		add	r0, r0, r4
+ 755 0264 9847     		blx	r3
+ 756              	.LVL35:
+ 218:Devices/Devices.c/Referee_System.c ****                 {
+ 757              		.loc 1 218 20 view .LVU234
+ 758 0266 38B1     		cbz	r0, .L50
+ 220:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_INJURY_STATE_LEN;
+ 759              		.loc 1 220 21 is_stmt 1 view .LVU235
+ 220:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_INJURY_STATE_LEN;
+ 760              		.loc 1 220 77 is_stmt 0 view .LVU236
+ 761 0268 E31D     		adds	r3, r4, #7
+ 220:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_INJURY_STATE_LEN;
+ 762              		.loc 1 220 21 view .LVU237
+ 763 026a 104A     		ldr	r2, .L63
+ 764 026c 1344     		add	r3, r3, r2
+ 765 026e 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 766 0270 82F8FA31 		strb	r3, [r2, #506]
+ 221:Devices/Devices.c/Referee_System.c ****                 }
+ 767              		.loc 1 221 21 is_stmt 1 view .LVU238
+ 221:Devices/Devices.c/Referee_System.c ****                 }
+ 768              		.loc 1 221 23 is_stmt 0 view .LVU239
+ 769 0274 0A34     		adds	r4, r4, #10
+ 770              	.LVL36:
+ 221:Devices/Devices.c/Referee_System.c ****                 }
+ 771              		.loc 1 221 23 view .LVU240
+ 772 0276 C6E6     		b	.L21
+ 773              	.L50:
+ 224:Devices/Devices.c/Referee_System.c ****                 break;
+ 774              		.loc 1 224 21 is_stmt 1 view .LVU241
+ 224:Devices/Devices.c/Referee_System.c ****                 break;
+ 775              		.loc 1 224 22 is_stmt 0 view .LVU242
+ 776 0278 0134     		adds	r4, r4, #1
+ 777              	.LVL37:
+ 224:Devices/Devices.c/Referee_System.c ****                 break;
+ 778              		.loc 1 224 22 view .LVU243
+ 779 027a C4E6     		b	.L21
+ 780              	.L32:
+ 227:Devices/Devices.c/Referee_System.c ****                 {
+ 781              		.loc 1 227 17 is_stmt 1 view .LVU244
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 22
+
+
+ 227:Devices/Devices.c/Referee_System.c ****                 {
+ 782              		.loc 1 227 35 is_stmt 0 view .LVU245
+ 783 027c 0C4B     		ldr	r3, .L63+4
+ 784 027e 1B69     		ldr	r3, [r3, #16]
+ 227:Devices/Devices.c/Referee_System.c ****                 {
+ 785              		.loc 1 227 21 view .LVU246
+ 786 0280 1021     		movs	r1, #16
+ 787 0282 0C48     		ldr	r0, .L63+8
+ 788 0284 2044     		add	r0, r0, r4
+ 789 0286 9847     		blx	r3
+ 790              	.LVL38:
+ 227:Devices/Devices.c/Referee_System.c ****                 {
+ 791              		.loc 1 227 20 view .LVU247
+ 792 0288 70B1     		cbz	r0, .L51
+ 229:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_SHOOTER_STATE_LEN;
+ 793              		.loc 1 229 21 is_stmt 1 view .LVU248
+ 229:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_SHOOTER_STATE_LEN;
+ 794              		.loc 1 229 78 is_stmt 0 view .LVU249
+ 795 028a E31D     		adds	r3, r4, #7
+ 229:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_SHOOTER_STATE_LEN;
+ 796              		.loc 1 229 53 view .LVU250
+ 797 028c 074A     		ldr	r2, .L63
+ 798 028e 1344     		add	r3, r3, r2
+ 229:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_SHOOTER_STATE_LEN;
+ 799              		.loc 1 229 21 view .LVU251
+ 800 0290 D3F80200 		ldr	r0, [r3, #2]	@ unaligned
+ 801 0294 C2F8FC01 		str	r0, [r2, #508]
+ 802 0298 D988     		ldrh	r1, [r3, #6]	@ unaligned
+ 803 029a 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 804 029c A2F80012 		strh	r1, [r2, #512]	@ unaligned
+ 805 02a0 82F80232 		strb	r3, [r2, #514]
+ 230:Devices/Devices.c/Referee_System.c ****                 }
+ 806              		.loc 1 230 21 is_stmt 1 view .LVU252
+ 230:Devices/Devices.c/Referee_System.c ****                 }
+ 807              		.loc 1 230 23 is_stmt 0 view .LVU253
+ 808 02a4 1034     		adds	r4, r4, #16
+ 809              	.LVL39:
+ 230:Devices/Devices.c/Referee_System.c ****                 }
+ 810              		.loc 1 230 23 view .LVU254
+ 811 02a6 AEE6     		b	.L21
+ 812              	.L51:
+ 233:Devices/Devices.c/Referee_System.c ****                 break;
+ 813              		.loc 1 233 21 is_stmt 1 view .LVU255
+ 233:Devices/Devices.c/Referee_System.c ****                 break;
+ 814              		.loc 1 233 22 is_stmt 0 view .LVU256
+ 815 02a8 0134     		adds	r4, r4, #1
+ 816              	.LVL40:
+ 233:Devices/Devices.c/Referee_System.c ****                 break;
+ 817              		.loc 1 233 22 view .LVU257
+ 818 02aa ACE6     		b	.L21
+ 819              	.L64:
+ 820              		.align	2
+ 821              	.L63:
+ 822 02ac 00000000 		.word	Referee_System
+ 823 02b0 00000000 		.word	CRC_Verif_Func
+ 824 02b4 02000000 		.word	Referee_System+2
+ 825              	.L31:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 23
+
+
+ 236:Devices/Devices.c/Referee_System.c ****                 {
+ 826              		.loc 1 236 17 is_stmt 1 view .LVU258
+ 236:Devices/Devices.c/Referee_System.c ****                 {
+ 827              		.loc 1 236 35 is_stmt 0 view .LVU259
+ 828 02b8 144B     		ldr	r3, .L65
+ 829 02ba 1B69     		ldr	r3, [r3, #16]
+ 236:Devices/Devices.c/Referee_System.c ****                 {
+ 830              		.loc 1 236 21 view .LVU260
+ 831 02bc 0F21     		movs	r1, #15
+ 832 02be 1448     		ldr	r0, .L65+4
+ 833 02c0 2044     		add	r0, r0, r4
+ 834 02c2 9847     		blx	r3
+ 835              	.LVL41:
+ 236:Devices/Devices.c/Referee_System.c ****                 {
+ 836              		.loc 1 236 20 view .LVU261
+ 837 02c4 58B1     		cbz	r0, .L52
+ 238:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REMAINING_AMMO_LEN;
+ 838              		.loc 1 238 21 is_stmt 1 view .LVU262
+ 238:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REMAINING_AMMO_LEN;
+ 839              		.loc 1 238 85 is_stmt 0 view .LVU263
+ 840 02c6 E31D     		adds	r3, r4, #7
+ 238:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REMAINING_AMMO_LEN;
+ 841              		.loc 1 238 60 view .LVU264
+ 842 02c8 124A     		ldr	r2, .L65+8
+ 843 02ca 1344     		add	r3, r3, r2
+ 238:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_REMAINING_AMMO_LEN;
+ 844              		.loc 1 238 21 view .LVU265
+ 845 02cc D3F80210 		ldr	r1, [r3, #2]	@ unaligned
+ 846 02d0 C2F80312 		str	r1, [r2, #515]	@ unaligned
+ 847 02d4 DB88     		ldrh	r3, [r3, #6]	@ unaligned
+ 848 02d6 A2F80732 		strh	r3, [r2, #519]	@ unaligned
+ 239:Devices/Devices.c/Referee_System.c ****                 }
+ 849              		.loc 1 239 21 is_stmt 1 view .LVU266
+ 239:Devices/Devices.c/Referee_System.c ****                 }
+ 850              		.loc 1 239 23 is_stmt 0 view .LVU267
+ 851 02da 0F34     		adds	r4, r4, #15
+ 852              	.LVL42:
+ 239:Devices/Devices.c/Referee_System.c ****                 }
+ 853              		.loc 1 239 23 view .LVU268
+ 854 02dc 93E6     		b	.L21
+ 855              	.L52:
+ 242:Devices/Devices.c/Referee_System.c ****                 break;
+ 856              		.loc 1 242 21 is_stmt 1 view .LVU269
+ 242:Devices/Devices.c/Referee_System.c ****                 break;
+ 857              		.loc 1 242 22 is_stmt 0 view .LVU270
+ 858 02de 0134     		adds	r4, r4, #1
+ 859              	.LVL43:
+ 242:Devices/Devices.c/Referee_System.c ****                 break;
+ 860              		.loc 1 242 22 view .LVU271
+ 861 02e0 91E6     		b	.L21
+ 862              	.L29:
+ 245:Devices/Devices.c/Referee_System.c ****                 {
+ 863              		.loc 1 245 17 is_stmt 1 view .LVU272
+ 245:Devices/Devices.c/Referee_System.c ****                 {
+ 864              		.loc 1 245 35 is_stmt 0 view .LVU273
+ 865 02e2 0A4B     		ldr	r3, .L65
+ 866 02e4 1B69     		ldr	r3, [r3, #16]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 24
+
+
+ 245:Devices/Devices.c/Referee_System.c ****                 {
+ 867              		.loc 1 245 21 view .LVU274
+ 868 02e6 0D21     		movs	r1, #13
+ 869 02e8 0948     		ldr	r0, .L65+4
+ 870 02ea 2044     		add	r0, r0, r4
+ 871 02ec 9847     		blx	r3
+ 872              	.LVL44:
+ 245:Devices/Devices.c/Referee_System.c ****                 {
+ 873              		.loc 1 245 20 view .LVU275
+ 874 02ee 40B1     		cbz	r0, .L53
+ 247:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_RFID_LEN;
+ 875              		.loc 1 247 21 is_stmt 1 view .LVU276
+ 247:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_RFID_LEN;
+ 876              		.loc 1 247 75 is_stmt 0 view .LVU277
+ 877 02f0 E31D     		adds	r3, r4, #7
+ 247:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_RFID_LEN;
+ 878              		.loc 1 247 50 view .LVU278
+ 879 02f2 084A     		ldr	r2, .L65+8
+ 880 02f4 1344     		add	r3, r3, r2
+ 247:Devices/Devices.c/Referee_System.c ****                     n += REFEREE_ROBOT_RFID_LEN;
+ 881              		.loc 1 247 21 view .LVU279
+ 882 02f6 D3F80230 		ldr	r3, [r3, #2]	@ unaligned
+ 883 02fa C2F80932 		str	r3, [r2, #521]	@ unaligned
+ 248:Devices/Devices.c/Referee_System.c ****                 }
+ 884              		.loc 1 248 21 is_stmt 1 view .LVU280
+ 248:Devices/Devices.c/Referee_System.c ****                 }
+ 885              		.loc 1 248 23 is_stmt 0 view .LVU281
+ 886 02fe 0D34     		adds	r4, r4, #13
+ 887              	.LVL45:
+ 248:Devices/Devices.c/Referee_System.c ****                 }
+ 888              		.loc 1 248 23 view .LVU282
+ 889 0300 81E6     		b	.L21
+ 890              	.L53:
+ 251:Devices/Devices.c/Referee_System.c ****                 break;
+ 891              		.loc 1 251 21 is_stmt 1 view .LVU283
+ 251:Devices/Devices.c/Referee_System.c ****                 break;
+ 892              		.loc 1 251 22 is_stmt 0 view .LVU284
+ 893 0302 0134     		adds	r4, r4, #1
+ 894              	.LVL46:
+ 251:Devices/Devices.c/Referee_System.c ****                 break;
+ 895              		.loc 1 251 22 view .LVU285
+ 896 0304 7FE6     		b	.L21
+ 897              	.L23:
+ 254:Devices/Devices.c/Referee_System.c ****                 break;
+ 898              		.loc 1 254 17 is_stmt 1 view .LVU286
+ 254:Devices/Devices.c/Referee_System.c ****                 break;
+ 899              		.loc 1 254 18 is_stmt 0 view .LVU287
+ 900 0306 0134     		adds	r4, r4, #1
+ 901              	.LVL47:
+ 255:Devices/Devices.c/Referee_System.c ****           }
+ 902              		.loc 1 255 17 is_stmt 1 view .LVU288
+ 903 0308 7DE6     		b	.L21
+ 904              	.L57:
+ 255:Devices/Devices.c/Referee_System.c ****           }
+ 905              		.loc 1 255 17 is_stmt 0 view .LVU289
+ 906              	.LBE3:
+ 260:Devices/Devices.c/Referee_System.c **** 		}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 25
+
+
+ 261:Devices/Devices.c/Referee_System.c **** }
+ 907              		.loc 1 261 1 view .LVU290
+ 908 030a 38BD     		pop	{r3, r4, r5, pc}
+ 909              	.LVL48:
+ 910              	.L66:
+ 911              		.loc 1 261 1 view .LVU291
+ 912              		.align	2
+ 913              	.L65:
+ 914 030c 00000000 		.word	CRC_Verif_Func
+ 915 0310 02000000 		.word	Referee_System+2
+ 916 0314 00000000 		.word	Referee_System
+ 917              		.cfi_endproc
+ 918              	.LFE166:
+ 920              		.section	.text.Referee_UART_Receive_DMA_No_Interrupt,"ax",%progbits
+ 921              		.align	1
+ 922              		.global	Referee_UART_Receive_DMA_No_Interrupt
+ 923              		.syntax unified
+ 924              		.thumb
+ 925              		.thumb_func
+ 927              	Referee_UART_Receive_DMA_No_Interrupt:
+ 928              	.LVL49:
+ 929              	.LFB163:
+  79:Devices/Devices.c/Referee_System.c **** 	if (huart->RxState == HAL_UART_STATE_READY)
+ 930              		.loc 1 79 1 is_stmt 1 view -0
+ 931              		.cfi_startproc
+ 932              		@ args = 0, pretend = 0, frame = 0
+ 933              		@ frame_needed = 0, uses_anonymous_args = 0
+  79:Devices/Devices.c/Referee_System.c **** 	if (huart->RxState == HAL_UART_STATE_READY)
+ 934              		.loc 1 79 1 is_stmt 0 view .LVU293
+ 935 0000 38B5     		push	{r3, r4, r5, lr}
+ 936              	.LCFI4:
+ 937              		.cfi_def_cfa_offset 16
+ 938              		.cfi_offset 3, -16
+ 939              		.cfi_offset 4, -12
+ 940              		.cfi_offset 5, -8
+ 941              		.cfi_offset 14, -4
+ 942 0002 0446     		mov	r4, r0
+  80:Devices/Devices.c/Referee_System.c ****   {
+ 943              		.loc 1 80 2 is_stmt 1 view .LVU294
+  80:Devices/Devices.c/Referee_System.c ****   {
+ 944              		.loc 1 80 11 is_stmt 0 view .LVU295
+ 945 0004 90F83E00 		ldrb	r0, [r0, #62]	@ zero_extendqisi2
+ 946              	.LVL50:
+  80:Devices/Devices.c/Referee_System.c ****   {
+ 947              		.loc 1 80 11 view .LVU296
+ 948 0008 C0B2     		uxtb	r0, r0
+  80:Devices/Devices.c/Referee_System.c ****   {
+ 949              		.loc 1 80 5 view .LVU297
+ 950 000a 2028     		cmp	r0, #32
+ 951 000c 15D1     		bne	.L69
+  82:Devices/Devices.c/Referee_System.c ****     {
+ 952              		.loc 1 82 5 is_stmt 1 view .LVU298
+  82:Devices/Devices.c/Referee_System.c ****     {
+ 953              		.loc 1 82 8 is_stmt 0 view .LVU299
+ 954 000e B1B1     		cbz	r1, .L70
+  82:Devices/Devices.c/Referee_System.c ****     {
+ 955              		.loc 1 82 25 discriminator 1 view .LVU300
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 26
+
+
+ 956 0010 0AB9     		cbnz	r2, .L73
+  84:Devices/Devices.c/Referee_System.c ****     }
+ 957              		.loc 1 84 14 view .LVU301
+ 958 0012 0120     		movs	r0, #1
+ 959              	.LVL51:
+ 960              	.L68:
+ 102:Devices/Devices.c/Referee_System.c **** 
+ 961              		.loc 1 102 1 view .LVU302
+ 962 0014 38BD     		pop	{r3, r4, r5, pc}
+ 963              	.LVL52:
+ 964              	.L73:
+  87:Devices/Devices.c/Referee_System.c **** 		huart->RxXferSize = Size;
+ 965              		.loc 1 87 3 is_stmt 1 view .LVU303
+  87:Devices/Devices.c/Referee_System.c **** 		huart->RxXferSize = Size;
+ 966              		.loc 1 87 21 is_stmt 0 view .LVU304
+ 967 0016 A162     		str	r1, [r4, #40]
+  88:Devices/Devices.c/Referee_System.c **** 		huart->ErrorCode = HAL_UART_ERROR_NONE;
+ 968              		.loc 1 88 3 is_stmt 1 view .LVU305
+  88:Devices/Devices.c/Referee_System.c **** 		huart->ErrorCode = HAL_UART_ERROR_NONE;
+ 969              		.loc 1 88 21 is_stmt 0 view .LVU306
+ 970 0018 A285     		strh	r2, [r4, #44]	@ movhi
+  89:Devices/Devices.c/Referee_System.c **** 		
+ 971              		.loc 1 89 3 is_stmt 1 view .LVU307
+  89:Devices/Devices.c/Referee_System.c **** 		
+ 972              		.loc 1 89 20 is_stmt 0 view .LVU308
+ 973 001a 0025     		movs	r5, #0
+ 974 001c 2564     		str	r5, [r4, #64]
+  92:Devices/Devices.c/Referee_System.c **** 		/* Enable the DMA transfer for the receiver request by setting the DMAR bit in the UART CR3 regis
+ 975              		.loc 1 92 3 is_stmt 1 view .LVU309
+  92:Devices/Devices.c/Referee_System.c **** 		/* Enable the DMA transfer for the receiver request by setting the DMAR bit in the UART CR3 regis
+ 976              		.loc 1 92 47 is_stmt 0 view .LVU310
+ 977 001e 2068     		ldr	r0, [r4]
+  92:Devices/Devices.c/Referee_System.c **** 		/* Enable the DMA transfer for the receiver request by setting the DMAR bit in the UART CR3 regis
+ 978              		.loc 1 92 3 view .LVU311
+ 979 0020 1346     		mov	r3, r2
+ 980 0022 0A46     		mov	r2, r1
+ 981              	.LVL53:
+  92:Devices/Devices.c/Referee_System.c **** 		/* Enable the DMA transfer for the receiver request by setting the DMAR bit in the UART CR3 regis
+ 982              		.loc 1 92 3 view .LVU312
+ 983 0024 011D     		adds	r1, r0, #4
+ 984              	.LVL54:
+  92:Devices/Devices.c/Referee_System.c **** 		/* Enable the DMA transfer for the receiver request by setting the DMAR bit in the UART CR3 regis
+ 985              		.loc 1 92 3 view .LVU313
+ 986 0026 A06B     		ldr	r0, [r4, #56]
+ 987 0028 FFF7FEFF 		bl	HAL_DMA_Start
+ 988              	.LVL55:
+  94:Devices/Devices.c/Referee_System.c **** 		
+ 989              		.loc 1 94 3 is_stmt 1 view .LVU314
+ 990 002c 2268     		ldr	r2, [r4]
+ 991 002e 5369     		ldr	r3, [r2, #20]
+ 992 0030 43F04003 		orr	r3, r3, #64
+ 993 0034 5361     		str	r3, [r2, #20]
+  96:Devices/Devices.c/Referee_System.c ****   }
+ 994              		.loc 1 96 5 view .LVU315
+  96:Devices/Devices.c/Referee_System.c ****   }
+ 995              		.loc 1 96 12 is_stmt 0 view .LVU316
+ 996 0036 2846     		mov	r0, r5
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 27
+
+
+ 997 0038 ECE7     		b	.L68
+ 998              	.LVL56:
+ 999              	.L69:
+ 100:Devices/Devices.c/Referee_System.c ****   }
+ 1000              		.loc 1 100 12 view .LVU317
+ 1001 003a 0220     		movs	r0, #2
+ 1002 003c EAE7     		b	.L68
+ 1003              	.L70:
+  84:Devices/Devices.c/Referee_System.c ****     }
+ 1004              		.loc 1 84 14 view .LVU318
+ 1005 003e 0120     		movs	r0, #1
+ 1006 0040 E8E7     		b	.L68
+ 1007              		.cfi_endproc
+ 1008              	.LFE163:
+ 1010              		.section	.text.Referee_UART_Receive_Interrupt,"ax",%progbits
+ 1011              		.align	1
+ 1012              		.global	Referee_UART_Receive_Interrupt
+ 1013              		.syntax unified
+ 1014              		.thumb
+ 1015              		.thumb_func
+ 1017              	Referee_UART_Receive_Interrupt:
+ 1018              	.LVL57:
+ 1019              	.LFB164:
+ 105:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_CLEAR_IDLEFLAG(huart);
+ 1020              		.loc 1 105 1 is_stmt 1 view -0
+ 1021              		.cfi_startproc
+ 1022              		@ args = 0, pretend = 0, frame = 8
+ 1023              		@ frame_needed = 0, uses_anonymous_args = 0
+ 105:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_CLEAR_IDLEFLAG(huart);
+ 1024              		.loc 1 105 1 is_stmt 0 view .LVU320
+ 1025 0000 70B5     		push	{r4, r5, r6, lr}
+ 1026              	.LCFI5:
+ 1027              		.cfi_def_cfa_offset 16
+ 1028              		.cfi_offset 4, -16
+ 1029              		.cfi_offset 5, -12
+ 1030              		.cfi_offset 6, -8
+ 1031              		.cfi_offset 14, -4
+ 1032 0002 82B0     		sub	sp, sp, #8
+ 1033              	.LCFI6:
+ 1034              		.cfi_def_cfa_offset 24
+ 106:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE(huart);
+ 1035              		.loc 1 106 2 is_stmt 1 view .LVU321
+ 1036              	.LBB4:
+ 106:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE(huart);
+ 1037              		.loc 1 106 2 view .LVU322
+ 1038 0004 0026     		movs	r6, #0
+ 1039 0006 0196     		str	r6, [sp, #4]
+ 106:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE(huart);
+ 1040              		.loc 1 106 2 view .LVU323
+ 1041 0008 0468     		ldr	r4, [r0]
+ 1042 000a 2568     		ldr	r5, [r4]
+ 1043 000c 0195     		str	r5, [sp, #4]
+ 106:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE(huart);
+ 1044              		.loc 1 106 2 view .LVU324
+ 1045 000e 6568     		ldr	r5, [r4, #4]
+ 1046 0010 0195     		str	r5, [sp, #4]
+ 106:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE(huart);
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 28
+
+
+ 1047              		.loc 1 106 2 view .LVU325
+ 1048 0012 019D     		ldr	r5, [sp, #4]
+ 1049              	.LBE4:
+ 106:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE(huart);
+ 1050              		.loc 1 106 2 view .LVU326
+ 107:Devices/Devices.c/Referee_System.c **** 	__HAL_UART_ENABLE_IT(huart,UART_IT_IDLE);
+ 1051              		.loc 1 107 2 view .LVU327
+ 1052 0014 E568     		ldr	r5, [r4, #12]
+ 1053 0016 45F40055 		orr	r5, r5, #8192
+ 1054 001a E560     		str	r5, [r4, #12]
+ 108:Devices/Devices.c/Referee_System.c **** 	Referee_UART_Receive_DMA_No_Interrupt(huart,pData,Size);
+ 1055              		.loc 1 108 2 view .LVU328
+ 1056 001c 0468     		ldr	r4, [r0]
+ 1057 001e E368     		ldr	r3, [r4, #12]
+ 1058 0020 43F01003 		orr	r3, r3, #16
+ 1059 0024 E360     		str	r3, [r4, #12]
+ 109:Devices/Devices.c/Referee_System.c **** 	
+ 1060              		.loc 1 109 2 view .LVU329
+ 1061 0026 FFF7FEFF 		bl	Referee_UART_Receive_DMA_No_Interrupt
+ 1062              	.LVL58:
+ 111:Devices/Devices.c/Referee_System.c **** }
+ 1063              		.loc 1 111 2 view .LVU330
+ 112:Devices/Devices.c/Referee_System.c **** 
+ 1064              		.loc 1 112 1 is_stmt 0 view .LVU331
+ 1065 002a 3046     		mov	r0, r6
+ 1066 002c 02B0     		add	sp, sp, #8
+ 1067              	.LCFI7:
+ 1068              		.cfi_def_cfa_offset 16
+ 1069              		@ sp needed
+ 1070 002e 70BD     		pop	{r4, r5, r6, pc}
+ 1071              		.cfi_endproc
+ 1072              	.LFE164:
+ 1074              		.global	Referee_System_Func
+ 1075              		.section	.data.Referee_System_Func,"aw"
+ 1076              		.align	2
+ 1079              	Referee_System_Func:
+ 1080 0000 00000000 		.word	Referee_UART_Receive_Interrupt
+ 1081 0004 00000000 		.word	Referee_System_Handler
+ 1082 0008 00000000 		.word	Referee_Get_Data
+ 1083 000c 00000000 		.word	Referee_Set_Robot_State
+ 1084              		.global	Referee_Robot_State
+ 1085              		.section	.bss.Referee_Robot_State,"aw",%nobits
+ 1086              		.align	2
+ 1089              	Referee_Robot_State:
+ 1090 0000 00000000 		.space	28
+ 1090      00000000 
+ 1090      00000000 
+ 1090      00000000 
+ 1090      00000000 
+ 1091              		.global	Referee_System
+ 1092              		.section	.bss.Referee_System,"aw",%nobits
+ 1093              		.align	2
+ 1096              	Referee_System:
+ 1097 0000 00000000 		.space	530
+ 1097      00000000 
+ 1097      00000000 
+ 1097      00000000 
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 29
+
+
+ 1097      00000000 
+ 1098              		.text
+ 1099              	.Letext0:
+ 1100              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1101              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 1102              		.file 4 "c:\\msys64\\mingw64\\lib\\gcc\\arm-none-eabi\\12.2.0\\include\\stddef.h"
+ 1103              		.file 5 "BSP/BSP.h/CRC_Verification.h"
+ 1104              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 1105              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 1106              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 1107              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 1108              		.file 10 "HigherLevelApps/HigherLevelApps.h/Chassis_Control.h"
+ 1109              		.file 11 "HigherLevelApps/HigherLevelApps.h/Shooting_Control.h"
+ 1110              		.file 12 "Devices/Devices.h/Referee_System.h"
+ 1111              		.file 13 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\string.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s 			page 30
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Referee_System.c
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:21     .text.Referee_Set_Robot_State:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:27     .text.Referee_Set_Robot_State:00000000 Referee_Set_Robot_State
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:190    .text.Referee_Set_Robot_State:000000c8 $d
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1096   .bss.Referee_System:00000000 Referee_System
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1089   .bss.Referee_Robot_State:00000000 Referee_Robot_State
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:202    .text.Referee_System_Handler:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:208    .text.Referee_System_Handler:00000000 Referee_System_Handler
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:289    .text.Referee_System_Handler:00000054 $d
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1079   .data.Referee_System_Func:00000000 Referee_System_Func
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:295    .text.Referee_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:301    .text.Referee_Get_Data:00000000 Referee_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:368    .text.Referee_Get_Data:0000004a $d
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:377    .text.Referee_Get_Data:0000005c $t
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:822    .text.Referee_Get_Data:000002ac $d
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:828    .text.Referee_Get_Data:000002b8 $t
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:914    .text.Referee_Get_Data:0000030c $d
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:921    .text.Referee_UART_Receive_DMA_No_Interrupt:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:927    .text.Referee_UART_Receive_DMA_No_Interrupt:00000000 Referee_UART_Receive_DMA_No_Interrupt
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1011   .text.Referee_UART_Receive_Interrupt:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1017   .text.Referee_UART_Receive_Interrupt:00000000 Referee_UART_Receive_Interrupt
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1076   .data.Referee_System_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1086   .bss.Referee_Robot_State:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccPBXVn7.s:1093   .bss.Referee_System:00000000 $d
+
+UNDEFINED SYMBOLS
+Shooting
+Chassis
+CRC_Verif_Func
+HAL_DMA_Start

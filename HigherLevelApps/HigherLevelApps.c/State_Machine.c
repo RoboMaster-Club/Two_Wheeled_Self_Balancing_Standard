@@ -9,7 +9,6 @@
  * 
  */
 #include "State_Machine.h"
-
 State_Machine_t State_Machine;
 
 void Remote_Control_Update(void);

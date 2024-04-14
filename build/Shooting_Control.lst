@@ -1,0 +1,1307 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Shooting_Control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "HigherLevelApps/HigherLevelApps.c/Shooting_Control.c"
+  20              		.section	.text.Shooting_Init,"ax",%progbits
+  21              		.align	1
+  22              		.global	Shooting_Init
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Shooting_Init:
+  28              	.LFB162:
+   1:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** /**
+   2:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * @file Shooting_Control.c
+   3:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * @author Leo Liu
+   4:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * @brief control shooting
+   5:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * @version 1.0
+   6:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * @date 2022-07-16
+   7:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * 
+   8:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * @copyright Copyright (c) 2022
+   9:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  * 
+  10:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c ****  */
+  11:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** #include "Shooting_Control.h"
+  12:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+  13:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** Shooting_t Shooting;
+  14:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** Ramp_Calc_t Fric_Wheel_Ramp;
+  15:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+  16:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Shooting_Init(void);
+  17:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Turn_Friction_Wheel_On(void);
+  18:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Turn_Friction_Wheel_Off(void);
+  19:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Trigger_Get_Data(Shooting_t *Shooting);
+  20:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Shooting_Processing(Shooting_t *Shooting);
+  21:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Shooting_Disabled(void);
+  22:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+  23:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** Shooting_Func_t Shooting_Func = Shooting_Func_GroundInit;
+  24:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** #undef Shooting_Func_GroundInit
+  25:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+  26:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Shooting_Init(void)
+  27:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** {
+  29              		.loc 1 27 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 2
+
+
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+  28:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Shooting.Fric_Wheel.Turned_On = 0;
+  38              		.loc 1 28 2 view .LVU1
+  39              		.loc 1 28 32 is_stmt 0 view .LVU2
+  40 0002 044B     		ldr	r3, .L3
+  41 0004 0022     		movs	r2, #0
+  42 0006 9A73     		strb	r2, [r3, #14]
+  29:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Ramp_Calc_Func.Clear_Ramp(&Fric_Wheel_Ramp);
+  43              		.loc 1 29 2 is_stmt 1 view .LVU3
+  44              		.loc 1 29 16 is_stmt 0 view .LVU4
+  45 0008 034B     		ldr	r3, .L3+4
+  46 000a 9B68     		ldr	r3, [r3, #8]
+  47              		.loc 1 29 2 view .LVU5
+  48 000c 0348     		ldr	r0, .L3+8
+  49 000e 9847     		blx	r3
+  50              	.LVL0:
+  30:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+  51              		.loc 1 30 1 view .LVU6
+  52 0010 08BD     		pop	{r3, pc}
+  53              	.L4:
+  54 0012 00BF     		.align	2
+  55              	.L3:
+  56 0014 00000000 		.word	Shooting
+  57 0018 00000000 		.word	Ramp_Calc_Func
+  58 001c 00000000 		.word	Fric_Wheel_Ramp
+  59              		.cfi_endproc
+  60              	.LFE162:
+  62              		.section	.text.Trigger_Get_Data,"ax",%progbits
+  63              		.align	1
+  64              		.global	Trigger_Get_Data
+  65              		.syntax unified
+  66              		.thumb
+  67              		.thumb_func
+  69              	Trigger_Get_Data:
+  70              	.LVL1:
+  71              	.LFB163:
+  31:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+  32:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Trigger_Get_Data(Shooting_t *Shooting)
+  33:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** {
+  72              		.loc 1 33 1 is_stmt 1 view -0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              		@ link register save eliminated.
+  34:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	if(State_Machine.Control_Source == Remote_Control)
+  77              		.loc 1 34 2 view .LVU8
+  78              		.loc 1 34 18 is_stmt 0 view .LVU9
+  79 0000 1B4B     		ldr	r3, .L13
+  80 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  81              		.loc 1 34 4 view .LVU10
+  82 0004 012B     		cmp	r3, #1
+  83 0006 10D0     		beq	.L12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 3
+
+
+  35:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	{
+  36:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		//Dial wheel up for single fire
+  37:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		if(DR16_Export_Data.Remote_Control.Dial_Wheel < -50)
+  38:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+  39:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Single_Fire_Flag = 1;
+  40:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 0;
+  41:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+  42:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		
+  43:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		//Dial wheel down for burst
+  44:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		else if(DR16_Export_Data.Remote_Control.Dial_Wheel > 50)
+  45:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+  46:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Single_Fire_Flag = 0;
+  47:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 1;
+  48:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+  49:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		
+  50:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		//Return to middle for reset
+  51:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		else
+  52:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+  53:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Single_Fire_Flag = 0;
+  54:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 0;
+  55:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Single_Fired_Flag = 0;
+  56:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+  57:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	}
+  58:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+  59:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	//Left click for single fire, holding it for burst
+  60:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	else if(State_Machine.Control_Source == Computer)
+  84              		.loc 1 60 7 is_stmt 1 view .LVU11
+  85              		.loc 1 60 9 is_stmt 0 view .LVU12
+  86 0008 83BB     		cbnz	r3, .L5
+  61:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	{
+  62:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		if(DR16_Export_Data.Mouse.Left_Click == 1)
+  87              		.loc 1 62 3 is_stmt 1 view .LVU13
+  88              		.loc 1 62 28 is_stmt 0 view .LVU14
+  89 000a 1A4B     		ldr	r3, .L13+4
+  90 000c 9B7E     		ldrb	r3, [r3, #26]	@ zero_extendqisi2
+  91              		.loc 1 62 5 view .LVU15
+  92 000e 43B3     		cbz	r3, .L10
+  63:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+  64:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			DR16_Export_Data.Mouse.Click_Counter++;
+  93              		.loc 1 64 4 is_stmt 1 view .LVU16
+  94              		.loc 1 64 26 is_stmt 0 view .LVU17
+  95 0010 184A     		ldr	r2, .L13+4
+  96 0012 B2F91C30 		ldrsh	r3, [r2, #28]
+  97              		.loc 1 64 40 view .LVU18
+  98 0016 0133     		adds	r3, r3, #1
+  99 0018 1BB2     		sxth	r3, r3
+ 100 001a 9383     		strh	r3, [r2, #28]	@ movhi
+  65:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			
+  66:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			if(DR16_Export_Data.Mouse.Click_Counter < 10)
+ 101              		.loc 1 66 4 is_stmt 1 view .LVU19
+ 102              		.loc 1 66 6 is_stmt 0 view .LVU20
+ 103 001c 092B     		cmp	r3, #9
+ 104 001e 1BDC     		bgt	.L11
+  67:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+  68:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				Shooting->Type.Single_Fire_Flag = 1;
+ 105              		.loc 1 68 5 is_stmt 1 view .LVU21
+ 106              		.loc 1 68 37 is_stmt 0 view .LVU22
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 4
+
+
+ 107 0020 0123     		movs	r3, #1
+ 108 0022 0370     		strb	r3, [r0]
+  69:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				Shooting->Type.Burst_Flag = 0;
+ 109              		.loc 1 69 5 is_stmt 1 view .LVU23
+ 110              		.loc 1 69 31 is_stmt 0 view .LVU24
+ 111 0024 0023     		movs	r3, #0
+ 112 0026 8370     		strb	r3, [r0, #2]
+ 113 0028 7047     		bx	lr
+ 114              	.L12:
+  37:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 115              		.loc 1 37 3 is_stmt 1 view .LVU25
+  37:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 116              		.loc 1 37 37 is_stmt 0 view .LVU26
+ 117 002a 124B     		ldr	r3, .L13+4
+ 118 002c B3F92A30 		ldrsh	r3, [r3, #42]
+  37:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 119              		.loc 1 37 5 view .LVU27
+ 120 0030 13F1320F 		cmn	r3, #50
+ 121 0034 04DA     		bge	.L7
+  39:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 0;
+ 122              		.loc 1 39 4 is_stmt 1 view .LVU28
+  39:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 0;
+ 123              		.loc 1 39 36 is_stmt 0 view .LVU29
+ 124 0036 0123     		movs	r3, #1
+ 125 0038 0370     		strb	r3, [r0]
+  40:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+ 126              		.loc 1 40 4 is_stmt 1 view .LVU30
+  40:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+ 127              		.loc 1 40 30 is_stmt 0 view .LVU31
+ 128 003a 0023     		movs	r3, #0
+ 129 003c 8370     		strb	r3, [r0, #2]
+ 130 003e 7047     		bx	lr
+ 131              	.L7:
+  44:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 132              		.loc 1 44 8 is_stmt 1 view .LVU32
+  44:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 133              		.loc 1 44 10 is_stmt 0 view .LVU33
+ 134 0040 322B     		cmp	r3, #50
+ 135 0042 04DD     		ble	.L9
+  46:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 1;
+ 136              		.loc 1 46 4 is_stmt 1 view .LVU34
+  46:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 1;
+ 137              		.loc 1 46 36 is_stmt 0 view .LVU35
+ 138 0044 0023     		movs	r3, #0
+ 139 0046 0370     		strb	r3, [r0]
+  47:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+ 140              		.loc 1 47 4 is_stmt 1 view .LVU36
+  47:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+ 141              		.loc 1 47 30 is_stmt 0 view .LVU37
+ 142 0048 0123     		movs	r3, #1
+ 143 004a 8370     		strb	r3, [r0, #2]
+ 144 004c 7047     		bx	lr
+ 145              	.L9:
+  53:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 0;
+ 146              		.loc 1 53 4 is_stmt 1 view .LVU38
+  53:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 0;
+ 147              		.loc 1 53 36 is_stmt 0 view .LVU39
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 5
+
+
+ 148 004e 0023     		movs	r3, #0
+ 149 0050 0370     		strb	r3, [r0]
+  54:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Single_Fired_Flag = 0;
+ 150              		.loc 1 54 4 is_stmt 1 view .LVU40
+  54:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Single_Fired_Flag = 0;
+ 151              		.loc 1 54 30 is_stmt 0 view .LVU41
+ 152 0052 8370     		strb	r3, [r0, #2]
+  55:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+ 153              		.loc 1 55 4 is_stmt 1 view .LVU42
+  55:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+ 154              		.loc 1 55 37 is_stmt 0 view .LVU43
+ 155 0054 4370     		strb	r3, [r0, #1]
+ 156 0056 7047     		bx	lr
+ 157              	.L11:
+  70:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+  71:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			
+  72:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			else if(DR16_Export_Data.Mouse.Click_Counter >= 10)
+ 158              		.loc 1 72 9 is_stmt 1 view .LVU44
+  73:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+  74:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				Shooting->Type.Single_Fire_Flag = 0;
+ 159              		.loc 1 74 5 view .LVU45
+ 160              		.loc 1 74 37 is_stmt 0 view .LVU46
+ 161 0058 0023     		movs	r3, #0
+ 162 005a 0370     		strb	r3, [r0]
+  75:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				Shooting->Type.Burst_Flag = 1;
+ 163              		.loc 1 75 5 is_stmt 1 view .LVU47
+ 164              		.loc 1 75 31 is_stmt 0 view .LVU48
+ 165 005c 0123     		movs	r3, #1
+ 166 005e 8370     		strb	r3, [r0, #2]
+ 167 0060 7047     		bx	lr
+ 168              	.L10:
+  76:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+  77:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+  78:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		
+  79:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		else
+  80:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+  81:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			DR16_Export_Data.Mouse.Click_Counter = 0;
+ 169              		.loc 1 81 4 is_stmt 1 view .LVU49
+ 170              		.loc 1 81 41 is_stmt 0 view .LVU50
+ 171 0062 0023     		movs	r3, #0
+ 172 0064 034A     		ldr	r2, .L13+4
+ 173 0066 9383     		strh	r3, [r2, #28]	@ movhi
+  82:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Single_Fire_Flag = 0;
+ 174              		.loc 1 82 4 is_stmt 1 view .LVU51
+ 175              		.loc 1 82 36 is_stmt 0 view .LVU52
+ 176 0068 0370     		strb	r3, [r0]
+  83:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			Shooting->Type.Burst_Flag = 0;
+ 177              		.loc 1 83 4 is_stmt 1 view .LVU53
+ 178              		.loc 1 83 30 is_stmt 0 view .LVU54
+ 179 006a 8370     		strb	r3, [r0, #2]
+ 180              	.L5:
+  84:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+  85:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	}
+  86:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 181              		.loc 1 86 1 view .LVU55
+ 182 006c 7047     		bx	lr
+ 183              	.L14:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 6
+
+
+ 184 006e 00BF     		.align	2
+ 185              	.L13:
+ 186 0070 00000000 		.word	State_Machine
+ 187 0074 00000000 		.word	DR16_Export_Data
+ 188              		.cfi_endproc
+ 189              	.LFE163:
+ 191              		.section	.text.Shooting_Disabled,"ax",%progbits
+ 192              		.align	1
+ 193              		.global	Shooting_Disabled
+ 194              		.syntax unified
+ 195              		.thumb
+ 196              		.thumb_func
+ 198              	Shooting_Disabled:
+ 199              	.LFB167:
+  87:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+  88:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Shooting_Processing(Shooting_t *Shooting)
+  89:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** {
+  90:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	if(Shooting->Fric_Wheel.Turned_On)
+  91:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Turn_Friction_Wheel_On();
+  92:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	else
+  93:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Turn_Friction_Wheel_Off();
+  94:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+  95:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	//Friction wheel has to reach maximum speed before it's allowed to fire
+  96:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	if(Shooting->Fric_Wheel_Ready_Flag)
+  97:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	{
+  98:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		if(abs(Referee_Robot_State.Heat_Max - Referee_Robot_State.Shooter_Heat) > 40)
+  99:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 100:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			if(State_Machine.Control_Source == Remote_Control)
+ 101:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+ 102:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				//First calculate target angle for single fire
+ 103:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				if(Shooting->Type.Single_Fire_Flag && (Shooting->Type.Single_Fired_Flag == 0))
+ 104:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 105:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle + TRIGGER_DIRECTION * M2006_ANGLE_1
+ 106:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 107:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 108:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				
+ 109:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				//Then fire this
+ 110:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				else if(Shooting->Type.Single_Fire_Flag && Shooting->Type.Single_Fired_Flag)
+ 111:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 112:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger
+ 113:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 114:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 115:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				
+ 116:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				else if(Shooting->Type.Burst_Flag)
+ 117:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 118:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = 0;
+ 119:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determin
+ 120:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 121:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 122:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			
+ 123:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				else
+ 124:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = 0;
+ 125:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+ 126:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			
+ 127:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			else if(State_Machine.Control_Source == Computer)
+ 128:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+ 129:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				//First calculate target angle for single fire
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 7
+
+
+ 130:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				if(Shooting->Type.Single_Fire_Flag && (Shooting->Type.Single_Fired_Flag == 0))
+ 131:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 132:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle + TRIGGER_DIRECTION * M2006_ANGLE_1
+ 133:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 134:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 135:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				
+ 136:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				//Then fire this
+ 137:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				else if(Shooting->Type.Single_Fired_Flag && !Shooting->Type.Burst_Flag)
+ 138:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 139:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger
+ 140:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 141:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					if(fabs(Shooting->Trigger.Target_Angle - M2006_Trigger.Total_Angle) < 100)
+ 142:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 						Shooting->Type.Single_Fired_Flag = 0;
+ 143:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 144:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				
+ 145:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				else if(Shooting->Type.Burst_Flag)
+ 146:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 147:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = 0;
+ 148:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determin
+ 149:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 150:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
+ 151:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 152:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				else
+ 153:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = 0;
+ 154:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+ 155:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		}
+ 156:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		else
+ 157:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			M2006_Trigger.Output_Current = 0;
+ 158:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	}
+ 159:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 160:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+ 161:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Turn_Friction_Wheel_On(void)
+ 162:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** {
+ 163:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	//Slowly ramp up the target speed to protect the motor and allows reaction time for accidental tri
+ 164:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[0].Target_Speed = FRIC_LEFT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp, 
+ 165:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp,
+ 166:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 167:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[0].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[0].
+ 168:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 169:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 170:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	if(Fric_Wheel_Ramp.Ramp_Finished_Flag)	
+ 171:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Shooting.Fric_Wheel_Ready_Flag = 1;
+ 172:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 173:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+ 174:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Turn_Friction_Wheel_Off(void)
+ 175:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** {
+ 176:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Shooting.Fric_Wheel_Ready_Flag = 0;
+ 177:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 178:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[0].Target_Speed = FRIC_LEFT_DIRECTION * Ramp_Calc_Func.Ramp_Down(&Fric_Wheel_Ramp
+ 179:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Down(&Fric_Wheel_Ram
+ 180:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 181:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[0].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[0].
+ 182:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 183:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 184:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+ 185:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** void Shooting_Disabled(void)
+ 186:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** {
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 8
+
+
+ 200              		.loc 1 186 1 is_stmt 1 view -0
+ 201              		.cfi_startproc
+ 202              		@ args = 0, pretend = 0, frame = 0
+ 203              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204 0000 38B5     		push	{r3, r4, r5, lr}
+ 205              	.LCFI1:
+ 206              		.cfi_def_cfa_offset 16
+ 207              		.cfi_offset 3, -16
+ 208              		.cfi_offset 4, -12
+ 209              		.cfi_offset 5, -8
+ 210              		.cfi_offset 14, -4
+ 187:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Shooting.Fric_Wheel.Turned_On = 0;
+ 211              		.loc 1 187 2 view .LVU57
+ 212              		.loc 1 187 32 is_stmt 0 view .LVU58
+ 213 0002 064D     		ldr	r5, .L17
+ 214 0004 0024     		movs	r4, #0
+ 215 0006 AC73     		strb	r4, [r5, #14]
+ 188:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Ramp_Calc_Func.Clear_Ramp(&Fric_Wheel_Ramp);
+ 216              		.loc 1 188 2 is_stmt 1 view .LVU59
+ 217              		.loc 1 188 16 is_stmt 0 view .LVU60
+ 218 0008 054B     		ldr	r3, .L17+4
+ 219 000a 9B68     		ldr	r3, [r3, #8]
+ 220              		.loc 1 188 2 view .LVU61
+ 221 000c 0548     		ldr	r0, .L17+8
+ 222 000e 9847     		blx	r3
+ 223              	.LVL2:
+ 189:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	DR16_Export_Data.Mouse.Click_Counter = 0;
+ 224              		.loc 1 189 2 is_stmt 1 view .LVU62
+ 225              		.loc 1 189 39 is_stmt 0 view .LVU63
+ 226 0010 054B     		ldr	r3, .L17+12
+ 227 0012 9C83     		strh	r4, [r3, #28]	@ movhi
+ 190:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Shooting.Type.Single_Fire_Flag = 0;
+ 228              		.loc 1 190 2 is_stmt 1 view .LVU64
+ 229              		.loc 1 190 33 is_stmt 0 view .LVU65
+ 230 0014 2C70     		strb	r4, [r5]
+ 191:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Shooting.Type.Burst_Flag = 0;
+ 231              		.loc 1 191 2 is_stmt 1 view .LVU66
+ 232              		.loc 1 191 27 is_stmt 0 view .LVU67
+ 233 0016 AC70     		strb	r4, [r5, #2]
+ 192:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 234              		.loc 1 192 1 view .LVU68
+ 235 0018 38BD     		pop	{r3, r4, r5, pc}
+ 236              	.L18:
+ 237 001a 00BF     		.align	2
+ 238              	.L17:
+ 239 001c 00000000 		.word	Shooting
+ 240 0020 00000000 		.word	Ramp_Calc_Func
+ 241 0024 00000000 		.word	Fric_Wheel_Ramp
+ 242 0028 00000000 		.word	DR16_Export_Data
+ 243              		.cfi_endproc
+ 244              	.LFE167:
+ 246              		.section	.text.Turn_Friction_Wheel_On,"ax",%progbits
+ 247              		.align	1
+ 248              		.global	Turn_Friction_Wheel_On
+ 249              		.syntax unified
+ 250              		.thumb
+ 251              		.thumb_func
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 9
+
+
+ 253              	Turn_Friction_Wheel_On:
+ 254              	.LFB165:
+ 162:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	//Slowly ramp up the target speed to protect the motor and allows reaction time for accidental tri
+ 255              		.loc 1 162 1 is_stmt 1 view -0
+ 256              		.cfi_startproc
+ 257              		@ args = 0, pretend = 0, frame = 0
+ 258              		@ frame_needed = 0, uses_anonymous_args = 0
+ 259 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 260              	.LCFI2:
+ 261              		.cfi_def_cfa_offset 24
+ 262              		.cfi_offset 3, -24
+ 263              		.cfi_offset 4, -20
+ 264              		.cfi_offset 5, -16
+ 265              		.cfi_offset 6, -12
+ 266              		.cfi_offset 7, -8
+ 267              		.cfi_offset 14, -4
+ 164:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp,
+ 268              		.loc 1 164 2 view .LVU70
+ 164:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp,
+ 269              		.loc 1 164 73 is_stmt 0 view .LVU71
+ 270 0002 214F     		ldr	r7, .L22
+ 271 0004 3B68     		ldr	r3, [r7]
+ 164:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp,
+ 272              		.loc 1 164 119 view .LVU72
+ 273 0006 214E     		ldr	r6, .L22+4
+ 274 0008 B289     		ldrh	r2, [r6, #12]
+ 275 000a 00EE102A 		vmov	s0, r2	@ int
+ 164:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp,
+ 276              		.loc 1 164 59 view .LVU73
+ 277 000e 204D     		ldr	r5, .L22+8
+ 278 0010 B8EE400A 		vcvt.f32.u32	s0, s0
+ 279 0014 2846     		mov	r0, r5
+ 280 0016 9847     		blx	r3
+ 281              	.LVL3:
+ 164:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp,
+ 282              		.loc 1 164 57 view .LVU74
+ 283 0018 B1EE400A 		vneg.f32	s0, s0
+ 164:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Up(&Fric_Wheel_Ramp,
+ 284              		.loc 1 164 35 view .LVU75
+ 285 001c 1D4C     		ldr	r4, .L22+12
+ 286 001e 84ED040A 		vstr.32	s0, [r4, #16]
+ 165:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 287              		.loc 1 165 2 is_stmt 1 view .LVU76
+ 165:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 288              		.loc 1 165 74 is_stmt 0 view .LVU77
+ 289 0022 3B68     		ldr	r3, [r7]
+ 165:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 290              		.loc 1 165 120 view .LVU78
+ 291 0024 B289     		ldrh	r2, [r6, #12]
+ 292 0026 00EE102A 		vmov	s0, r2	@ int
+ 165:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 293              		.loc 1 165 58 view .LVU79
+ 294 002a B8EE400A 		vcvt.f32.u32	s0, s0
+ 295 002e 2846     		mov	r0, r5
+ 296 0030 9847     		blx	r3
+ 297              	.LVL4:
+ 165:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 10
+
+
+ 298              		.loc 1 165 35 view .LVU80
+ 299 0032 84ED0C0A 		vstr.32	s0, [r4, #48]
+ 167:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 300              		.loc 1 167 2 is_stmt 1 view .LVU81
+ 167:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 301              		.loc 1 167 47 is_stmt 0 view .LVU82
+ 302 0036 184F     		ldr	r7, .L22+16
+ 303 0038 3B68     		ldr	r3, [r7]
+ 167:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 304              		.loc 1 167 133 view .LVU83
+ 305 003a B4F90420 		ldrsh	r2, [r4, #4]
+ 306 003e 00EE902A 		vmov	s1, r2	@ int
+ 167:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 307              		.loc 1 167 39 view .LVU84
+ 308 0042 164E     		ldr	r6, .L22+20
+ 309 0044 F8EEE00A 		vcvt.f32.s32	s1, s1
+ 310 0048 94ED040A 		vldr.32	s0, [r4, #16]
+ 311 004c 3046     		mov	r0, r6
+ 312 004e 9847     		blx	r3
+ 313              	.LVL5:
+ 167:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 314              		.loc 1 167 37 view .LVU85
+ 315 0050 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 316 0054 10EE103A 		vmov	r3, s0	@ int
+ 317 0058 6383     		strh	r3, [r4, #26]	@ movhi
+ 168:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 318              		.loc 1 168 2 is_stmt 1 view .LVU86
+ 168:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 319              		.loc 1 168 47 is_stmt 0 view .LVU87
+ 320 005a 3B68     		ldr	r3, [r7]
+ 168:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 321              		.loc 1 168 133 view .LVU88
+ 322 005c B4F92420 		ldrsh	r2, [r4, #36]
+ 323 0060 00EE902A 		vmov	s1, r2	@ int
+ 168:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 324              		.loc 1 168 39 view .LVU89
+ 325 0064 F8EEE00A 		vcvt.f32.s32	s1, s1
+ 326 0068 94ED0C0A 		vldr.32	s0, [r4, #48]
+ 327 006c 3046     		mov	r0, r6
+ 328 006e 9847     		blx	r3
+ 329              	.LVL6:
+ 168:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 330              		.loc 1 168 37 view .LVU90
+ 331 0070 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 332 0074 10EE103A 		vmov	r3, s0	@ int
+ 333 0078 6387     		strh	r3, [r4, #58]	@ movhi
+ 170:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Shooting.Fric_Wheel_Ready_Flag = 1;
+ 334              		.loc 1 170 2 is_stmt 1 view .LVU91
+ 170:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Shooting.Fric_Wheel_Ready_Flag = 1;
+ 335              		.loc 1 170 20 is_stmt 0 view .LVU92
+ 336 007a 2B79     		ldrb	r3, [r5, #4]	@ zero_extendqisi2
+ 170:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Shooting.Fric_Wheel_Ready_Flag = 1;
+ 337              		.loc 1 170 4 view .LVU93
+ 338 007c 13B1     		cbz	r3, .L19
+ 171:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 339              		.loc 1 171 3 is_stmt 1 view .LVU94
+ 171:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 11
+
+
+ 340              		.loc 1 171 34 is_stmt 0 view .LVU95
+ 341 007e 034B     		ldr	r3, .L22+4
+ 342 0080 0122     		movs	r2, #1
+ 343 0082 1A74     		strb	r2, [r3, #16]
+ 344              	.L19:
+ 172:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+ 345              		.loc 1 172 1 view .LVU96
+ 346 0084 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 347              	.L23:
+ 348 0086 00BF     		.align	2
+ 349              	.L22:
+ 350 0088 00000000 		.word	Ramp_Calc_Func
+ 351 008c 00000000 		.word	Shooting
+ 352 0090 00000000 		.word	Fric_Wheel_Ramp
+ 353 0094 00000000 		.word	M3508_Fric_Wheel
+ 354 0098 00000000 		.word	PID_Func
+ 355 009c 00000000 		.word	Fric_Wheel_PID
+ 356              		.cfi_endproc
+ 357              	.LFE165:
+ 359              		.section	.text.Turn_Friction_Wheel_Off,"ax",%progbits
+ 360              		.align	1
+ 361              		.global	Turn_Friction_Wheel_Off
+ 362              		.syntax unified
+ 363              		.thumb
+ 364              		.thumb_func
+ 366              	Turn_Friction_Wheel_Off:
+ 367              	.LFB166:
+ 175:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	Shooting.Fric_Wheel_Ready_Flag = 0;
+ 368              		.loc 1 175 1 is_stmt 1 view -0
+ 369              		.cfi_startproc
+ 370              		@ args = 0, pretend = 0, frame = 0
+ 371              		@ frame_needed = 0, uses_anonymous_args = 0
+ 372 0000 70B5     		push	{r4, r5, r6, lr}
+ 373              	.LCFI3:
+ 374              		.cfi_def_cfa_offset 16
+ 375              		.cfi_offset 4, -16
+ 376              		.cfi_offset 5, -12
+ 377              		.cfi_offset 6, -8
+ 378              		.cfi_offset 14, -4
+ 379 0002 2DED028B 		vpush.64	{d8}
+ 380              	.LCFI4:
+ 381              		.cfi_def_cfa_offset 24
+ 382              		.cfi_offset 80, -24
+ 383              		.cfi_offset 81, -20
+ 176:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 384              		.loc 1 176 2 view .LVU98
+ 176:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 385              		.loc 1 176 33 is_stmt 0 view .LVU99
+ 386 0006 1E4B     		ldr	r3, .L26
+ 387 0008 0022     		movs	r2, #0
+ 388 000a 1A74     		strb	r2, [r3, #16]
+ 178:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Down(&Fric_Wheel_Ram
+ 389              		.loc 1 178 2 is_stmt 1 view .LVU100
+ 178:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Down(&Fric_Wheel_Ram
+ 390              		.loc 1 178 73 is_stmt 0 view .LVU101
+ 391 000c 1D4E     		ldr	r6, .L26+4
+ 392 000e 7368     		ldr	r3, [r6, #4]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 12
+
+
+ 178:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Down(&Fric_Wheel_Ram
+ 393              		.loc 1 178 59 view .LVU102
+ 394 0010 9FED1D8A 		vldr.32	s16, .L26+8
+ 395 0014 1D4D     		ldr	r5, .L26+12
+ 396 0016 B0EE480A 		vmov.f32	s0, s16
+ 397 001a 2846     		mov	r0, r5
+ 398 001c 9847     		blx	r3
+ 399              	.LVL7:
+ 178:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Down(&Fric_Wheel_Ram
+ 400              		.loc 1 178 57 view .LVU103
+ 401 001e B1EE400A 		vneg.f32	s0, s0
+ 178:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Target_Speed = FRIC_RIGHT_DIRECTION * Ramp_Calc_Func.Ramp_Down(&Fric_Wheel_Ram
+ 402              		.loc 1 178 35 view .LVU104
+ 403 0022 1B4C     		ldr	r4, .L26+16
+ 404 0024 84ED040A 		vstr.32	s0, [r4, #16]
+ 179:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 405              		.loc 1 179 2 is_stmt 1 view .LVU105
+ 179:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 406              		.loc 1 179 74 is_stmt 0 view .LVU106
+ 407 0028 7368     		ldr	r3, [r6, #4]
+ 179:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 408              		.loc 1 179 58 view .LVU107
+ 409 002a B0EE480A 		vmov.f32	s0, s16
+ 410 002e 2846     		mov	r0, r5
+ 411 0030 9847     		blx	r3
+ 412              	.LVL8:
+ 179:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 413              		.loc 1 179 35 view .LVU108
+ 414 0032 84ED0C0A 		vstr.32	s0, [r4, #48]
+ 181:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 415              		.loc 1 181 2 is_stmt 1 view .LVU109
+ 181:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 416              		.loc 1 181 47 is_stmt 0 view .LVU110
+ 417 0036 174E     		ldr	r6, .L26+20
+ 418 0038 3368     		ldr	r3, [r6]
+ 181:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 419              		.loc 1 181 133 view .LVU111
+ 420 003a B4F90420 		ldrsh	r2, [r4, #4]
+ 421 003e 00EE902A 		vmov	s1, r2	@ int
+ 181:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 422              		.loc 1 181 39 view .LVU112
+ 423 0042 154D     		ldr	r5, .L26+24
+ 424 0044 F8EEE00A 		vcvt.f32.s32	s1, s1
+ 425 0048 94ED040A 		vldr.32	s0, [r4, #16]
+ 426 004c 2846     		mov	r0, r5
+ 427 004e 9847     		blx	r3
+ 428              	.LVL9:
+ 181:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].
+ 429              		.loc 1 181 37 view .LVU113
+ 430 0050 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 431 0054 10EE103A 		vmov	r3, s0	@ int
+ 432 0058 6383     		strh	r3, [r4, #26]	@ movhi
+ 182:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 433              		.loc 1 182 2 is_stmt 1 view .LVU114
+ 182:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 434              		.loc 1 182 47 is_stmt 0 view .LVU115
+ 435 005a 3368     		ldr	r3, [r6]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 13
+
+
+ 182:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 436              		.loc 1 182 133 view .LVU116
+ 437 005c B4F92420 		ldrsh	r2, [r4, #36]
+ 438 0060 00EE902A 		vmov	s1, r2	@ int
+ 182:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 439              		.loc 1 182 39 view .LVU117
+ 440 0064 F8EEE00A 		vcvt.f32.s32	s1, s1
+ 441 0068 94ED0C0A 		vldr.32	s0, [r4, #48]
+ 442 006c 2846     		mov	r0, r5
+ 443 006e 9847     		blx	r3
+ 444              	.LVL10:
+ 182:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** }
+ 445              		.loc 1 182 37 view .LVU118
+ 446 0070 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 447 0074 10EE103A 		vmov	r3, s0	@ int
+ 448 0078 6387     		strh	r3, [r4, #58]	@ movhi
+ 183:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+ 449              		.loc 1 183 1 view .LVU119
+ 450 007a BDEC028B 		vldm	sp!, {d8}
+ 451              	.LCFI5:
+ 452              		.cfi_restore 80
+ 453              		.cfi_restore 81
+ 454              		.cfi_def_cfa_offset 16
+ 455 007e 70BD     		pop	{r4, r5, r6, pc}
+ 456              	.L27:
+ 457              		.align	2
+ 458              	.L26:
+ 459 0080 00000000 		.word	Shooting
+ 460 0084 00000000 		.word	Ramp_Calc_Func
+ 461 0088 00000000 		.word	0
+ 462 008c 00000000 		.word	Fric_Wheel_Ramp
+ 463 0090 00000000 		.word	M3508_Fric_Wheel
+ 464 0094 00000000 		.word	PID_Func
+ 465 0098 00000000 		.word	Fric_Wheel_PID
+ 466              		.cfi_endproc
+ 467              	.LFE166:
+ 469              		.section	.text.Shooting_Processing,"ax",%progbits
+ 470              		.align	1
+ 471              		.global	Shooting_Processing
+ 472              		.syntax unified
+ 473              		.thumb
+ 474              		.thumb_func
+ 476              	Shooting_Processing:
+ 477              	.LVL11:
+ 478              	.LFB164:
+  89:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	if(Shooting->Fric_Wheel.Turned_On)
+ 479              		.loc 1 89 1 is_stmt 1 view -0
+ 480              		.cfi_startproc
+ 481              		@ args = 0, pretend = 0, frame = 0
+ 482              		@ frame_needed = 0, uses_anonymous_args = 0
+  89:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	if(Shooting->Fric_Wheel.Turned_On)
+ 483              		.loc 1 89 1 is_stmt 0 view .LVU121
+ 484 0000 70B5     		push	{r4, r5, r6, lr}
+ 485              	.LCFI6:
+ 486              		.cfi_def_cfa_offset 16
+ 487              		.cfi_offset 4, -16
+ 488              		.cfi_offset 5, -12
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 14
+
+
+ 489              		.cfi_offset 6, -8
+ 490              		.cfi_offset 14, -4
+ 491 0002 0446     		mov	r4, r0
+  90:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Turn_Friction_Wheel_On();
+ 492              		.loc 1 90 2 is_stmt 1 view .LVU122
+  90:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Turn_Friction_Wheel_On();
+ 493              		.loc 1 90 25 is_stmt 0 view .LVU123
+ 494 0004 837B     		ldrb	r3, [r0, #14]	@ zero_extendqisi2
+  90:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		Turn_Friction_Wheel_On();
+ 495              		.loc 1 90 4 view .LVU124
+ 496 0006 4BB3     		cbz	r3, .L29
+  91:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	else
+ 497              		.loc 1 91 3 is_stmt 1 view .LVU125
+ 498 0008 FFF7FEFF 		bl	Turn_Friction_Wheel_On
+ 499              	.LVL12:
+ 500              	.L30:
+  96:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	{
+ 501              		.loc 1 96 2 view .LVU126
+  96:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	{
+ 502              		.loc 1 96 13 is_stmt 0 view .LVU127
+ 503 000c 237C     		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+  96:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	{
+ 504              		.loc 1 96 4 view .LVU128
+ 505 000e 002B     		cmp	r3, #0
+ 506 0010 00F0CD80 		beq	.L28
+  98:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 507              		.loc 1 98 3 is_stmt 1 view .LVU129
+  98:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 508              		.loc 1 98 29 is_stmt 0 view .LVU130
+ 509 0014 664A     		ldr	r2, .L44
+ 510 0016 D388     		ldrh	r3, [r2, #6]
+  98:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 511              		.loc 1 98 60 view .LVU131
+ 512 0018 928A     		ldrh	r2, [r2, #20]
+  98:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 513              		.loc 1 98 39 view .LVU132
+ 514 001a 9B1A     		subs	r3, r3, r2
+  98:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 515              		.loc 1 98 6 view .LVU133
+ 516 001c 002B     		cmp	r3, #0
+ 517 001e B8BF     		it	lt
+ 518 0020 5B42     		rsblt	r3, r3, #0
+  98:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 		{
+ 519              		.loc 1 98 5 view .LVU134
+ 520 0022 282B     		cmp	r3, #40
+ 521 0024 40F3C080 		ble	.L32
+ 100:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+ 522              		.loc 1 100 4 is_stmt 1 view .LVU135
+ 100:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+ 523              		.loc 1 100 20 is_stmt 0 view .LVU136
+ 524 0028 624B     		ldr	r3, .L44+4
+ 525 002a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 100:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+ 526              		.loc 1 100 6 view .LVU137
+ 527 002c 012B     		cmp	r3, #1
+ 528 002e 18D0     		beq	.L43
+ 127:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 15
+
+
+ 529              		.loc 1 127 9 is_stmt 1 view .LVU138
+ 127:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			{
+ 530              		.loc 1 127 11 is_stmt 0 view .LVU139
+ 531 0030 002B     		cmp	r3, #0
+ 532 0032 40F0BC80 		bne	.L28
+ 130:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 533              		.loc 1 130 5 is_stmt 1 view .LVU140
+ 130:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 534              		.loc 1 130 22 is_stmt 0 view .LVU141
+ 535 0036 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 130:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 536              		.loc 1 130 7 view .LVU142
+ 537 0038 002B     		cmp	r3, #0
+ 538 003a 5FD0     		beq	.L37
+ 130:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 539              		.loc 1 130 58 discriminator 1 view .LVU143
+ 540 003c 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 130:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 541              		.loc 1 130 40 discriminator 1 view .LVU144
+ 542 003e 002B     		cmp	r3, #0
+ 543 0040 5CD1     		bne	.L37
+ 132:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 544              		.loc 1 132 6 is_stmt 1 view .LVU145
+ 132:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 545              		.loc 1 132 52 is_stmt 0 view .LVU146
+ 546 0042 5D4B     		ldr	r3, .L44+8
+ 547 0044 5B69     		ldr	r3, [r3, #20]
+ 132:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 548              		.loc 1 132 65 view .LVU147
+ 549 0046 03F54043 		add	r3, r3, #49152
+ 132:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 550              		.loc 1 132 37 view .LVU148
+ 551 004a 07EE903A 		vmov	s15, r3	@ int
+ 552 004e F8EEE77A 		vcvt.f32.s32	s15, s15
+ 553 0052 C4ED017A 		vstr.32	s15, [r4, #4]
+ 133:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 554              		.loc 1 133 6 is_stmt 1 view .LVU149
+ 133:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 555              		.loc 1 133 39 is_stmt 0 view .LVU150
+ 556 0056 0123     		movs	r3, #1
+ 557 0058 6370     		strb	r3, [r4, #1]
+ 558 005a A8E0     		b	.L28
+ 559              	.LVL13:
+ 560              	.L29:
+  93:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 561              		.loc 1 93 3 is_stmt 1 view .LVU151
+ 562 005c FFF7FEFF 		bl	Turn_Friction_Wheel_Off
+ 563              	.LVL14:
+  93:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	
+ 564              		.loc 1 93 3 is_stmt 0 view .LVU152
+ 565 0060 D4E7     		b	.L30
+ 566              	.L43:
+ 103:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 567              		.loc 1 103 5 is_stmt 1 view .LVU153
+ 103:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 568              		.loc 1 103 22 is_stmt 0 view .LVU154
+ 569 0062 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 16
+
+
+ 103:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 570              		.loc 1 103 7 view .LVU155
+ 571 0064 73B1     		cbz	r3, .L34
+ 103:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 572              		.loc 1 103 58 discriminator 1 view .LVU156
+ 573 0066 6278     		ldrb	r2, [r4, #1]	@ zero_extendqisi2
+ 103:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 574              		.loc 1 103 40 discriminator 1 view .LVU157
+ 575 0068 62B9     		cbnz	r2, .L34
+ 105:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 576              		.loc 1 105 6 is_stmt 1 view .LVU158
+ 105:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 577              		.loc 1 105 52 is_stmt 0 view .LVU159
+ 578 006a 534B     		ldr	r3, .L44+8
+ 579 006c 5B69     		ldr	r3, [r3, #20]
+ 105:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 580              		.loc 1 105 65 view .LVU160
+ 581 006e 03F54043 		add	r3, r3, #49152
+ 105:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Type.Single_Fired_Flag = 1;
+ 582              		.loc 1 105 37 view .LVU161
+ 583 0072 07EE903A 		vmov	s15, r3	@ int
+ 584 0076 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 585 007a C4ED017A 		vstr.32	s15, [r4, #4]
+ 106:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 586              		.loc 1 106 6 is_stmt 1 view .LVU162
+ 106:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 587              		.loc 1 106 39 is_stmt 0 view .LVU163
+ 588 007e 0123     		movs	r3, #1
+ 589 0080 6370     		strb	r3, [r4, #1]
+ 590 0082 94E0     		b	.L28
+ 591              	.L34:
+ 110:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 592              		.loc 1 110 10 is_stmt 1 view .LVU164
+ 110:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 593              		.loc 1 110 12 is_stmt 0 view .LVU165
+ 594 0084 EBB1     		cbz	r3, .L35
+ 110:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 595              		.loc 1 110 62 discriminator 1 view .LVU166
+ 596 0086 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 110:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 597              		.loc 1 110 45 discriminator 1 view .LVU167
+ 598 0088 DBB1     		cbz	r3, .L35
+ 112:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 599              		.loc 1 112 6 is_stmt 1 view .LVU168
+ 112:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 600              		.loc 1 112 47 is_stmt 0 view .LVU169
+ 601 008a 4C4E     		ldr	r6, .L44+12
+ 602 008c 3368     		ldr	r3, [r6]
+ 112:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 603              		.loc 1 112 128 view .LVU170
+ 604 008e 4A4D     		ldr	r5, .L44+8
+ 112:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 605              		.loc 1 112 39 view .LVU171
+ 606 0090 D5ED057A 		vldr.32	s15, [r5, #20]	@ int
+ 607 0094 F8EEE70A 		vcvt.f32.s32	s1, s15
+ 608 0098 94ED010A 		vldr.32	s0, [r4, #4]
+ 609 009c 4848     		ldr	r0, .L44+16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 17
+
+
+ 610 009e 9847     		blx	r3
+ 611              	.LVL15:
+ 112:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 612              		.loc 1 112 37 view .LVU172
+ 613 00a0 84ED020A 		vstr.32	s0, [r4, #8]
+ 113:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 614              		.loc 1 113 6 is_stmt 1 view .LVU173
+ 113:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 615              		.loc 1 113 45 is_stmt 0 view .LVU174
+ 616 00a4 3368     		ldr	r3, [r6]
+ 113:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 617              		.loc 1 113 126 view .LVU175
+ 618 00a6 B5F90420 		ldrsh	r2, [r5, #4]
+ 619 00aa 00EE902A 		vmov	s1, r2	@ int
+ 113:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 620              		.loc 1 113 37 view .LVU176
+ 621 00ae F8EEE00A 		vcvt.f32.s32	s1, s1
+ 622 00b2 4448     		ldr	r0, .L44+20
+ 623 00b4 9847     		blx	r3
+ 624              	.LVL16:
+ 113:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 625              		.loc 1 113 35 view .LVU177
+ 626 00b6 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 627 00ba 10EE103A 		vmov	r3, s0	@ int
+ 628 00be 6B83     		strh	r3, [r5, #26]	@ movhi
+ 629 00c0 75E0     		b	.L28
+ 630              	.L35:
+ 116:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 631              		.loc 1 116 10 is_stmt 1 view .LVU178
+ 116:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 632              		.loc 1 116 27 is_stmt 0 view .LVU179
+ 633 00c2 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 116:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 634              		.loc 1 116 12 view .LVU180
+ 635 00c4 B3B1     		cbz	r3, .L36
+ 118:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determin
+ 636              		.loc 1 118 6 is_stmt 1 view .LVU181
+ 118:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determin
+ 637              		.loc 1 118 35 is_stmt 0 view .LVU182
+ 638 00c6 3C4D     		ldr	r5, .L44+8
+ 639 00c8 0023     		movs	r3, #0
+ 640 00ca 6B83     		strh	r3, [r5, #26]	@ movhi
+ 119:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 641              		.loc 1 119 6 is_stmt 1 view .LVU183
+ 119:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 642              		.loc 1 119 37 is_stmt 0 view .LVU184
+ 643 00cc 9FED3E0A 		vldr.32	s0, .L44+24
+ 644 00d0 84ED020A 		vstr.32	s0, [r4, #8]
+ 120:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 645              		.loc 1 120 6 is_stmt 1 view .LVU185
+ 120:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 646              		.loc 1 120 45 is_stmt 0 view .LVU186
+ 647 00d4 394B     		ldr	r3, .L44+12
+ 648 00d6 1B68     		ldr	r3, [r3]
+ 120:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 649              		.loc 1 120 126 view .LVU187
+ 650 00d8 B5F90420 		ldrsh	r2, [r5, #4]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 18
+
+
+ 651 00dc 00EE902A 		vmov	s1, r2	@ int
+ 120:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 652              		.loc 1 120 37 view .LVU188
+ 653 00e0 F8EEE00A 		vcvt.f32.s32	s1, s1
+ 654 00e4 3748     		ldr	r0, .L44+20
+ 655 00e6 9847     		blx	r3
+ 656              	.LVL17:
+ 120:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 657              		.loc 1 120 35 view .LVU189
+ 658 00e8 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 659 00ec 10EE103A 		vmov	r3, s0	@ int
+ 660 00f0 6B83     		strh	r3, [r5, #26]	@ movhi
+ 661 00f2 5CE0     		b	.L28
+ 662              	.L36:
+ 124:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+ 663              		.loc 1 124 6 is_stmt 1 view .LVU190
+ 124:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+ 664              		.loc 1 124 35 is_stmt 0 view .LVU191
+ 665 00f4 304B     		ldr	r3, .L44+8
+ 666 00f6 0022     		movs	r2, #0
+ 667 00f8 5A83     		strh	r2, [r3, #26]	@ movhi
+ 668 00fa 58E0     		b	.L28
+ 669              	.L37:
+ 137:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 670              		.loc 1 137 10 is_stmt 1 view .LVU192
+ 137:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 671              		.loc 1 137 27 is_stmt 0 view .LVU193
+ 672 00fc 6378     		ldrb	r3, [r4, #1]	@ zero_extendqisi2
+ 137:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 673              		.loc 1 137 12 view .LVU194
+ 674 00fe 83B3     		cbz	r3, .L38
+ 137:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 675              		.loc 1 137 64 discriminator 1 view .LVU195
+ 676 0100 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 137:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 677              		.loc 1 137 46 discriminator 1 view .LVU196
+ 678 0102 73BB     		cbnz	r3, .L38
+ 139:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 679              		.loc 1 139 6 is_stmt 1 view .LVU197
+ 139:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 680              		.loc 1 139 47 is_stmt 0 view .LVU198
+ 681 0104 2D4E     		ldr	r6, .L44+12
+ 682 0106 3368     		ldr	r3, [r6]
+ 139:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 683              		.loc 1 139 128 view .LVU199
+ 684 0108 2B4D     		ldr	r5, .L44+8
+ 139:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 685              		.loc 1 139 39 view .LVU200
+ 686 010a D5ED057A 		vldr.32	s15, [r5, #20]	@ int
+ 687 010e F8EEE70A 		vcvt.f32.s32	s1, s15
+ 688 0112 94ED010A 		vldr.32	s0, [r4, #4]
+ 689 0116 2A48     		ldr	r0, .L44+16
+ 690 0118 9847     		blx	r3
+ 691              	.LVL18:
+ 139:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 692              		.loc 1 139 37 view .LVU201
+ 693 011a 84ED020A 		vstr.32	s0, [r4, #8]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 19
+
+
+ 140:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					if(fabs(Shooting->Trigger.Target_Angle - M2006_Trigger.Total_Angle) < 100)
+ 694              		.loc 1 140 6 is_stmt 1 view .LVU202
+ 140:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					if(fabs(Shooting->Trigger.Target_Angle - M2006_Trigger.Total_Angle) < 100)
+ 695              		.loc 1 140 45 is_stmt 0 view .LVU203
+ 696 011e 3368     		ldr	r3, [r6]
+ 140:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					if(fabs(Shooting->Trigger.Target_Angle - M2006_Trigger.Total_Angle) < 100)
+ 697              		.loc 1 140 126 view .LVU204
+ 698 0120 B5F90420 		ldrsh	r2, [r5, #4]
+ 699 0124 00EE902A 		vmov	s1, r2	@ int
+ 140:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					if(fabs(Shooting->Trigger.Target_Angle - M2006_Trigger.Total_Angle) < 100)
+ 700              		.loc 1 140 37 view .LVU205
+ 701 0128 F8EEE00A 		vcvt.f32.s32	s1, s1
+ 702 012c 2548     		ldr	r0, .L44+20
+ 703 012e 9847     		blx	r3
+ 704              	.LVL19:
+ 140:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					if(fabs(Shooting->Trigger.Target_Angle - M2006_Trigger.Total_Angle) < 100)
+ 705              		.loc 1 140 35 view .LVU206
+ 706 0130 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 707 0134 10EE103A 		vmov	r3, s0	@ int
+ 708 0138 6B83     		strh	r3, [r5, #26]	@ movhi
+ 141:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 						Shooting->Type.Single_Fired_Flag = 0;
+ 709              		.loc 1 141 6 is_stmt 1 view .LVU207
+ 141:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 						Shooting->Type.Single_Fired_Flag = 0;
+ 710              		.loc 1 141 31 is_stmt 0 view .LVU208
+ 711 013a D4ED017A 		vldr.32	s15, [r4, #4]
+ 141:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 						Shooting->Type.Single_Fired_Flag = 0;
+ 712              		.loc 1 141 60 view .LVU209
+ 713 013e 95ED057A 		vldr.32	s14, [r5, #20]	@ int
+ 141:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 						Shooting->Type.Single_Fired_Flag = 0;
+ 714              		.loc 1 141 45 view .LVU210
+ 715 0142 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 716 0146 77EEC77A 		vsub.f32	s15, s15, s14
+ 141:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 						Shooting->Type.Single_Fired_Flag = 0;
+ 717              		.loc 1 141 9 view .LVU211
+ 718 014a F0EEE77A 		vabs.f32	s15, s15
+ 141:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 						Shooting->Type.Single_Fired_Flag = 0;
+ 719              		.loc 1 141 8 view .LVU212
+ 720 014e 9FED1F7A 		vldr.32	s14, .L44+28
+ 721 0152 F4EEC77A 		vcmpe.f32	s15, s14
+ 722 0156 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 723 015a 28D5     		bpl	.L28
+ 142:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 724              		.loc 1 142 7 is_stmt 1 view .LVU213
+ 142:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 725              		.loc 1 142 40 is_stmt 0 view .LVU214
+ 726 015c 0023     		movs	r3, #0
+ 727 015e 6370     		strb	r3, [r4, #1]
+ 728 0160 25E0     		b	.L28
+ 729              	.L38:
+ 145:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 730              		.loc 1 145 10 is_stmt 1 view .LVU215
+ 145:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 731              		.loc 1 145 27 is_stmt 0 view .LVU216
+ 732 0162 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 145:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				{
+ 733              		.loc 1 145 12 view .LVU217
+ 734 0164 E3B1     		cbz	r3, .L40
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 20
+
+
+ 147:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determin
+ 735              		.loc 1 147 6 is_stmt 1 view .LVU218
+ 147:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determin
+ 736              		.loc 1 147 35 is_stmt 0 view .LVU219
+ 737 0166 144D     		ldr	r5, .L44+8
+ 738 0168 0023     		movs	r3, #0
+ 739 016a 6B83     		strh	r3, [r5, #26]	@ movhi
+ 148:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 740              		.loc 1 148 6 is_stmt 1 view .LVU220
+ 148:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.T
+ 741              		.loc 1 148 37 is_stmt 0 view .LVU221
+ 742 016c 9FED160A 		vldr.32	s0, .L44+24
+ 743 0170 84ED020A 		vstr.32	s0, [r4, #8]
+ 149:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
+ 744              		.loc 1 149 6 is_stmt 1 view .LVU222
+ 149:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
+ 745              		.loc 1 149 45 is_stmt 0 view .LVU223
+ 746 0174 114B     		ldr	r3, .L44+12
+ 747 0176 1B68     		ldr	r3, [r3]
+ 149:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
+ 748              		.loc 1 149 126 view .LVU224
+ 749 0178 B5F90420 		ldrsh	r2, [r5, #4]
+ 750 017c 00EE902A 		vmov	s1, r2	@ int
+ 149:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
+ 751              		.loc 1 149 37 view .LVU225
+ 752 0180 F8EEE00A 		vcvt.f32.s32	s1, s1
+ 753 0184 0F48     		ldr	r0, .L44+20
+ 754 0186 9847     		blx	r3
+ 755              	.LVL20:
+ 149:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
+ 756              		.loc 1 149 35 view .LVU226
+ 757 0188 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 758 018c 10EE103A 		vmov	r3, s0	@ int
+ 759 0190 6B83     		strh	r3, [r5, #26]	@ movhi
+ 150:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 760              		.loc 1 150 6 is_stmt 1 view .LVU227
+ 150:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 761              		.loc 1 150 52 is_stmt 0 view .LVU228
+ 762 0192 D5ED057A 		vldr.32	s15, [r5, #20]	@ int
+ 150:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 				}
+ 763              		.loc 1 150 37 view .LVU229
+ 764 0196 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 765 019a C4ED017A 		vstr.32	s15, [r4, #4]
+ 766 019e 06E0     		b	.L28
+ 767              	.L40:
+ 153:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+ 768              		.loc 1 153 6 is_stmt 1 view .LVU230
+ 153:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 			}
+ 769              		.loc 1 153 35 is_stmt 0 view .LVU231
+ 770 01a0 054B     		ldr	r3, .L44+8
+ 771 01a2 0022     		movs	r2, #0
+ 772 01a4 5A83     		strh	r2, [r3, #26]	@ movhi
+ 773 01a6 02E0     		b	.L28
+ 774              	.L32:
+ 157:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	}
+ 775              		.loc 1 157 4 is_stmt 1 view .LVU232
+ 157:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 	}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 21
+
+
+ 776              		.loc 1 157 33 is_stmt 0 view .LVU233
+ 777 01a8 034B     		ldr	r3, .L44+8
+ 778 01aa 0022     		movs	r2, #0
+ 779 01ac 5A83     		strh	r2, [r3, #26]	@ movhi
+ 780              	.L28:
+ 159:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+ 781              		.loc 1 159 1 view .LVU234
+ 782 01ae 70BD     		pop	{r4, r5, r6, pc}
+ 783              	.LVL21:
+ 784              	.L45:
+ 159:HigherLevelApps/HigherLevelApps.c/Shooting_Control.c **** 
+ 785              		.loc 1 159 1 view .LVU235
+ 786              		.align	2
+ 787              	.L44:
+ 788 01b0 00000000 		.word	Referee_Robot_State
+ 789 01b4 00000000 		.word	State_Machine
+ 790 01b8 00000000 		.word	M2006_Trigger
+ 791 01bc 00000000 		.word	PID_Func
+ 792 01c0 00000000 		.word	Trigger_Angle_PID
+ 793 01c4 00000000 		.word	Trigger_Speed_PID
+ 794 01c8 00409C45 		.word	1167867904
+ 795 01cc 0000C842 		.word	1120403456
+ 796              		.cfi_endproc
+ 797              	.LFE164:
+ 799              		.global	Shooting_Func
+ 800              		.section	.data.Shooting_Func,"aw"
+ 801              		.align	2
+ 804              	Shooting_Func:
+ 805 0000 00000000 		.word	Shooting_Init
+ 806 0004 00000000 		.word	Trigger_Get_Data
+ 807 0008 00000000 		.word	Shooting_Processing
+ 808 000c 00000000 		.word	Shooting_Disabled
+ 809              		.global	Fric_Wheel_Ramp
+ 810              		.section	.bss.Fric_Wheel_Ramp,"aw",%nobits
+ 811              		.align	2
+ 814              	Fric_Wheel_Ramp:
+ 815 0000 00000000 		.space	8
+ 815      00000000 
+ 816              		.global	Shooting
+ 817              		.section	.bss.Shooting,"aw",%nobits
+ 818              		.align	2
+ 821              	Shooting:
+ 822 0000 00000000 		.space	20
+ 822      00000000 
+ 822      00000000 
+ 822      00000000 
+ 822      00000000 
+ 823              		.text
+ 824              	.Letext0:
+ 825              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 826              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 827              		.file 4 "Devices/Devices.h/Motor_Init.h"
+ 828              		.file 5 "Devices/Devices.h/M3508_Motor.h"
+ 829              		.file 6 "Devices/Devices.h/M2006_Motor.h"
+ 830              		.file 7 "Devices/Devices.h/DR16_Remote.h"
+ 831              		.file 8 "Algorithms/Algorithms.h/PID.h"
+ 832              		.file 9 "Devices/Devices.h/Referee_System.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 22
+
+
+ 833              		.file 10 "HigherLevelApps/HigherLevelApps.h/State_Machine.h"
+ 834              		.file 11 "Algorithms/Algorithms.h/Ramp_Calc.h"
+ 835              		.file 12 "HigherLevelApps/HigherLevelApps.h/Shooting_Control.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Shooting_Control.c
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:21     .text.Shooting_Init:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:27     .text.Shooting_Init:00000000 Shooting_Init
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:56     .text.Shooting_Init:00000014 $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:821    .bss.Shooting:00000000 Shooting
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:814    .bss.Fric_Wheel_Ramp:00000000 Fric_Wheel_Ramp
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:63     .text.Trigger_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:69     .text.Trigger_Get_Data:00000000 Trigger_Get_Data
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:186    .text.Trigger_Get_Data:00000070 $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:192    .text.Shooting_Disabled:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:198    .text.Shooting_Disabled:00000000 Shooting_Disabled
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:239    .text.Shooting_Disabled:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:247    .text.Turn_Friction_Wheel_On:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:253    .text.Turn_Friction_Wheel_On:00000000 Turn_Friction_Wheel_On
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:350    .text.Turn_Friction_Wheel_On:00000088 $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:360    .text.Turn_Friction_Wheel_Off:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:366    .text.Turn_Friction_Wheel_Off:00000000 Turn_Friction_Wheel_Off
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:459    .text.Turn_Friction_Wheel_Off:00000080 $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:470    .text.Shooting_Processing:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:476    .text.Shooting_Processing:00000000 Shooting_Processing
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:788    .text.Shooting_Processing:000001b0 $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:804    .data.Shooting_Func:00000000 Shooting_Func
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:801    .data.Shooting_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:811    .bss.Fric_Wheel_Ramp:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc8u8K7M.s:818    .bss.Shooting:00000000 $d
+
+UNDEFINED SYMBOLS
+Ramp_Calc_Func
+State_Machine
+DR16_Export_Data
+M3508_Fric_Wheel
+PID_Func
+Fric_Wheel_PID
+Referee_Robot_State
+M2006_Trigger
+Trigger_Angle_PID
+Trigger_Speed_PID

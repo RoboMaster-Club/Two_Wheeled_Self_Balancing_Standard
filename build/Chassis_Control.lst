@@ -1,0 +1,2300 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Chassis_Control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "HigherLevelApps/HigherLevelApps.c/Chassis_Control.c"
+  20              		.section	.text.Chassis_Get_Data,"ax",%progbits
+  21              		.align	1
+  22              		.global	Chassis_Get_Data
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Chassis_Get_Data:
+  28              	.LVL0:
+  29              	.LFB162:
+   1:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  /**
+   2:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * @file Chassis_Control.c
+   3:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * @author Leo Liu
+   4:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * @brief control chassis
+   5:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * @version 1.0
+   6:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * @date 2022-07-09
+   7:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * 
+   8:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * @copyright Copyright (c) 2022
+   9:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  * 
+  10:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****  */
+  11:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** #include "Chassis_Control.h"
+  12:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** Chassis_t Chassis;
+  13:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 
+  14:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** void Chassis_Get_Data(Chassis_t *Chassis);
+  15:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** void Chassis_State_Update(Chassis_t *Chassis);
+  16:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** void Chassis_Processing(Chassis_t *Chassis);
+  17:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 
+  18:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** Chassis_Func_t Chassis_Func = Chassis_Func_GroundInit;
+  19:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** #undef Chassis_Func_GroundInit
+  20:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 
+  21:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** void Chassis_Get_Data(Chassis_t *Chassis)
+  22:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** {
+  30              		.loc 1 22 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  23:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	if(State_Machine.Control_Source == Remote_Control)
+  35              		.loc 1 23 2 view .LVU1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 2
+
+
+  36              		.loc 1 23 18 is_stmt 0 view .LVU2
+  37 0000 514B     		ldr	r3, .L5
+  38 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  39              		.loc 1 23 4 view .LVU3
+  40 0004 012B     		cmp	r3, #1
+  41 0006 1CD0     		beq	.L4
+  24:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	{
+  25:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vx = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 330.0f;
+  26:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vy = DR16_Export_Data.Remote_Control.Joystick_Left_Vy / 330.0f;
+  27:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Wz = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 5.0f;
+  28:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	}
+  29:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	else if(State_Machine.Control_Source == Computer)
+  42              		.loc 1 29 7 is_stmt 1 view .LVU4
+  43              		.loc 1 29 9 is_stmt 0 view .LVU5
+  44 0008 C3BB     		cbnz	r3, .L3
+  30:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	{
+  31:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vx = 2*(DR16_Export_Data.Keyboard.Press_D.Hold_Flag - DR16_Export_Data.Keyb
+  45              		.loc 1 31 3 is_stmt 1 view .LVU6
+  46              		.loc 1 31 66 is_stmt 0 view .LVU7
+  47 000a 504A     		ldr	r2, .L5+4
+  48 000c 92F83D30 		ldrb	r3, [r2, #61]	@ zero_extendqisi2
+  49              		.loc 1 31 112 view .LVU8
+  50 0010 92F83810 		ldrb	r1, [r2, #56]	@ zero_extendqisi2
+  51              		.loc 1 31 77 view .LVU9
+  52 0014 5B1A     		subs	r3, r3, r1
+  53              		.loc 1 31 31 view .LVU10
+  54 0016 5B00     		lsls	r3, r3, #1
+  55              		.loc 1 31 28 view .LVU11
+  56 0018 07EE903A 		vmov	s15, r3	@ int
+  57 001c F8EEE77A 		vcvt.f32.s32	s15, s15
+  58 0020 C0ED157A 		vstr.32	s15, [r0, #84]
+  32:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vy = 2*(DR16_Export_Data.Keyboard.Press_W.Hold_Flag - DR16_Export_Data.Keyb
+  59              		.loc 1 32 3 is_stmt 1 view .LVU12
+  60              		.loc 1 32 66 is_stmt 0 view .LVU13
+  61 0024 92F82E30 		ldrb	r3, [r2, #46]	@ zero_extendqisi2
+  62              		.loc 1 32 112 view .LVU14
+  63 0028 92F83320 		ldrb	r2, [r2, #51]	@ zero_extendqisi2
+  64              		.loc 1 32 77 view .LVU15
+  65 002c 9B1A     		subs	r3, r3, r2
+  66              		.loc 1 32 31 view .LVU16
+  67 002e 5B00     		lsls	r3, r3, #1
+  68              		.loc 1 32 28 view .LVU17
+  69 0030 07EE903A 		vmov	s15, r3	@ int
+  70 0034 F8EEE77A 		vcvt.f32.s32	s15, s15
+  71 0038 C0ED167A 		vstr.32	s15, [r0, #88]
+  33:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Wz = 0;
+  72              		.loc 1 33 3 is_stmt 1 view .LVU18
+  73              		.loc 1 33 28 is_stmt 0 view .LVU19
+  74 003c 0023     		movs	r3, #0
+  75 003e C365     		str	r3, [r0, #92]	@ float
+  76 0040 1CE0     		b	.L3
+  77              	.L4:
+  25:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vy = DR16_Export_Data.Remote_Control.Joystick_Left_Vy / 330.0f;
+  78              		.loc 1 25 3 is_stmt 1 view .LVU20
+  25:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vy = DR16_Export_Data.Remote_Control.Joystick_Left_Vy / 330.0f;
+  79              		.loc 1 25 61 is_stmt 0 view .LVU21
+  80 0042 424B     		ldr	r3, .L5+4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 3
+
+
+  81 0044 B3F91E20 		ldrsh	r2, [r3, #30]
+  82 0048 07EE902A 		vmov	s15, r2	@ int
+  25:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vy = DR16_Export_Data.Remote_Control.Joystick_Left_Vy / 330.0f;
+  83              		.loc 1 25 79 view .LVU22
+  84 004c F8EEE77A 		vcvt.f32.s32	s15, s15
+  85 0050 DFED3F6A 		vldr.32	s13, .L5+8
+  86 0054 87EEA67A 		vdiv.f32	s14, s15, s13
+  25:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Vy = DR16_Export_Data.Remote_Control.Joystick_Left_Vy / 330.0f;
+  87              		.loc 1 25 28 view .LVU23
+  88 0058 80ED157A 		vstr.32	s14, [r0, #84]
+  26:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Wz = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 5.0f;
+  89              		.loc 1 26 3 is_stmt 1 view .LVU24
+  26:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Wz = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 5.0f;
+  90              		.loc 1 26 61 is_stmt 0 view .LVU25
+  91 005c B3F92030 		ldrsh	r3, [r3, #32]
+  92 0060 07EE103A 		vmov	s14, r3	@ int
+  26:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Wz = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 5.0f;
+  93              		.loc 1 26 79 view .LVU26
+  94 0064 B8EEC77A 		vcvt.f32.s32	s14, s14
+  95 0068 87EE266A 		vdiv.f32	s12, s14, s13
+  26:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		Chassis->Gimbal_Coord.Wz = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 5.0f;
+  96              		.loc 1 26 28 view .LVU27
+  97 006c 80ED166A 		vstr.32	s12, [r0, #88]
+  27:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	}
+  98              		.loc 1 27 3 is_stmt 1 view .LVU28
+  27:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	}
+  99              		.loc 1 27 79 is_stmt 0 view .LVU29
+ 100 0070 F1EE046A 		vmov.f32	s13, #5.0e+0
+ 101 0074 87EEA67A 		vdiv.f32	s14, s15, s13
+  27:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	}
+ 102              		.loc 1 27 28 view .LVU30
+ 103 0078 80ED177A 		vstr.32	s14, [r0, #92]
+ 104              	.L3:
+  34:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	}
+  35:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	
+  36:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Prev_Forward_Speed = Chassis->Chassis_Coord.Forward_Speed;
+ 105              		.loc 1 36 2 is_stmt 1 view .LVU31
+ 106              		.loc 1 36 68 is_stmt 0 view .LVU32
+ 107 007c 8369     		ldr	r3, [r0, #24]	@ float
+ 108              		.loc 1 36 44 view .LVU33
+ 109 007e C361     		str	r3, [r0, #28]	@ float
+  37:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Forward_Speed = (MF9025_Chassis[0].Actual_Speed - MF9025_Chassis[1].Actual_
+ 110              		.loc 1 37 2 is_stmt 1 view .LVU34
+ 111              		.loc 1 37 59 is_stmt 0 view .LVU35
+ 112 0080 344B     		ldr	r3, .L5+12
+ 113 0082 B3F90420 		ldrsh	r2, [r3, #4]
+ 114              		.loc 1 37 92 view .LVU36
+ 115 0086 B3F93C10 		ldrsh	r1, [r3, #60]
+ 116              		.loc 1 37 73 view .LVU37
+ 117 008a 521A     		subs	r2, r2, r1
+ 118 008c 07EE902A 		vmov	s15, r2	@ int
+ 119              		.loc 1 37 107 view .LVU38
+ 120 0090 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 121 0094 B6EE006A 		vmov.f32	s12, #5.0e-1
+ 122 0098 67EE867A 		vmul.f32	s15, s15, s12
+ 123              		.loc 1 37 115 view .LVU39
+ 124 009c DFED2E6A 		vldr.32	s13, .L5+16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 4
+
+
+ 125 00a0 87EEA67A 		vdiv.f32	s14, s15, s13
+ 126              		.loc 1 37 124 view .LVU40
+ 127 00a4 DFED2D6A 		vldr.32	s13, .L5+20
+ 128 00a8 67EE267A 		vmul.f32	s15, s14, s13
+ 129              		.loc 1 37 129 view .LVU41
+ 130 00ac 9FED2C7A 		vldr.32	s14, .L5+24
+ 131 00b0 67EE877A 		vmul.f32	s15, s15, s14
+ 132              		.loc 1 37 39 view .LVU42
+ 133 00b4 C0ED067A 		vstr.32	s15, [r0, #24]
+  38:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Forward_Distance = (MF9025_Chassis[0].Total_Turn - MF9025_Chassis[1].Total_
+ 134              		.loc 1 38 2 is_stmt 1 view .LVU43
+ 135              		.loc 1 38 62 is_stmt 0 view .LVU44
+ 136 00b8 D3ED087A 		vldr.32	s15, [r3, #32]
+ 137              		.loc 1 38 93 view .LVU45
+ 138 00bc D3ED165A 		vldr.32	s11, [r3, #88]
+ 139              		.loc 1 38 74 view .LVU46
+ 140 00c0 77EEE57A 		vsub.f32	s15, s15, s11
+ 141              		.loc 1 38 106 view .LVU47
+ 142 00c4 67EE867A 		vmul.f32	s15, s15, s12
+ 143              		.loc 1 38 113 view .LVU48
+ 144 00c8 67EEA67A 		vmul.f32	s15, s15, s13
+ 145              		.loc 1 38 118 view .LVU49
+ 146 00cc 67EE877A 		vmul.f32	s15, s15, s14
+ 147              		.loc 1 38 42 view .LVU50
+ 148 00d0 C0ED087A 		vstr.32	s15, [r0, #32]
+  39:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	
+  40:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Prev_Pitch_Angle = Chassis->Chassis_Coord.Pitch_Angle;
+ 149              		.loc 1 40 2 is_stmt 1 view .LVU51
+ 150              		.loc 1 40 66 is_stmt 0 view .LVU52
+ 151 00d4 826A     		ldr	r2, [r0, #40]	@ float
+ 152              		.loc 1 40 42 view .LVU53
+ 153 00d6 C262     		str	r2, [r0, #44]	@ float
+  41:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Pitch_Angle = Control_Board_A.Rec.Pitch;
+ 154              		.loc 1 41 2 is_stmt 1 view .LVU54
+ 155              		.loc 1 41 58 is_stmt 0 view .LVU55
+ 156 00d8 224A     		ldr	r2, .L5+28
+ 157 00da 5169     		ldr	r1, [r2, #20]	@ float
+ 158              		.loc 1 41 37 view .LVU56
+ 159 00dc 8162     		str	r1, [r0, #40]	@ float
+  42:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Prev_Pitch_Angular_Rate = Chassis->Chassis_Coord.Pitch_Angular_Rate;
+ 160              		.loc 1 42 2 is_stmt 1 view .LVU57
+ 161              		.loc 1 42 73 is_stmt 0 view .LVU58
+ 162 00de 016B     		ldr	r1, [r0, #48]	@ float
+ 163              		.loc 1 42 49 view .LVU59
+ 164 00e0 4163     		str	r1, [r0, #52]	@ float
+  43:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Pitch_Angular_Rate = Control_Board_A.Rec.Gyro_Pitch;// * 0.7f + Chassis->Ch
+ 165              		.loc 1 43 2 is_stmt 1 view .LVU60
+ 166              		.loc 1 43 65 is_stmt 0 view .LVU61
+ 167 00e2 D169     		ldr	r1, [r2, #28]	@ float
+ 168              		.loc 1 43 44 view .LVU62
+ 169 00e4 0163     		str	r1, [r0, #48]	@ float
+  44:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	
+  45:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Prev_Yaw_Angle = Chassis->Chassis_Coord.Yaw_Angle;
+ 170              		.loc 1 45 2 is_stmt 1 view .LVU63
+ 171              		.loc 1 45 64 is_stmt 0 view .LVU64
+ 172 00e6 816B     		ldr	r1, [r0, #56]	@ float
+ 173              		.loc 1 45 40 view .LVU65
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 5
+
+
+ 174 00e8 C163     		str	r1, [r0, #60]	@ float
+  46:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Yaw_Angle = Control_Board_A.Rec.Yaw;
+ 175              		.loc 1 46 2 is_stmt 1 view .LVU66
+ 176              		.loc 1 46 56 is_stmt 0 view .LVU67
+ 177 00ea D168     		ldr	r1, [r2, #12]	@ float
+ 178              		.loc 1 46 35 view .LVU68
+ 179 00ec 8163     		str	r1, [r0, #56]	@ float
+  47:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Prev_Yaw_Angular_Rate = Chassis->Chassis_Coord.Yaw_Angular_Rate;
+ 180              		.loc 1 47 2 is_stmt 1 view .LVU69
+ 181              		.loc 1 47 71 is_stmt 0 view .LVU70
+ 182 00ee 016C     		ldr	r1, [r0, #64]	@ float
+ 183              		.loc 1 47 47 view .LVU71
+ 184 00f0 4164     		str	r1, [r0, #68]	@ float
+  48:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Chassis_Coord.Yaw_Angular_Rate = Control_Board_A.Rec.Gyro_Yaw; //* 0.7f + Chassis->Chassi
+ 185              		.loc 1 48 2 is_stmt 1 view .LVU72
+ 186              		.loc 1 48 63 is_stmt 0 view .LVU73
+ 187 00f2 9269     		ldr	r2, [r2, #24]	@ float
+ 188              		.loc 1 48 42 view .LVU74
+ 189 00f4 0264     		str	r2, [r0, #64]	@ float
+  49:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	
+  50:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Slip_Detection.Friction_Force_Left = ((0.3058f*MF9025_Chassis[0].Calculated_Current+0.107
+ 190              		.loc 1 50 2 is_stmt 1 view .LVU75
+ 191              		.loc 1 50 75 is_stmt 0 view .LVU76
+ 192 00f6 D3ED037A 		vldr.32	s15, [r3, #12]
+ 193              		.loc 1 50 57 view .LVU77
+ 194 00fa 9FED1B5A 		vldr.32	s10, .L5+32
+ 195 00fe 67EE857A 		vmul.f32	s15, s15, s10
+ 196              		.loc 1 50 94 view .LVU78
+ 197 0102 DFED1A5A 		vldr.32	s11, .L5+36
+ 198 0106 77EEA57A 		vadd.f32	s15, s15, s11
+ 199              		.loc 1 50 129 view .LVU79
+ 200 010a 93ED047A 		vldr.32	s14, [r3, #16]
+ 201              		.loc 1 50 111 view .LVU80
+ 202 010e 9FED186A 		vldr.32	s12, .L5+40
+ 203 0112 27EE067A 		vmul.f32	s14, s14, s12
+ 204              		.loc 1 50 104 view .LVU81
+ 205 0116 77EEC77A 		vsub.f32	s15, s15, s14
+ 206              		.loc 1 50 151 view .LVU82
+ 207 011a DFED166A 		vldr.32	s13, .L5+44
+ 208 011e 87EEA67A 		vdiv.f32	s14, s15, s13
+ 209              		.loc 1 50 46 view .LVU83
+ 210 0122 80ED217A 		vstr.32	s14, [r0, #132]
+  51:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	Chassis->Slip_Detection.Friction_Force_Right = ((0.3058f*MF9025_Chassis[1].Calculated_Current+0.10
+ 211              		.loc 1 51 2 is_stmt 1 view .LVU84
+ 212              		.loc 1 51 76 is_stmt 0 view .LVU85
+ 213 0126 D3ED117A 		vldr.32	s15, [r3, #68]
+ 214              		.loc 1 51 58 view .LVU86
+ 215 012a 67EE857A 		vmul.f32	s15, s15, s10
+ 216              		.loc 1 51 95 view .LVU87
+ 217 012e 77EEA57A 		vadd.f32	s15, s15, s11
+ 218              		.loc 1 51 130 view .LVU88
+ 219 0132 93ED127A 		vldr.32	s14, [r3, #72]
+ 220              		.loc 1 51 112 view .LVU89
+ 221 0136 27EE067A 		vmul.f32	s14, s14, s12
+ 222              		.loc 1 51 105 view .LVU90
+ 223 013a 77EEC77A 		vsub.f32	s15, s15, s14
+ 224              		.loc 1 51 152 view .LVU91
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 6
+
+
+ 225 013e 87EEA67A 		vdiv.f32	s14, s15, s13
+ 226              		.loc 1 51 47 view .LVU92
+ 227 0142 80ED227A 		vstr.32	s14, [r0, #136]
+  52:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** }
+ 228              		.loc 1 52 1 view .LVU93
+ 229 0146 7047     		bx	lr
+ 230              	.L6:
+ 231              		.align	2
+ 232              	.L5:
+ 233 0148 00000000 		.word	State_Machine
+ 234 014c 00000000 		.word	DR16_Export_Data
+ 235 0150 0000A543 		.word	1134886912
+ 236 0154 00000000 		.word	MF9025_Chassis
+ 237 0158 0000B443 		.word	1135869952
+ 238 015c DB0F4940 		.word	1078530011
+ 239 0160 AE47613E 		.word	1046562734
+ 240 0164 00000000 		.word	Control_Board_A
+ 241 0168 D1919C3E 		.word	1050448337
+ 242 016c 3F57DB3D 		.word	1037784895
+ 243 0170 0AD7233C 		.word	1008981770
+ 244 0174 AE47E13D 		.word	1038174126
+ 245              		.cfi_endproc
+ 246              	.LFE162:
+ 248              		.section	.text.Chassis_State_Update,"ax",%progbits
+ 249              		.align	1
+ 250              		.global	Chassis_State_Update
+ 251              		.syntax unified
+ 252              		.thumb
+ 253              		.thumb_func
+ 255              	Chassis_State_Update:
+ 256              	.LVL1:
+ 257              	.LFB163:
+  53:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 
+  54:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** void Chassis_State_Update(Chassis_t *Chassis)
+  55:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** {
+ 258              		.loc 1 55 1 is_stmt 1 view -0
+ 259              		.cfi_startproc
+ 260              		@ args = 0, pretend = 0, frame = 0
+ 261              		@ frame_needed = 0, uses_anonymous_args = 0
+ 262              		.loc 1 55 1 is_stmt 0 view .LVU95
+ 263 0000 38B5     		push	{r3, r4, r5, lr}
+ 264              	.LCFI0:
+ 265              		.cfi_def_cfa_offset 16
+ 266              		.cfi_offset 3, -16
+ 267              		.cfi_offset 4, -12
+ 268              		.cfi_offset 5, -8
+ 269              		.cfi_offset 14, -4
+ 270 0002 0446     		mov	r4, r0
+  56:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	switch(Chassis->Current_State)
+ 271              		.loc 1 56 2 is_stmt 1 view .LVU96
+ 272              		.loc 1 56 16 is_stmt 0 view .LVU97
+ 273 0004 0368     		ldr	r3, [r0]
+ 274              		.loc 1 56 2 view .LVU98
+ 275 0006 012B     		cmp	r3, #1
+ 276 0008 6AD0     		beq	.L8
+ 277 000a 022B     		cmp	r3, #2
+ 278 000c 7CD0     		beq	.L9
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 7
+
+
+ 279 000e 03B1     		cbz	r3, .L37
+ 280              	.LVL2:
+ 281              	.L7:
+  57:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	{
+  58:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Balancing):
+  59:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+  60:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(fabs(Chassis->Chassis_Coord.Vy) > 0.5f)
+  61:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+  62:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Current_State = Moving;
+  63:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+  64:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+  65:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+  66:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+  67:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(fabs(Chassis->Chassis_Coord.Forward_Speed) > 0.5f) 
+  68:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+  69:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Current_State = Braking;
+  70:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+  71:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+  72:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+  73:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(Chassis->Gimbal_Coord.Vy == 0 && Chassis->Gimbal_Coord.Wz == 0 && fabs(Chassis->Chassis_
+  75:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if((abs(MF9025_Chassis[0].Actual_Speed) > 2000 || abs(MF9025_Chassis[1].Actual_Speed) > 2000) &
+  77:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+  78:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+  79:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if(Chassis->Off_Ground_Detection.Counter > 50)
+  80:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+  81:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+  82:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+  83:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c ****       break;
+  84:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+  85:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+  86:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Moving):
+  87:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+  88:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Chassis_Coord.Vy == 0)
+  89:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+  90:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Current_State = Braking;
+  91:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+  92:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+  93:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+  94:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+  95:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else
+  96:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+  97:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Prev_Vy = Chassis->Chassis_Coord.Vy;
+  98:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+  99:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 100:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+ 101:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+ 102:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Braking):
+ 103:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 104:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(fabs(Chassis->Chassis_Coord.Vy) > 0.5f)
+ 105:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 106:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Current_State = Moving;
+ 107:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 108:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 109:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 110:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 8
+
+
+ 111:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 112:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(fabs(Chassis->Chassis_Coord.Forward_Speed) < 0.2f)
+ 113:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 114:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Current_State = Balancing;
+ 115:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 116:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 117:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Prev_Vy = 0;
+ 118:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Forward_Distance = 0;
+ 119:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 120:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 121:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Gimbal_Coord.Vy == 0 && Chassis->Gimbal_Coord.Wz == 0 && fabs(Chassis->Chassis_Coord
+ 123:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if((abs(MF9025_Chassis[0].Actual_Speed) > 2000 || abs(MF9025_Chassis[1].Actual_Speed) > 2000) &
+ 125:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 126:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 127:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if(Chassis->Off_Ground_Detection.Counter > 50)
+ 128:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+ 129:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 130:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 131:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 132:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+ 133:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	}
+ 134:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** }
+ 282              		.loc 1 134 1 view .LVU99
+ 283 0010 38BD     		pop	{r3, r4, r5, pc}
+ 284              	.LVL3:
+ 285              	.L37:
+  60:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 286              		.loc 1 60 4 is_stmt 1 view .LVU100
+  60:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 287              		.loc 1 60 34 is_stmt 0 view .LVU101
+ 288 0012 D0ED047A 		vldr.32	s15, [r0, #16]
+  60:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 289              		.loc 1 60 7 view .LVU102
+ 290 0016 F0EEE77A 		vabs.f32	s15, s15
+  60:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 291              		.loc 1 60 6 view .LVU103
+ 292 001a B6EE007A 		vmov.f32	s14, #5.0e-1
+ 293 001e F4EEC77A 		vcmpe.f32	s15, s14
+ 294 0022 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 295 0026 09DD     		ble	.L32
+  62:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 296              		.loc 1 62 5 is_stmt 1 view .LVU104
+  62:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 297              		.loc 1 62 28 is_stmt 0 view .LVU105
+ 298 0028 0123     		movs	r3, #1
+ 299 002a 0360     		str	r3, [r0]
+  63:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 300              		.loc 1 63 5 is_stmt 1 view .LVU106
+  63:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 301              		.loc 1 63 13 is_stmt 0 view .LVU107
+ 302 002c 6D4C     		ldr	r4, .L38
+ 303 002e A368     		ldr	r3, [r4, #8]
+  63:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 304              		.loc 1 63 5 view .LVU108
+ 305 0030 6D48     		ldr	r0, .L38+4
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 9
+
+
+ 306              	.LVL4:
+  63:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 307              		.loc 1 63 5 view .LVU109
+ 308 0032 9847     		blx	r3
+ 309              	.LVL5:
+  64:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 310              		.loc 1 64 5 is_stmt 1 view .LVU110
+  64:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 311              		.loc 1 64 13 is_stmt 0 view .LVU111
+ 312 0034 A368     		ldr	r3, [r4, #8]
+  64:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 313              		.loc 1 64 5 view .LVU112
+ 314 0036 6D48     		ldr	r0, .L38+8
+ 315 0038 9847     		blx	r3
+ 316              	.LVL6:
+  65:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 317              		.loc 1 65 5 is_stmt 1 view .LVU113
+ 318 003a E9E7     		b	.L7
+ 319              	.LVL7:
+ 320              	.L32:
+  67:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 321              		.loc 1 67 9 view .LVU114
+  67:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 322              		.loc 1 67 39 is_stmt 0 view .LVU115
+ 323 003c D0ED067A 		vldr.32	s15, [r0, #24]
+  67:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 324              		.loc 1 67 12 view .LVU116
+ 325 0040 F0EEE77A 		vabs.f32	s15, s15
+  67:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 326              		.loc 1 67 11 view .LVU117
+ 327 0044 B6EE007A 		vmov.f32	s14, #5.0e-1
+ 328 0048 F4EEC77A 		vcmpe.f32	s15, s14
+ 329 004c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 330 0050 09DD     		ble	.L33
+  69:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 331              		.loc 1 69 5 is_stmt 1 view .LVU118
+  69:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 332              		.loc 1 69 28 is_stmt 0 view .LVU119
+ 333 0052 0223     		movs	r3, #2
+ 334 0054 0360     		str	r3, [r0]
+  70:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 335              		.loc 1 70 5 is_stmt 1 view .LVU120
+  70:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 336              		.loc 1 70 13 is_stmt 0 view .LVU121
+ 337 0056 634C     		ldr	r4, .L38
+ 338 0058 A368     		ldr	r3, [r4, #8]
+  70:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 339              		.loc 1 70 5 view .LVU122
+ 340 005a 6348     		ldr	r0, .L38+4
+ 341              	.LVL8:
+  70:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 342              		.loc 1 70 5 view .LVU123
+ 343 005c 9847     		blx	r3
+ 344              	.LVL9:
+  71:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 345              		.loc 1 71 5 is_stmt 1 view .LVU124
+  71:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 10
+
+
+ 346              		.loc 1 71 13 is_stmt 0 view .LVU125
+ 347 005e A368     		ldr	r3, [r4, #8]
+  71:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 348              		.loc 1 71 5 view .LVU126
+ 349 0060 6248     		ldr	r0, .L38+8
+ 350 0062 9847     		blx	r3
+ 351              	.LVL10:
+  72:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 352              		.loc 1 72 5 is_stmt 1 view .LVU127
+ 353 0064 D4E7     		b	.L7
+ 354              	.LVL11:
+ 355              	.L33:
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 356              		.loc 1 74 9 view .LVU128
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 357              		.loc 1 74 33 is_stmt 0 view .LVU129
+ 358 0066 D0ED167A 		vldr.32	s15, [r0, #88]
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 359              		.loc 1 74 11 view .LVU130
+ 360 006a F5EE407A 		vcmp.f32	s15, #0
+ 361 006e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 362 0072 CDD1     		bne	.L7
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 363              		.loc 1 74 66 discriminator 1 view .LVU131
+ 364 0074 D0ED177A 		vldr.32	s15, [r0, #92]
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 365              		.loc 1 74 42 discriminator 1 view .LVU132
+ 366 0078 F5EE407A 		vcmp.f32	s15, #0
+ 367 007c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 368 0080 C6D1     		bne	.L7
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 369              		.loc 1 74 118 discriminator 2 view .LVU133
+ 370 0082 D0ED0A7A 		vldr.32	s15, [r0, #40]
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 371              		.loc 1 74 78 discriminator 2 view .LVU134
+ 372 0086 F0EEE77A 		vabs.f32	s15, s15
+  74:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 373              		.loc 1 74 75 discriminator 2 view .LVU135
+ 374 008a B2EE047A 		vmov.f32	s14, #1.0e+1
+ 375 008e F4EEC77A 		vcmpe.f32	s15, s14
+ 376 0092 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 377 0096 BBD5     		bpl	.L7
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 378              		.loc 1 76 5 is_stmt 1 view .LVU136
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 379              		.loc 1 76 30 is_stmt 0 view .LVU137
+ 380 0098 554B     		ldr	r3, .L38+12
+ 381 009a B3F90430 		ldrsh	r3, [r3, #4]
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 382              		.loc 1 76 9 view .LVU138
+ 383 009e 002B     		cmp	r3, #0
+ 384 00a0 B8BF     		it	lt
+ 385 00a2 5B42     		rsblt	r3, r3, #0
+ 386 00a4 9BB2     		uxth	r3, r3
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 387              		.loc 1 76 7 view .LVU139
+ 388 00a6 B3F5FA6F 		cmp	r3, #2000
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 11
+
+
+ 389 00aa 09D8     		bhi	.L16
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 390              		.loc 1 76 76 discriminator 2 view .LVU140
+ 391 00ac 504B     		ldr	r3, .L38+12
+ 392 00ae B3F93C30 		ldrsh	r3, [r3, #60]
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 393              		.loc 1 76 55 discriminator 2 view .LVU141
+ 394 00b2 002B     		cmp	r3, #0
+ 395 00b4 B8BF     		it	lt
+ 396 00b6 5B42     		rsblt	r3, r3, #0
+ 397 00b8 9BB2     		uxth	r3, r3
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 398              		.loc 1 76 52 discriminator 2 view .LVU142
+ 399 00ba B3F5FA6F 		cmp	r3, #2000
+ 400 00be 07D9     		bls	.L17
+ 401              	.L16:
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 402              		.loc 1 76 131 discriminator 3 view .LVU143
+ 403 00c0 94F89A30 		ldrb	r3, [r4, #154]	@ zero_extendqisi2
+  76:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 404              		.loc 1 76 99 discriminator 3 view .LVU144
+ 405 00c4 23B9     		cbnz	r3, .L17
+  77:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 406              		.loc 1 77 6 is_stmt 1 view .LVU145
+  77:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 407              		.loc 1 77 35 is_stmt 0 view .LVU146
+ 408 00c6 B4F89830 		ldrh	r3, [r4, #152]
+  77:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 409              		.loc 1 77 43 view .LVU147
+ 410 00ca 0133     		adds	r3, r3, #1
+ 411 00cc A4F89830 		strh	r3, [r4, #152]	@ movhi
+ 412              	.L17:
+  79:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+ 413              		.loc 1 79 5 is_stmt 1 view .LVU148
+  79:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+ 414              		.loc 1 79 37 is_stmt 0 view .LVU149
+ 415 00d0 B4F89830 		ldrh	r3, [r4, #152]
+  79:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+ 416              		.loc 1 79 7 view .LVU150
+ 417 00d4 322B     		cmp	r3, #50
+ 418 00d6 9BD9     		bls	.L7
+  80:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 419              		.loc 1 80 6 is_stmt 1 view .LVU151
+  80:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 420              		.loc 1 80 52 is_stmt 0 view .LVU152
+ 421 00d8 0123     		movs	r3, #1
+ 422 00da 84F89A30 		strb	r3, [r4, #154]
+ 423 00de 97E7     		b	.L7
+ 424              	.L8:
+  88:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 425              		.loc 1 88 4 is_stmt 1 view .LVU153
+  88:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 426              		.loc 1 88 29 is_stmt 0 view .LVU154
+ 427 00e0 D0ED047A 		vldr.32	s15, [r0, #16]
+  88:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 428              		.loc 1 88 6 view .LVU155
+ 429 00e4 F5EE407A 		vcmp.f32	s15, #0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 12
+
+
+ 430 00e8 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 431 00ec 09D1     		bne	.L18
+  90:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 432              		.loc 1 90 5 is_stmt 1 view .LVU156
+  90:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 433              		.loc 1 90 28 is_stmt 0 view .LVU157
+ 434 00ee 0223     		movs	r3, #2
+ 435 00f0 0360     		str	r3, [r0]
+  91:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 436              		.loc 1 91 5 is_stmt 1 view .LVU158
+  91:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 437              		.loc 1 91 13 is_stmt 0 view .LVU159
+ 438 00f2 3C4C     		ldr	r4, .L38
+ 439 00f4 A368     		ldr	r3, [r4, #8]
+  91:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 440              		.loc 1 91 5 view .LVU160
+ 441 00f6 3C48     		ldr	r0, .L38+4
+ 442              	.LVL12:
+  91:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 443              		.loc 1 91 5 view .LVU161
+ 444 00f8 9847     		blx	r3
+ 445              	.LVL13:
+  92:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 446              		.loc 1 92 5 is_stmt 1 view .LVU162
+  92:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 447              		.loc 1 92 13 is_stmt 0 view .LVU163
+ 448 00fa A368     		ldr	r3, [r4, #8]
+  92:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 449              		.loc 1 92 5 view .LVU164
+ 450 00fc 3B48     		ldr	r0, .L38+8
+ 451 00fe 9847     		blx	r3
+ 452              	.LVL14:
+  93:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 453              		.loc 1 93 5 is_stmt 1 view .LVU165
+ 454 0100 86E7     		b	.L7
+ 455              	.LVL15:
+ 456              	.L18:
+  97:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 457              		.loc 1 97 5 view .LVU166
+  97:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 458              		.loc 1 97 36 is_stmt 0 view .LVU167
+ 459 0102 C0ED027A 		vstr.32	s15, [r0, #8]
+  98:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 460              		.loc 1 98 5 is_stmt 1 view .LVU168
+ 461 0106 83E7     		b	.L7
+ 462              	.L9:
+ 104:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 463              		.loc 1 104 4 view .LVU169
+ 104:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 464              		.loc 1 104 34 is_stmt 0 view .LVU170
+ 465 0108 D0ED047A 		vldr.32	s15, [r0, #16]
+ 104:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 466              		.loc 1 104 7 view .LVU171
+ 467 010c F0EEE77A 		vabs.f32	s15, s15
+ 104:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 468              		.loc 1 104 6 view .LVU172
+ 469 0110 B6EE007A 		vmov.f32	s14, #5.0e-1
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 13
+
+
+ 470 0114 F4EEC77A 		vcmpe.f32	s15, s14
+ 471 0118 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 472 011c 09DD     		ble	.L34
+ 106:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 473              		.loc 1 106 5 is_stmt 1 view .LVU173
+ 106:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 474              		.loc 1 106 28 is_stmt 0 view .LVU174
+ 475 011e 0123     		movs	r3, #1
+ 476 0120 0360     		str	r3, [r0]
+ 107:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 477              		.loc 1 107 5 is_stmt 1 view .LVU175
+ 107:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 478              		.loc 1 107 13 is_stmt 0 view .LVU176
+ 479 0122 304C     		ldr	r4, .L38
+ 480 0124 A368     		ldr	r3, [r4, #8]
+ 107:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 481              		.loc 1 107 5 view .LVU177
+ 482 0126 3048     		ldr	r0, .L38+4
+ 483              	.LVL16:
+ 107:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 484              		.loc 1 107 5 view .LVU178
+ 485 0128 9847     		blx	r3
+ 486              	.LVL17:
+ 108:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 487              		.loc 1 108 5 is_stmt 1 view .LVU179
+ 108:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 488              		.loc 1 108 13 is_stmt 0 view .LVU180
+ 489 012a A368     		ldr	r3, [r4, #8]
+ 108:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 490              		.loc 1 108 5 view .LVU181
+ 491 012c 2F48     		ldr	r0, .L38+8
+ 492 012e 9847     		blx	r3
+ 493              	.LVL18:
+ 109:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 494              		.loc 1 109 5 is_stmt 1 view .LVU182
+ 495 0130 6EE7     		b	.L7
+ 496              	.LVL19:
+ 497              	.L34:
+ 112:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 498              		.loc 1 112 4 view .LVU183
+ 112:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 499              		.loc 1 112 34 is_stmt 0 view .LVU184
+ 500 0132 D0ED067A 		vldr.32	s15, [r0, #24]
+ 112:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 501              		.loc 1 112 7 view .LVU185
+ 502 0136 F0EEE77A 		vabs.f32	s15, s15
+ 112:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 503              		.loc 1 112 6 view .LVU186
+ 504 013a 9FED2E7A 		vldr.32	s14, .L38+16
+ 505 013e F4EEC77A 		vcmpe.f32	s15, s14
+ 506 0142 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 507 0146 0CD5     		bpl	.L35
+ 114:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 508              		.loc 1 114 5 is_stmt 1 view .LVU187
+ 114:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 509              		.loc 1 114 28 is_stmt 0 view .LVU188
+ 510 0148 0023     		movs	r3, #0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 14
+
+
+ 511 014a 0360     		str	r3, [r0]
+ 115:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 512              		.loc 1 115 5 is_stmt 1 view .LVU189
+ 115:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 513              		.loc 1 115 13 is_stmt 0 view .LVU190
+ 514 014c 254D     		ldr	r5, .L38
+ 515 014e AB68     		ldr	r3, [r5, #8]
+ 115:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 516              		.loc 1 115 5 view .LVU191
+ 517 0150 2548     		ldr	r0, .L38+4
+ 518              	.LVL20:
+ 115:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 519              		.loc 1 115 5 view .LVU192
+ 520 0152 9847     		blx	r3
+ 521              	.LVL21:
+ 116:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Prev_Vy = 0;
+ 522              		.loc 1 116 5 is_stmt 1 view .LVU193
+ 116:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Prev_Vy = 0;
+ 523              		.loc 1 116 13 is_stmt 0 view .LVU194
+ 524 0154 AB68     		ldr	r3, [r5, #8]
+ 116:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Prev_Vy = 0;
+ 525              		.loc 1 116 5 view .LVU195
+ 526 0156 2548     		ldr	r0, .L38+8
+ 527 0158 9847     		blx	r3
+ 528              	.LVL22:
+ 117:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Forward_Distance = 0;
+ 529              		.loc 1 117 5 is_stmt 1 view .LVU196
+ 117:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Forward_Distance = 0;
+ 530              		.loc 1 117 36 is_stmt 0 view .LVU197
+ 531 015a 0023     		movs	r3, #0
+ 532 015c A360     		str	r3, [r4, #8]	@ float
+ 118:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 533              		.loc 1 118 5 is_stmt 1 view .LVU198
+ 118:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 534              		.loc 1 118 45 is_stmt 0 view .LVU199
+ 535 015e 2362     		str	r3, [r4, #32]	@ float
+ 119:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 536              		.loc 1 119 5 is_stmt 1 view .LVU200
+ 537 0160 56E7     		b	.L7
+ 538              	.LVL23:
+ 539              	.L35:
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 540              		.loc 1 122 4 view .LVU201
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 541              		.loc 1 122 28 is_stmt 0 view .LVU202
+ 542 0162 D0ED167A 		vldr.32	s15, [r0, #88]
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 543              		.loc 1 122 6 view .LVU203
+ 544 0166 F5EE407A 		vcmp.f32	s15, #0
+ 545 016a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 546 016e 7FF44FAF 		bne	.L7
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 547              		.loc 1 122 61 discriminator 1 view .LVU204
+ 548 0172 D0ED177A 		vldr.32	s15, [r0, #92]
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 549              		.loc 1 122 37 discriminator 1 view .LVU205
+ 550 0176 F5EE407A 		vcmp.f32	s15, #0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 15
+
+
+ 551 017a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 552 017e 7FF447AF 		bne	.L7
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 553              		.loc 1 122 113 discriminator 2 view .LVU206
+ 554 0182 D0ED0A7A 		vldr.32	s15, [r0, #40]
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 555              		.loc 1 122 73 discriminator 2 view .LVU207
+ 556 0186 F0EEE77A 		vabs.f32	s15, s15
+ 122:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 557              		.loc 1 122 70 discriminator 2 view .LVU208
+ 558 018a B2EE047A 		vmov.f32	s14, #1.0e+1
+ 559 018e F4EEC77A 		vcmpe.f32	s15, s14
+ 560 0192 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 561 0196 7FF53BAF 		bpl	.L7
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 562              		.loc 1 124 5 is_stmt 1 view .LVU209
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 563              		.loc 1 124 30 is_stmt 0 view .LVU210
+ 564 019a 154B     		ldr	r3, .L38+12
+ 565 019c B3F90430 		ldrsh	r3, [r3, #4]
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 566              		.loc 1 124 9 view .LVU211
+ 567 01a0 002B     		cmp	r3, #0
+ 568 01a2 B8BF     		it	lt
+ 569 01a4 5B42     		rsblt	r3, r3, #0
+ 570 01a6 9BB2     		uxth	r3, r3
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 571              		.loc 1 124 7 view .LVU212
+ 572 01a8 B3F5FA6F 		cmp	r3, #2000
+ 573 01ac 09D8     		bhi	.L24
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 574              		.loc 1 124 76 discriminator 2 view .LVU213
+ 575 01ae 104B     		ldr	r3, .L38+12
+ 576 01b0 B3F93C30 		ldrsh	r3, [r3, #60]
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 577              		.loc 1 124 55 discriminator 2 view .LVU214
+ 578 01b4 002B     		cmp	r3, #0
+ 579 01b6 B8BF     		it	lt
+ 580 01b8 5B42     		rsblt	r3, r3, #0
+ 581 01ba 9BB2     		uxth	r3, r3
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 582              		.loc 1 124 52 discriminator 2 view .LVU215
+ 583 01bc B3F5FA6F 		cmp	r3, #2000
+ 584 01c0 07D9     		bls	.L25
+ 585              	.L24:
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 586              		.loc 1 124 131 discriminator 3 view .LVU216
+ 587 01c2 94F89A30 		ldrb	r3, [r4, #154]	@ zero_extendqisi2
+ 124:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter++;
+ 588              		.loc 1 124 99 discriminator 3 view .LVU217
+ 589 01c6 23B9     		cbnz	r3, .L25
+ 125:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 590              		.loc 1 125 6 is_stmt 1 view .LVU218
+ 125:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 591              		.loc 1 125 35 is_stmt 0 view .LVU219
+ 592 01c8 B4F89830 		ldrh	r3, [r4, #152]
+ 125:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 16
+
+
+ 593              		.loc 1 125 43 view .LVU220
+ 594 01cc 0133     		adds	r3, r3, #1
+ 595 01ce A4F89830 		strh	r3, [r4, #152]	@ movhi
+ 596              	.L25:
+ 127:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+ 597              		.loc 1 127 5 is_stmt 1 view .LVU221
+ 127:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+ 598              		.loc 1 127 37 is_stmt 0 view .LVU222
+ 599 01d2 B4F89830 		ldrh	r3, [r4, #152]
+ 127:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
+ 600              		.loc 1 127 7 view .LVU223
+ 601 01d6 322B     		cmp	r3, #50
+ 602 01d8 7FF61AAF 		bls	.L7
+ 128:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 603              		.loc 1 128 6 is_stmt 1 view .LVU224
+ 128:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				break;
+ 604              		.loc 1 128 52 is_stmt 0 view .LVU225
+ 605 01dc 0123     		movs	r3, #1
+ 606 01de 84F89A30 		strb	r3, [r4, #154]
+ 607              		.loc 1 134 1 view .LVU226
+ 608 01e2 15E7     		b	.L7
+ 609              	.L39:
+ 610              		.align	2
+ 611              	.L38:
+ 612 01e4 00000000 		.word	PID_Func
+ 613 01e8 00000000 		.word	Chassis_Speed_PID
+ 614 01ec 00000000 		.word	Chassis_Turning_PID
+ 615 01f0 00000000 		.word	MF9025_Chassis
+ 616 01f4 CDCC4C3E 		.word	1045220557
+ 617              		.cfi_endproc
+ 618              	.LFE163:
+ 620              		.section	.text.Chassis_Processing,"ax",%progbits
+ 621              		.align	1
+ 622              		.global	Chassis_Processing
+ 623              		.syntax unified
+ 624              		.thumb
+ 625              		.thumb_func
+ 627              	Chassis_Processing:
+ 628              	.LVL24:
+ 629              	.LFB164:
+ 135:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 
+ 136:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** void Chassis_Processing(Chassis_t *Chassis)
+ 137:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** {
+ 630              		.loc 1 137 1 is_stmt 1 view -0
+ 631              		.cfi_startproc
+ 632              		@ args = 0, pretend = 0, frame = 0
+ 633              		@ frame_needed = 0, uses_anonymous_args = 0
+ 634              		.loc 1 137 1 is_stmt 0 view .LVU228
+ 635 0000 38B5     		push	{r3, r4, r5, lr}
+ 636              	.LCFI1:
+ 637              		.cfi_def_cfa_offset 16
+ 638              		.cfi_offset 3, -16
+ 639              		.cfi_offset 4, -12
+ 640              		.cfi_offset 5, -8
+ 641              		.cfi_offset 14, -4
+ 642 0002 2DED048B 		vpush.64	{d8, d9}
+ 643              	.LCFI2:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 17
+
+
+ 644              		.cfi_def_cfa_offset 32
+ 645              		.cfi_offset 80, -32
+ 646              		.cfi_offset 81, -28
+ 647              		.cfi_offset 82, -24
+ 648              		.cfi_offset 83, -20
+ 649 0006 0446     		mov	r4, r0
+ 138:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	switch(State_Machine.Mode)
+ 650              		.loc 1 138 2 is_stmt 1 view .LVU229
+ 651              		.loc 1 138 22 is_stmt 0 view .LVU230
+ 652 0008 BB4B     		ldr	r3, .L100
+ 653 000a 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 654              		.loc 1 138 2 view .LVU231
+ 655 000c 062B     		cmp	r3, #6
+ 656 000e 00F25083 		bhi	.L40
+ 657 0012 DFE813F0 		tbh	[pc, r3, lsl #1]
+ 658              	.L43:
+ 659 0016 0700     		.2byte	(.L49-.L43)/2
+ 660 0018 2D01     		.2byte	(.L48-.L43)/2
+ 661 001a 9101     		.2byte	(.L47-.L43)/2
+ 662 001c DD01     		.2byte	(.L46-.L43)/2
+ 663 001e 5902     		.2byte	(.L45-.L43)/2
+ 664 0020 FD02     		.2byte	(.L44-.L43)/2
+ 665 0022 4303     		.2byte	(.L42-.L43)/2
+ 666              		.p2align 1
+ 667              	.L49:
+ 139:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	{
+ 140:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Follow_Gimbal):
+ 141:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 142:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_MID_MEC
+ 668              		.loc 1 142 4 is_stmt 1 view .LVU232
+ 669              		.loc 1 142 30 is_stmt 0 view .LVU233
+ 670 0024 B54B     		ldr	r3, .L100+4
+ 671 0026 B3F90030 		ldrsh	r3, [r3]
+ 672 002a A3F5CD53 		sub	r3, r3, #6560
+ 673 002e 0A3B     		subs	r3, r3, #10
+ 674 0030 07EE903A 		vmov	s15, r3	@ int
+ 675 0034 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 676 0038 FFF7FEFF 		bl	Find_Gimbal_Min_Angle
+ 677              	.LVL25:
+ 678              		.loc 1 142 30 view .LVU234
+ 679 003c DFEDB07A 		vldr.32	s15, .L100+8
+ 680 0040 20EE270A 		vmul.f32	s0, s0, s15
+ 681 0044 DFEDAF7A 		vldr.32	s15, .L100+12
+ 682 0048 20EE270A 		vmul.f32	s0, s0, s15
+ 683              		.loc 1 142 28 view .LVU235
+ 684 004c AE4B     		ldr	r3, .L100+16
+ 685 004e 83ED060A 		vstr.32	s0, [r3, #24]
+ 143:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy;
+ 686              		.loc 1 143 4 is_stmt 1 view .LVU236
+ 687              		.loc 1 143 53 is_stmt 0 view .LVU237
+ 688 0052 A26D     		ldr	r2, [r4, #88]	@ float
+ 689              		.loc 1 143 30 view .LVU238
+ 690 0054 2261     		str	r2, [r4, #16]	@ float
+ 144:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Wz = PID_Func.Positional_PID(&Chassis_Angle_PID,0,Gimbal.Angle_Difference
+ 691              		.loc 1 144 4 is_stmt 1 view .LVU239
+ 692              		.loc 1 144 40 is_stmt 0 view .LVU240
+ 693 0056 AD4A     		ldr	r2, .L100+20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 18
+
+
+ 694 0058 1268     		ldr	r2, [r2]
+ 695              		.loc 1 144 32 view .LVU241
+ 696 005a D3ED060A 		vldr.32	s1, [r3, #24]
+ 697 005e 9FEDAC0A 		vldr.32	s0, .L100+24
+ 698 0062 AC48     		ldr	r0, .L100+28
+ 699 0064 9047     		blx	r2
+ 700              	.LVL26:
+ 701              		.loc 1 144 30 view .LVU242
+ 702 0066 84ED050A 		vstr.32	s0, [r4, #20]
+ 145:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(fabs(Chassis->Chassis_Coord.Wz) < 20.0f)
+ 703              		.loc 1 145 4 is_stmt 1 view .LVU243
+ 704              		.loc 1 145 7 is_stmt 0 view .LVU244
+ 705 006a B0EEC00A 		vabs.f32	s0, s0
+ 706              		.loc 1 145 6 view .LVU245
+ 707 006e F3EE047A 		vmov.f32	s15, #2.0e+1
+ 708 0072 B4EEE70A 		vcmpe.f32	s0, s15
+ 709 0076 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 710 007a 01D5     		bpl	.L50
+ 146:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Wz = 0;
+ 711              		.loc 1 146 5 is_stmt 1 view .LVU246
+ 712              		.loc 1 146 31 is_stmt 0 view .LVU247
+ 713 007c 0023     		movs	r3, #0
+ 714 007e 6361     		str	r3, [r4, #20]	@ float
+ 715              	.L50:
+ 147:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis_Func.Chassis_State_Update(Chassis);
+ 716              		.loc 1 147 4 is_stmt 1 view .LVU248
+ 717              		.loc 1 147 16 is_stmt 0 view .LVU249
+ 718 0080 A54B     		ldr	r3, .L100+32
+ 719 0082 5B68     		ldr	r3, [r3, #4]
+ 720              		.loc 1 147 4 view .LVU250
+ 721 0084 2046     		mov	r0, r4
+ 722 0086 9847     		blx	r3
+ 723              	.LVL27:
+ 148:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Control_Strategy_Func.Expert_PID_LQR_Combined();
+ 724              		.loc 1 148 4 is_stmt 1 view .LVU251
+ 725              		.loc 1 148 25 is_stmt 0 view .LVU252
+ 726 0088 A44B     		ldr	r3, .L100+36
+ 727 008a 1B68     		ldr	r3, [r3]
+ 728              		.loc 1 148 4 view .LVU253
+ 729 008c 9847     		blx	r3
+ 730              	.LVL28:
+ 149:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 150:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(fabs(Chassis->Slip_Detection.Friction_Force_Left) > 100)
+ 731              		.loc 1 150 4 is_stmt 1 view .LVU254
+ 732              		.loc 1 150 35 is_stmt 0 view .LVU255
+ 733 008e 94ED217A 		vldr.32	s14, [r4, #132]
+ 734              		.loc 1 150 7 view .LVU256
+ 735 0092 B0EEC77A 		vabs.f32	s14, s14
+ 736              		.loc 1 150 6 view .LVU257
+ 737 0096 DFEDA27A 		vldr.32	s15, .L100+40
+ 738 009a B4EEE77A 		vcmpe.f32	s14, s15
+ 739 009e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 740 00a2 02DD     		ble	.L52
+ 151:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Left_Counter = 250;
+ 741              		.loc 1 151 5 is_stmt 1 view .LVU258
+ 742              		.loc 1 151 42 is_stmt 0 view .LVU259
+ 743 00a4 FA23     		movs	r3, #250
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 19
+
+
+ 744 00a6 A4F88C30 		strh	r3, [r4, #140]	@ movhi
+ 745              	.L52:
+ 152:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	
+ 153:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(fabs(Chassis->Slip_Detection.Friction_Force_Right) > 100)
+ 746              		.loc 1 153 4 is_stmt 1 view .LVU260
+ 747              		.loc 1 153 35 is_stmt 0 view .LVU261
+ 748 00aa D4ED227A 		vldr.32	s15, [r4, #136]
+ 749              		.loc 1 153 7 view .LVU262
+ 750 00ae F0EEE77A 		vabs.f32	s15, s15
+ 751              		.loc 1 153 6 view .LVU263
+ 752 00b2 DFED9B6A 		vldr.32	s13, .L100+40
+ 753 00b6 F4EEE67A 		vcmpe.f32	s15, s13
+ 754 00ba F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 755 00be 02DD     		ble	.L54
+ 154:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Right_Counter = 250;
+ 756              		.loc 1 154 5 is_stmt 1 view .LVU264
+ 757              		.loc 1 154 43 is_stmt 0 view .LVU265
+ 758 00c0 FA23     		movs	r3, #250
+ 759 00c2 A4F88E30 		strh	r3, [r4, #142]	@ movhi
+ 760              	.L54:
+ 155:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 156:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Slip_Detection.Left_Counter > 0)
+ 761              		.loc 1 156 4 is_stmt 1 view .LVU266
+ 762              		.loc 1 156 30 is_stmt 0 view .LVU267
+ 763 00c6 B4F88C30 		ldrh	r3, [r4, #140]
+ 764              		.loc 1 156 6 view .LVU268
+ 765 00ca 002B     		cmp	r3, #0
+ 766 00cc 44D0     		beq	.L56
+ 157:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 158:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Max_Speed_Left = 100000;
+ 767              		.loc 1 158 5 is_stmt 1 view .LVU269
+ 768              		.loc 1 158 44 is_stmt 0 view .LVU270
+ 769 00ce 954A     		ldr	r2, .L100+44
+ 770 00d0 C4F89020 		str	r2, [r4, #144]
+ 159:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Left_Counter--;
+ 771              		.loc 1 159 5 is_stmt 1 view .LVU271
+ 772              		.loc 1 159 41 is_stmt 0 view .LVU272
+ 773 00d4 013B     		subs	r3, r3, #1
+ 774 00d6 A4F88C30 		strh	r3, [r4, #140]	@ movhi
+ 775              	.L57:
+ 160:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 161:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else
+ 162:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Max_Speed_Left = 300000;
+ 163:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 164:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Slip_Detection.Right_Counter > 0)
+ 776              		.loc 1 164 4 is_stmt 1 view .LVU273
+ 777              		.loc 1 164 30 is_stmt 0 view .LVU274
+ 778 00da B4F88E30 		ldrh	r3, [r4, #142]
+ 779              		.loc 1 164 6 view .LVU275
+ 780 00de 002B     		cmp	r3, #0
+ 781 00e0 3ED0     		beq	.L58
+ 165:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 166:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Max_Speed_Right = 100000;
+ 782              		.loc 1 166 5 is_stmt 1 view .LVU276
+ 783              		.loc 1 166 45 is_stmt 0 view .LVU277
+ 784 00e2 904A     		ldr	r2, .L100+44
+ 785 00e4 C4F89420 		str	r2, [r4, #148]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 20
+
+
+ 167:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Right_Counter--;
+ 786              		.loc 1 167 5 is_stmt 1 view .LVU278
+ 787              		.loc 1 167 42 is_stmt 0 view .LVU279
+ 788 00e8 013B     		subs	r3, r3, #1
+ 789 00ea A4F88E30 		strh	r3, [r4, #142]	@ movhi
+ 790              	.L59:
+ 168:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 169:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else
+ 170:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Slip_Detection.Max_Speed_Right = 300000;
+ 171:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 172:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Off_Ground_Detection.Off_Ground_Flag)
+ 791              		.loc 1 172 4 is_stmt 1 view .LVU280
+ 792              		.loc 1 172 36 is_stmt 0 view .LVU281
+ 793 00ee 94F89A30 		ldrb	r3, [r4, #154]	@ zero_extendqisi2
+ 794              		.loc 1 172 6 view .LVU282
+ 795 00f2 002B     		cmp	r3, #0
+ 796 00f4 38D0     		beq	.L60
+ 173:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 174:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[0].Target_Speed = 0;
+ 797              		.loc 1 174 5 is_stmt 1 view .LVU283
+ 798              		.loc 1 174 36 is_stmt 0 view .LVU284
+ 799 00f6 8C4B     		ldr	r3, .L100+48
+ 800 00f8 0022     		movs	r2, #0
+ 801 00fa DA61     		str	r2, [r3, #28]
+ 175:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[1].Target_Speed = 0;
+ 802              		.loc 1 175 5 is_stmt 1 view .LVU285
+ 803              		.loc 1 175 36 is_stmt 0 view .LVU286
+ 804 00fc 5A65     		str	r2, [r3, #84]
+ 176:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 177:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if(abs(MF9025_Chassis[0].Actual_Speed) < 100 && abs(MF9025_Chassis[1].Actual_Speed) < 100 && Ch
+ 805              		.loc 1 177 5 is_stmt 1 view .LVU287
+ 806              		.loc 1 177 29 is_stmt 0 view .LVU288
+ 807 00fe B3F90430 		ldrsh	r3, [r3, #4]
+ 808              		.loc 1 177 8 view .LVU289
+ 809 0102 002B     		cmp	r3, #0
+ 810 0104 B8BF     		it	lt
+ 811 0106 5B42     		rsblt	r3, r3, #0
+ 812 0108 9BB2     		uxth	r3, r3
+ 813              		.loc 1 177 7 view .LVU290
+ 814 010a 632B     		cmp	r3, #99
+ 815 010c 0ED8     		bhi	.L61
+ 816              		.loc 1 177 74 discriminator 1 view .LVU291
+ 817 010e 864B     		ldr	r3, .L100+48
+ 818 0110 B3F93C30 		ldrsh	r3, [r3, #60]
+ 819              		.loc 1 177 53 discriminator 1 view .LVU292
+ 820 0114 002B     		cmp	r3, #0
+ 821 0116 B8BF     		it	lt
+ 822 0118 5B42     		rsblt	r3, r3, #0
+ 823 011a 9BB2     		uxth	r3, r3
+ 824              		.loc 1 177 50 discriminator 1 view .LVU293
+ 825 011c 632B     		cmp	r3, #99
+ 826 011e 05D8     		bhi	.L61
+ 827              		.loc 1 177 127 discriminator 2 view .LVU294
+ 828 0120 B4F89830 		ldrh	r3, [r4, #152]
+ 829              		.loc 1 177 95 discriminator 2 view .LVU295
+ 830 0124 13B1     		cbz	r3, .L61
+ 178:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Counter--;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 21
+
+
+ 831              		.loc 1 178 6 is_stmt 1 view .LVU296
+ 832              		.loc 1 178 43 is_stmt 0 view .LVU297
+ 833 0126 013B     		subs	r3, r3, #1
+ 834 0128 A4F89830 		strh	r3, [r4, #152]	@ movhi
+ 835              	.L61:
+ 179:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 180:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if(Chassis->Off_Ground_Detection.Counter == 0 && (fabs(Chassis->Slip_Detection.Friction_Force_R
+ 836              		.loc 1 180 5 is_stmt 1 view .LVU298
+ 837              		.loc 1 180 37 is_stmt 0 view .LVU299
+ 838 012c B4F89830 		ldrh	r3, [r4, #152]
+ 839              		.loc 1 180 7 view .LVU300
+ 840 0130 002B     		cmp	r3, #0
+ 841 0132 40F0BE82 		bne	.L40
+ 842              		.loc 1 180 51 discriminator 1 view .LVU301
+ 843 0136 F3EE096A 		vmov.f32	s13, #2.5e+1
+ 844 013a F4EEE67A 		vcmpe.f32	s15, s13
+ 845 013e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 846 0142 05DC     		bgt	.L62
+ 847              		.loc 1 180 111 discriminator 2 view .LVU302
+ 848 0144 B4EEE67A 		vcmpe.f32	s14, s13
+ 849 0148 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 850 014c 40F3B182 		ble	.L40
+ 851              	.L62:
+ 181:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 0;
+ 852              		.loc 1 181 6 is_stmt 1 view .LVU303
+ 853              		.loc 1 181 52 is_stmt 0 view .LVU304
+ 854 0150 0023     		movs	r3, #0
+ 855 0152 84F89A30 		strb	r3, [r4, #154]
+ 856 0156 ACE2     		b	.L40
+ 857              	.L56:
+ 162:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 858              		.loc 1 162 5 is_stmt 1 view .LVU305
+ 162:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 859              		.loc 1 162 44 is_stmt 0 view .LVU306
+ 860 0158 744B     		ldr	r3, .L100+52
+ 861 015a C4F89030 		str	r3, [r4, #144]
+ 862 015e BCE7     		b	.L57
+ 863              	.L58:
+ 170:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 864              		.loc 1 170 5 is_stmt 1 view .LVU307
+ 170:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 865              		.loc 1 170 45 is_stmt 0 view .LVU308
+ 866 0160 724B     		ldr	r3, .L100+52
+ 867 0162 C4F89430 		str	r3, [r4, #148]
+ 868 0166 C2E7     		b	.L59
+ 869              	.L60:
+ 182:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 183:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else
+ 184:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 185:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[0].Target_Speed = VAL_LIMIT(100*Chassis->Target.Left_Wheel,Chassis->Slip_Detecti
+ 870              		.loc 1 185 5 is_stmt 1 view .LVU309
+ 871              		.loc 1 185 67 is_stmt 0 view .LVU310
+ 872 0168 94ED180A 		vldr.32	s0, [r4, #96]
+ 873              		.loc 1 185 118 view .LVU311
+ 874 016c D4F89030 		ldr	r3, [r4, #144]
+ 875 0170 5B42     		rsbs	r3, r3, #0
+ 876 0172 01EE103A 		vmov	s2, r3	@ int
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 22
+
+
+ 877              		.loc 1 185 38 view .LVU312
+ 878 0176 9FED6A8A 		vldr.32	s16, .L100+40
+ 879 017a B8EEC11A 		vcvt.f32.s32	s2, s2
+ 880 017e D4ED247A 		vldr.32	s15, [r4, #144]	@ int
+ 881 0182 F8EEE70A 		vcvt.f32.s32	s1, s15
+ 882 0186 20EE080A 		vmul.f32	s0, s0, s16
+ 883 018a FFF7FEFF 		bl	VAL_LIMIT
+ 884              	.LVL29:
+ 885              		.loc 1 185 36 view .LVU313
+ 886 018e 664D     		ldr	r5, .L100+48
+ 887 0190 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 888 0194 85ED070A 		vstr.32	s0, [r5, #28]	@ int
+ 186:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[1].Target_Speed = VAL_LIMIT(100*-Chassis->Target.Right_Wheel,Chassis->Slip_Detec
+ 889              		.loc 1 186 5 is_stmt 1 view .LVU314
+ 890              		.loc 1 186 68 is_stmt 0 view .LVU315
+ 891 0198 94ED190A 		vldr.32	s0, [r4, #100]
+ 892              		.loc 1 186 121 view .LVU316
+ 893 019c D4F89430 		ldr	r3, [r4, #148]
+ 894 01a0 5B42     		rsbs	r3, r3, #0
+ 895 01a2 01EE103A 		vmov	s2, r3	@ int
+ 896              		.loc 1 186 38 view .LVU317
+ 897 01a6 B8EEC11A 		vcvt.f32.s32	s2, s2
+ 898 01aa D4ED257A 		vldr.32	s15, [r4, #148]	@ int
+ 899 01ae F8EEE70A 		vcvt.f32.s32	s1, s15
+ 900 01b2 20EE480A 		vnmul.f32	s0, s0, s16
+ 901 01b6 FFF7FEFF 		bl	VAL_LIMIT
+ 902              	.LVL30:
+ 903              		.loc 1 186 36 view .LVU318
+ 904 01ba FDEEC07A 		vcvt.s32.f32	s15, s0
+ 905 01be 17EE903A 		vmov	r3, s15	@ int
+ 906 01c2 C5ED157A 		vstr.32	s15, [r5, #84]	@ int
+ 187:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if(abs(MF9025_Chassis[0].Target_Speed) < 3000)
+ 907              		.loc 1 187 5 is_stmt 1 view .LVU319
+ 908              		.loc 1 187 29 is_stmt 0 view .LVU320
+ 909 01c6 EA69     		ldr	r2, [r5, #28]
+ 910              		.loc 1 187 44 view .LVU321
+ 911 01c8 02F6B732 		addw	r2, r2, #2999
+ 912              		.loc 1 187 7 view .LVU322
+ 913 01cc 41F26E71 		movw	r1, #5998
+ 914 01d0 8A42     		cmp	r2, r1
+ 915 01d2 01D8     		bhi	.L64
+ 188:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					MF9025_Chassis[0].Target_Speed = 0;
+ 916              		.loc 1 188 6 is_stmt 1 view .LVU323
+ 917              		.loc 1 188 37 is_stmt 0 view .LVU324
+ 918 01d4 0021     		movs	r1, #0
+ 919 01d6 E961     		str	r1, [r5, #28]
+ 920              	.L64:
+ 189:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if(abs(MF9025_Chassis[1].Target_Speed) < 3000)
+ 921              		.loc 1 189 5 is_stmt 1 view .LVU325
+ 922              		.loc 1 189 44 is_stmt 0 view .LVU326
+ 923 01d8 03F6B733 		addw	r3, r3, #2999
+ 924              		.loc 1 189 7 view .LVU327
+ 925 01dc 41F26E72 		movw	r2, #5998
+ 926 01e0 9342     		cmp	r3, r2
+ 927 01e2 02D8     		bhi	.L65
+ 190:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					MF9025_Chassis[1].Target_Speed = 0;	
+ 928              		.loc 1 190 6 is_stmt 1 view .LVU328
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 23
+
+
+ 929              		.loc 1 190 37 is_stmt 0 view .LVU329
+ 930 01e4 504B     		ldr	r3, .L100+48
+ 931 01e6 0022     		movs	r2, #0
+ 932 01e8 5A65     		str	r2, [r3, #84]
+ 933              	.L65:
+ 191:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				
+ 192:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				if(State_Machine.Swing_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 934              		.loc 1 192 5 is_stmt 1 view .LVU330
+ 935              		.loc 1 192 21 is_stmt 0 view .LVU331
+ 936 01ea 434B     		ldr	r3, .L100
+ 937 01ec DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 938              		.loc 1 192 7 view .LVU332
+ 939 01ee 53B1     		cbz	r3, .L66
+ 940              		.loc 1 192 58 discriminator 1 view .LVU333
+ 941 01f0 D4ED047A 		vldr.32	s15, [r4, #16]
+ 942              		.loc 1 192 33 discriminator 1 view .LVU334
+ 943 01f4 F5EE407A 		vcmp.f32	s15, #0
+ 944 01f8 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 945 01fc 03D1     		bne	.L66
+ 193:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					State_Machine.Mode = Swing;
+ 946              		.loc 1 193 6 is_stmt 1 view .LVU335
+ 947              		.loc 1 193 25 is_stmt 0 view .LVU336
+ 948 01fe 3E4B     		ldr	r3, .L100
+ 949 0200 0422     		movs	r2, #4
+ 950 0202 5A70     		strb	r2, [r3, #1]
+ 951 0204 55E2     		b	.L40
+ 952              	.L66:
+ 194:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0 && Chassis->Current_State
+ 953              		.loc 1 194 10 is_stmt 1 view .LVU337
+ 954              		.loc 1 194 26 is_stmt 0 view .LVU338
+ 955 0206 3C4B     		ldr	r3, .L100
+ 956 0208 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 957              		.loc 1 194 12 view .LVU339
+ 958 020a 9BB1     		cbz	r3, .L67
+ 959              		.loc 1 194 66 discriminator 1 view .LVU340
+ 960 020c D4ED047A 		vldr.32	s15, [r4, #16]
+ 961              		.loc 1 194 41 discriminator 1 view .LVU341
+ 962 0210 F5EE407A 		vcmp.f32	s15, #0
+ 963 0214 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 964 0218 0CD1     		bne	.L67
+ 965              		.loc 1 194 85 discriminator 2 view .LVU342
+ 966 021a 2368     		ldr	r3, [r4]
+ 967              		.loc 1 194 75 discriminator 2 view .LVU343
+ 968 021c 53B9     		cbnz	r3, .L67
+ 195:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 1.0f && Chassis->Chassis_Coor
+ 969              		.loc 1 195 45 discriminator 3 view .LVU344
+ 970 021e D4ED0A7A 		vldr.32	s15, [r4, #40]
+ 971              		.loc 1 195 5 discriminator 3 view .LVU345
+ 972 0222 F0EEE77A 		vabs.f32	s15, s15
+ 194:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0 && Chassis->Current_State
+ 973              		.loc 1 194 114 discriminator 3 view .LVU346
+ 974 0226 B7EE007A 		vmov.f32	s14, #1.0e+0
+ 975 022a F4EEC77A 		vcmpe.f32	s15, s14
+ 976 022e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 977 0232 10D4     		bmi	.L99
+ 978              	.L67:
+ 196:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					State_Machine.Mode = Spin_Top;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 24
+
+
+ 197:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				else if(State_Machine.Follow_Wheel_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 979              		.loc 1 197 10 is_stmt 1 view .LVU347
+ 980              		.loc 1 197 26 is_stmt 0 view .LVU348
+ 981 0234 304B     		ldr	r3, .L100
+ 982 0236 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 983              		.loc 1 197 12 view .LVU349
+ 984 0238 002B     		cmp	r3, #0
+ 985 023a 00F03A82 		beq	.L40
+ 986              		.loc 1 197 70 discriminator 1 view .LVU350
+ 987 023e D4ED047A 		vldr.32	s15, [r4, #16]
+ 988              		.loc 1 197 45 discriminator 1 view .LVU351
+ 989 0242 F5EE407A 		vcmp.f32	s15, #0
+ 990 0246 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 991 024a 40F03282 		bne	.L40
+ 198:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					State_Machine.Mode = Follow_Wheel;
+ 992              		.loc 1 198 6 is_stmt 1 view .LVU352
+ 993              		.loc 1 198 25 is_stmt 0 view .LVU353
+ 994 024e 2A4B     		ldr	r3, .L100
+ 995 0250 0322     		movs	r2, #3
+ 996 0252 5A70     		strb	r2, [r3, #1]
+ 997 0254 2DE2     		b	.L40
+ 998              	.L99:
+ 195:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 1.0f && Chassis->Chassis_Coor
+ 999              		.loc 1 195 101 view .LVU354
+ 1000 0256 94ED107A 		vldr.32	s14, [r4, #64]
+ 195:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 1.0f && Chassis->Chassis_Coor
+ 1001              		.loc 1 195 76 view .LVU355
+ 1002 025a F7EE007A 		vmov.f32	s15, #1.0e+0
+ 1003 025e B4EEE77A 		vcmpe.f32	s14, s15
+ 1004 0262 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1005 0266 E5D5     		bpl	.L67
+ 196:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					State_Machine.Mode = Spin_Top;
+ 1006              		.loc 1 196 6 is_stmt 1 view .LVU356
+ 196:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 					State_Machine.Mode = Spin_Top;
+ 1007              		.loc 1 196 25 is_stmt 0 view .LVU357
+ 1008 0268 234B     		ldr	r3, .L100
+ 1009 026a 0222     		movs	r2, #2
+ 1010 026c 5A70     		strb	r2, [r3, #1]
+ 1011 026e 20E2     		b	.L40
+ 1012              	.LVL31:
+ 1013              	.L48:
+ 199:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 200:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 201:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			Chassis->Open_Loop_Speed = 10000;
+ 202:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			
+ 203:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			if((Chassis->Chassis_Coord.Pitch_Angle + CHASSIS_TARGET_ANGLE) < -3.0f)
+ 204:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			{
+ 205:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //				MF9025_Chassis[0].Target_Speed = -Chassis->Open_Loop_Speed;
+ 206:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //				MF9025_Chassis[1].Target_Speed = Chassis->Open_Loop_Speed;;
+ 207:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			}
+ 208:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			else if((Chassis->Chassis_Coord.Pitch_Angle + CHASSIS_TARGET_ANGLE) > 3.0f)
+ 209:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			{
+ 210:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //				MF9025_Chassis[0].Target_Speed = Chassis->Open_Loop_Speed;;
+ 211:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //				MF9025_Chassis[1].Target_Speed = -Chassis->Open_Loop_Speed;;
+ 212:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			}
+ 213:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			else
+ 214:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			{
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 25
+
+
+ 215:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //				MF9025_Chassis[0].Target_Speed = 0;
+ 216:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //				MF9025_Chassis[1].Target_Speed = 0;
+ 217:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** //			}
+ 218:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 219:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}	
+ 220:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+ 221:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Not_Follow_Gimbal):
+ 222:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 223:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy;
+ 1014              		.loc 1 223 4 is_stmt 1 view .LVU358
+ 1015              		.loc 1 223 53 is_stmt 0 view .LVU359
+ 1016 0270 836D     		ldr	r3, [r0, #88]	@ float
+ 1017              		.loc 1 223 30 view .LVU360
+ 1018 0272 0361     		str	r3, [r0, #16]	@ float
+ 224:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Wz = Chassis->Gimbal_Coord.Wz;
+ 1019              		.loc 1 224 4 is_stmt 1 view .LVU361
+ 1020              		.loc 1 224 53 is_stmt 0 view .LVU362
+ 1021 0274 C36D     		ldr	r3, [r0, #92]	@ float
+ 1022              		.loc 1 224 30 view .LVU363
+ 1023 0276 4361     		str	r3, [r0, #20]	@ float
+ 225:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis_Func.Chassis_State_Update(Chassis);
+ 1024              		.loc 1 225 4 is_stmt 1 view .LVU364
+ 1025              		.loc 1 225 16 is_stmt 0 view .LVU365
+ 1026 0278 274B     		ldr	r3, .L100+32
+ 1027 027a 5B68     		ldr	r3, [r3, #4]
+ 1028              		.loc 1 225 4 view .LVU366
+ 1029 027c 9847     		blx	r3
+ 1030              	.LVL32:
+ 226:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Control_Strategy_Func.Expert_PID_LQR_Combined();
+ 1031              		.loc 1 226 4 is_stmt 1 view .LVU367
+ 1032              		.loc 1 226 25 is_stmt 0 view .LVU368
+ 1033 027e 274B     		ldr	r3, .L100+36
+ 1034 0280 1B68     		ldr	r3, [r3]
+ 1035              		.loc 1 226 4 view .LVU369
+ 1036 0282 9847     		blx	r3
+ 1037              	.LVL33:
+ 227:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[0].Target_Speed = VAL_LIMIT(100*Chassis->Target.Left_Wheel,MF9025_SPEED_MAX,-MF90
+ 1038              		.loc 1 227 4 is_stmt 1 view .LVU370
+ 1039              		.loc 1 227 66 is_stmt 0 view .LVU371
+ 1040 0284 94ED180A 		vldr.32	s0, [r4, #96]
+ 1041              		.loc 1 227 37 view .LVU372
+ 1042 0288 9FED299A 		vldr.32	s18, .L100+56
+ 1043 028c DFED298A 		vldr.32	s17, .L100+60
+ 1044 0290 9FED238A 		vldr.32	s16, .L100+40
+ 1045 0294 B0EE491A 		vmov.f32	s2, s18
+ 1046 0298 F0EE680A 		vmov.f32	s1, s17
+ 1047 029c 20EE080A 		vmul.f32	s0, s0, s16
+ 1048 02a0 FFF7FEFF 		bl	VAL_LIMIT
+ 1049              	.LVL34:
+ 1050              		.loc 1 227 35 view .LVU373
+ 1051 02a4 204D     		ldr	r5, .L100+48
+ 1052 02a6 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 1053 02aa 85ED070A 		vstr.32	s0, [r5, #28]	@ int
+ 228:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[1].Target_Speed = VAL_LIMIT(100*-Chassis->Target.Right_Wheel,MF9025_SPEED_MAX,-MF
+ 1054              		.loc 1 228 4 is_stmt 1 view .LVU374
+ 1055              		.loc 1 228 67 is_stmt 0 view .LVU375
+ 1056 02ae 94ED190A 		vldr.32	s0, [r4, #100]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 26
+
+
+ 1057              		.loc 1 228 37 view .LVU376
+ 1058 02b2 B0EE491A 		vmov.f32	s2, s18
+ 1059 02b6 F0EE680A 		vmov.f32	s1, s17
+ 1060 02ba 20EE480A 		vnmul.f32	s0, s0, s16
+ 1061 02be FFF7FEFF 		bl	VAL_LIMIT
+ 1062              	.LVL35:
+ 1063              		.loc 1 228 35 view .LVU377
+ 1064 02c2 FDEEC07A 		vcvt.s32.f32	s15, s0
+ 1065 02c6 17EE903A 		vmov	r3, s15	@ int
+ 1066 02ca C5ED157A 		vstr.32	s15, [r5, #84]	@ int
+ 229:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(abs(MF9025_Chassis[0].Target_Speed) < 4000)
+ 1067              		.loc 1 229 4 is_stmt 1 view .LVU378
+ 1068              		.loc 1 229 28 is_stmt 0 view .LVU379
+ 1069 02ce EA69     		ldr	r2, [r5, #28]
+ 1070              		.loc 1 229 43 view .LVU380
+ 1071 02d0 02F69F72 		addw	r2, r2, #3999
+ 1072              		.loc 1 229 6 view .LVU381
+ 1073 02d4 41F63E71 		movw	r1, #7998
+ 1074 02d8 8A42     		cmp	r2, r1
+ 1075 02da 01D8     		bhi	.L70
+ 230:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[0].Target_Speed = 0;
+ 1076              		.loc 1 230 5 is_stmt 1 view .LVU382
+ 1077              		.loc 1 230 36 is_stmt 0 view .LVU383
+ 1078 02dc 0021     		movs	r1, #0
+ 1079 02de E961     		str	r1, [r5, #28]
+ 1080              	.L70:
+ 231:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(abs(MF9025_Chassis[1].Target_Speed) < 4000)
+ 1081              		.loc 1 231 4 is_stmt 1 view .LVU384
+ 1082              		.loc 1 231 43 is_stmt 0 view .LVU385
+ 1083 02e0 03F69F73 		addw	r3, r3, #3999
+ 1084              		.loc 1 231 6 view .LVU386
+ 1085 02e4 41F63E72 		movw	r2, #7998
+ 1086 02e8 9342     		cmp	r3, r2
+ 1087 02ea 00F2E281 		bhi	.L40
+ 232:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[1].Target_Speed = 0;	
+ 1088              		.loc 1 232 5 is_stmt 1 view .LVU387
+ 1089              		.loc 1 232 36 is_stmt 0 view .LVU388
+ 1090 02ee 0E4B     		ldr	r3, .L100+48
+ 1091 02f0 0022     		movs	r2, #0
+ 1092 02f2 5A65     		str	r2, [r3, #84]
+ 1093 02f4 DDE1     		b	.L40
+ 1094              	.L101:
+ 1095 02f6 00BF     		.align	2
+ 1096              	.L100:
+ 1097 02f8 00000000 		.word	State_Machine
+ 1098 02fc 00000000 		.word	GM6020_Yaw
+ 1099 0300 0000343D 		.word	1026818048
+ 1100 0304 35FA8E3C 		.word	1016003125
+ 1101 0308 00000000 		.word	Gimbal
+ 1102 030c 00000000 		.word	PID_Func
+ 1103 0310 00000000 		.word	0
+ 1104 0314 00000000 		.word	Chassis_Angle_PID
+ 1105 0318 00000000 		.word	Chassis_Func
+ 1106 031c 00000000 		.word	Control_Strategy_Func
+ 1107 0320 0000C842 		.word	1120403456
+ 1108 0324 A0860100 		.word	100000
+ 1109 0328 00000000 		.word	MF9025_Chassis
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 27
+
+
+ 1110 032c E0930400 		.word	300000
+ 1111 0330 007C92C8 		.word	-929924096
+ 1112 0334 007C9248 		.word	1217559552
+ 1113              	.LVL36:
+ 1114              	.L47:
+ 233:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 234:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+ 235:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+ 236:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Spin_Top):
+ 237:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 238:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy;
+ 1115              		.loc 1 238 4 is_stmt 1 view .LVU389
+ 1116              		.loc 1 238 53 is_stmt 0 view .LVU390
+ 1117 0338 836D     		ldr	r3, [r0, #88]	@ float
+ 1118              		.loc 1 238 30 view .LVU391
+ 1119 033a 0361     		str	r3, [r0, #16]	@ float
+ 239:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Wz = -Chassis->Chassis_Coord.Spin_Rate; //This is where you control how f
+ 1120              		.loc 1 239 4 is_stmt 1 view .LVU392
+ 1121              		.loc 1 239 55 is_stmt 0 view .LVU393
+ 1122 033c D0ED147A 		vldr.32	s15, [r0, #80]
+ 1123              		.loc 1 239 32 view .LVU394
+ 1124 0340 F1EE677A 		vneg.f32	s15, s15
+ 1125              		.loc 1 239 30 view .LVU395
+ 1126 0344 C0ED057A 		vstr.32	s15, [r0, #20]
+ 240:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis_Func.Chassis_State_Update(Chassis);
+ 1127              		.loc 1 240 4 is_stmt 1 view .LVU396
+ 1128              		.loc 1 240 16 is_stmt 0 view .LVU397
+ 1129 0348 BA4B     		ldr	r3, .L102
+ 1130 034a 5B68     		ldr	r3, [r3, #4]
+ 1131              		.loc 1 240 4 view .LVU398
+ 1132 034c 9847     		blx	r3
+ 1133              	.LVL37:
+ 241:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Control_Strategy_Func.Expert_PID_LQR_Combined();
+ 1134              		.loc 1 241 4 is_stmt 1 view .LVU399
+ 1135              		.loc 1 241 25 is_stmt 0 view .LVU400
+ 1136 034e BA4B     		ldr	r3, .L102+4
+ 1137 0350 1B68     		ldr	r3, [r3]
+ 1138              		.loc 1 241 4 view .LVU401
+ 1139 0352 9847     		blx	r3
+ 1140              	.LVL38:
+ 242:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[0].Target_Speed = VAL_LIMIT(100*Chassis->Target.Left_Wheel,MF9025_SPEED_MAX,-MF90
+ 1141              		.loc 1 242 4 is_stmt 1 view .LVU402
+ 1142              		.loc 1 242 66 is_stmt 0 view .LVU403
+ 1143 0354 94ED180A 		vldr.32	s0, [r4, #96]
+ 1144              		.loc 1 242 37 view .LVU404
+ 1145 0358 9FEDB89A 		vldr.32	s18, .L102+8
+ 1146 035c DFEDB88A 		vldr.32	s17, .L102+12
+ 1147 0360 9FEDB88A 		vldr.32	s16, .L102+16
+ 1148 0364 B0EE491A 		vmov.f32	s2, s18
+ 1149 0368 F0EE680A 		vmov.f32	s1, s17
+ 1150 036c 20EE080A 		vmul.f32	s0, s0, s16
+ 1151 0370 FFF7FEFF 		bl	VAL_LIMIT
+ 1152              	.LVL39:
+ 1153              		.loc 1 242 35 view .LVU405
+ 1154 0374 B44D     		ldr	r5, .L102+20
+ 1155 0376 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 1156 037a 85ED070A 		vstr.32	s0, [r5, #28]	@ int
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 28
+
+
+ 243:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[1].Target_Speed = VAL_LIMIT(100*-Chassis->Target.Right_Wheel,MF9025_SPEED_MAX,-MF
+ 1157              		.loc 1 243 4 is_stmt 1 view .LVU406
+ 1158              		.loc 1 243 67 is_stmt 0 view .LVU407
+ 1159 037e 94ED190A 		vldr.32	s0, [r4, #100]
+ 1160              		.loc 1 243 37 view .LVU408
+ 1161 0382 B0EE491A 		vmov.f32	s2, s18
+ 1162 0386 F0EE680A 		vmov.f32	s1, s17
+ 1163 038a 20EE480A 		vnmul.f32	s0, s0, s16
+ 1164 038e FFF7FEFF 		bl	VAL_LIMIT
+ 1165              	.LVL40:
+ 1166              		.loc 1 243 35 view .LVU409
+ 1167 0392 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 1168 0396 85ED150A 		vstr.32	s0, [r5, #84]	@ int
+ 244:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 245:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Chassis_Coord.Vy != 0)
+ 1169              		.loc 1 245 4 is_stmt 1 view .LVU410
+ 1170              		.loc 1 245 29 is_stmt 0 view .LVU411
+ 1171 039a D4ED047A 		vldr.32	s15, [r4, #16]
+ 1172              		.loc 1 245 6 view .LVU412
+ 1173 039e F5EE407A 		vcmp.f32	s15, #0
+ 1174 03a2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1175 03a6 03D0     		beq	.L71
+ 246:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 1176              		.loc 1 246 5 is_stmt 1 view .LVU413
+ 1177              		.loc 1 246 24 is_stmt 0 view .LVU414
+ 1178 03a8 A84B     		ldr	r3, .L102+24
+ 1179 03aa 0022     		movs	r2, #0
+ 1180 03ac 5A70     		strb	r2, [r3, #1]
+ 1181 03ae 80E1     		b	.L40
+ 1182              	.L71:
+ 247:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(State_Machine.Swing_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 1183              		.loc 1 247 9 is_stmt 1 view .LVU415
+ 1184              		.loc 1 247 25 is_stmt 0 view .LVU416
+ 1185 03b0 A64B     		ldr	r3, .L102+24
+ 1186 03b2 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1187              		.loc 1 247 11 view .LVU417
+ 1188 03b4 1BB1     		cbz	r3, .L72
+ 248:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Swing;
+ 1189              		.loc 1 248 5 is_stmt 1 view .LVU418
+ 1190              		.loc 1 248 24 is_stmt 0 view .LVU419
+ 1191 03b6 A54B     		ldr	r3, .L102+24
+ 1192 03b8 0422     		movs	r2, #4
+ 1193 03ba 5A70     		strb	r2, [r3, #1]
+ 1194 03bc 79E1     		b	.L40
+ 1195              	.L72:
+ 249:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(State_Machine.Follow_Wheel_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 1196              		.loc 1 249 9 is_stmt 1 view .LVU420
+ 1197              		.loc 1 249 25 is_stmt 0 view .LVU421
+ 1198 03be A34B     		ldr	r3, .L102+24
+ 1199 03c0 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 1200              		.loc 1 249 11 view .LVU422
+ 1201 03c2 002B     		cmp	r3, #0
+ 1202 03c4 00F07581 		beq	.L40
+ 250:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Follow_Wheel;
+ 1203              		.loc 1 250 5 is_stmt 1 view .LVU423
+ 1204              		.loc 1 250 24 is_stmt 0 view .LVU424
+ 1205 03c8 A04B     		ldr	r3, .L102+24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 29
+
+
+ 1206 03ca 0322     		movs	r2, #3
+ 1207 03cc 5A70     		strb	r2, [r3, #1]
+ 1208 03ce 70E1     		b	.L40
+ 1209              	.LVL41:
+ 1210              	.L46:
+ 251:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 252:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+ 253:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+ 254:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Follow_Wheel):
+ 255:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 256:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_WHEEL_M
+ 1211              		.loc 1 256 4 is_stmt 1 view .LVU425
+ 1212              		.loc 1 256 30 is_stmt 0 view .LVU426
+ 1213 03d0 9F4B     		ldr	r3, .L102+28
+ 1214 03d2 B3F90030 		ldrsh	r3, [r3]
+ 1215 03d6 A3F58C53 		sub	r3, r3, #4480
+ 1216 03da 143B     		subs	r3, r3, #20
+ 1217 03dc 07EE903A 		vmov	s15, r3	@ int
+ 1218 03e0 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 1219 03e4 FFF7FEFF 		bl	Find_Gimbal_Min_Angle
+ 1220              	.LVL42:
+ 1221              		.loc 1 256 30 view .LVU427
+ 1222 03e8 DFED9A7A 		vldr.32	s15, .L102+32
+ 1223 03ec 20EE270A 		vmul.f32	s0, s0, s15
+ 1224 03f0 DFED997A 		vldr.32	s15, .L102+36
+ 1225 03f4 20EE270A 		vmul.f32	s0, s0, s15
+ 1226              		.loc 1 256 28 view .LVU428
+ 1227 03f8 984B     		ldr	r3, .L102+40
+ 1228 03fa 83ED060A 		vstr.32	s0, [r3, #24]
+ 257:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy;
+ 1229              		.loc 1 257 4 is_stmt 1 view .LVU429
+ 1230              		.loc 1 257 53 is_stmt 0 view .LVU430
+ 1231 03fe A26D     		ldr	r2, [r4, #88]	@ float
+ 1232              		.loc 1 257 30 view .LVU431
+ 1233 0400 2261     		str	r2, [r4, #16]	@ float
+ 258:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Wz = PID_Func.Positional_PID(&Chassis_Angle_PID,0,Gimbal.Angle_Difference
+ 1234              		.loc 1 258 4 is_stmt 1 view .LVU432
+ 1235              		.loc 1 258 40 is_stmt 0 view .LVU433
+ 1236 0402 974A     		ldr	r2, .L102+44
+ 1237 0404 1268     		ldr	r2, [r2]
+ 1238              		.loc 1 258 32 view .LVU434
+ 1239 0406 D3ED060A 		vldr.32	s1, [r3, #24]
+ 1240 040a 9FED960A 		vldr.32	s0, .L102+48
+ 1241 040e 9648     		ldr	r0, .L102+52
+ 1242 0410 9047     		blx	r2
+ 1243              	.LVL43:
+ 1244              		.loc 1 258 30 view .LVU435
+ 1245 0412 84ED050A 		vstr.32	s0, [r4, #20]
+ 259:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis_Func.Chassis_State_Update(Chassis);
+ 1246              		.loc 1 259 4 is_stmt 1 view .LVU436
+ 1247              		.loc 1 259 16 is_stmt 0 view .LVU437
+ 1248 0416 874B     		ldr	r3, .L102
+ 1249 0418 5B68     		ldr	r3, [r3, #4]
+ 1250              		.loc 1 259 4 view .LVU438
+ 1251 041a 2046     		mov	r0, r4
+ 1252 041c 9847     		blx	r3
+ 1253              	.LVL44:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 30
+
+
+ 260:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Control_Strategy_Func.Expert_PID_LQR_Combined();
+ 1254              		.loc 1 260 4 is_stmt 1 view .LVU439
+ 1255              		.loc 1 260 25 is_stmt 0 view .LVU440
+ 1256 041e 864B     		ldr	r3, .L102+4
+ 1257 0420 1B68     		ldr	r3, [r3]
+ 1258              		.loc 1 260 4 view .LVU441
+ 1259 0422 9847     		blx	r3
+ 1260              	.LVL45:
+ 261:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[0].Target_Speed = VAL_LIMIT(100*Chassis->Target.Left_Wheel,MF9025_SPEED_MAX,-MF90
+ 1261              		.loc 1 261 4 is_stmt 1 view .LVU442
+ 1262              		.loc 1 261 66 is_stmt 0 view .LVU443
+ 1263 0424 94ED180A 		vldr.32	s0, [r4, #96]
+ 1264              		.loc 1 261 37 view .LVU444
+ 1265 0428 9FED849A 		vldr.32	s18, .L102+8
+ 1266 042c DFED848A 		vldr.32	s17, .L102+12
+ 1267 0430 9FED848A 		vldr.32	s16, .L102+16
+ 1268 0434 B0EE491A 		vmov.f32	s2, s18
+ 1269 0438 F0EE680A 		vmov.f32	s1, s17
+ 1270 043c 20EE080A 		vmul.f32	s0, s0, s16
+ 1271 0440 FFF7FEFF 		bl	VAL_LIMIT
+ 1272              	.LVL46:
+ 1273              		.loc 1 261 35 view .LVU445
+ 1274 0444 804D     		ldr	r5, .L102+20
+ 1275 0446 BDEEC00A 		vcvt.s32.f32	s0, s0
+ 1276 044a 85ED070A 		vstr.32	s0, [r5, #28]	@ int
+ 262:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[1].Target_Speed = VAL_LIMIT(100*-Chassis->Target.Right_Wheel,MF9025_SPEED_MAX,-MF
+ 1277              		.loc 1 262 4 is_stmt 1 view .LVU446
+ 1278              		.loc 1 262 67 is_stmt 0 view .LVU447
+ 1279 044e 94ED190A 		vldr.32	s0, [r4, #100]
+ 1280              		.loc 1 262 37 view .LVU448
+ 1281 0452 B0EE491A 		vmov.f32	s2, s18
+ 1282 0456 F0EE680A 		vmov.f32	s1, s17
+ 1283 045a 20EE480A 		vnmul.f32	s0, s0, s16
+ 1284 045e FFF7FEFF 		bl	VAL_LIMIT
+ 1285              	.LVL47:
+ 1286              		.loc 1 262 35 view .LVU449
+ 1287 0462 FDEEC07A 		vcvt.s32.f32	s15, s0
+ 1288 0466 17EE903A 		vmov	r3, s15	@ int
+ 1289 046a C5ED157A 		vstr.32	s15, [r5, #84]	@ int
+ 263:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(abs(MF9025_Chassis[0].Target_Speed) < 3000)
+ 1290              		.loc 1 263 4 is_stmt 1 view .LVU450
+ 1291              		.loc 1 263 28 is_stmt 0 view .LVU451
+ 1292 046e EA69     		ldr	r2, [r5, #28]
+ 1293              		.loc 1 263 43 view .LVU452
+ 1294 0470 02F6B732 		addw	r2, r2, #2999
+ 1295              		.loc 1 263 6 view .LVU453
+ 1296 0474 41F26E71 		movw	r1, #5998
+ 1297 0478 8A42     		cmp	r2, r1
+ 1298 047a 01D8     		bhi	.L73
+ 264:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[0].Target_Speed = 0;
+ 1299              		.loc 1 264 5 is_stmt 1 view .LVU454
+ 1300              		.loc 1 264 36 is_stmt 0 view .LVU455
+ 1301 047c 0021     		movs	r1, #0
+ 1302 047e E961     		str	r1, [r5, #28]
+ 1303              	.L73:
+ 265:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(abs(MF9025_Chassis[1].Target_Speed) < 3000)
+ 1304              		.loc 1 265 4 is_stmt 1 view .LVU456
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 31
+
+
+ 1305              		.loc 1 265 43 is_stmt 0 view .LVU457
+ 1306 0480 03F6B733 		addw	r3, r3, #2999
+ 1307              		.loc 1 265 6 view .LVU458
+ 1308 0484 41F26E72 		movw	r2, #5998
+ 1309 0488 9342     		cmp	r3, r2
+ 1310 048a 02D8     		bhi	.L74
+ 266:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[1].Target_Speed = 0;	
+ 1311              		.loc 1 266 5 is_stmt 1 view .LVU459
+ 1312              		.loc 1 266 36 is_stmt 0 view .LVU460
+ 1313 048c 6E4B     		ldr	r3, .L102+20
+ 1314 048e 0022     		movs	r2, #0
+ 1315 0490 5A65     		str	r2, [r3, #84]
+ 1316              	.L74:
+ 267:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 268:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Chassis_Coord.Vy != 0)
+ 1317              		.loc 1 268 4 is_stmt 1 view .LVU461
+ 1318              		.loc 1 268 29 is_stmt 0 view .LVU462
+ 1319 0492 D4ED047A 		vldr.32	s15, [r4, #16]
+ 1320              		.loc 1 268 6 view .LVU463
+ 1321 0496 F5EE407A 		vcmp.f32	s15, #0
+ 1322 049a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1323 049e 03D0     		beq	.L75
+ 269:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 1324              		.loc 1 269 5 is_stmt 1 view .LVU464
+ 1325              		.loc 1 269 24 is_stmt 0 view .LVU465
+ 1326 04a0 6A4B     		ldr	r3, .L102+24
+ 1327 04a2 0022     		movs	r2, #0
+ 1328 04a4 5A70     		strb	r2, [r3, #1]
+ 1329 04a6 04E1     		b	.L40
+ 1330              	.L75:
+ 270:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 1331              		.loc 1 270 9 is_stmt 1 view .LVU466
+ 1332              		.loc 1 270 25 is_stmt 0 view .LVU467
+ 1333 04a8 684B     		ldr	r3, .L102+24
+ 1334 04aa 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1335              		.loc 1 270 11 view .LVU468
+ 1336 04ac 1BB1     		cbz	r3, .L76
+ 271:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Spin_Top;
+ 1337              		.loc 1 271 5 is_stmt 1 view .LVU469
+ 1338              		.loc 1 271 24 is_stmt 0 view .LVU470
+ 1339 04ae 674B     		ldr	r3, .L102+24
+ 1340 04b0 0222     		movs	r2, #2
+ 1341 04b2 5A70     		strb	r2, [r3, #1]
+ 1342 04b4 FDE0     		b	.L40
+ 1343              	.L76:
+ 272:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(State_Machine.Swing_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 1344              		.loc 1 272 9 is_stmt 1 view .LVU471
+ 1345              		.loc 1 272 25 is_stmt 0 view .LVU472
+ 1346 04b6 654B     		ldr	r3, .L102+24
+ 1347 04b8 DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 1348              		.loc 1 272 11 view .LVU473
+ 1349 04ba 002B     		cmp	r3, #0
+ 1350 04bc 00F0F980 		beq	.L40
+ 273:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Swing;
+ 1351              		.loc 1 273 5 is_stmt 1 view .LVU474
+ 1352              		.loc 1 273 24 is_stmt 0 view .LVU475
+ 1353 04c0 624B     		ldr	r3, .L102+24
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 32
+
+
+ 1354 04c2 0422     		movs	r2, #4
+ 1355 04c4 5A70     		strb	r2, [r3, #1]
+ 1356 04c6 F4E0     		b	.L40
+ 1357              	.LVL48:
+ 1358              	.L45:
+ 274:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 275:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}	
+ 276:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+ 277:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Swing):
+ 278:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 279:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(fabs(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_SWING_LOWER_ANGLE)) < 200)
+ 1359              		.loc 1 279 4 is_stmt 1 view .LVU476
+ 1360              		.loc 1 279 44 is_stmt 0 view .LVU477
+ 1361 04c8 614B     		ldr	r3, .L102+28
+ 1362 04ca B3F90030 		ldrsh	r3, [r3]
+ 1363              		.loc 1 279 58 view .LVU478
+ 1364 04ce A3F58E53 		sub	r3, r3, #4544
+ 1365 04d2 1A3B     		subs	r3, r3, #26
+ 1366              		.loc 1 279 12 view .LVU479
+ 1367 04d4 07EE903A 		vmov	s15, r3	@ int
+ 1368 04d8 B8EEE70A 		vcvt.f32.s32	s0, s15
+ 1369 04dc FFF7FEFF 		bl	Find_Gimbal_Min_Angle
+ 1370              	.LVL49:
+ 1371              		.loc 1 279 7 view .LVU480
+ 1372 04e0 B0EEC00A 		vabs.f32	s0, s0
+ 1373              		.loc 1 279 6 view .LVU481
+ 1374 04e4 DFED617A 		vldr.32	s15, .L102+56
+ 1375 04e8 B4EEE70A 		vcmpe.f32	s0, s15
+ 1376 04ec F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1377 04f0 5AD5     		bpl	.L95
+ 280:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_UPPER_ANGLE;
+ 1378              		.loc 1 280 5 is_stmt 1 view .LVU482
+ 1379              		.loc 1 280 47 is_stmt 0 view .LVU483
+ 1380 04f2 5F4B     		ldr	r3, .L102+60
+ 1381 04f4 E364     		str	r3, [r4, #76]	@ float
+ 1382              	.L79:
+ 281:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(fabs(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_SWING_UPPER_ANGLE)) < 200)
+ 282:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+ 283:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - Chassis->Ch
+ 1383              		.loc 1 283 4 is_stmt 1 view .LVU484
+ 1384              		.loc 1 283 30 is_stmt 0 view .LVU485
+ 1385 04f6 564B     		ldr	r3, .L102+28
+ 1386 04f8 B3F90030 		ldrsh	r3, [r3]
+ 1387 04fc 07EE903A 		vmov	s15, r3	@ int
+ 1388 0500 94ED130A 		vldr.32	s0, [r4, #76]
+ 1389 0504 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 1390 0508 37EEC00A 		vsub.f32	s0, s15, s0
+ 1391 050c FFF7FEFF 		bl	Find_Gimbal_Min_Angle
+ 1392              	.LVL50:
+ 1393 0510 DFED507A 		vldr.32	s15, .L102+32
+ 1394 0514 20EE270A 		vmul.f32	s0, s0, s15
+ 1395 0518 DFED4F7A 		vldr.32	s15, .L102+36
+ 1396 051c 20EE270A 		vmul.f32	s0, s0, s15
+ 1397              		.loc 1 283 28 view .LVU486
+ 1398 0520 4E4B     		ldr	r3, .L102+40
+ 1399 0522 83ED060A 		vstr.32	s0, [r3, #24]
+ 284:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy; 
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 33
+
+
+ 1400              		.loc 1 284 4 is_stmt 1 view .LVU487
+ 1401              		.loc 1 284 53 is_stmt 0 view .LVU488
+ 1402 0526 A26D     		ldr	r2, [r4, #88]	@ float
+ 1403              		.loc 1 284 30 view .LVU489
+ 1404 0528 2261     		str	r2, [r4, #16]	@ float
+ 285:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis->Chassis_Coord.Wz = PID_Func.Positional_PID(&Chassis_Angle_PID,0,Gimbal.Angle_Difference
+ 1405              		.loc 1 285 4 is_stmt 1 view .LVU490
+ 1406              		.loc 1 285 40 is_stmt 0 view .LVU491
+ 1407 052a 4D4A     		ldr	r2, .L102+44
+ 1408 052c 1268     		ldr	r2, [r2]
+ 1409              		.loc 1 285 32 view .LVU492
+ 1410 052e D3ED060A 		vldr.32	s1, [r3, #24]
+ 1411 0532 9FED4C0A 		vldr.32	s0, .L102+48
+ 1412 0536 4C48     		ldr	r0, .L102+52
+ 1413 0538 9047     		blx	r2
+ 1414              	.LVL51:
+ 1415              		.loc 1 285 30 view .LVU493
+ 1416 053a 84ED050A 		vstr.32	s0, [r4, #20]
+ 286:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Chassis_Func.Chassis_State_Update(Chassis);
+ 1417              		.loc 1 286 4 is_stmt 1 view .LVU494
+ 1418              		.loc 1 286 16 is_stmt 0 view .LVU495
+ 1419 053e 3D4B     		ldr	r3, .L102
+ 1420 0540 5B68     		ldr	r3, [r3, #4]
+ 1421              		.loc 1 286 4 view .LVU496
+ 1422 0542 2046     		mov	r0, r4
+ 1423 0544 9847     		blx	r3
+ 1424              	.LVL52:
+ 287:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Control_Strategy_Func.Expert_PID_LQR_Combined();
+ 1425              		.loc 1 287 4 is_stmt 1 view .LVU497
+ 1426              		.loc 1 287 25 is_stmt 0 view .LVU498
+ 1427 0546 3C4B     		ldr	r3, .L102+4
+ 1428 0548 1B68     		ldr	r3, [r3]
+ 1429              		.loc 1 287 4 view .LVU499
+ 1430 054a 9847     		blx	r3
+ 1431              	.LVL53:
+ 288:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[0].Target_Speed = VAL_LIMIT(100*Chassis->Target.Left_Wheel,MF9025_SPEED_MAX,-MF90
+ 1432              		.loc 1 288 4 is_stmt 1 view .LVU500
+ 1433              		.loc 1 288 66 is_stmt 0 view .LVU501
+ 1434 054c 94ED180A 		vldr.32	s0, [r4, #96]
+ 1435              		.loc 1 288 37 view .LVU502
+ 1436 0550 9FED3A9A 		vldr.32	s18, .L102+8
+ 1437 0554 DFED3A8A 		vldr.32	s17, .L102+12
+ 1438 0558 9FED3A8A 		vldr.32	s16, .L102+16
+ 1439 055c B0EE491A 		vmov.f32	s2, s18
+ 1440 0560 F0EE680A 		vmov.f32	s1, s17
+ 1441 0564 20EE080A 		vmul.f32	s0, s0, s16
+ 1442 0568 FFF7FEFF 		bl	VAL_LIMIT
+ 1443              	.LVL54:
+ 1444              		.loc 1 288 35 view .LVU503
+ 1445 056c 364D     		ldr	r5, .L102+20
+ 1446 056e BDEEC00A 		vcvt.s32.f32	s0, s0
+ 1447 0572 85ED070A 		vstr.32	s0, [r5, #28]	@ int
+ 289:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[1].Target_Speed = VAL_LIMIT(100*-Chassis->Target.Right_Wheel,MF9025_SPEED_MAX,-MF
+ 1448              		.loc 1 289 4 is_stmt 1 view .LVU504
+ 1449              		.loc 1 289 67 is_stmt 0 view .LVU505
+ 1450 0576 94ED190A 		vldr.32	s0, [r4, #100]
+ 1451              		.loc 1 289 37 view .LVU506
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 34
+
+
+ 1452 057a B0EE491A 		vmov.f32	s2, s18
+ 1453 057e F0EE680A 		vmov.f32	s1, s17
+ 1454 0582 20EE480A 		vnmul.f32	s0, s0, s16
+ 1455 0586 FFF7FEFF 		bl	VAL_LIMIT
+ 1456              	.LVL55:
+ 1457              		.loc 1 289 35 view .LVU507
+ 1458 058a BDEEC00A 		vcvt.s32.f32	s0, s0
+ 1459 058e 85ED150A 		vstr.32	s0, [r5, #84]	@ int
+ 290:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			
+ 291:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Chassis->Gimbal_Coord.Vy != 0)
+ 1460              		.loc 1 291 4 is_stmt 1 view .LVU508
+ 1461              		.loc 1 291 28 is_stmt 0 view .LVU509
+ 1462 0592 D4ED167A 		vldr.32	s15, [r4, #88]
+ 1463              		.loc 1 291 6 view .LVU510
+ 1464 0596 F5EE407A 		vcmp.f32	s15, #0
+ 1465 059a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1466 059e 1AD0     		beq	.L81
+ 292:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 1467              		.loc 1 292 5 is_stmt 1 view .LVU511
+ 1468              		.loc 1 292 24 is_stmt 0 view .LVU512
+ 1469 05a0 2A4B     		ldr	r3, .L102+24
+ 1470 05a2 0022     		movs	r2, #0
+ 1471 05a4 5A70     		strb	r2, [r3, #1]
+ 1472 05a6 84E0     		b	.L40
+ 1473              	.L95:
+ 281:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+ 1474              		.loc 1 281 9 is_stmt 1 view .LVU513
+ 281:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+ 1475              		.loc 1 281 49 is_stmt 0 view .LVU514
+ 1476 05a8 294B     		ldr	r3, .L102+28
+ 1477 05aa B3F90030 		ldrsh	r3, [r3]
+ 281:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+ 1478              		.loc 1 281 63 view .LVU515
+ 1479 05ae A3F5AA73 		sub	r3, r3, #340
+ 1480 05b2 00EE103A 		vmov	s0, r3	@ int
+ 281:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+ 1481              		.loc 1 281 17 view .LVU516
+ 1482 05b6 B8EEC00A 		vcvt.f32.s32	s0, s0
+ 1483 05ba FFF7FEFF 		bl	Find_Gimbal_Min_Angle
+ 1484              	.LVL56:
+ 281:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+ 1485              		.loc 1 281 12 view .LVU517
+ 1486 05be B0EEC00A 		vabs.f32	s0, s0
+ 281:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				Chassis->Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+ 1487              		.loc 1 281 11 view .LVU518
+ 1488 05c2 DFED2A7A 		vldr.32	s15, .L102+56
+ 1489 05c6 B4EEE70A 		vcmpe.f32	s0, s15
+ 1490 05ca F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1491 05ce 92D5     		bpl	.L79
+ 282:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - Chassis->Ch
+ 1492              		.loc 1 282 5 is_stmt 1 view .LVU519
+ 282:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - Chassis->Ch
+ 1493              		.loc 1 282 47 is_stmt 0 view .LVU520
+ 1494 05d0 284B     		ldr	r3, .L102+64
+ 1495 05d2 E364     		str	r3, [r4, #76]	@ float
+ 1496 05d4 8FE7     		b	.L79
+ 1497              	.L81:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 35
+
+
+ 293:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 1498              		.loc 1 293 9 is_stmt 1 view .LVU521
+ 1499              		.loc 1 293 25 is_stmt 0 view .LVU522
+ 1500 05d6 1D4B     		ldr	r3, .L102+24
+ 1501 05d8 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 1502              		.loc 1 293 11 view .LVU523
+ 1503 05da 53B1     		cbz	r3, .L82
+ 1504              		.loc 1 293 65 discriminator 1 view .LVU524
+ 1505 05dc D4ED047A 		vldr.32	s15, [r4, #16]
+ 1506              		.loc 1 293 40 discriminator 1 view .LVU525
+ 1507 05e0 F5EE407A 		vcmp.f32	s15, #0
+ 1508 05e4 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1509 05e8 03D1     		bne	.L82
+ 294:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Spin_Top;
+ 1510              		.loc 1 294 5 is_stmt 1 view .LVU526
+ 1511              		.loc 1 294 24 is_stmt 0 view .LVU527
+ 1512 05ea 184B     		ldr	r3, .L102+24
+ 1513 05ec 0222     		movs	r2, #2
+ 1514 05ee 5A70     		strb	r2, [r3, #1]
+ 1515 05f0 5FE0     		b	.L40
+ 1516              	.L82:
+ 295:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(State_Machine.Follow_Wheel_Flag && Chassis->Chassis_Coord.Vy == 0)
+ 1517              		.loc 1 295 9 is_stmt 1 view .LVU528
+ 1518              		.loc 1 295 25 is_stmt 0 view .LVU529
+ 1519 05f2 164B     		ldr	r3, .L102+24
+ 1520 05f4 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 1521              		.loc 1 295 11 view .LVU530
+ 1522 05f6 002B     		cmp	r3, #0
+ 1523 05f8 5BD0     		beq	.L40
+ 1524              		.loc 1 295 69 discriminator 1 view .LVU531
+ 1525 05fa D4ED047A 		vldr.32	s15, [r4, #16]
+ 1526              		.loc 1 295 44 discriminator 1 view .LVU532
+ 1527 05fe F5EE407A 		vcmp.f32	s15, #0
+ 1528 0602 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1529 0606 54D1     		bne	.L40
+ 296:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				State_Machine.Mode = Follow_Wheel;
+ 1530              		.loc 1 296 5 is_stmt 1 view .LVU533
+ 1531              		.loc 1 296 24 is_stmt 0 view .LVU534
+ 1532 0608 104B     		ldr	r3, .L102+24
+ 1533 060a 0322     		movs	r2, #3
+ 1534 060c 5A70     		strb	r2, [r3, #1]
+ 1535 060e 50E0     		b	.L40
+ 1536              	.LVL57:
+ 1537              	.L44:
+ 297:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 298:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+ 299:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+ 300:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Escape):
+ 301:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 302:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			if(Control_Board_A.Rec.Pitch < -10.0f)
+ 1538              		.loc 1 302 4 is_stmt 1 view .LVU535
+ 1539              		.loc 1 302 26 is_stmt 0 view .LVU536
+ 1540 0610 194B     		ldr	r3, .L102+68
+ 1541 0612 D3ED057A 		vldr.32	s15, [r3, #20]
+ 1542              		.loc 1 302 6 view .LVU537
+ 1543 0616 BAEE047A 		vmov.f32	s14, #-1.0e+1
+ 1544 061a F4EEC77A 		vcmpe.f32	s15, s14
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 36
+
+
+ 1545 061e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1546 0622 2DD5     		bpl	.L96
+ 303:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 304:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[0].Target_Speed = 30000.0f;
+ 1547              		.loc 1 304 5 is_stmt 1 view .LVU538
+ 1548              		.loc 1 304 36 is_stmt 0 view .LVU539
+ 1549 0624 084B     		ldr	r3, .L102+20
+ 1550 0626 47F23052 		movw	r2, #30000
+ 1551 062a DA61     		str	r2, [r3, #28]
+ 305:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[1].Target_Speed = -30000.0f;
+ 1552              		.loc 1 305 5 is_stmt 1 view .LVU540
+ 1553              		.loc 1 305 36 is_stmt 0 view .LVU541
+ 1554 062c 134A     		ldr	r2, .L102+72
+ 1555 062e 5A65     		str	r2, [r3, #84]
+ 1556 0630 3FE0     		b	.L40
+ 1557              	.L103:
+ 1558 0632 00BF     		.align	2
+ 1559              	.L102:
+ 1560 0634 00000000 		.word	Chassis_Func
+ 1561 0638 00000000 		.word	Control_Strategy_Func
+ 1562 063c 007C92C8 		.word	-929924096
+ 1563 0640 007C9248 		.word	1217559552
+ 1564 0644 0000C842 		.word	1120403456
+ 1565 0648 00000000 		.word	MF9025_Chassis
+ 1566 064c 00000000 		.word	State_Machine
+ 1567 0650 00000000 		.word	GM6020_Yaw
+ 1568 0654 0000343D 		.word	1026818048
+ 1569 0658 35FA8E3C 		.word	1016003125
+ 1570 065c 00000000 		.word	Gimbal
+ 1571 0660 00000000 		.word	PID_Func
+ 1572 0664 00000000 		.word	0
+ 1573 0668 00000000 		.word	Chassis_Angle_PID
+ 1574 066c 00004843 		.word	1128792064
+ 1575 0670 0000AA43 		.word	1135214592
+ 1576 0674 00D08E45 		.word	1166987264
+ 1577 0678 00000000 		.word	Control_Board_A
+ 1578 067c D08AFFFF 		.word	-30000
+ 1579              	.L96:
+ 306:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 307:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			else if(Control_Board_A.Rec.Pitch > 10.0f)
+ 1580              		.loc 1 307 9 is_stmt 1 view .LVU542
+ 1581              		.loc 1 307 11 is_stmt 0 view .LVU543
+ 1582 0680 B2EE047A 		vmov.f32	s14, #1.0e+1
+ 1583 0684 F4EEC77A 		vcmpe.f32	s15, s14
+ 1584 0688 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 1585 068c 11DD     		ble	.L40
+ 308:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			{
+ 309:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[0].Target_Speed = -30000.0f;
+ 1586              		.loc 1 309 5 is_stmt 1 view .LVU544
+ 1587              		.loc 1 309 36 is_stmt 0 view .LVU545
+ 1588 068e 0A4B     		ldr	r3, .L104
+ 1589 0690 0A4A     		ldr	r2, .L104+4
+ 1590 0692 DA61     		str	r2, [r3, #28]
+ 310:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 				MF9025_Chassis[1].Target_Speed = 30000.0f;
+ 1591              		.loc 1 310 5 is_stmt 1 view .LVU546
+ 1592              		.loc 1 310 36 is_stmt 0 view .LVU547
+ 1593 0694 47F23052 		movw	r2, #30000
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 37
+
+
+ 1594 0698 5A65     		str	r2, [r3, #84]
+ 1595 069a 0AE0     		b	.L40
+ 1596              	.L42:
+ 311:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			}
+ 312:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 313:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+ 314:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		
+ 315:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		case(Disabled):
+ 316:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		{
+ 317:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			//Disabled so everything is zero
+ 318:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[0].Target_Speed = 0;
+ 1597              		.loc 1 318 4 is_stmt 1 view .LVU548
+ 1598              		.loc 1 318 35 is_stmt 0 view .LVU549
+ 1599 069c 064B     		ldr	r3, .L104
+ 1600 069e 0022     		movs	r2, #0
+ 1601 06a0 DA61     		str	r2, [r3, #28]
+ 319:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			MF9025_Chassis[1].Target_Speed = 0;
+ 1602              		.loc 1 319 4 is_stmt 1 view .LVU550
+ 1603              		.loc 1 319 35 is_stmt 0 view .LVU551
+ 1604 06a2 5A65     		str	r2, [r3, #84]
+ 320:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
+ 1605              		.loc 1 320 4 is_stmt 1 view .LVU552
+ 1606              		.loc 1 320 12 is_stmt 0 view .LVU553
+ 1607 06a4 064C     		ldr	r4, .L104+8
+ 1608 06a6 A368     		ldr	r3, [r4, #8]
+ 1609              		.loc 1 320 4 view .LVU554
+ 1610 06a8 0648     		ldr	r0, .L104+12
+ 1611              	.LVL58:
+ 1612              		.loc 1 320 4 view .LVU555
+ 1613 06aa 9847     		blx	r3
+ 1614              	.LVL59:
+ 321:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
+ 1615              		.loc 1 321 4 is_stmt 1 view .LVU556
+ 1616              		.loc 1 321 12 is_stmt 0 view .LVU557
+ 1617 06ac A368     		ldr	r3, [r4, #8]
+ 1618              		.loc 1 321 4 view .LVU558
+ 1619 06ae 0648     		ldr	r0, .L104+16
+ 1620 06b0 9847     		blx	r3
+ 1621              	.LVL60:
+ 322:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 			break;
+ 1622              		.loc 1 322 4 is_stmt 1 view .LVU559
+ 1623              	.L40:
+ 323:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 		}
+ 324:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** 	}
+ 325:HigherLevelApps/HigherLevelApps.c/Chassis_Control.c **** }
+ 1624              		.loc 1 325 1 is_stmt 0 view .LVU560
+ 1625 06b2 BDEC048B 		vldm	sp!, {d8-d9}
+ 1626              	.LCFI3:
+ 1627              		.cfi_restore 82
+ 1628              		.cfi_restore 83
+ 1629              		.cfi_restore 80
+ 1630              		.cfi_restore 81
+ 1631              		.cfi_def_cfa_offset 16
+ 1632 06b6 38BD     		pop	{r3, r4, r5, pc}
+ 1633              	.L105:
+ 1634              		.align	2
+ 1635              	.L104:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 38
+
+
+ 1636 06b8 00000000 		.word	MF9025_Chassis
+ 1637 06bc D08AFFFF 		.word	-30000
+ 1638 06c0 00000000 		.word	PID_Func
+ 1639 06c4 00000000 		.word	Chassis_Speed_PID
+ 1640 06c8 00000000 		.word	Chassis_Turning_PID
+ 1641              		.cfi_endproc
+ 1642              	.LFE164:
+ 1644              		.global	Chassis_Func
+ 1645              		.section	.data.Chassis_Func,"aw"
+ 1646              		.align	2
+ 1649              	Chassis_Func:
+ 1650 0000 00000000 		.word	Chassis_Get_Data
+ 1651 0004 00000000 		.word	Chassis_State_Update
+ 1652 0008 00000000 		.word	Chassis_Processing
+ 1653              		.global	Chassis
+ 1654              		.section	.bss.Chassis,"aw",%nobits
+ 1655              		.align	2
+ 1658              	Chassis:
+ 1659 0000 00000000 		.space	156
+ 1659      00000000 
+ 1659      00000000 
+ 1659      00000000 
+ 1659      00000000 
+ 1660              		.text
+ 1661              	.Letext0:
+ 1662              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1663              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 1664              		.file 4 "Devices/Devices.h/Motor_Init.h"
+ 1665              		.file 5 "Devices/Devices.h/DR16_Remote.h"
+ 1666              		.file 6 "Devices/Devices.h/GM6020_Motor.h"
+ 1667              		.file 7 "Devices/Devices.h/Control_Board_A.h"
+ 1668              		.file 8 "HigherLevelApps/HigherLevelApps.h/State_Machine.h"
+ 1669              		.file 9 "HigherLevelApps/HigherLevelApps.h/Gimbal_Control.h"
+ 1670              		.file 10 "Devices/Devices.h/MF9025_Motor.h"
+ 1671              		.file 11 "Algorithms/Algorithms.h/PID.h"
+ 1672              		.file 12 "Algorithms/Algorithms.h/Control_Strategy.h"
+ 1673              		.file 13 "HigherLevelApps/HigherLevelApps.h/Chassis_Control.h"
+ 1674              		.file 14 "Algorithms/Algorithms.h/User_Defined_Math.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s 			page 39
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Chassis_Control.c
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:21     .text.Chassis_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:27     .text.Chassis_Get_Data:00000000 Chassis_Get_Data
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:233    .text.Chassis_Get_Data:00000148 $d
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:249    .text.Chassis_State_Update:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:255    .text.Chassis_State_Update:00000000 Chassis_State_Update
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:612    .text.Chassis_State_Update:000001e4 $d
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:621    .text.Chassis_Processing:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:627    .text.Chassis_Processing:00000000 Chassis_Processing
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:659    .text.Chassis_Processing:00000016 $d
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:666    .text.Chassis_Processing:00000024 $t
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1097   .text.Chassis_Processing:000002f8 $d
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1649   .data.Chassis_Func:00000000 Chassis_Func
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1117   .text.Chassis_Processing:00000338 $t
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1560   .text.Chassis_Processing:00000634 $d
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1582   .text.Chassis_Processing:00000680 $t
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1636   .text.Chassis_Processing:000006b8 $d
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1646   .data.Chassis_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1658   .bss.Chassis:00000000 Chassis
+C:\Users\purdu\AppData\Local\Temp\cc0Keznx.s:1655   .bss.Chassis:00000000 $d
+
+UNDEFINED SYMBOLS
+State_Machine
+DR16_Export_Data
+MF9025_Chassis
+Control_Board_A
+PID_Func
+Chassis_Speed_PID
+Chassis_Turning_PID
+Find_Gimbal_Min_Angle
+VAL_LIMIT
+GM6020_Yaw
+Gimbal
+Chassis_Angle_PID
+Control_Strategy_Func

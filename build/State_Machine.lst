@@ -1,0 +1,776 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"State_Machine.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "HigherLevelApps/HigherLevelApps.c/State_Machine.c"
+  20              		.section	.text.Computer_Update,"ax",%progbits
+  21              		.align	1
+  22              		.global	Computer_Update
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Computer_Update:
+  28              	.LFB163:
+   1:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** /**
+   2:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * @file State_Machine.c
+   3:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * @author Leo Liu
+   4:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * @brief control the state of the robot
+   5:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * @version 1.0
+   6:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * @date 2022-07-12
+   7:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * 
+   8:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * @copyright Copyright (c) 2022
+   9:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  * 
+  10:HigherLevelApps/HigherLevelApps.c/State_Machine.c ****  */
+  11:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** #include "State_Machine.h"
+  12:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** State_Machine_t State_Machine;
+  13:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 
+  14:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** void Remote_Control_Update(void);
+  15:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** void Computer_Update(void);
+  16:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 
+  17:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** State_Machine_Func_t State_Machine_Func = State_Machine_Func_GroundInit;
+  18:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** #undef State_Machine_Func_GroundInit
+  19:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 
+  20:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** void Remote_Control_Update(void)
+  21:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** {
+  22:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	/*
+  23:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Both switches down for disabling the robot
+  24:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Also disable the robot if remote control receives no data 
+  25:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	*/
+  26:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	if((DR16_Export_Data.Remote_Control.Left_Switch == SWITCH_DOWN && DR16_Export_Data.Remote_Control.
+  27:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		|| (DR16_Export_Data.Info_Update_Frame < 1))
+  28:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+  29:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		Robot_Control_Func.Robot_Control_Disabled();
+  30:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 2
+
+
+  31:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	
+  32:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	/*
+  33:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Right switch mid, left switch down: follow gimbal mode
+  34:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Right switch mid, left switch mid: not follow gimbal mode
+  35:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Right switch mid, left switch up: spintop mode
+  36:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	*/
+  37:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	else if(DR16_Export_Data.Remote_Control.Right_Switch == SWITCH_MID)
+  38:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+  39:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		State_Machine.Control_Source = Remote_Control;
+  40:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+  41:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		switch(DR16_Export_Data.Remote_Control.Left_Switch)
+  42:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+  43:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			case(SWITCH_DOWN):
+  44:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+  45:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+  46:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+  47:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+  48:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 0;
+  49:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+  50:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+  51:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			case(SWITCH_MID):
+  52:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+  53:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 1;
+  54:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+  55:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+  56:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+  57:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+  58:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			case(SWITCH_UP):
+  59:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+  60:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 1;
+  61:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+  62:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 0;
+  63:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+  64:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+  65:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+  66:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	}
+  67:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	
+  68:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	/*
+  69:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Right switch up, left switch down: turn on friction wheel
+  70:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Right switch up, left switch mid: turn off friction wheel
+  71:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Right switch up, left switch up: enter computer control mode
+  72:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	*/
+  73:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	else if(DR16_Export_Data.Remote_Control.Right_Switch == SWITCH_UP)
+  74:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+  75:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		switch(DR16_Export_Data.Remote_Control.Left_Switch)
+  76:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+  77:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			case(SWITCH_DOWN):
+  78:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+  79:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Control_Source = Remote_Control;
+  80:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 0;				
+  81:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+  82:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}	
+  83:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			case(SWITCH_MID):
+  84:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+  85:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Control_Source = Remote_Control;				
+  86:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 1;				
+  87:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 3
+
+
+  88:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+  89:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			case(SWITCH_UP):
+  90:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+  91:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Control_Source = Computer;				
+  92:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+  93:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+  94:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+  95:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	
+  96:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	}
+  97:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Computer_Update();
+  98:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** }
+  99:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 
+ 100:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** void Computer_Update(void)
+ 101:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** {
+  29              		.loc 1 101 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ 102:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	/*
+ 103:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Press R for follow gimbal mode, default mode is follow gimbal mode
+ 104:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Press F for turn on/off not follow gimbal mode
+ 105:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Press G for turn on/off spintop mode
+ 106:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	Press B for turn on/off friction wheel
+ 107:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	*/
+ 108:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	if(State_Machine.Control_Source == Computer)
+  34              		.loc 1 108 2 view .LVU1
+  35              		.loc 1 108 18 is_stmt 0 view .LVU2
+  36 0000 3C4B     		ldr	r3, .L18
+  37 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  38              		.loc 1 108 4 view .LVU3
+  39 0004 002B     		cmp	r3, #0
+  40 0006 73D1     		bne	.L1
+ 109:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 110:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		if(DR16_Export_Data.Keyboard.Press_R.Switch_Flag)
+  41              		.loc 1 110 3 is_stmt 1 view .LVU4
+  42              		.loc 1 110 39 is_stmt 0 view .LVU5
+  43 0008 3B4B     		ldr	r3, .L18+4
+  44 000a 93F85730 		ldrb	r3, [r3, #87]	@ zero_extendqisi2
+  45              		.loc 1 110 5 view .LVU6
+  46 000e 2BB1     		cbz	r3, .L3
+ 111:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 112:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			State_Machine.Spin_Top_Flag = 0;
+  47              		.loc 1 112 4 is_stmt 1 view .LVU7
+  48              		.loc 1 112 32 is_stmt 0 view .LVU8
+  49 0010 384B     		ldr	r3, .L18
+  50 0012 0022     		movs	r2, #0
+  51 0014 9A70     		strb	r2, [r3, #2]
+ 113:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			State_Machine.Swing_Flag = 0;
+  52              		.loc 1 113 4 is_stmt 1 view .LVU9
+  53              		.loc 1 113 29 is_stmt 0 view .LVU10
+  54 0016 DA70     		strb	r2, [r3, #3]
+ 114:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			State_Machine.Mode = Follow_Gimbal;
+  55              		.loc 1 114 4 is_stmt 1 view .LVU11
+  56              		.loc 1 114 23 is_stmt 0 view .LVU12
+  57 0018 5A70     		strb	r2, [r3, #1]
+  58 001a 7047     		bx	lr
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 4
+
+
+  59              	.L3:
+ 115:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+ 116:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 117:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		else if(DR16_Export_Data.Keyboard.Press_F.Switch_Flag)
+  60              		.loc 1 117 8 is_stmt 1 view .LVU13
+  61              		.loc 1 117 44 is_stmt 0 view .LVU14
+  62 001c 364B     		ldr	r3, .L18+4
+  63 001e 93F85C30 		ldrb	r3, [r3, #92]	@ zero_extendqisi2
+  64              		.loc 1 117 10 view .LVU15
+  65 0022 9BB1     		cbz	r3, .L4
+ 118:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 119:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			if(State_Machine.Mode == Swing)
+  66              		.loc 1 119 4 is_stmt 1 view .LVU16
+  67              		.loc 1 119 20 is_stmt 0 view .LVU17
+  68 0024 334B     		ldr	r3, .L18
+  69 0026 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+  70              		.loc 1 119 6 view .LVU18
+  71 0028 042B     		cmp	r3, #4
+  72 002a 0AD0     		beq	.L14
+ 120:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 121:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 122:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 123:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 124:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			else
+ 125:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 126:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 1;
+  73              		.loc 1 126 5 is_stmt 1 view .LVU19
+  74              		.loc 1 126 30 is_stmt 0 view .LVU20
+  75 002c 314B     		ldr	r3, .L18
+  76 002e 0122     		movs	r2, #1
+  77 0030 DA70     		strb	r2, [r3, #3]
+ 127:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+  78              		.loc 1 127 5 is_stmt 1 view .LVU21
+  79              		.loc 1 127 33 is_stmt 0 view .LVU22
+  80 0032 0022     		movs	r2, #0
+  81 0034 9A70     		strb	r2, [r3, #2]
+ 128:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Chassis.Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
+  82              		.loc 1 128 5 is_stmt 1 view .LVU23
+  83              		.loc 1 128 46 is_stmt 0 view .LVU24
+  84 0036 314A     		ldr	r2, .L18+8
+  85 0038 3149     		ldr	r1, .L18+12
+  86 003a D164     		str	r1, [r2, #76]	@ float
+ 129:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Swing;
+  87              		.loc 1 129 5 is_stmt 1 view .LVU25
+  88              		.loc 1 129 24 is_stmt 0 view .LVU26
+  89 003c 0422     		movs	r2, #4
+  90 003e 5A70     		strb	r2, [r3, #1]
+  91 0040 7047     		bx	lr
+  92              	.L14:
+ 121:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+  93              		.loc 1 121 5 is_stmt 1 view .LVU27
+ 121:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+  94              		.loc 1 121 30 is_stmt 0 view .LVU28
+  95 0042 2C4B     		ldr	r3, .L18
+  96 0044 0022     		movs	r2, #0
+  97 0046 DA70     		strb	r2, [r3, #3]
+ 122:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 5
+
+
+  98              		.loc 1 122 5 is_stmt 1 view .LVU29
+ 122:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+  99              		.loc 1 122 24 is_stmt 0 view .LVU30
+ 100 0048 5A70     		strb	r2, [r3, #1]
+ 101 004a 7047     		bx	lr
+ 102              	.L4:
+ 130:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 131:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+ 132:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 133:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		else if(DR16_Export_Data.Keyboard.Press_E.Switch_Flag)
+ 103              		.loc 1 133 8 is_stmt 1 view .LVU31
+ 104              		.loc 1 133 44 is_stmt 0 view .LVU32
+ 105 004c 2A4B     		ldr	r3, .L18+4
+ 106 004e 93F85230 		ldrb	r3, [r3, #82]	@ zero_extendqisi2
+ 107              		.loc 1 133 10 view .LVU33
+ 108 0052 8BB1     		cbz	r3, .L6
+ 134:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 135:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			if(State_Machine.Mode == Follow_Wheel)
+ 109              		.loc 1 135 4 is_stmt 1 view .LVU34
+ 110              		.loc 1 135 20 is_stmt 0 view .LVU35
+ 111 0054 274B     		ldr	r3, .L18
+ 112 0056 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 113              		.loc 1 135 6 view .LVU36
+ 114 0058 032B     		cmp	r3, #3
+ 115 005a 08D0     		beq	.L15
+ 136:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 137:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 0;
+ 138:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 139:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 140:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			else
+ 141:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 142:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 1;
+ 116              		.loc 1 142 5 is_stmt 1 view .LVU37
+ 117              		.loc 1 142 37 is_stmt 0 view .LVU38
+ 118 005c 254B     		ldr	r3, .L18
+ 119 005e 0122     		movs	r2, #1
+ 120 0060 1A71     		strb	r2, [r3, #4]
+ 143:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+ 121              		.loc 1 143 5 is_stmt 1 view .LVU39
+ 122              		.loc 1 143 33 is_stmt 0 view .LVU40
+ 123 0062 0022     		movs	r2, #0
+ 124 0064 9A70     		strb	r2, [r3, #2]
+ 144:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 125              		.loc 1 144 5 is_stmt 1 view .LVU41
+ 126              		.loc 1 144 30 is_stmt 0 view .LVU42
+ 127 0066 DA70     		strb	r2, [r3, #3]
+ 145:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Wheel;
+ 128              		.loc 1 145 5 is_stmt 1 view .LVU43
+ 129              		.loc 1 145 24 is_stmt 0 view .LVU44
+ 130 0068 0322     		movs	r2, #3
+ 131 006a 5A70     		strb	r2, [r3, #1]
+ 132 006c 7047     		bx	lr
+ 133              	.L15:
+ 137:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 134              		.loc 1 137 5 is_stmt 1 view .LVU45
+ 137:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 135              		.loc 1 137 37 is_stmt 0 view .LVU46
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 6
+
+
+ 136 006e 214B     		ldr	r3, .L18
+ 137 0070 0022     		movs	r2, #0
+ 138 0072 1A71     		strb	r2, [r3, #4]
+ 138:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 139              		.loc 1 138 5 is_stmt 1 view .LVU47
+ 138:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 140              		.loc 1 138 24 is_stmt 0 view .LVU48
+ 141 0074 5A70     		strb	r2, [r3, #1]
+ 142 0076 7047     		bx	lr
+ 143              	.L6:
+ 146:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 147:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+ 148:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 149:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		else if(DR16_Export_Data.Keyboard.Press_Q.Switch_Flag)
+ 144              		.loc 1 149 8 is_stmt 1 view .LVU49
+ 145              		.loc 1 149 44 is_stmt 0 view .LVU50
+ 146 0078 1F4B     		ldr	r3, .L18+4
+ 147 007a 93F84D30 		ldrb	r3, [r3, #77]	@ zero_extendqisi2
+ 148              		.loc 1 149 10 view .LVU51
+ 149 007e 5BB1     		cbz	r3, .L8
+ 150:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 151:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			if(State_Machine.Mode == Escape)
+ 150              		.loc 1 151 4 is_stmt 1 view .LVU52
+ 151              		.loc 1 151 20 is_stmt 0 view .LVU53
+ 152 0080 1C4B     		ldr	r3, .L18
+ 153 0082 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 154              		.loc 1 151 6 view .LVU54
+ 155 0084 052B     		cmp	r3, #5
+ 156 0086 03D0     		beq	.L16
+ 152:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 153:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 154:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 155:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			else
+ 156:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 157:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Escape;
+ 157              		.loc 1 157 5 is_stmt 1 view .LVU55
+ 158              		.loc 1 157 24 is_stmt 0 view .LVU56
+ 159 0088 1A4B     		ldr	r3, .L18
+ 160 008a 0522     		movs	r2, #5
+ 161 008c 5A70     		strb	r2, [r3, #1]
+ 162 008e 7047     		bx	lr
+ 163              	.L16:
+ 153:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 164              		.loc 1 153 5 is_stmt 1 view .LVU57
+ 153:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 165              		.loc 1 153 24 is_stmt 0 view .LVU58
+ 166 0090 184B     		ldr	r3, .L18
+ 167 0092 0022     		movs	r2, #0
+ 168 0094 5A70     		strb	r2, [r3, #1]
+ 169 0096 7047     		bx	lr
+ 170              	.L8:
+ 158:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 159:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+ 160:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 161:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		else if(DR16_Export_Data.Keyboard.Press_G.Switch_Flag)
+ 171              		.loc 1 161 8 is_stmt 1 view .LVU59
+ 172              		.loc 1 161 44 is_stmt 0 view .LVU60
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 7
+
+
+ 173 0098 174B     		ldr	r3, .L18+4
+ 174 009a 93F86130 		ldrb	r3, [r3, #97]	@ zero_extendqisi2
+ 175              		.loc 1 161 10 view .LVU61
+ 176 009e 83B1     		cbz	r3, .L10
+ 162:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 163:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			if(State_Machine.Mode == Spin_Top)
+ 177              		.loc 1 163 4 is_stmt 1 view .LVU62
+ 178              		.loc 1 163 20 is_stmt 0 view .LVU63
+ 179 00a0 144B     		ldr	r3, .L18
+ 180 00a2 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 181              		.loc 1 163 6 view .LVU64
+ 182 00a4 022B     		cmp	r3, #2
+ 183 00a6 07D0     		beq	.L17
+ 164:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 165:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+ 166:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 167:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 168:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			else
+ 169:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			{
+ 170:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 1;
+ 184              		.loc 1 170 5 is_stmt 1 view .LVU65
+ 185              		.loc 1 170 33 is_stmt 0 view .LVU66
+ 186 00a8 124B     		ldr	r3, .L18
+ 187 00aa 0122     		movs	r2, #1
+ 188 00ac 9A70     		strb	r2, [r3, #2]
+ 171:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 189              		.loc 1 171 5 is_stmt 1 view .LVU67
+ 190              		.loc 1 171 30 is_stmt 0 view .LVU68
+ 191 00ae 0022     		movs	r2, #0
+ 192 00b0 DA70     		strb	r2, [r3, #3]
+ 172:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Spin_Top;
+ 193              		.loc 1 172 5 is_stmt 1 view .LVU69
+ 194              		.loc 1 172 24 is_stmt 0 view .LVU70
+ 195 00b2 0222     		movs	r2, #2
+ 196 00b4 5A70     		strb	r2, [r3, #1]
+ 197 00b6 7047     		bx	lr
+ 198              	.L17:
+ 165:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 199              		.loc 1 165 5 is_stmt 1 view .LVU71
+ 165:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Mode = Follow_Gimbal;
+ 200              		.loc 1 165 33 is_stmt 0 view .LVU72
+ 201 00b8 0E4B     		ldr	r3, .L18
+ 202 00ba 0022     		movs	r2, #0
+ 203 00bc 9A70     		strb	r2, [r3, #2]
+ 166:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 204              		.loc 1 166 5 is_stmt 1 view .LVU73
+ 166:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 205              		.loc 1 166 24 is_stmt 0 view .LVU74
+ 206 00be 5A70     		strb	r2, [r3, #1]
+ 207 00c0 7047     		bx	lr
+ 208              	.L10:
+ 173:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 174:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+ 175:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 176:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		else if(DR16_Export_Data.Keyboard.Press_B.Switch_Flag)
+ 209              		.loc 1 176 8 is_stmt 1 view .LVU75
+ 210              		.loc 1 176 44 is_stmt 0 view .LVU76
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 8
+
+
+ 211 00c2 0D4B     		ldr	r3, .L18+4
+ 212 00c4 93F87A30 		ldrb	r3, [r3, #122]	@ zero_extendqisi2
+ 213              		.loc 1 176 10 view .LVU77
+ 214 00c8 53B1     		cbz	r3, .L12
+ 177:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 178:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			if(Shooting.Fric_Wheel.Turned_On)
+ 215              		.loc 1 178 4 is_stmt 1 view .LVU78
+ 216              		.loc 1 178 26 is_stmt 0 view .LVU79
+ 217 00ca 0E4B     		ldr	r3, .L18+16
+ 218 00cc 9B7B     		ldrb	r3, [r3, #14]	@ zero_extendqisi2
+ 219              		.loc 1 178 6 view .LVU80
+ 220 00ce 1BB1     		cbz	r3, .L13
+ 179:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 0;
+ 221              		.loc 1 179 5 is_stmt 1 view .LVU81
+ 222              		.loc 1 179 35 is_stmt 0 view .LVU82
+ 223 00d0 0C4B     		ldr	r3, .L18+16
+ 224 00d2 0022     		movs	r2, #0
+ 225 00d4 9A73     		strb	r2, [r3, #14]
+ 226 00d6 7047     		bx	lr
+ 227              	.L13:
+ 180:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			else 
+ 181:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 1;
+ 228              		.loc 1 181 5 is_stmt 1 view .LVU83
+ 229              		.loc 1 181 35 is_stmt 0 view .LVU84
+ 230 00d8 0A4B     		ldr	r3, .L18+16
+ 231 00da 0122     		movs	r2, #1
+ 232 00dc 9A73     		strb	r2, [r3, #14]
+ 233 00de 7047     		bx	lr
+ 234              	.L12:
+ 182:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+ 183:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 184:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		else if(DR16_Export_Data.Keyboard.Press_Z.Switch_Flag)
+ 235              		.loc 1 184 8 is_stmt 1 view .LVU85
+ 236              		.loc 1 184 44 is_stmt 0 view .LVU86
+ 237 00e0 054B     		ldr	r3, .L18+4
+ 238 00e2 93F86630 		ldrb	r3, [r3, #102]	@ zero_extendqisi2
+ 239              		.loc 1 184 10 view .LVU87
+ 240 00e6 1BB1     		cbz	r3, .L1
+ 185:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 186:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			UI.Initialized_Flag = 0;
+ 241              		.loc 1 186 4 is_stmt 1 view .LVU88
+ 242              		.loc 1 186 24 is_stmt 0 view .LVU89
+ 243 00e8 074B     		ldr	r3, .L18+20
+ 244 00ea 0022     		movs	r2, #0
+ 245 00ec 1A71     		strb	r2, [r3, #4]
+ 187:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			UI.Global_PacketNumber = 0;
+ 246              		.loc 1 187 4 is_stmt 1 view .LVU90
+ 247              		.loc 1 187 27 is_stmt 0 view .LVU91
+ 248 00ee DA71     		strb	r2, [r3, #7]
+ 249              	.L1:
+ 188:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		}
+ 189:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	}
+ 190:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** }
+ 250              		.loc 1 190 1 view .LVU92
+ 251 00f0 7047     		bx	lr
+ 252              	.L19:
+ 253 00f2 00BF     		.align	2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 9
+
+
+ 254              	.L18:
+ 255 00f4 00000000 		.word	State_Machine
+ 256 00f8 00000000 		.word	DR16_Export_Data
+ 257 00fc 00000000 		.word	Chassis
+ 258 0100 00D08E45 		.word	1166987264
+ 259 0104 00000000 		.word	Shooting
+ 260 0108 00000000 		.word	UI
+ 261              		.cfi_endproc
+ 262              	.LFE163:
+ 264              		.section	.text.Remote_Control_Update,"ax",%progbits
+ 265              		.align	1
+ 266              		.global	Remote_Control_Update
+ 267              		.syntax unified
+ 268              		.thumb
+ 269              		.thumb_func
+ 271              	Remote_Control_Update:
+ 272              	.LFB162:
+  21:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	/*
+ 273              		.loc 1 21 1 is_stmt 1 view -0
+ 274              		.cfi_startproc
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277 0000 08B5     		push	{r3, lr}
+ 278              	.LCFI0:
+ 279              		.cfi_def_cfa_offset 8
+ 280              		.cfi_offset 3, -8
+ 281              		.cfi_offset 14, -4
+  26:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		|| (DR16_Export_Data.Info_Update_Frame < 1))
+ 282              		.loc 1 26 2 view .LVU94
+  26:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		|| (DR16_Export_Data.Info_Update_Frame < 1))
+ 283              		.loc 1 26 37 is_stmt 0 view .LVU95
+ 284 0002 284B     		ldr	r3, .L35
+ 285 0004 93F82630 		ldrb	r3, [r3, #38]	@ zero_extendqisi2
+  26:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		|| (DR16_Export_Data.Info_Update_Frame < 1))
+ 286              		.loc 1 26 4 view .LVU96
+ 287 0008 022B     		cmp	r3, #2
+ 288 000a 09D0     		beq	.L33
+ 289              	.L21:
+  27:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 290              		.loc 1 27 23 view .LVU97
+ 291 000c 254A     		ldr	r2, .L35
+ 292 000e B2F87E20 		ldrh	r2, [r2, #126]
+  27:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 293              		.loc 1 27 3 view .LVU98
+ 294 0012 5AB9     		cbnz	r2, .L23
+ 295              	.L22:
+  29:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	}
+ 296              		.loc 1 29 3 is_stmt 1 view .LVU99
+  29:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	}
+ 297              		.loc 1 29 21 is_stmt 0 view .LVU100
+ 298 0014 244B     		ldr	r3, .L35+4
+ 299 0016 9B68     		ldr	r3, [r3, #8]
+  29:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	}
+ 300              		.loc 1 29 3 view .LVU101
+ 301 0018 9847     		blx	r3
+ 302              	.LVL0:
+ 303              	.L24:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 10
+
+
+  97:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** }
+ 304              		.loc 1 97 2 is_stmt 1 view .LVU102
+ 305 001a FFF7FEFF 		bl	Computer_Update
+ 306              	.LVL1:
+  98:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 
+ 307              		.loc 1 98 1 is_stmt 0 view .LVU103
+ 308 001e 08BD     		pop	{r3, pc}
+ 309              	.L33:
+  26:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		|| (DR16_Export_Data.Info_Update_Frame < 1))
+ 310              		.loc 1 26 99 discriminator 1 view .LVU104
+ 311 0020 204A     		ldr	r2, .L35
+ 312 0022 92F82820 		ldrb	r2, [r2, #40]	@ zero_extendqisi2
+  26:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		|| (DR16_Export_Data.Info_Update_Frame < 1))
+ 313              		.loc 1 26 65 discriminator 1 view .LVU105
+ 314 0026 022A     		cmp	r2, #2
+ 315 0028 F0D1     		bne	.L21
+ 316 002a F3E7     		b	.L22
+ 317              	.L23:
+  37:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 318              		.loc 1 37 7 is_stmt 1 view .LVU106
+  37:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 319              		.loc 1 37 41 is_stmt 0 view .LVU107
+ 320 002c 1D4A     		ldr	r2, .L35
+ 321 002e 92F82820 		ldrb	r2, [r2, #40]	@ zero_extendqisi2
+  37:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 322              		.loc 1 37 9 view .LVU108
+ 323 0032 032A     		cmp	r2, #3
+ 324 0034 0BD0     		beq	.L34
+  73:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 325              		.loc 1 73 7 is_stmt 1 view .LVU109
+  73:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 	{
+ 326              		.loc 1 73 9 is_stmt 0 view .LVU110
+ 327 0036 012A     		cmp	r2, #1
+ 328 0038 EFD1     		bne	.L24
+  75:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 329              		.loc 1 75 3 is_stmt 1 view .LVU111
+ 330 003a 022B     		cmp	r3, #2
+ 331 003c 25D0     		beq	.L29
+ 332 003e 032B     		cmp	r3, #3
+ 333 0040 2AD0     		beq	.L30
+ 334 0042 012B     		cmp	r3, #1
+ 335 0044 E9D1     		bne	.L24
+  91:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 336              		.loc 1 91 5 view .LVU112
+  91:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 337              		.loc 1 91 34 is_stmt 0 view .LVU113
+ 338 0046 194B     		ldr	r3, .L35+8
+ 339 0048 0022     		movs	r2, #0
+ 340 004a 1A70     		strb	r2, [r3]
+  92:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 341              		.loc 1 92 5 is_stmt 1 view .LVU114
+ 342 004c E5E7     		b	.L24
+ 343              	.L34:
+  39:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 344              		.loc 1 39 3 view .LVU115
+  39:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		
+ 345              		.loc 1 39 32 is_stmt 0 view .LVU116
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 11
+
+
+ 346 004e 174A     		ldr	r2, .L35+8
+ 347 0050 0121     		movs	r1, #1
+ 348 0052 1170     		strb	r1, [r2]
+  41:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 		{
+ 349              		.loc 1 41 3 is_stmt 1 view .LVU117
+ 350 0054 022B     		cmp	r3, #2
+ 351 0056 0AD0     		beq	.L26
+ 352 0058 032B     		cmp	r3, #3
+ 353 005a 0FD0     		beq	.L27
+ 354 005c 8B42     		cmp	r3, r1
+ 355 005e DCD1     		bne	.L24
+  60:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 356              		.loc 1 60 5 view .LVU118
+  60:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 357              		.loc 1 60 33 is_stmt 0 view .LVU119
+ 358 0060 124B     		ldr	r3, .L35+8
+ 359 0062 0122     		movs	r2, #1
+ 360 0064 9A70     		strb	r2, [r3, #2]
+  61:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 0;
+ 361              		.loc 1 61 5 is_stmt 1 view .LVU120
+  61:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 0;
+ 362              		.loc 1 61 30 is_stmt 0 view .LVU121
+ 363 0066 0022     		movs	r2, #0
+ 364 0068 DA70     		strb	r2, [r3, #3]
+  62:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 365              		.loc 1 62 5 is_stmt 1 view .LVU122
+  62:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 366              		.loc 1 62 37 is_stmt 0 view .LVU123
+ 367 006a 1A71     		strb	r2, [r3, #4]
+  63:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 368              		.loc 1 63 5 is_stmt 1 view .LVU124
+ 369 006c D5E7     		b	.L24
+ 370              	.L26:
+  45:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+ 371              		.loc 1 45 5 view .LVU125
+  45:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+ 372              		.loc 1 45 24 is_stmt 0 view .LVU126
+ 373 006e 0F4B     		ldr	r3, .L35+8
+ 374 0070 0022     		movs	r2, #0
+ 375 0072 5A70     		strb	r2, [r3, #1]
+  46:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 376              		.loc 1 46 5 is_stmt 1 view .LVU127
+  46:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 377              		.loc 1 46 33 is_stmt 0 view .LVU128
+ 378 0074 9A70     		strb	r2, [r3, #2]
+  47:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 0;
+ 379              		.loc 1 47 5 is_stmt 1 view .LVU129
+  47:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Follow_Wheel_Flag = 0;
+ 380              		.loc 1 47 30 is_stmt 0 view .LVU130
+ 381 0076 DA70     		strb	r2, [r3, #3]
+  48:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 382              		.loc 1 48 5 is_stmt 1 view .LVU131
+  48:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 383              		.loc 1 48 37 is_stmt 0 view .LVU132
+ 384 0078 1A71     		strb	r2, [r3, #4]
+  49:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 385              		.loc 1 49 5 is_stmt 1 view .LVU133
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 12
+
+
+ 386 007a CEE7     		b	.L24
+ 387              	.L27:
+  53:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+ 388              		.loc 1 53 5 view .LVU134
+  53:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Spin_Top_Flag = 0;
+ 389              		.loc 1 53 37 is_stmt 0 view .LVU135
+ 390 007c 0B4B     		ldr	r3, .L35+8
+ 391 007e 0122     		movs	r2, #1
+ 392 0080 1A71     		strb	r2, [r3, #4]
+  54:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 393              		.loc 1 54 5 is_stmt 1 view .LVU136
+  54:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				State_Machine.Swing_Flag = 0;
+ 394              		.loc 1 54 33 is_stmt 0 view .LVU137
+ 395 0082 0022     		movs	r2, #0
+ 396 0084 9A70     		strb	r2, [r3, #2]
+  55:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 397              		.loc 1 55 5 is_stmt 1 view .LVU138
+  55:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 398              		.loc 1 55 30 is_stmt 0 view .LVU139
+ 399 0086 DA70     		strb	r2, [r3, #3]
+  56:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 400              		.loc 1 56 5 is_stmt 1 view .LVU140
+ 401 0088 C7E7     		b	.L24
+ 402              	.L29:
+  79:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 0;				
+ 403              		.loc 1 79 5 view .LVU141
+  79:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 0;				
+ 404              		.loc 1 79 34 is_stmt 0 view .LVU142
+ 405 008a 084B     		ldr	r3, .L35+8
+ 406 008c 0122     		movs	r2, #1
+ 407 008e 1A70     		strb	r2, [r3]
+  80:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 408              		.loc 1 80 5 is_stmt 1 view .LVU143
+  80:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 409              		.loc 1 80 35 is_stmt 0 view .LVU144
+ 410 0090 074B     		ldr	r3, .L35+12
+ 411 0092 0022     		movs	r2, #0
+ 412 0094 9A73     		strb	r2, [r3, #14]
+  81:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}	
+ 413              		.loc 1 81 5 is_stmt 1 view .LVU145
+ 414 0096 C0E7     		b	.L24
+ 415              	.L30:
+  85:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 1;				
+ 416              		.loc 1 85 5 view .LVU146
+  85:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				Shooting.Fric_Wheel.Turned_On = 1;				
+ 417              		.loc 1 85 34 is_stmt 0 view .LVU147
+ 418 0098 0123     		movs	r3, #1
+ 419 009a 044A     		ldr	r2, .L35+8
+ 420 009c 1370     		strb	r3, [r2]
+  86:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 421              		.loc 1 86 5 is_stmt 1 view .LVU148
+  86:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 				break;
+ 422              		.loc 1 86 35 is_stmt 0 view .LVU149
+ 423 009e 044A     		ldr	r2, .L35+12
+ 424 00a0 9373     		strb	r3, [r2, #14]
+  87:HigherLevelApps/HigherLevelApps.c/State_Machine.c **** 			}
+ 425              		.loc 1 87 5 is_stmt 1 view .LVU150
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 13
+
+
+ 426 00a2 BAE7     		b	.L24
+ 427              	.L36:
+ 428              		.align	2
+ 429              	.L35:
+ 430 00a4 00000000 		.word	DR16_Export_Data
+ 431 00a8 00000000 		.word	Robot_Control_Func
+ 432 00ac 00000000 		.word	State_Machine
+ 433 00b0 00000000 		.word	Shooting
+ 434              		.cfi_endproc
+ 435              	.LFE162:
+ 437              		.global	State_Machine_Func
+ 438              		.section	.data.State_Machine_Func,"aw"
+ 439              		.align	2
+ 442              	State_Machine_Func:
+ 443 0000 00000000 		.word	Remote_Control_Update
+ 444              		.global	State_Machine
+ 445              		.section	.bss.State_Machine,"aw",%nobits
+ 446              		.align	2
+ 449              	State_Machine:
+ 450 0000 00000000 		.space	6
+ 450      0000
+ 451              		.text
+ 452              	.Letext0:
+ 453              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 454              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 455              		.file 4 "Devices/Devices.h/DR16_Remote.h"
+ 456              		.file 5 "HigherLevelApps/HigherLevelApps.h/Chassis_Control.h"
+ 457              		.file 6 "HigherLevelApps/HigherLevelApps.h/Shooting_Control.h"
+ 458              		.file 7 "HigherLevelApps/HigherLevelApps.h/Robot_Control.h"
+ 459              		.file 8 "HigherLevelApps/HigherLevelApps.h/User_Interface.h"
+ 460              		.file 9 "HigherLevelApps/HigherLevelApps.h/State_Machine.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 State_Machine.c
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:21     .text.Computer_Update:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:27     .text.Computer_Update:00000000 Computer_Update
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:255    .text.Computer_Update:000000f4 $d
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:449    .bss.State_Machine:00000000 State_Machine
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:265    .text.Remote_Control_Update:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:271    .text.Remote_Control_Update:00000000 Remote_Control_Update
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:430    .text.Remote_Control_Update:000000a4 $d
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:442    .data.State_Machine_Func:00000000 State_Machine_Func
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:439    .data.State_Machine_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cccLzOdW.s:446    .bss.State_Machine:00000000 $d
+
+UNDEFINED SYMBOLS
+DR16_Export_Data
+Chassis
+Shooting
+UI
+Robot_Control_Func

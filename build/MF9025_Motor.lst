@@ -1,0 +1,874 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"MF9025_Motor.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/MF9025_Motor.c"
+  20              		.section	.text.MF9025_Chassis_Send_Data,"ax",%progbits
+  21              		.align	1
+  22              		.global	MF9025_Chassis_Send_Data
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	MF9025_Chassis_Send_Data:
+  28              	.LVL0:
+  29              	.LFB163:
+   1:Devices/Devices.c/MF9025_Motor.c **** /**
+   2:Devices/Devices.c/MF9025_Motor.c ****  * @file MF9025_Motor.c
+   3:Devices/Devices.c/MF9025_Motor.c ****  * @author Leo Liu
+   4:Devices/Devices.c/MF9025_Motor.c ****  * @brief MF9025 communication
+   5:Devices/Devices.c/MF9025_Motor.c ****  * @version 1.0
+   6:Devices/Devices.c/MF9025_Motor.c ****  * @date 2023-03-13
+   7:Devices/Devices.c/MF9025_Motor.c ****  * 
+   8:Devices/Devices.c/MF9025_Motor.c ****  * @copyright Copyright (c) 2023
+   9:Devices/Devices.c/MF9025_Motor.c ****  * 
+  10:Devices/Devices.c/MF9025_Motor.c ****  */
+  11:Devices/Devices.c/MF9025_Motor.c **** #include "MF9025_Motor.h"
+  12:Devices/Devices.c/MF9025_Motor.c **** 
+  13:Devices/Devices.c/MF9025_Motor.c **** MF9025_Chassis_t MF9025_Chassis[2];
+  14:Devices/Devices.c/MF9025_Motor.c **** 
+  15:Devices/Devices.c/MF9025_Motor.c **** void MF9025_Chassis_Get_Data(CAN_Export_Data_t RxMessage);
+  16:Devices/Devices.c/MF9025_Motor.c **** void MF9025_Chassis_Send_Data(int32_t Left_Speed,int32_t Right_Speed);
+  17:Devices/Devices.c/MF9025_Motor.c **** void Check_MF9025_Chassis(void);
+  18:Devices/Devices.c/MF9025_Motor.c **** 
+  19:Devices/Devices.c/MF9025_Motor.c **** MF9025_Func_t MF9025_Func = MF9025_Func_GroundInit;
+  20:Devices/Devices.c/MF9025_Motor.c **** #undef MF9025_Func_GroundInit
+  21:Devices/Devices.c/MF9025_Motor.c **** 
+  22:Devices/Devices.c/MF9025_Motor.c **** //Obtain chassis data from CAN
+  23:Devices/Devices.c/MF9025_Motor.c **** void MF9025_Chassis_Get_Data(CAN_Export_Data_t RxMessage)
+  24:Devices/Devices.c/MF9025_Motor.c **** {
+  25:Devices/Devices.c/MF9025_Motor.c **** 	switch(RxMessage.CAN_RxHeader.StdId - MF9025_DEVICE_ID)
+  26:Devices/Devices.c/MF9025_Motor.c **** 	{
+  27:Devices/Devices.c/MF9025_Motor.c **** 		case MF9025_CHASSIS_LEFT_ID:
+  28:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Prev_Angle = MF9025_Chassis[0].Actual_Angle;
+  29:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 2
+
+
+  30:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Prev_Speed = MF9025_Chassis[0].Actual_Speed;
+  31:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+  32:Devices/Devices.c/MF9025_Motor.c **** 		  MF9025_Chassis[0].Angular_Acceleration = (float)(MF9025_Chassis[0].Prev_Speed - MF9025_Chassis[
+  33:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+  34:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Calculated_Current = (float)MF9025_Chassis[0].Actual_Current/2048.0f*16.5f;
+  35:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Temperature = RxMessage.CANx_Export_RxMessage[1];
+  36:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) < -50000)
+  37:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Turn_Count++;
+  38:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) > 50000)
+  39:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Turn_Count--;
+  40:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Total_Turn = ((float)MF9025_Chassis[0].Actual_Angle / (float)MF9025_MECH_ANGLE
+  41:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+  42:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Period = MF9025_Chassis[0].Sample.Now_Time - MF9025_Chassis[0].Sample.P
+  43:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Prev_Time = MF9025_Chassis[0].Sample.Now_Time;
+  44:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Info_Update_Frame++;
+  45:Devices/Devices.c/MF9025_Motor.c **** 			break;
+  46:Devices/Devices.c/MF9025_Motor.c **** 		case MF9025_CHASSIS_RIGHT_ID:
+  47:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Prev_Angle = MF9025_Chassis[1].Actual_Angle;
+  48:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+  49:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Prev_Speed = MF9025_Chassis[1].Actual_Speed;
+  50:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Angular_Acceleration = (float)(MF9025_Chassis[1].Prev_Speed - MF9025_Chassis[1
+  52:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+  53:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Calculated_Current = (float)MF9025_Chassis[1].Actual_Current/2048.0f*16.5f;
+  54:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Temperature = RxMessage.CANx_Export_RxMessage[1];
+  55:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) < -50000)
+  56:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Turn_Count++;
+  57:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) > 50000)
+  58:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Turn_Count--;
+  59:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Total_Turn = ((float)MF9025_Chassis[1].Actual_Angle / (float)MF9025_MECH_ANGLE
+  60:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+  61:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Period = MF9025_Chassis[1].Sample.Now_Time - MF9025_Chassis[1].Sample.P
+  62:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Prev_Time = MF9025_Chassis[1].Sample.Now_Time;
+  63:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Info_Update_Frame++;
+  64:Devices/Devices.c/MF9025_Motor.c **** 			break;
+  65:Devices/Devices.c/MF9025_Motor.c **** 	}
+  66:Devices/Devices.c/MF9025_Motor.c **** }
+  67:Devices/Devices.c/MF9025_Motor.c **** 
+  68:Devices/Devices.c/MF9025_Motor.c **** //Send chassis data through specified identifier
+  69:Devices/Devices.c/MF9025_Motor.c **** void MF9025_Chassis_Send_Data(int32_t Left_Speed,int32_t Right_Speed)
+  70:Devices/Devices.c/MF9025_Motor.c **** {
+  30              		.loc 1 70 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 70 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 24
+  38              		.cfi_offset 4, -24
+  39              		.cfi_offset 5, -20
+  40              		.cfi_offset 6, -16
+  41              		.cfi_offset 7, -12
+  42              		.cfi_offset 8, -8
+  43              		.cfi_offset 14, -4
+  44 0004 86B0     		sub	sp, sp, #24
+  45              	.LCFI1:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 3
+
+
+  46              		.cfi_def_cfa_offset 48
+  47 0006 0C46     		mov	r4, r1
+  71:Devices/Devices.c/MF9025_Motor.c **** 	CAN_Func.CAN_0x140_Send_Data(&hcan1,MF9025_CHASSIS_LEFT_ID,0xA2,0,0,0,*(uint8_t *)(&Left_Speed),
+  48              		.loc 1 71 2 is_stmt 1 view .LVU2
+  49              		.loc 1 71 10 is_stmt 0 view .LVU3
+  50 0008 154F     		ldr	r7, .L3
+  51              		.loc 1 71 2 view .LVU4
+  52 000a DFF85880 		ldr	r8, .L3+4
+  53 000e 030E     		lsrs	r3, r0, #24
+  54 0010 0593     		str	r3, [sp, #20]
+  55 0012 C0F30743 		ubfx	r3, r0, #16, #8
+  56 0016 0493     		str	r3, [sp, #16]
+  57 0018 C0F30723 		ubfx	r3, r0, #8, #8
+  58 001c 0393     		str	r3, [sp, #12]
+  59 001e C0B2     		uxtb	r0, r0
+  60              	.LVL1:
+  61              		.loc 1 71 2 view .LVU5
+  62 0020 0290     		str	r0, [sp, #8]
+  63 0022 0025     		movs	r5, #0
+  64 0024 0195     		str	r5, [sp, #4]
+  65 0026 0095     		str	r5, [sp]
+  66 0028 2B46     		mov	r3, r5
+  67 002a A222     		movs	r2, #162
+  68 002c 0121     		movs	r1, #1
+  69              	.LVL2:
+  70              		.loc 1 71 2 view .LVU6
+  71 002e 4046     		mov	r0, r8
+  72 0030 BE68     		ldr	r6, [r7, #8]
+  73 0032 B047     		blx	r6
+  74              	.LVL3:
+  72:Devices/Devices.c/MF9025_Motor.c **** 					*((uint8_t *)(&Left_Speed)+1),*((uint8_t *)(&Left_Speed)+2),*((uint8_t *)(&Left_Speed)+3));
+  73:Devices/Devices.c/MF9025_Motor.c **** 	
+  74:Devices/Devices.c/MF9025_Motor.c **** 	CAN_Func.CAN_0x140_Send_Data(&hcan1,MF9025_CHASSIS_RIGHT_ID,0xA2,0,0,0,*(uint8_t *)(&Right_Speed),
+  75              		.loc 1 74 2 is_stmt 1 view .LVU7
+  76              		.loc 1 74 10 is_stmt 0 view .LVU8
+  77 0034 BF68     		ldr	r7, [r7, #8]
+  78              		.loc 1 74 2 view .LVU9
+  79 0036 230E     		lsrs	r3, r4, #24
+  80 0038 0593     		str	r3, [sp, #20]
+  81 003a C4F30743 		ubfx	r3, r4, #16, #8
+  82 003e 0493     		str	r3, [sp, #16]
+  83 0040 C4F30723 		ubfx	r3, r4, #8, #8
+  84 0044 0393     		str	r3, [sp, #12]
+  85 0046 E4B2     		uxtb	r4, r4
+  86              	.LVL4:
+  87              		.loc 1 74 2 view .LVU10
+  88 0048 0294     		str	r4, [sp, #8]
+  89 004a 0195     		str	r5, [sp, #4]
+  90 004c 0095     		str	r5, [sp]
+  91 004e 2B46     		mov	r3, r5
+  92 0050 A222     		movs	r2, #162
+  93 0052 0221     		movs	r1, #2
+  94 0054 4046     		mov	r0, r8
+  95 0056 B847     		blx	r7
+  96              	.LVL5:
+  75:Devices/Devices.c/MF9025_Motor.c **** 					*((uint8_t *)(&Right_Speed)+1),*((uint8_t *)(&Right_Speed)+2),*((uint8_t *)(&Right_Speed)+3));
+  76:Devices/Devices.c/MF9025_Motor.c **** }
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 4
+
+
+  97              		.loc 1 76 1 view .LVU11
+  98 0058 06B0     		add	sp, sp, #24
+  99              	.LCFI2:
+ 100              		.cfi_def_cfa_offset 24
+ 101              		@ sp needed
+ 102 005a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 103              	.L4:
+ 104 005e 00BF     		.align	2
+ 105              	.L3:
+ 106 0060 00000000 		.word	CAN_Func
+ 107 0064 00000000 		.word	hcan1
+ 108              		.cfi_endproc
+ 109              	.LFE163:
+ 111              		.section	.text.Check_MF9025_Chassis,"ax",%progbits
+ 112              		.align	1
+ 113              		.global	Check_MF9025_Chassis
+ 114              		.syntax unified
+ 115              		.thumb
+ 116              		.thumb_func
+ 118              	Check_MF9025_Chassis:
+ 119              	.LFB164:
+  77:Devices/Devices.c/MF9025_Motor.c **** 
+  78:Devices/Devices.c/MF9025_Motor.c **** void Check_MF9025_Chassis(void)
+  79:Devices/Devices.c/MF9025_Motor.c **** {
+ 120              		.loc 1 79 1 is_stmt 1 view -0
+ 121              		.cfi_startproc
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124              		@ link register save eliminated.
+  80:Devices/Devices.c/MF9025_Motor.c **** 	for(int i = 0; i < 4; i++)
+ 125              		.loc 1 80 2 view .LVU13
+ 126              	.LBB2:
+ 127              		.loc 1 80 6 view .LVU14
+ 128              	.LVL6:
+ 129              		.loc 1 80 10 is_stmt 0 view .LVU15
+ 130 0000 0023     		movs	r3, #0
+ 131              		.loc 1 80 2 view .LVU16
+ 132 0002 0FE0     		b	.L6
+ 133              	.LVL7:
+ 134              	.L7:
+  81:Devices/Devices.c/MF9025_Motor.c **** 	{
+  82:Devices/Devices.c/MF9025_Motor.c **** 		if(MF9025_Chassis[i].Info_Update_Frame < 1)
+  83:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[i].Offline_Flag = 1;
+  84:Devices/Devices.c/MF9025_Motor.c **** 		else
+  85:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[i].Offline_Flag = 0;
+ 135              		.loc 1 85 4 is_stmt 1 view .LVU17
+ 136              		.loc 1 85 35 is_stmt 0 view .LVU18
+ 137 0004 C3EBC302 		rsb	r2, r3, r3, lsl #3
+ 138 0008 D100     		lsls	r1, r2, #3
+ 139 000a 0F4A     		ldr	r2, .L11
+ 140 000c 0A44     		add	r2, r2, r1
+ 141 000e 0021     		movs	r1, #0
+ 142 0010 82F83610 		strb	r1, [r2, #54]
+ 143              	.L8:
+  86:Devices/Devices.c/MF9025_Motor.c **** 		MF9025_Chassis[i].Info_Update_Frame = 0;
+ 144              		.loc 1 86 3 is_stmt 1 discriminator 2 view .LVU19
+ 145              		.loc 1 86 39 is_stmt 0 discriminator 2 view .LVU20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 5
+
+
+ 146 0014 C3EBC302 		rsb	r2, r3, r3, lsl #3
+ 147 0018 D100     		lsls	r1, r2, #3
+ 148 001a 0B4A     		ldr	r2, .L11
+ 149 001c 0A44     		add	r2, r2, r1
+ 150 001e 0021     		movs	r1, #0
+ 151 0020 9186     		strh	r1, [r2, #52]	@ movhi
+  80:Devices/Devices.c/MF9025_Motor.c **** 	for(int i = 0; i < 4; i++)
+ 152              		.loc 1 80 25 is_stmt 1 discriminator 2 view .LVU21
+ 153 0022 0133     		adds	r3, r3, #1
+ 154              	.LVL8:
+ 155              	.L6:
+  80:Devices/Devices.c/MF9025_Motor.c **** 	for(int i = 0; i < 4; i++)
+ 156              		.loc 1 80 19 discriminator 1 view .LVU22
+ 157 0024 032B     		cmp	r3, #3
+ 158 0026 0DDC     		bgt	.L10
+  82:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[i].Offline_Flag = 1;
+ 159              		.loc 1 82 3 view .LVU23
+  82:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[i].Offline_Flag = 1;
+ 160              		.loc 1 82 23 is_stmt 0 view .LVU24
+ 161 0028 C3EBC302 		rsb	r2, r3, r3, lsl #3
+ 162 002c D100     		lsls	r1, r2, #3
+ 163 002e 064A     		ldr	r2, .L11
+ 164 0030 0A44     		add	r2, r2, r1
+ 165 0032 928E     		ldrh	r2, [r2, #52]
+  82:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[i].Offline_Flag = 1;
+ 166              		.loc 1 82 5 view .LVU25
+ 167 0034 002A     		cmp	r2, #0
+ 168 0036 E5D1     		bne	.L7
+  83:Devices/Devices.c/MF9025_Motor.c **** 		else
+ 169              		.loc 1 83 4 is_stmt 1 view .LVU26
+  83:Devices/Devices.c/MF9025_Motor.c **** 		else
+ 170              		.loc 1 83 35 is_stmt 0 view .LVU27
+ 171 0038 034A     		ldr	r2, .L11
+ 172 003a 0A44     		add	r2, r2, r1
+ 173 003c 0121     		movs	r1, #1
+ 174 003e 82F83610 		strb	r1, [r2, #54]
+ 175 0042 E7E7     		b	.L8
+ 176              	.L10:
+ 177              	.LBE2:
+  87:Devices/Devices.c/MF9025_Motor.c **** 	}
+  88:Devices/Devices.c/MF9025_Motor.c **** }
+ 178              		.loc 1 88 1 view .LVU28
+ 179 0044 7047     		bx	lr
+ 180              	.L12:
+ 181 0046 00BF     		.align	2
+ 182              	.L11:
+ 183 0048 00000000 		.word	MF9025_Chassis
+ 184              		.cfi_endproc
+ 185              	.LFE164:
+ 187              		.section	.text.MF9025_Chassis_Get_Data,"ax",%progbits
+ 188              		.align	1
+ 189              		.global	MF9025_Chassis_Get_Data
+ 190              		.syntax unified
+ 191              		.thumb
+ 192              		.thumb_func
+ 194              	MF9025_Chassis_Get_Data:
+ 195              	.LFB162:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 6
+
+
+  24:Devices/Devices.c/MF9025_Motor.c **** 	switch(RxMessage.CAN_RxHeader.StdId - MF9025_DEVICE_ID)
+ 196              		.loc 1 24 1 is_stmt 1 view -0
+ 197              		.cfi_startproc
+ 198              		@ args = 36, pretend = 16, frame = 0
+ 199              		@ frame_needed = 0, uses_anonymous_args = 0
+ 200 0000 84B0     		sub	sp, sp, #16
+ 201              	.LCFI3:
+ 202              		.cfi_def_cfa_offset 16
+ 203 0002 10B5     		push	{r4, lr}
+ 204              	.LCFI4:
+ 205              		.cfi_def_cfa_offset 24
+ 206              		.cfi_offset 4, -24
+ 207              		.cfi_offset 14, -20
+ 208 0004 02AC     		add	r4, sp, #8
+ 209 0006 84E80F00 		stm	r4, {r0, r1, r2, r3}
+  25:Devices/Devices.c/MF9025_Motor.c **** 	{
+ 210              		.loc 1 25 2 view .LVU30
+  25:Devices/Devices.c/MF9025_Motor.c **** 	{
+ 211              		.loc 1 25 38 is_stmt 0 view .LVU31
+ 212 000a A0F5A070 		sub	r0, r0, #320
+  25:Devices/Devices.c/MF9025_Motor.c **** 	{
+ 213              		.loc 1 25 2 view .LVU32
+ 214 000e 0128     		cmp	r0, #1
+ 215 0010 06D0     		beq	.L14
+ 216 0012 0228     		cmp	r0, #2
+ 217 0014 00F08380 		beq	.L15
+ 218              	.L13:
+  66:Devices/Devices.c/MF9025_Motor.c **** 
+ 219              		.loc 1 66 1 view .LVU33
+ 220 0018 BDE81040 		pop	{r4, lr}
+ 221              	.LCFI5:
+ 222              		.cfi_remember_state
+ 223              		.cfi_restore 14
+ 224              		.cfi_restore 4
+ 225              		.cfi_def_cfa_offset 16
+ 226 001c 04B0     		add	sp, sp, #16
+ 227              	.LCFI6:
+ 228              		.cfi_def_cfa_offset 0
+ 229 001e 7047     		bx	lr
+ 230              	.L14:
+ 231              	.LCFI7:
+ 232              		.cfi_restore_state
+  28:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+ 233              		.loc 1 28 4 is_stmt 1 view .LVU34
+  28:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+ 234              		.loc 1 28 52 is_stmt 0 view .LVU35
+ 235 0020 8148     		ldr	r0, .L22
+ 236 0022 0488     		ldrh	r4, [r0]
+  28:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+ 237              		.loc 1 28 33 view .LVU36
+ 238 0024 4480     		strh	r4, [r0, #2]	@ movhi
+  29:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Prev_Speed = MF9025_Chassis[0].Actual_Speed;
+ 239              		.loc 1 29 4 is_stmt 1 view .LVU37
+  29:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Prev_Speed = MF9025_Chassis[0].Actual_Speed;
+ 240              		.loc 1 29 69 is_stmt 0 view .LVU38
+ 241 0026 9DF82B30 		ldrb	r3, [sp, #43]	@ zero_extendqisi2
+  29:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Prev_Speed = MF9025_Chassis[0].Actual_Speed;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 7
+
+
+ 242              		.loc 1 29 112 view .LVU39
+ 243 002a 9DF82A20 		ldrb	r2, [sp, #42]	@ zero_extendqisi2
+  29:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Prev_Speed = MF9025_Chassis[0].Actual_Speed;
+ 244              		.loc 1 29 79 view .LVU40
+ 245 002e 02EB0322 		add	r2, r2, r3, lsl #8
+ 246 0032 92B2     		uxth	r2, r2
+  29:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Prev_Speed = MF9025_Chassis[0].Actual_Speed;
+ 247              		.loc 1 29 35 view .LVU41
+ 248 0034 0280     		strh	r2, [r0]	@ movhi
+  30:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+ 249              		.loc 1 30 4 is_stmt 1 view .LVU42
+  30:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+ 250              		.loc 1 30 52 is_stmt 0 view .LVU43
+ 251 0036 B0F90430 		ldrsh	r3, [r0, #4]
+  30:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+ 252              		.loc 1 30 33 view .LVU44
+ 253 003a C380     		strh	r3, [r0, #6]	@ movhi
+  31:Devices/Devices.c/MF9025_Motor.c **** 		  MF9025_Chassis[0].Angular_Acceleration = (float)(MF9025_Chassis[0].Prev_Speed - MF9025_Chassis[
+ 254              		.loc 1 31 4 is_stmt 1 view .LVU45
+  31:Devices/Devices.c/MF9025_Motor.c **** 		  MF9025_Chassis[0].Angular_Acceleration = (float)(MF9025_Chassis[0].Prev_Speed - MF9025_Chassis[
+ 255              		.loc 1 31 69 is_stmt 0 view .LVU46
+ 256 003c 9DF829C0 		ldrb	ip, [sp, #41]	@ zero_extendqisi2
+  31:Devices/Devices.c/MF9025_Motor.c **** 		  MF9025_Chassis[0].Angular_Acceleration = (float)(MF9025_Chassis[0].Prev_Speed - MF9025_Chassis[
+ 257              		.loc 1 31 112 view .LVU47
+ 258 0040 9DF82810 		ldrb	r1, [sp, #40]	@ zero_extendqisi2
+  31:Devices/Devices.c/MF9025_Motor.c **** 		  MF9025_Chassis[0].Angular_Acceleration = (float)(MF9025_Chassis[0].Prev_Speed - MF9025_Chassis[
+ 259              		.loc 1 31 79 view .LVU48
+ 260 0044 01EB0C21 		add	r1, r1, ip, lsl #8
+ 261 0048 09B2     		sxth	r1, r1
+  31:Devices/Devices.c/MF9025_Motor.c **** 		  MF9025_Chassis[0].Angular_Acceleration = (float)(MF9025_Chassis[0].Prev_Speed - MF9025_Chassis[
+ 262              		.loc 1 31 35 view .LVU49
+ 263 004a 8180     		strh	r1, [r0, #4]	@ movhi
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 264              		.loc 1 32 5 is_stmt 1 view .LVU50
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 265              		.loc 1 32 83 is_stmt 0 view .LVU51
+ 266 004c 5B1A     		subs	r3, r3, r1
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 267              		.loc 1 32 46 view .LVU52
+ 268 004e 07EE903A 		vmov	s15, r3	@ int
+ 269 0052 F8EEE77A 		vcvt.f32.s32	s15, s15
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 270              		.loc 1 32 141 view .LVU53
+ 271 0056 90ED0C7A 		vldr.32	s14, [r0, #48]
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 272              		.loc 1 32 116 view .LVU54
+ 273 005a C7EE876A 		vdiv.f32	s13, s15, s14
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 274              		.loc 1 32 148 view .LVU55
+ 275 005e 9FED737A 		vldr.32	s14, .L22+4
+ 276 0062 C6EE877A 		vdiv.f32	s15, s13, s14
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 277              		.loc 1 32 155 view .LVU56
+ 278 0066 9FED727A 		vldr.32	s14, .L22+8
+ 279 006a 67EE877A 		vmul.f32	s15, s15, s14
+  32:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 280              		.loc 1 32 44 view .LVU57
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 8
+
+
+ 281 006e C0ED047A 		vstr.32	s15, [r0, #16]
+  33:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Calculated_Current = (float)MF9025_Chassis[0].Actual_Current/2048.0f*16.5f;
+ 282              		.loc 1 33 4 is_stmt 1 view .LVU58
+  33:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Calculated_Current = (float)MF9025_Chassis[0].Actual_Current/2048.0f*16.5f;
+ 283              		.loc 1 33 71 is_stmt 0 view .LVU59
+ 284 0072 9DF82710 		ldrb	r1, [sp, #39]	@ zero_extendqisi2
+  33:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Calculated_Current = (float)MF9025_Chassis[0].Actual_Current/2048.0f*16.5f;
+ 285              		.loc 1 33 114 view .LVU60
+ 286 0076 9DF82630 		ldrb	r3, [sp, #38]	@ zero_extendqisi2
+  33:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Calculated_Current = (float)MF9025_Chassis[0].Actual_Current/2048.0f*16.5f;
+ 287              		.loc 1 33 81 view .LVU61
+ 288 007a 03EB0123 		add	r3, r3, r1, lsl #8
+ 289 007e 1BB2     		sxth	r3, r3
+  33:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Calculated_Current = (float)MF9025_Chassis[0].Actual_Current/2048.0f*16.5f;
+ 290              		.loc 1 33 37 view .LVU62
+ 291 0080 0381     		strh	r3, [r0, #8]	@ movhi
+  34:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 292              		.loc 1 34 4 is_stmt 1 view .LVU63
+  34:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 293              		.loc 1 34 43 is_stmt 0 view .LVU64
+ 294 0082 07EE903A 		vmov	s15, r3	@ int
+ 295 0086 F8EEE77A 		vcvt.f32.s32	s15, s15
+  34:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 296              		.loc 1 34 82 view .LVU65
+ 297 008a 9FED6A7A 		vldr.32	s14, .L22+12
+ 298 008e 67EE877A 		vmul.f32	s15, s15, s14
+  34:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 299              		.loc 1 34 90 view .LVU66
+ 300 0092 9FED697A 		vldr.32	s14, .L22+16
+ 301 0096 67EE877A 		vmul.f32	s15, s15, s14
+  34:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 302              		.loc 1 34 41 view .LVU67
+ 303 009a C0ED037A 		vstr.32	s15, [r0, #12]
+  35:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) < -50000)
+ 304              		.loc 1 35 4 is_stmt 1 view .LVU68
+  35:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) < -50000)
+ 305              		.loc 1 35 67 is_stmt 0 view .LVU69
+ 306 009e 9DF92530 		ldrsb	r3, [sp, #37]
+  35:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) < -50000)
+ 307              		.loc 1 35 34 view .LVU70
+ 308 00a2 0375     		strb	r3, [r0, #20]
+  36:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Turn_Count++;
+ 309              		.loc 1 36 4 is_stmt 1 view .LVU71
+  36:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Turn_Count++;
+ 310              		.loc 1 36 39 is_stmt 0 view .LVU72
+ 311 00a4 131B     		subs	r3, r2, r4
+  36:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Turn_Count++;
+ 312              		.loc 1 36 6 view .LVU73
+ 313 00a6 6549     		ldr	r1, .L22+20
+ 314 00a8 8B42     		cmp	r3, r1
+ 315 00aa 2EDA     		bge	.L17
+  37:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) > 50000)
+ 316              		.loc 1 37 4 is_stmt 1 view .LVU74
+  37:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) > 50000)
+ 317              		.loc 1 37 21 is_stmt 0 view .LVU75
+ 318 00ac B0F92430 		ldrsh	r3, [r0, #36]
+  37:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[0].Actual_Angle - MF9025_Chassis[0].Prev_Angle) > 50000)
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 9
+
+
+ 319              		.loc 1 37 32 view .LVU76
+ 320 00b0 0133     		adds	r3, r3, #1
+ 321 00b2 8384     		strh	r3, [r0, #36]	@ movhi
+ 322              	.L18:
+  40:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 323              		.loc 1 40 4 is_stmt 1 view .LVU77
+  40:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 324              		.loc 1 40 36 is_stmt 0 view .LVU78
+ 325 00b4 07EE902A 		vmov	s15, r2	@ int
+ 326 00b8 F8EE677A 		vcvt.f32.u32	s15, s15
+  40:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 327              		.loc 1 40 74 view .LVU79
+ 328 00bc 9FED607A 		vldr.32	s14, .L22+24
+ 329 00c0 67EE877A 		vmul.f32	s15, s15, s14
+  40:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 330              		.loc 1 40 125 view .LVU80
+ 331 00c4 584C     		ldr	r4, .L22
+ 332 00c6 B4F92430 		ldrsh	r3, [r4, #36]
+ 333 00ca 07EE103A 		vmov	s14, r3	@ int
+  40:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 334              		.loc 1 40 106 view .LVU81
+ 335 00ce B8EEC77A 		vcvt.f32.s32	s14, s14
+ 336 00d2 77EE277A 		vadd.f32	s15, s14, s15
+  40:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 337              		.loc 1 40 33 view .LVU82
+ 338 00d6 C4ED087A 		vstr.32	s15, [r4, #32]
+  41:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Period = MF9025_Chassis[0].Sample.Now_Time - MF9025_Chassis[0].Sample.P
+ 339              		.loc 1 41 4 is_stmt 1 view .LVU83
+  41:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Period = MF9025_Chassis[0].Sample.Now_Time - MF9025_Chassis[0].Sample.P
+ 340              		.loc 1 41 40 is_stmt 0 view .LVU84
+ 341 00da FFF7FEFF 		bl	HAL_GetTick
+ 342              	.LVL9:
+ 343 00de 07EE100A 		vmov	s14, r0	@ int
+  41:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Period = MF9025_Chassis[0].Sample.Now_Time - MF9025_Chassis[0].Sample.P
+ 344              		.loc 1 41 54 view .LVU85
+ 345 00e2 B8EE477A 		vcvt.f32.u32	s14, s14
+ 346 00e6 DFED576A 		vldr.32	s13, .L22+28
+ 347 00ea C7EE267A 		vdiv.f32	s15, s14, s13
+  41:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Period = MF9025_Chassis[0].Sample.Now_Time - MF9025_Chassis[0].Sample.P
+ 348              		.loc 1 41 38 view .LVU86
+ 349 00ee C4ED0A7A 		vstr.32	s15, [r4, #40]
+  42:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Prev_Time = MF9025_Chassis[0].Sample.Now_Time;
+ 350              		.loc 1 42 4 is_stmt 1 view .LVU87
+  42:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Prev_Time = MF9025_Chassis[0].Sample.Now_Time;
+ 351              		.loc 1 42 98 is_stmt 0 view .LVU88
+ 352 00f2 94ED0B7A 		vldr.32	s14, [r4, #44]
+  42:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Prev_Time = MF9025_Chassis[0].Sample.Now_Time;
+ 353              		.loc 1 42 72 view .LVU89
+ 354 00f6 37EEC77A 		vsub.f32	s14, s15, s14
+  42:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Sample.Prev_Time = MF9025_Chassis[0].Sample.Now_Time;
+ 355              		.loc 1 42 36 view .LVU90
+ 356 00fa 84ED0C7A 		vstr.32	s14, [r4, #48]
+  43:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Info_Update_Frame++;
+ 357              		.loc 1 43 4 is_stmt 1 view .LVU91
+  43:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Info_Update_Frame++;
+ 358              		.loc 1 43 39 is_stmt 0 view .LVU92
+ 359 00fe C4ED0B7A 		vstr.32	s15, [r4, #44]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 10
+
+
+  44:Devices/Devices.c/MF9025_Motor.c **** 			break;
+ 360              		.loc 1 44 4 is_stmt 1 view .LVU93
+  44:Devices/Devices.c/MF9025_Motor.c **** 			break;
+ 361              		.loc 1 44 21 is_stmt 0 view .LVU94
+ 362 0102 A38E     		ldrh	r3, [r4, #52]
+  44:Devices/Devices.c/MF9025_Motor.c **** 			break;
+ 363              		.loc 1 44 39 view .LVU95
+ 364 0104 0133     		adds	r3, r3, #1
+ 365 0106 A386     		strh	r3, [r4, #52]	@ movhi
+  45:Devices/Devices.c/MF9025_Motor.c **** 		case MF9025_CHASSIS_RIGHT_ID:
+ 366              		.loc 1 45 4 is_stmt 1 view .LVU96
+ 367 0108 86E7     		b	.L13
+ 368              	.L17:
+  38:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Turn_Count--;
+ 369              		.loc 1 38 9 view .LVU97
+  38:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Turn_Count--;
+ 370              		.loc 1 38 11 is_stmt 0 view .LVU98
+ 371 010a 4CF25031 		movw	r1, #50000
+ 372 010e 8B42     		cmp	r3, r1
+ 373 0110 D0DD     		ble	.L18
+  39:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Total_Turn = ((float)MF9025_Chassis[0].Actual_Angle / (float)MF9025_MECH_ANGLE
+ 374              		.loc 1 39 4 is_stmt 1 view .LVU99
+  39:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Total_Turn = ((float)MF9025_Chassis[0].Actual_Angle / (float)MF9025_MECH_ANGLE
+ 375              		.loc 1 39 21 is_stmt 0 view .LVU100
+ 376 0112 4549     		ldr	r1, .L22
+ 377 0114 B1F92430 		ldrsh	r3, [r1, #36]
+  39:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[0].Total_Turn = ((float)MF9025_Chassis[0].Actual_Angle / (float)MF9025_MECH_ANGLE
+ 378              		.loc 1 39 32 view .LVU101
+ 379 0118 013B     		subs	r3, r3, #1
+ 380 011a 8B84     		strh	r3, [r1, #36]	@ movhi
+ 381 011c CAE7     		b	.L18
+ 382              	.L15:
+  47:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+ 383              		.loc 1 47 4 is_stmt 1 view .LVU102
+  47:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+ 384              		.loc 1 47 52 is_stmt 0 view .LVU103
+ 385 011e 4248     		ldr	r0, .L22
+ 386 0120 048F     		ldrh	r4, [r0, #56]
+  47:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Angle = (RxMessage.CANx_Export_RxMessage[7] << 8) + RxMessage.CANx_Expo
+ 387              		.loc 1 47 33 view .LVU104
+ 388 0122 4487     		strh	r4, [r0, #58]	@ movhi
+  48:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Prev_Speed = MF9025_Chassis[1].Actual_Speed;
+ 389              		.loc 1 48 4 is_stmt 1 view .LVU105
+  48:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Prev_Speed = MF9025_Chassis[1].Actual_Speed;
+ 390              		.loc 1 48 69 is_stmt 0 view .LVU106
+ 391 0124 9DF82B30 		ldrb	r3, [sp, #43]	@ zero_extendqisi2
+  48:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Prev_Speed = MF9025_Chassis[1].Actual_Speed;
+ 392              		.loc 1 48 112 view .LVU107
+ 393 0128 9DF82A20 		ldrb	r2, [sp, #42]	@ zero_extendqisi2
+  48:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Prev_Speed = MF9025_Chassis[1].Actual_Speed;
+ 394              		.loc 1 48 79 view .LVU108
+ 395 012c 02EB0322 		add	r2, r2, r3, lsl #8
+ 396 0130 92B2     		uxth	r2, r2
+  48:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Prev_Speed = MF9025_Chassis[1].Actual_Speed;
+ 397              		.loc 1 48 35 view .LVU109
+ 398 0132 0287     		strh	r2, [r0, #56]	@ movhi
+  49:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 11
+
+
+ 399              		.loc 1 49 4 is_stmt 1 view .LVU110
+  49:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+ 400              		.loc 1 49 52 is_stmt 0 view .LVU111
+ 401 0134 B0F93C30 		ldrsh	r3, [r0, #60]
+  49:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Speed = (RxMessage.CANx_Export_RxMessage[5] << 8) + RxMessage.CANx_Expo
+ 402              		.loc 1 49 33 view .LVU112
+ 403 0138 C387     		strh	r3, [r0, #62]	@ movhi
+  50:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Angular_Acceleration = (float)(MF9025_Chassis[1].Prev_Speed - MF9025_Chassis[1
+ 404              		.loc 1 50 4 is_stmt 1 view .LVU113
+  50:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Angular_Acceleration = (float)(MF9025_Chassis[1].Prev_Speed - MF9025_Chassis[1
+ 405              		.loc 1 50 69 is_stmt 0 view .LVU114
+ 406 013a 9DF829C0 		ldrb	ip, [sp, #41]	@ zero_extendqisi2
+  50:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Angular_Acceleration = (float)(MF9025_Chassis[1].Prev_Speed - MF9025_Chassis[1
+ 407              		.loc 1 50 112 view .LVU115
+ 408 013e 9DF82810 		ldrb	r1, [sp, #40]	@ zero_extendqisi2
+  50:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Angular_Acceleration = (float)(MF9025_Chassis[1].Prev_Speed - MF9025_Chassis[1
+ 409              		.loc 1 50 79 view .LVU116
+ 410 0142 01EB0C21 		add	r1, r1, ip, lsl #8
+ 411 0146 09B2     		sxth	r1, r1
+  50:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Angular_Acceleration = (float)(MF9025_Chassis[1].Prev_Speed - MF9025_Chassis[1
+ 412              		.loc 1 50 35 view .LVU117
+ 413 0148 8187     		strh	r1, [r0, #60]	@ movhi
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 414              		.loc 1 51 4 is_stmt 1 view .LVU118
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 415              		.loc 1 51 82 is_stmt 0 view .LVU119
+ 416 014a 5B1A     		subs	r3, r3, r1
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 417              		.loc 1 51 45 view .LVU120
+ 418 014c 07EE903A 		vmov	s15, r3	@ int
+ 419 0150 F8EEE77A 		vcvt.f32.s32	s15, s15
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 420              		.loc 1 51 140 view .LVU121
+ 421 0154 90ED1A7A 		vldr.32	s14, [r0, #104]
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 422              		.loc 1 51 115 view .LVU122
+ 423 0158 C7EE876A 		vdiv.f32	s13, s15, s14
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 424              		.loc 1 51 147 view .LVU123
+ 425 015c 9FED337A 		vldr.32	s14, .L22+4
+ 426 0160 C6EE877A 		vdiv.f32	s15, s13, s14
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 427              		.loc 1 51 154 view .LVU124
+ 428 0164 9FED327A 		vldr.32	s14, .L22+8
+ 429 0168 67EE877A 		vmul.f32	s15, s15, s14
+  51:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Actual_Current = (RxMessage.CANx_Export_RxMessage[3] << 8) + RxMessage.CANx_Ex
+ 430              		.loc 1 51 43 view .LVU125
+ 431 016c C0ED127A 		vstr.32	s15, [r0, #72]
+  52:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Calculated_Current = (float)MF9025_Chassis[1].Actual_Current/2048.0f*16.5f;
+ 432              		.loc 1 52 4 is_stmt 1 view .LVU126
+  52:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Calculated_Current = (float)MF9025_Chassis[1].Actual_Current/2048.0f*16.5f;
+ 433              		.loc 1 52 71 is_stmt 0 view .LVU127
+ 434 0170 9DF82710 		ldrb	r1, [sp, #39]	@ zero_extendqisi2
+  52:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Calculated_Current = (float)MF9025_Chassis[1].Actual_Current/2048.0f*16.5f;
+ 435              		.loc 1 52 114 view .LVU128
+ 436 0174 9DF82630 		ldrb	r3, [sp, #38]	@ zero_extendqisi2
+  52:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Calculated_Current = (float)MF9025_Chassis[1].Actual_Current/2048.0f*16.5f;
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 12
+
+
+ 437              		.loc 1 52 81 view .LVU129
+ 438 0178 03EB0123 		add	r3, r3, r1, lsl #8
+ 439 017c 1BB2     		sxth	r3, r3
+  52:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Calculated_Current = (float)MF9025_Chassis[1].Actual_Current/2048.0f*16.5f;
+ 440              		.loc 1 52 37 view .LVU130
+ 441 017e A0F84030 		strh	r3, [r0, #64]	@ movhi
+  53:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 442              		.loc 1 53 4 is_stmt 1 view .LVU131
+  53:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 443              		.loc 1 53 43 is_stmt 0 view .LVU132
+ 444 0182 07EE903A 		vmov	s15, r3	@ int
+ 445 0186 F8EEE77A 		vcvt.f32.s32	s15, s15
+  53:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 446              		.loc 1 53 82 view .LVU133
+ 447 018a 9FED2A7A 		vldr.32	s14, .L22+12
+ 448 018e 67EE877A 		vmul.f32	s15, s15, s14
+  53:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 449              		.loc 1 53 90 view .LVU134
+ 450 0192 9FED297A 		vldr.32	s14, .L22+16
+ 451 0196 67EE877A 		vmul.f32	s15, s15, s14
+  53:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Temperature = RxMessage.CANx_Export_RxMessage[1];
+ 452              		.loc 1 53 41 view .LVU135
+ 453 019a C0ED117A 		vstr.32	s15, [r0, #68]
+  54:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) < -50000)
+ 454              		.loc 1 54 4 is_stmt 1 view .LVU136
+  54:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) < -50000)
+ 455              		.loc 1 54 67 is_stmt 0 view .LVU137
+ 456 019e 9DF92530 		ldrsb	r3, [sp, #37]
+  54:Devices/Devices.c/MF9025_Motor.c **** 			if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) < -50000)
+ 457              		.loc 1 54 34 view .LVU138
+ 458 01a2 80F84C30 		strb	r3, [r0, #76]
+  55:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Turn_Count++;
+ 459              		.loc 1 55 4 is_stmt 1 view .LVU139
+  55:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Turn_Count++;
+ 460              		.loc 1 55 39 is_stmt 0 view .LVU140
+ 461 01a6 131B     		subs	r3, r2, r4
+  55:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Turn_Count++;
+ 462              		.loc 1 55 6 view .LVU141
+ 463 01a8 2449     		ldr	r1, .L22+20
+ 464 01aa 8B42     		cmp	r3, r1
+ 465 01ac 31DA     		bge	.L19
+  56:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) > 50000)
+ 466              		.loc 1 56 4 is_stmt 1 view .LVU142
+  56:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) > 50000)
+ 467              		.loc 1 56 21 is_stmt 0 view .LVU143
+ 468 01ae B0F95C30 		ldrsh	r3, [r0, #92]
+  56:Devices/Devices.c/MF9025_Motor.c **** 			else if((MF9025_Chassis[1].Actual_Angle - MF9025_Chassis[1].Prev_Angle) > 50000)
+ 469              		.loc 1 56 32 view .LVU144
+ 470 01b2 0133     		adds	r3, r3, #1
+ 471 01b4 A0F85C30 		strh	r3, [r0, #92]	@ movhi
+ 472              	.L20:
+  59:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 473              		.loc 1 59 4 is_stmt 1 view .LVU145
+  59:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 474              		.loc 1 59 36 is_stmt 0 view .LVU146
+ 475 01b8 07EE902A 		vmov	s15, r2	@ int
+ 476 01bc F8EE677A 		vcvt.f32.u32	s15, s15
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 13
+
+
+  59:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 477              		.loc 1 59 74 view .LVU147
+ 478 01c0 9FED1F7A 		vldr.32	s14, .L22+24
+ 479 01c4 67EE877A 		vmul.f32	s15, s15, s14
+  59:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 480              		.loc 1 59 125 view .LVU148
+ 481 01c8 174C     		ldr	r4, .L22
+ 482 01ca B4F95C30 		ldrsh	r3, [r4, #92]
+ 483 01ce 07EE103A 		vmov	s14, r3	@ int
+  59:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 484              		.loc 1 59 106 view .LVU149
+ 485 01d2 B8EEC77A 		vcvt.f32.s32	s14, s14
+ 486 01d6 77EE277A 		vadd.f32	s15, s14, s15
+  59:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Now_Time = HAL_GetTick() / 1000.0f;
+ 487              		.loc 1 59 33 view .LVU150
+ 488 01da C4ED167A 		vstr.32	s15, [r4, #88]
+  60:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Period = MF9025_Chassis[1].Sample.Now_Time - MF9025_Chassis[1].Sample.P
+ 489              		.loc 1 60 4 is_stmt 1 view .LVU151
+  60:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Period = MF9025_Chassis[1].Sample.Now_Time - MF9025_Chassis[1].Sample.P
+ 490              		.loc 1 60 40 is_stmt 0 view .LVU152
+ 491 01de FFF7FEFF 		bl	HAL_GetTick
+ 492              	.LVL10:
+ 493 01e2 07EE100A 		vmov	s14, r0	@ int
+  60:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Period = MF9025_Chassis[1].Sample.Now_Time - MF9025_Chassis[1].Sample.P
+ 494              		.loc 1 60 54 view .LVU153
+ 495 01e6 B8EE477A 		vcvt.f32.u32	s14, s14
+ 496 01ea DFED166A 		vldr.32	s13, .L22+28
+ 497 01ee C7EE267A 		vdiv.f32	s15, s14, s13
+  60:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Period = MF9025_Chassis[1].Sample.Now_Time - MF9025_Chassis[1].Sample.P
+ 498              		.loc 1 60 38 view .LVU154
+ 499 01f2 C4ED187A 		vstr.32	s15, [r4, #96]
+  61:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Prev_Time = MF9025_Chassis[1].Sample.Now_Time;
+ 500              		.loc 1 61 4 is_stmt 1 view .LVU155
+  61:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Prev_Time = MF9025_Chassis[1].Sample.Now_Time;
+ 501              		.loc 1 61 98 is_stmt 0 view .LVU156
+ 502 01f6 94ED197A 		vldr.32	s14, [r4, #100]
+  61:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Prev_Time = MF9025_Chassis[1].Sample.Now_Time;
+ 503              		.loc 1 61 72 view .LVU157
+ 504 01fa 37EEC77A 		vsub.f32	s14, s15, s14
+  61:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Sample.Prev_Time = MF9025_Chassis[1].Sample.Now_Time;
+ 505              		.loc 1 61 36 view .LVU158
+ 506 01fe 84ED1A7A 		vstr.32	s14, [r4, #104]
+  62:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Info_Update_Frame++;
+ 507              		.loc 1 62 4 is_stmt 1 view .LVU159
+  62:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Info_Update_Frame++;
+ 508              		.loc 1 62 39 is_stmt 0 view .LVU160
+ 509 0202 C4ED197A 		vstr.32	s15, [r4, #100]
+  63:Devices/Devices.c/MF9025_Motor.c **** 			break;
+ 510              		.loc 1 63 4 is_stmt 1 view .LVU161
+  63:Devices/Devices.c/MF9025_Motor.c **** 			break;
+ 511              		.loc 1 63 21 is_stmt 0 view .LVU162
+ 512 0206 B4F86C30 		ldrh	r3, [r4, #108]
+  63:Devices/Devices.c/MF9025_Motor.c **** 			break;
+ 513              		.loc 1 63 39 view .LVU163
+ 514 020a 0133     		adds	r3, r3, #1
+ 515 020c A4F86C30 		strh	r3, [r4, #108]	@ movhi
+  64:Devices/Devices.c/MF9025_Motor.c **** 	}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 14
+
+
+ 516              		.loc 1 64 4 is_stmt 1 view .LVU164
+  66:Devices/Devices.c/MF9025_Motor.c **** 
+ 517              		.loc 1 66 1 is_stmt 0 view .LVU165
+ 518 0210 02E7     		b	.L13
+ 519              	.L19:
+  57:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Turn_Count--;
+ 520              		.loc 1 57 9 is_stmt 1 view .LVU166
+  57:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Turn_Count--;
+ 521              		.loc 1 57 11 is_stmt 0 view .LVU167
+ 522 0212 4CF25031 		movw	r1, #50000
+ 523 0216 8B42     		cmp	r3, r1
+ 524 0218 CEDD     		ble	.L20
+  58:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Total_Turn = ((float)MF9025_Chassis[1].Actual_Angle / (float)MF9025_MECH_ANGLE
+ 525              		.loc 1 58 4 is_stmt 1 view .LVU168
+  58:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Total_Turn = ((float)MF9025_Chassis[1].Actual_Angle / (float)MF9025_MECH_ANGLE
+ 526              		.loc 1 58 21 is_stmt 0 view .LVU169
+ 527 021a 0349     		ldr	r1, .L22
+ 528 021c B1F95C30 		ldrsh	r3, [r1, #92]
+  58:Devices/Devices.c/MF9025_Motor.c **** 			MF9025_Chassis[1].Total_Turn = ((float)MF9025_Chassis[1].Actual_Angle / (float)MF9025_MECH_ANGLE
+ 529              		.loc 1 58 32 view .LVU170
+ 530 0220 013B     		subs	r3, r3, #1
+ 531 0222 A1F85C30 		strh	r3, [r1, #92]	@ movhi
+ 532 0226 C7E7     		b	.L20
+ 533              	.L23:
+ 534              		.align	2
+ 535              	.L22:
+ 536 0228 00000000 		.word	MF9025_Chassis
+ 537 022c 00003443 		.word	1127481344
+ 538 0230 DB0F4940 		.word	1078530011
+ 539 0234 0000003A 		.word	973078528
+ 540 0238 00008441 		.word	1099169792
+ 541 023c B03CFFFF 		.word	-50000
+ 542 0240 00008037 		.word	931135488
+ 543 0244 00007A44 		.word	1148846080
+ 544              		.cfi_endproc
+ 545              	.LFE162:
+ 547              		.global	MF9025_Func
+ 548              		.section	.data.MF9025_Func,"aw"
+ 549              		.align	2
+ 552              	MF9025_Func:
+ 553 0000 00000000 		.word	MF9025_Chassis_Get_Data
+ 554 0004 00000000 		.word	MF9025_Chassis_Send_Data
+ 555 0008 00000000 		.word	Check_MF9025_Chassis
+ 556              		.global	MF9025_Chassis
+ 557              		.section	.bss.MF9025_Chassis,"aw",%nobits
+ 558              		.align	2
+ 561              	MF9025_Chassis:
+ 562 0000 00000000 		.space	112
+ 562      00000000 
+ 562      00000000 
+ 562      00000000 
+ 562      00000000 
+ 563              		.text
+ 564              	.Letext0:
+ 565              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 566              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 567              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 15
+
+
+ 568              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 569              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 570              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 571              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 572              		.file 9 "BSP/BSP.h/CAN_Setup.h"
+ 573              		.file 10 "Core/Inc/can.h"
+ 574              		.file 11 "Devices/Devices.h/MF9025_Motor.h"
+ 575              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s 			page 16
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 MF9025_Motor.c
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:21     .text.MF9025_Chassis_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:27     .text.MF9025_Chassis_Send_Data:00000000 MF9025_Chassis_Send_Data
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:106    .text.MF9025_Chassis_Send_Data:00000060 $d
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:112    .text.Check_MF9025_Chassis:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:118    .text.Check_MF9025_Chassis:00000000 Check_MF9025_Chassis
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:183    .text.Check_MF9025_Chassis:00000048 $d
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:561    .bss.MF9025_Chassis:00000000 MF9025_Chassis
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:188    .text.MF9025_Chassis_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:194    .text.MF9025_Chassis_Get_Data:00000000 MF9025_Chassis_Get_Data
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:536    .text.MF9025_Chassis_Get_Data:00000228 $d
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:552    .data.MF9025_Func:00000000 MF9025_Func
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:549    .data.MF9025_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\cc3YOxI1.s:558    .bss.MF9025_Chassis:00000000 $d
+
+UNDEFINED SYMBOLS
+CAN_Func
+hcan1
+HAL_GetTick

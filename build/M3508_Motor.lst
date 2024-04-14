@@ -1,0 +1,807 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"M3508_Motor.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/M3508_Motor.c"
+  20              		.section	.text.M3508_Chassis_Get_Data,"ax",%progbits
+  21              		.align	1
+  22              		.global	M3508_Chassis_Get_Data
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	M3508_Chassis_Get_Data:
+  28              	.LFB138:
+   1:Devices/Devices.c/M3508_Motor.c **** /**
+   2:Devices/Devices.c/M3508_Motor.c ****  * @file M3508_Motor.c
+   3:Devices/Devices.c/M3508_Motor.c ****  * @author Leo Liu
+   4:Devices/Devices.c/M3508_Motor.c ****  * @brief M3508 communication
+   5:Devices/Devices.c/M3508_Motor.c ****  * @version 1.0
+   6:Devices/Devices.c/M3508_Motor.c ****  * @date 2022-07-08
+   7:Devices/Devices.c/M3508_Motor.c ****  * 
+   8:Devices/Devices.c/M3508_Motor.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/M3508_Motor.c ****  * 
+  10:Devices/Devices.c/M3508_Motor.c ****  */
+  11:Devices/Devices.c/M3508_Motor.c **** #include "M3508_Motor.h"
+  12:Devices/Devices.c/M3508_Motor.c **** 
+  13:Devices/Devices.c/M3508_Motor.c **** Motor_Init_t M3508_Chassis[2];
+  14:Devices/Devices.c/M3508_Motor.c **** Motor_Init_t M3508_Fric_Wheel[2];
+  15:Devices/Devices.c/M3508_Motor.c **** 
+  16:Devices/Devices.c/M3508_Motor.c **** void M3508_Chassis_Get_Data(CAN_Export_Data_t RxMessage);
+  17:Devices/Devices.c/M3508_Motor.c **** void M3508_Chassis_Send_Data(int16_t Motor_1_Current,int16_t Motor_2_Current);
+  18:Devices/Devices.c/M3508_Motor.c **** void M3508_Fric_Wheel_Get_Data(CAN_Export_Data_t RxMessage);
+  19:Devices/Devices.c/M3508_Motor.c **** void M3508_Fric_Wheel_Send_Data(int16_t Fric_Wheel_Left_Current,int16_t Fric_Wheel_Right_Current);
+  20:Devices/Devices.c/M3508_Motor.c **** void Check_M3508_Chassis(void);
+  21:Devices/Devices.c/M3508_Motor.c **** void Check_M3508_Fric_Wheel(void);
+  22:Devices/Devices.c/M3508_Motor.c **** 
+  23:Devices/Devices.c/M3508_Motor.c **** M3508_Func_t M3508_Func = M3508_Func_GroundInit;
+  24:Devices/Devices.c/M3508_Motor.c **** #undef M3508_Func_GroundInit
+  25:Devices/Devices.c/M3508_Motor.c **** 
+  26:Devices/Devices.c/M3508_Motor.c **** //Obtain chassis data from CAN
+  27:Devices/Devices.c/M3508_Motor.c **** void M3508_Chassis_Get_Data(CAN_Export_Data_t RxMessage)
+  28:Devices/Devices.c/M3508_Motor.c **** {
+  29              		.loc 1 28 1 view -0
+  30              		.cfi_startproc
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 2
+
+
+  31              		@ args = 36, pretend = 16, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 84B0     		sub	sp, sp, #16
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 16
+  36 0002 10B5     		push	{r4, lr}
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 24
+  39              		.cfi_offset 4, -24
+  40              		.cfi_offset 14, -20
+  41 0004 02AC     		add	r4, sp, #8
+  42 0006 84E80F00 		stm	r4, {r0, r1, r2, r3}
+  29:Devices/Devices.c/M3508_Motor.c **** 	uint8_t ID;
+  43              		.loc 1 29 2 view .LVU1
+  30:Devices/Devices.c/M3508_Motor.c ****   ID = (uint8_t)(RxMessage.CAN_RxHeader.StdId - M3508_CHASSIS_START_ID);
+  44              		.loc 1 30 3 view .LVU2
+  45              		.loc 1 30 8 is_stmt 0 view .LVU3
+  46 000a C0B2     		uxtb	r0, r0
+  47              		.loc 1 30 6 view .LVU4
+  48 000c 0138     		subs	r0, r0, #1
+  49 000e C0B2     		uxtb	r0, r0
+  50              	.LVL0:
+  31:Devices/Devices.c/M3508_Motor.c **** 	
+  32:Devices/Devices.c/M3508_Motor.c **** 	M3508_Chassis[ID].Prev_Angle = M3508_Chassis[ID].Actual_Angle;
+  51              		.loc 1 32 2 is_stmt 1 view .LVU5
+  52              		.loc 1 32 50 is_stmt 0 view .LVU6
+  53 0010 2C4C     		ldr	r4, .L5
+  54 0012 4FEA401C 		lsl	ip, r0, #5
+  55 0016 04EB4011 		add	r1, r4, r0, lsl #5
+  56 001a 34F90C20 		ldrsh	r2, [r4, ip]
+  57              		.loc 1 32 31 view .LVU7
+  58 001e 4A80     		strh	r2, [r1, #2]	@ movhi
+  33:Devices/Devices.c/M3508_Motor.c ****   M3508_Chassis[ID].Actual_Angle = (int16_t)(RxMessage.CANx_Export_RxMessage[0] << 8 | RxMessage.CA
+  59              		.loc 1 33 3 is_stmt 1 view .LVU8
+  60              		.loc 1 33 77 is_stmt 0 view .LVU9
+  61 0020 9DF824E0 		ldrb	lr, [sp, #36]	@ zero_extendqisi2
+  62              		.loc 1 33 119 view .LVU10
+  63 0024 9DF82530 		ldrb	r3, [sp, #37]	@ zero_extendqisi2
+  64              		.loc 1 33 36 view .LVU11
+  65 0028 43EA0E23 		orr	r3, r3, lr, lsl #8
+  66 002c 1BB2     		sxth	r3, r3
+  67              		.loc 1 33 34 view .LVU12
+  68 002e 24F80C30 		strh	r3, [r4, ip]	@ movhi
+  34:Devices/Devices.c/M3508_Motor.c ****   M3508_Chassis[ID].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage.CA
+  69              		.loc 1 34 3 is_stmt 1 view .LVU13
+  70              		.loc 1 34 77 is_stmt 0 view .LVU14
+  71 0032 9DF82640 		ldrb	r4, [sp, #38]	@ zero_extendqisi2
+  72              		.loc 1 34 119 view .LVU15
+  73 0036 9DF827C0 		ldrb	ip, [sp, #39]	@ zero_extendqisi2
+  74              		.loc 1 34 36 view .LVU16
+  75 003a 4CEA042C 		orr	ip, ip, r4, lsl #8
+  76              		.loc 1 34 34 view .LVU17
+  77 003e A1F804C0 		strh	ip, [r1, #4]	@ movhi
+  35:Devices/Devices.c/M3508_Motor.c ****   M3508_Chassis[ID].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessage.
+  78              		.loc 1 35 3 is_stmt 1 view .LVU18
+  79              		.loc 1 35 79 is_stmt 0 view .LVU19
+  80 0042 9DF82840 		ldrb	r4, [sp, #40]	@ zero_extendqisi2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 3
+
+
+  81              		.loc 1 35 121 view .LVU20
+  82 0046 9DF829C0 		ldrb	ip, [sp, #41]	@ zero_extendqisi2
+  83              		.loc 1 35 38 view .LVU21
+  84 004a 4CEA042C 		orr	ip, ip, r4, lsl #8
+  85              		.loc 1 35 36 view .LVU22
+  86 004e A1F806C0 		strh	ip, [r1, #6]	@ movhi
+  36:Devices/Devices.c/M3508_Motor.c ****   M3508_Chassis[ID].Temperature = RxMessage.CANx_Export_RxMessage[6];
+  87              		.loc 1 36 3 is_stmt 1 view .LVU23
+  88              		.loc 1 36 66 is_stmt 0 view .LVU24
+  89 0052 9DF92A40 		ldrsb	r4, [sp, #42]
+  90              		.loc 1 36 33 view .LVU25
+  91 0056 0C72     		strb	r4, [r1, #8]
+  37:Devices/Devices.c/M3508_Motor.c **** 	if((M3508_Chassis[ID].Actual_Angle - M3508_Chassis[ID].Prev_Angle) < -6500 )
+  92              		.loc 1 37 2 is_stmt 1 view .LVU26
+  93              		.loc 1 37 37 is_stmt 0 view .LVU27
+  94 0058 9A1A     		subs	r2, r3, r2
+  95              		.loc 1 37 4 view .LVU28
+  96 005a 1B49     		ldr	r1, .L5+4
+  97 005c 8A42     		cmp	r2, r1
+  98 005e 24DA     		bge	.L2
+  38:Devices/Devices.c/M3508_Motor.c **** 		M3508_Chassis[ID].Turn_Count++;
+  99              		.loc 1 38 3 is_stmt 1 view .LVU29
+ 100              		.loc 1 38 20 is_stmt 0 view .LVU30
+ 101 0060 184A     		ldr	r2, .L5
+ 102 0062 02EB4012 		add	r2, r2, r0, lsl #5
+ 103 0066 B2F91810 		ldrsh	r1, [r2, #24]
+ 104              		.loc 1 38 31 view .LVU31
+ 105 006a 0131     		adds	r1, r1, #1
+ 106 006c 1183     		strh	r1, [r2, #24]	@ movhi
+ 107              	.L3:
+  39:Devices/Devices.c/M3508_Motor.c **** 	else if((M3508_Chassis[ID].Actual_Angle - M3508_Chassis[ID].Prev_Angle) > 6500)
+  40:Devices/Devices.c/M3508_Motor.c **** 		M3508_Chassis[ID].Turn_Count--;
+  41:Devices/Devices.c/M3508_Motor.c **** 	M3508_Chassis[ID].Total_Angle = M3508_Chassis[ID].Actual_Angle + (M3508_MECH_ANGLE_MAX * M3508_Cha
+ 108              		.loc 1 41 2 is_stmt 1 view .LVU32
+ 109              		.loc 1 41 108 is_stmt 0 view .LVU33
+ 110 006e 154A     		ldr	r2, .L5
+ 111 0070 02EB4012 		add	r2, r2, r0, lsl #5
+ 112 0074 B2F91810 		ldrsh	r1, [r2, #24]
+ 113 0078 07EE101A 		vmov	s14, r1	@ int
+ 114              		.loc 1 41 89 view .LVU34
+ 115 007c B8EEC77A 		vcvt.f32.s32	s14, s14
+ 116 0080 DFED127A 		vldr.32	s15, .L5+8
+ 117 0084 27EE277A 		vmul.f32	s14, s14, s15
+ 118              		.loc 1 41 65 view .LVU35
+ 119 0088 07EE903A 		vmov	s15, r3	@ int
+ 120 008c F8EEE77A 		vcvt.f32.s32	s15, s15
+ 121 0090 77EE877A 		vadd.f32	s15, s15, s14
+ 122              		.loc 1 41 32 view .LVU36
+ 123 0094 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 124 0098 C2ED057A 		vstr.32	s15, [r2, #20]	@ int
+  42:Devices/Devices.c/M3508_Motor.c ****   M3508_Chassis[ID].Info_Update_Frame++;
+ 125              		.loc 1 42 3 is_stmt 1 view .LVU37
+ 126              		.loc 1 42 20 is_stmt 0 view .LVU38
+ 127 009c 938B     		ldrh	r3, [r2, #28]
+ 128              		.loc 1 42 38 view .LVU39
+ 129 009e 0133     		adds	r3, r3, #1
+ 130 00a0 9383     		strh	r3, [r2, #28]	@ movhi
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 4
+
+
+  43:Devices/Devices.c/M3508_Motor.c **** }
+ 131              		.loc 1 43 1 view .LVU40
+ 132 00a2 BDE81040 		pop	{r4, lr}
+ 133              	.LCFI2:
+ 134              		.cfi_remember_state
+ 135              		.cfi_restore 14
+ 136              		.cfi_restore 4
+ 137              		.cfi_def_cfa_offset 16
+ 138 00a6 04B0     		add	sp, sp, #16
+ 139              	.LCFI3:
+ 140              		.cfi_def_cfa_offset 0
+ 141 00a8 7047     		bx	lr
+ 142              	.L2:
+ 143              	.LCFI4:
+ 144              		.cfi_restore_state
+  39:Devices/Devices.c/M3508_Motor.c **** 	else if((M3508_Chassis[ID].Actual_Angle - M3508_Chassis[ID].Prev_Angle) > 6500)
+ 145              		.loc 1 39 7 is_stmt 1 view .LVU41
+  39:Devices/Devices.c/M3508_Motor.c **** 	else if((M3508_Chassis[ID].Actual_Angle - M3508_Chassis[ID].Prev_Angle) > 6500)
+ 146              		.loc 1 39 9 is_stmt 0 view .LVU42
+ 147 00aa 41F66411 		movw	r1, #6500
+ 148 00ae 8A42     		cmp	r2, r1
+ 149 00b0 DDDD     		ble	.L3
+  40:Devices/Devices.c/M3508_Motor.c **** 	M3508_Chassis[ID].Total_Angle = M3508_Chassis[ID].Actual_Angle + (M3508_MECH_ANGLE_MAX * M3508_Cha
+ 150              		.loc 1 40 3 is_stmt 1 view .LVU43
+  40:Devices/Devices.c/M3508_Motor.c **** 	M3508_Chassis[ID].Total_Angle = M3508_Chassis[ID].Actual_Angle + (M3508_MECH_ANGLE_MAX * M3508_Cha
+ 151              		.loc 1 40 20 is_stmt 0 view .LVU44
+ 152 00b2 044A     		ldr	r2, .L5
+ 153 00b4 02EB4012 		add	r2, r2, r0, lsl #5
+ 154 00b8 B2F91810 		ldrsh	r1, [r2, #24]
+  40:Devices/Devices.c/M3508_Motor.c **** 	M3508_Chassis[ID].Total_Angle = M3508_Chassis[ID].Actual_Angle + (M3508_MECH_ANGLE_MAX * M3508_Cha
+ 155              		.loc 1 40 31 view .LVU45
+ 156 00bc 0139     		subs	r1, r1, #1
+ 157 00be 1183     		strh	r1, [r2, #24]	@ movhi
+ 158 00c0 D5E7     		b	.L3
+ 159              	.L6:
+ 160 00c2 00BF     		.align	2
+ 161              	.L5:
+ 162 00c4 00000000 		.word	M3508_Chassis
+ 163 00c8 9CE6FFFF 		.word	-6500
+ 164 00cc 00000046 		.word	1174405120
+ 165              		.cfi_endproc
+ 166              	.LFE138:
+ 168              		.section	.text.M3508_Chassis_Send_Data,"ax",%progbits
+ 169              		.align	1
+ 170              		.global	M3508_Chassis_Send_Data
+ 171              		.syntax unified
+ 172              		.thumb
+ 173              		.thumb_func
+ 175              	M3508_Chassis_Send_Data:
+ 176              	.LVL1:
+ 177              	.LFB139:
+  44:Devices/Devices.c/M3508_Motor.c **** 
+  45:Devices/Devices.c/M3508_Motor.c **** //Send chassis data through specified identifier
+  46:Devices/Devices.c/M3508_Motor.c **** void M3508_Chassis_Send_Data(int16_t Motor_1_Current,int16_t Motor_2_Current)
+  47:Devices/Devices.c/M3508_Motor.c **** {
+ 178              		.loc 1 47 1 is_stmt 1 view -0
+ 179              		.cfi_startproc
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 5
+
+
+ 180              		@ args = 0, pretend = 0, frame = 0
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182              		.loc 1 47 1 is_stmt 0 view .LVU47
+ 183 0000 10B5     		push	{r4, lr}
+ 184              	.LCFI5:
+ 185              		.cfi_def_cfa_offset 8
+ 186              		.cfi_offset 4, -8
+ 187              		.cfi_offset 14, -4
+ 188 0002 82B0     		sub	sp, sp, #8
+ 189              	.LCFI6:
+ 190              		.cfi_def_cfa_offset 16
+ 191 0004 0A46     		mov	r2, r1
+  48:Devices/Devices.c/M3508_Motor.c **** 	CAN_Func.CAN_0x200_Send_Data(&hcan1,Motor_1_Current,Motor_2_Current,0,0);
+ 192              		.loc 1 48 2 is_stmt 1 view .LVU48
+ 193              		.loc 1 48 10 is_stmt 0 view .LVU49
+ 194 0006 044B     		ldr	r3, .L9
+ 195 0008 1C69     		ldr	r4, [r3, #16]
+ 196              		.loc 1 48 2 view .LVU50
+ 197 000a 0023     		movs	r3, #0
+ 198 000c 0093     		str	r3, [sp]
+ 199 000e 0146     		mov	r1, r0
+ 200              	.LVL2:
+ 201              		.loc 1 48 2 view .LVU51
+ 202 0010 0248     		ldr	r0, .L9+4
+ 203              	.LVL3:
+ 204              		.loc 1 48 2 view .LVU52
+ 205 0012 A047     		blx	r4
+ 206              	.LVL4:
+  49:Devices/Devices.c/M3508_Motor.c **** }
+ 207              		.loc 1 49 1 view .LVU53
+ 208 0014 02B0     		add	sp, sp, #8
+ 209              	.LCFI7:
+ 210              		.cfi_def_cfa_offset 8
+ 211              		@ sp needed
+ 212 0016 10BD     		pop	{r4, pc}
+ 213              	.L10:
+ 214              		.align	2
+ 215              	.L9:
+ 216 0018 00000000 		.word	CAN_Func
+ 217 001c 00000000 		.word	hcan1
+ 218              		.cfi_endproc
+ 219              	.LFE139:
+ 221              		.section	.text.M3508_Fric_Wheel_Get_Data,"ax",%progbits
+ 222              		.align	1
+ 223              		.global	M3508_Fric_Wheel_Get_Data
+ 224              		.syntax unified
+ 225              		.thumb
+ 226              		.thumb_func
+ 228              	M3508_Fric_Wheel_Get_Data:
+ 229              	.LFB140:
+  50:Devices/Devices.c/M3508_Motor.c **** 
+  51:Devices/Devices.c/M3508_Motor.c **** //Obtain friction wheel data from CAN
+  52:Devices/Devices.c/M3508_Motor.c **** void M3508_Fric_Wheel_Get_Data(CAN_Export_Data_t RxMessage)
+  53:Devices/Devices.c/M3508_Motor.c **** {
+ 230              		.loc 1 53 1 is_stmt 1 view -0
+ 231              		.cfi_startproc
+ 232              		@ args = 36, pretend = 16, frame = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 6
+
+
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+ 234              		@ link register save eliminated.
+ 235 0000 84B0     		sub	sp, sp, #16
+ 236              	.LCFI8:
+ 237              		.cfi_def_cfa_offset 16
+ 238 0002 8DE80F00 		stm	sp, {r0, r1, r2, r3}
+  54:Devices/Devices.c/M3508_Motor.c **** 	switch(RxMessage.CAN_RxHeader.StdId)
+ 239              		.loc 1 54 2 view .LVU55
+ 240 0006 40F20123 		movw	r3, #513
+ 241 000a 9842     		cmp	r0, r3
+ 242 000c 05D0     		beq	.L12
+ 243 000e 40F20223 		movw	r3, #514
+ 244 0012 9842     		cmp	r0, r3
+ 245 0014 1ED0     		beq	.L13
+ 246              	.L11:
+  55:Devices/Devices.c/M3508_Motor.c **** 	{
+  56:Devices/Devices.c/M3508_Motor.c **** 		case M3508_FRIC_WHEEL_LEFT_ID:
+  57:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Angle = (int16_t)(RxMessage.CANx_Export_RxMessage[0] << 8 | RxMessage
+  58:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+  59:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+  60:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Temperature = RxMessage.CANx_Export_RxMessage[6];
+  61:Devices/Devices.c/M3508_Motor.c **** 		
+  62:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Info_Update_Frame++;
+  63:Devices/Devices.c/M3508_Motor.c **** 			break;
+  64:Devices/Devices.c/M3508_Motor.c **** 		case M3508_FRIC_WHEEL_RIGHT_ID:
+  65:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Angle = (int16_t)(RxMessage.CANx_Export_RxMessage[0] << 8 | RxMessage
+  66:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+  67:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+  68:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Temperature = RxMessage.CANx_Export_RxMessage[6];
+  69:Devices/Devices.c/M3508_Motor.c **** 		
+  70:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Info_Update_Frame++;
+  71:Devices/Devices.c/M3508_Motor.c **** 			break;
+  72:Devices/Devices.c/M3508_Motor.c **** 	}
+  73:Devices/Devices.c/M3508_Motor.c **** }
+ 247              		.loc 1 73 1 is_stmt 0 view .LVU56
+ 248 0016 04B0     		add	sp, sp, #16
+ 249              	.LCFI9:
+ 250              		.cfi_remember_state
+ 251              		.cfi_def_cfa_offset 0
+ 252 0018 7047     		bx	lr
+ 253              	.L12:
+ 254              	.LCFI10:
+ 255              		.cfi_restore_state
+  57:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 256              		.loc 1 57 4 is_stmt 1 view .LVU57
+  57:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 257              		.loc 1 57 80 is_stmt 0 view .LVU58
+ 258 001a 9DF81C30 		ldrb	r3, [sp, #28]	@ zero_extendqisi2
+  57:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 259              		.loc 1 57 122 view .LVU59
+ 260 001e 9DF81D20 		ldrb	r2, [sp, #29]	@ zero_extendqisi2
+  57:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 261              		.loc 1 57 39 view .LVU60
+ 262 0022 42EA0322 		orr	r2, r2, r3, lsl #8
+  57:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 263              		.loc 1 57 37 view .LVU61
+ 264 0026 1A4B     		ldr	r3, .L16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 7
+
+
+ 265 0028 1A80     		strh	r2, [r3]	@ movhi
+  58:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 266              		.loc 1 58 4 is_stmt 1 view .LVU62
+  58:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 267              		.loc 1 58 80 is_stmt 0 view .LVU63
+ 268 002a 9DF81E10 		ldrb	r1, [sp, #30]	@ zero_extendqisi2
+  58:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 269              		.loc 1 58 122 view .LVU64
+ 270 002e 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
+  58:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 271              		.loc 1 58 39 view .LVU65
+ 272 0032 42EA0122 		orr	r2, r2, r1, lsl #8
+  58:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 273              		.loc 1 58 37 view .LVU66
+ 274 0036 9A80     		strh	r2, [r3, #4]	@ movhi
+  59:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 275              		.loc 1 59 4 is_stmt 1 view .LVU67
+  59:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 276              		.loc 1 59 82 is_stmt 0 view .LVU68
+ 277 0038 9DF82010 		ldrb	r1, [sp, #32]	@ zero_extendqisi2
+  59:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 278              		.loc 1 59 124 view .LVU69
+ 279 003c 9DF82120 		ldrb	r2, [sp, #33]	@ zero_extendqisi2
+  59:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 280              		.loc 1 59 41 view .LVU70
+ 281 0040 42EA0122 		orr	r2, r2, r1, lsl #8
+  59:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[0].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 282              		.loc 1 59 39 view .LVU71
+ 283 0044 DA80     		strh	r2, [r3, #6]	@ movhi
+  60:Devices/Devices.c/M3508_Motor.c **** 		
+ 284              		.loc 1 60 4 is_stmt 1 view .LVU72
+  60:Devices/Devices.c/M3508_Motor.c **** 		
+ 285              		.loc 1 60 69 is_stmt 0 view .LVU73
+ 286 0046 9DF92220 		ldrsb	r2, [sp, #34]
+  60:Devices/Devices.c/M3508_Motor.c **** 		
+ 287              		.loc 1 60 36 view .LVU74
+ 288 004a 1A72     		strb	r2, [r3, #8]
+  62:Devices/Devices.c/M3508_Motor.c **** 			break;
+ 289              		.loc 1 62 4 is_stmt 1 view .LVU75
+  62:Devices/Devices.c/M3508_Motor.c **** 			break;
+ 290              		.loc 1 62 23 is_stmt 0 view .LVU76
+ 291 004c 9A8B     		ldrh	r2, [r3, #28]
+  62:Devices/Devices.c/M3508_Motor.c **** 			break;
+ 292              		.loc 1 62 41 view .LVU77
+ 293 004e 0132     		adds	r2, r2, #1
+ 294 0050 9A83     		strh	r2, [r3, #28]	@ movhi
+  63:Devices/Devices.c/M3508_Motor.c **** 		case M3508_FRIC_WHEEL_RIGHT_ID:
+ 295              		.loc 1 63 4 is_stmt 1 view .LVU78
+ 296 0052 E0E7     		b	.L11
+ 297              	.L13:
+  65:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 298              		.loc 1 65 4 view .LVU79
+  65:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 299              		.loc 1 65 80 is_stmt 0 view .LVU80
+ 300 0054 9DF81C30 		ldrb	r3, [sp, #28]	@ zero_extendqisi2
+  65:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 301              		.loc 1 65 122 view .LVU81
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 8
+
+
+ 302 0058 9DF81D20 		ldrb	r2, [sp, #29]	@ zero_extendqisi2
+  65:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 303              		.loc 1 65 39 view .LVU82
+ 304 005c 42EA0322 		orr	r2, r2, r3, lsl #8
+  65:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Speed = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+ 305              		.loc 1 65 37 view .LVU83
+ 306 0060 0B4B     		ldr	r3, .L16
+ 307 0062 1A84     		strh	r2, [r3, #32]	@ movhi
+  66:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 308              		.loc 1 66 4 is_stmt 1 view .LVU84
+  66:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 309              		.loc 1 66 80 is_stmt 0 view .LVU85
+ 310 0064 9DF81E10 		ldrb	r1, [sp, #30]	@ zero_extendqisi2
+  66:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 311              		.loc 1 66 122 view .LVU86
+ 312 0068 9DF81F20 		ldrb	r2, [sp, #31]	@ zero_extendqisi2
+  66:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 313              		.loc 1 66 39 view .LVU87
+ 314 006c 42EA0122 		orr	r2, r2, r1, lsl #8
+  66:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Actual_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessa
+ 315              		.loc 1 66 37 view .LVU88
+ 316 0070 9A84     		strh	r2, [r3, #36]	@ movhi
+  67:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 317              		.loc 1 67 4 is_stmt 1 view .LVU89
+  67:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 318              		.loc 1 67 82 is_stmt 0 view .LVU90
+ 319 0072 9DF82010 		ldrb	r1, [sp, #32]	@ zero_extendqisi2
+  67:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 320              		.loc 1 67 124 view .LVU91
+ 321 0076 9DF82120 		ldrb	r2, [sp, #33]	@ zero_extendqisi2
+  67:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 322              		.loc 1 67 41 view .LVU92
+ 323 007a 42EA0122 		orr	r2, r2, r1, lsl #8
+  67:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[1].Temperature = RxMessage.CANx_Export_RxMessage[6];
+ 324              		.loc 1 67 39 view .LVU93
+ 325 007e DA84     		strh	r2, [r3, #38]	@ movhi
+  68:Devices/Devices.c/M3508_Motor.c **** 		
+ 326              		.loc 1 68 4 is_stmt 1 view .LVU94
+  68:Devices/Devices.c/M3508_Motor.c **** 		
+ 327              		.loc 1 68 69 is_stmt 0 view .LVU95
+ 328 0080 9DF92220 		ldrsb	r2, [sp, #34]
+  68:Devices/Devices.c/M3508_Motor.c **** 		
+ 329              		.loc 1 68 36 view .LVU96
+ 330 0084 83F82820 		strb	r2, [r3, #40]
+  70:Devices/Devices.c/M3508_Motor.c **** 			break;
+ 331              		.loc 1 70 4 is_stmt 1 view .LVU97
+  70:Devices/Devices.c/M3508_Motor.c **** 			break;
+ 332              		.loc 1 70 23 is_stmt 0 view .LVU98
+ 333 0088 9A8F     		ldrh	r2, [r3, #60]
+  70:Devices/Devices.c/M3508_Motor.c **** 			break;
+ 334              		.loc 1 70 41 view .LVU99
+ 335 008a 0132     		adds	r2, r2, #1
+ 336 008c 9A87     		strh	r2, [r3, #60]	@ movhi
+  71:Devices/Devices.c/M3508_Motor.c **** 	}
+ 337              		.loc 1 71 4 is_stmt 1 view .LVU100
+ 338              		.loc 1 73 1 is_stmt 0 view .LVU101
+ 339 008e C2E7     		b	.L11
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 9
+
+
+ 340              	.L17:
+ 341              		.align	2
+ 342              	.L16:
+ 343 0090 00000000 		.word	M3508_Fric_Wheel
+ 344              		.cfi_endproc
+ 345              	.LFE140:
+ 347              		.section	.text.M3508_Fric_Wheel_Send_Data,"ax",%progbits
+ 348              		.align	1
+ 349              		.global	M3508_Fric_Wheel_Send_Data
+ 350              		.syntax unified
+ 351              		.thumb
+ 352              		.thumb_func
+ 354              	M3508_Fric_Wheel_Send_Data:
+ 355              	.LVL5:
+ 356              	.LFB141:
+  74:Devices/Devices.c/M3508_Motor.c **** 
+  75:Devices/Devices.c/M3508_Motor.c **** //Send friction wheel data through specified identifier
+  76:Devices/Devices.c/M3508_Motor.c **** void M3508_Fric_Wheel_Send_Data(int16_t Fric_Wheel_Left_Current,int16_t Fric_Wheel_Right_Current)
+  77:Devices/Devices.c/M3508_Motor.c **** {
+ 357              		.loc 1 77 1 is_stmt 1 view -0
+ 358              		.cfi_startproc
+ 359              		@ args = 0, pretend = 0, frame = 0
+ 360              		@ frame_needed = 0, uses_anonymous_args = 0
+ 361              		.loc 1 77 1 is_stmt 0 view .LVU103
+ 362 0000 10B5     		push	{r4, lr}
+ 363              	.LCFI11:
+ 364              		.cfi_def_cfa_offset 8
+ 365              		.cfi_offset 4, -8
+ 366              		.cfi_offset 14, -4
+ 367 0002 82B0     		sub	sp, sp, #8
+ 368              	.LCFI12:
+ 369              		.cfi_def_cfa_offset 16
+ 370 0004 0A46     		mov	r2, r1
+  78:Devices/Devices.c/M3508_Motor.c **** 	CAN_Func.CAN_0x200_Send_Data(&hcan2,Fric_Wheel_Left_Current,Fric_Wheel_Right_Current,0,0);
+ 371              		.loc 1 78 2 is_stmt 1 view .LVU104
+ 372              		.loc 1 78 10 is_stmt 0 view .LVU105
+ 373 0006 044B     		ldr	r3, .L20
+ 374 0008 1C69     		ldr	r4, [r3, #16]
+ 375              		.loc 1 78 2 view .LVU106
+ 376 000a 0023     		movs	r3, #0
+ 377 000c 0093     		str	r3, [sp]
+ 378 000e 0146     		mov	r1, r0
+ 379              	.LVL6:
+ 380              		.loc 1 78 2 view .LVU107
+ 381 0010 0248     		ldr	r0, .L20+4
+ 382              	.LVL7:
+ 383              		.loc 1 78 2 view .LVU108
+ 384 0012 A047     		blx	r4
+ 385              	.LVL8:
+  79:Devices/Devices.c/M3508_Motor.c **** }
+ 386              		.loc 1 79 1 view .LVU109
+ 387 0014 02B0     		add	sp, sp, #8
+ 388              	.LCFI13:
+ 389              		.cfi_def_cfa_offset 8
+ 390              		@ sp needed
+ 391 0016 10BD     		pop	{r4, pc}
+ 392              	.L21:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 10
+
+
+ 393              		.align	2
+ 394              	.L20:
+ 395 0018 00000000 		.word	CAN_Func
+ 396 001c 00000000 		.word	hcan2
+ 397              		.cfi_endproc
+ 398              	.LFE141:
+ 400              		.section	.text.Check_M3508_Chassis,"ax",%progbits
+ 401              		.align	1
+ 402              		.global	Check_M3508_Chassis
+ 403              		.syntax unified
+ 404              		.thumb
+ 405              		.thumb_func
+ 407              	Check_M3508_Chassis:
+ 408              	.LFB142:
+  80:Devices/Devices.c/M3508_Motor.c **** 
+  81:Devices/Devices.c/M3508_Motor.c **** void Check_M3508_Chassis(void)
+  82:Devices/Devices.c/M3508_Motor.c **** {
+ 409              		.loc 1 82 1 is_stmt 1 view -0
+ 410              		.cfi_startproc
+ 411              		@ args = 0, pretend = 0, frame = 0
+ 412              		@ frame_needed = 0, uses_anonymous_args = 0
+ 413              		@ link register save eliminated.
+  83:Devices/Devices.c/M3508_Motor.c **** 	for(int i = 0; i < 4; i++)
+ 414              		.loc 1 83 2 view .LVU111
+ 415              	.LBB2:
+ 416              		.loc 1 83 6 view .LVU112
+ 417              	.LVL9:
+ 418              		.loc 1 83 10 is_stmt 0 view .LVU113
+ 419 0000 0023     		movs	r3, #0
+ 420              		.loc 1 83 2 view .LVU114
+ 421 0002 0AE0     		b	.L23
+ 422              	.LVL10:
+ 423              	.L24:
+  84:Devices/Devices.c/M3508_Motor.c **** 	{
+  85:Devices/Devices.c/M3508_Motor.c **** 		if(M3508_Chassis[i].Info_Update_Frame < 1)
+  86:Devices/Devices.c/M3508_Motor.c **** 			M3508_Chassis[i].Offline_Flag = 1;
+  87:Devices/Devices.c/M3508_Motor.c **** 		else
+  88:Devices/Devices.c/M3508_Motor.c **** 			M3508_Chassis[i].Offline_Flag = 0;
+ 424              		.loc 1 88 4 is_stmt 1 view .LVU115
+ 425              		.loc 1 88 34 is_stmt 0 view .LVU116
+ 426 0004 0C4A     		ldr	r2, .L28
+ 427 0006 02EB4312 		add	r2, r2, r3, lsl #5
+ 428 000a 0021     		movs	r1, #0
+ 429 000c 9177     		strb	r1, [r2, #30]
+ 430              	.L25:
+  89:Devices/Devices.c/M3508_Motor.c **** 		M3508_Chassis[i].Info_Update_Frame = 0;
+ 431              		.loc 1 89 3 is_stmt 1 discriminator 2 view .LVU117
+ 432              		.loc 1 89 38 is_stmt 0 discriminator 2 view .LVU118
+ 433 000e 0A4A     		ldr	r2, .L28
+ 434 0010 02EB4312 		add	r2, r2, r3, lsl #5
+ 435 0014 0021     		movs	r1, #0
+ 436 0016 9183     		strh	r1, [r2, #28]	@ movhi
+  83:Devices/Devices.c/M3508_Motor.c **** 	for(int i = 0; i < 4; i++)
+ 437              		.loc 1 83 25 is_stmt 1 discriminator 2 view .LVU119
+ 438 0018 0133     		adds	r3, r3, #1
+ 439              	.LVL11:
+ 440              	.L23:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 11
+
+
+  83:Devices/Devices.c/M3508_Motor.c **** 	for(int i = 0; i < 4; i++)
+ 441              		.loc 1 83 19 discriminator 1 view .LVU120
+ 442 001a 032B     		cmp	r3, #3
+ 443 001c 0BDC     		bgt	.L27
+  85:Devices/Devices.c/M3508_Motor.c **** 			M3508_Chassis[i].Offline_Flag = 1;
+ 444              		.loc 1 85 3 view .LVU121
+  85:Devices/Devices.c/M3508_Motor.c **** 			M3508_Chassis[i].Offline_Flag = 1;
+ 445              		.loc 1 85 22 is_stmt 0 view .LVU122
+ 446 001e 064A     		ldr	r2, .L28
+ 447 0020 02EB4312 		add	r2, r2, r3, lsl #5
+ 448 0024 928B     		ldrh	r2, [r2, #28]
+  85:Devices/Devices.c/M3508_Motor.c **** 			M3508_Chassis[i].Offline_Flag = 1;
+ 449              		.loc 1 85 5 view .LVU123
+ 450 0026 002A     		cmp	r2, #0
+ 451 0028 ECD1     		bne	.L24
+  86:Devices/Devices.c/M3508_Motor.c **** 		else
+ 452              		.loc 1 86 4 is_stmt 1 view .LVU124
+  86:Devices/Devices.c/M3508_Motor.c **** 		else
+ 453              		.loc 1 86 34 is_stmt 0 view .LVU125
+ 454 002a 034A     		ldr	r2, .L28
+ 455 002c 02EB4312 		add	r2, r2, r3, lsl #5
+ 456 0030 0121     		movs	r1, #1
+ 457 0032 9177     		strb	r1, [r2, #30]
+ 458 0034 EBE7     		b	.L25
+ 459              	.L27:
+ 460              	.LBE2:
+  90:Devices/Devices.c/M3508_Motor.c **** 	}
+  91:Devices/Devices.c/M3508_Motor.c **** }
+ 461              		.loc 1 91 1 view .LVU126
+ 462 0036 7047     		bx	lr
+ 463              	.L29:
+ 464              		.align	2
+ 465              	.L28:
+ 466 0038 00000000 		.word	M3508_Chassis
+ 467              		.cfi_endproc
+ 468              	.LFE142:
+ 470              		.section	.text.Check_M3508_Fric_Wheel,"ax",%progbits
+ 471              		.align	1
+ 472              		.global	Check_M3508_Fric_Wheel
+ 473              		.syntax unified
+ 474              		.thumb
+ 475              		.thumb_func
+ 477              	Check_M3508_Fric_Wheel:
+ 478              	.LFB143:
+  92:Devices/Devices.c/M3508_Motor.c **** 
+  93:Devices/Devices.c/M3508_Motor.c **** void Check_M3508_Fric_Wheel(void)
+  94:Devices/Devices.c/M3508_Motor.c **** {
+ 479              		.loc 1 94 1 is_stmt 1 view -0
+ 480              		.cfi_startproc
+ 481              		@ args = 0, pretend = 0, frame = 0
+ 482              		@ frame_needed = 0, uses_anonymous_args = 0
+ 483              		@ link register save eliminated.
+  95:Devices/Devices.c/M3508_Motor.c **** 	for(int i = 0; i < 2; i++)
+ 484              		.loc 1 95 2 view .LVU128
+ 485              	.LBB3:
+ 486              		.loc 1 95 6 view .LVU129
+ 487              	.LVL12:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 12
+
+
+ 488              		.loc 1 95 10 is_stmt 0 view .LVU130
+ 489 0000 0023     		movs	r3, #0
+ 490              		.loc 1 95 2 view .LVU131
+ 491 0002 0AE0     		b	.L31
+ 492              	.LVL13:
+ 493              	.L32:
+  96:Devices/Devices.c/M3508_Motor.c **** 	{
+  97:Devices/Devices.c/M3508_Motor.c **** 		if(M3508_Fric_Wheel[i].Info_Update_Frame < 1)
+  98:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[i].Offline_Flag = 1;
+  99:Devices/Devices.c/M3508_Motor.c **** 		else
+ 100:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[i].Offline_Flag = 0;
+ 494              		.loc 1 100 4 is_stmt 1 view .LVU132
+ 495              		.loc 1 100 37 is_stmt 0 view .LVU133
+ 496 0004 0C4A     		ldr	r2, .L36
+ 497 0006 02EB4312 		add	r2, r2, r3, lsl #5
+ 498 000a 0021     		movs	r1, #0
+ 499 000c 9177     		strb	r1, [r2, #30]
+ 500              	.L33:
+ 101:Devices/Devices.c/M3508_Motor.c **** 		M3508_Fric_Wheel[i].Info_Update_Frame = 0;
+ 501              		.loc 1 101 3 is_stmt 1 discriminator 2 view .LVU134
+ 502              		.loc 1 101 41 is_stmt 0 discriminator 2 view .LVU135
+ 503 000e 0A4A     		ldr	r2, .L36
+ 504 0010 02EB4312 		add	r2, r2, r3, lsl #5
+ 505 0014 0021     		movs	r1, #0
+ 506 0016 9183     		strh	r1, [r2, #28]	@ movhi
+  95:Devices/Devices.c/M3508_Motor.c **** 	for(int i = 0; i < 2; i++)
+ 507              		.loc 1 95 25 is_stmt 1 discriminator 2 view .LVU136
+ 508 0018 0133     		adds	r3, r3, #1
+ 509              	.LVL14:
+ 510              	.L31:
+  95:Devices/Devices.c/M3508_Motor.c **** 	for(int i = 0; i < 2; i++)
+ 511              		.loc 1 95 19 discriminator 1 view .LVU137
+ 512 001a 012B     		cmp	r3, #1
+ 513 001c 0BDC     		bgt	.L35
+  97:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[i].Offline_Flag = 1;
+ 514              		.loc 1 97 3 view .LVU138
+  97:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[i].Offline_Flag = 1;
+ 515              		.loc 1 97 25 is_stmt 0 view .LVU139
+ 516 001e 064A     		ldr	r2, .L36
+ 517 0020 02EB4312 		add	r2, r2, r3, lsl #5
+ 518 0024 928B     		ldrh	r2, [r2, #28]
+  97:Devices/Devices.c/M3508_Motor.c **** 			M3508_Fric_Wheel[i].Offline_Flag = 1;
+ 519              		.loc 1 97 5 view .LVU140
+ 520 0026 002A     		cmp	r2, #0
+ 521 0028 ECD1     		bne	.L32
+  98:Devices/Devices.c/M3508_Motor.c **** 		else
+ 522              		.loc 1 98 4 is_stmt 1 view .LVU141
+  98:Devices/Devices.c/M3508_Motor.c **** 		else
+ 523              		.loc 1 98 37 is_stmt 0 view .LVU142
+ 524 002a 034A     		ldr	r2, .L36
+ 525 002c 02EB4312 		add	r2, r2, r3, lsl #5
+ 526 0030 0121     		movs	r1, #1
+ 527 0032 9177     		strb	r1, [r2, #30]
+ 528 0034 EBE7     		b	.L33
+ 529              	.L35:
+ 530              	.LBE3:
+ 102:Devices/Devices.c/M3508_Motor.c **** 	}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 13
+
+
+ 103:Devices/Devices.c/M3508_Motor.c **** }
+ 531              		.loc 1 103 1 view .LVU143
+ 532 0036 7047     		bx	lr
+ 533              	.L37:
+ 534              		.align	2
+ 535              	.L36:
+ 536 0038 00000000 		.word	M3508_Fric_Wheel
+ 537              		.cfi_endproc
+ 538              	.LFE143:
+ 540              		.global	M3508_Func
+ 541              		.section	.data.M3508_Func,"aw"
+ 542              		.align	2
+ 545              	M3508_Func:
+ 546 0000 00000000 		.word	M3508_Chassis_Get_Data
+ 547 0004 00000000 		.word	M3508_Chassis_Send_Data
+ 548 0008 00000000 		.word	M3508_Fric_Wheel_Get_Data
+ 549 000c 00000000 		.word	M3508_Fric_Wheel_Send_Data
+ 550 0010 00000000 		.word	Check_M3508_Chassis
+ 551 0014 00000000 		.word	Check_M3508_Fric_Wheel
+ 552              		.global	M3508_Fric_Wheel
+ 553              		.section	.bss.M3508_Fric_Wheel,"aw",%nobits
+ 554              		.align	2
+ 557              	M3508_Fric_Wheel:
+ 558 0000 00000000 		.space	64
+ 558      00000000 
+ 558      00000000 
+ 558      00000000 
+ 558      00000000 
+ 559              		.global	M3508_Chassis
+ 560              		.section	.bss.M3508_Chassis,"aw",%nobits
+ 561              		.align	2
+ 564              	M3508_Chassis:
+ 565 0000 00000000 		.space	64
+ 565      00000000 
+ 565      00000000 
+ 565      00000000 
+ 565      00000000 
+ 566              		.text
+ 567              	.Letext0:
+ 568              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 569              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 570              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 571              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 572              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 573              		.file 7 "Core/Inc/can.h"
+ 574              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 575              		.file 9 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 576              		.file 10 "BSP/BSP.h/CAN_Setup.h"
+ 577              		.file 11 "Devices/Devices.h/Motor_Init.h"
+ 578              		.file 12 "Devices/Devices.h/M3508_Motor.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 M3508_Motor.c
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:21     .text.M3508_Chassis_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:27     .text.M3508_Chassis_Get_Data:00000000 M3508_Chassis_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:162    .text.M3508_Chassis_Get_Data:000000c4 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:564    .bss.M3508_Chassis:00000000 M3508_Chassis
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:169    .text.M3508_Chassis_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:175    .text.M3508_Chassis_Send_Data:00000000 M3508_Chassis_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:216    .text.M3508_Chassis_Send_Data:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:222    .text.M3508_Fric_Wheel_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:228    .text.M3508_Fric_Wheel_Get_Data:00000000 M3508_Fric_Wheel_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:343    .text.M3508_Fric_Wheel_Get_Data:00000090 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:557    .bss.M3508_Fric_Wheel:00000000 M3508_Fric_Wheel
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:348    .text.M3508_Fric_Wheel_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:354    .text.M3508_Fric_Wheel_Send_Data:00000000 M3508_Fric_Wheel_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:395    .text.M3508_Fric_Wheel_Send_Data:00000018 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:401    .text.Check_M3508_Chassis:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:407    .text.Check_M3508_Chassis:00000000 Check_M3508_Chassis
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:466    .text.Check_M3508_Chassis:00000038 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:471    .text.Check_M3508_Fric_Wheel:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:477    .text.Check_M3508_Fric_Wheel:00000000 Check_M3508_Fric_Wheel
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:536    .text.Check_M3508_Fric_Wheel:00000038 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:545    .data.M3508_Func:00000000 M3508_Func
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:542    .data.M3508_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:554    .bss.M3508_Fric_Wheel:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccbl4W1V.s:561    .bss.M3508_Chassis:00000000 $d
+
+UNDEFINED SYMBOLS
+CAN_Func
+hcan1
+hcan2

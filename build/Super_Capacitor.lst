@@ -1,0 +1,300 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Super_Capacitor.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/Super_Capacitor.c"
+  20              		.section	.text.Super_Capacitor_Get_Data,"ax",%progbits
+  21              		.align	1
+  22              		.global	Super_Capacitor_Get_Data
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Super_Capacitor_Get_Data:
+  28              	.LFB138:
+   1:Devices/Devices.c/Super_Capacitor.c **** /**
+   2:Devices/Devices.c/Super_Capacitor.c ****  * @file Super_Capacitor.c
+   3:Devices/Devices.c/Super_Capacitor.c ****  * @author Leo Liu
+   4:Devices/Devices.c/Super_Capacitor.c ****  * @brief super capacitor communication
+   5:Devices/Devices.c/Super_Capacitor.c ****  * @version 1.0
+   6:Devices/Devices.c/Super_Capacitor.c ****  * @date 2022-07-08
+   7:Devices/Devices.c/Super_Capacitor.c ****  * 
+   8:Devices/Devices.c/Super_Capacitor.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/Super_Capacitor.c ****  * 
+  10:Devices/Devices.c/Super_Capacitor.c ****  */
+  11:Devices/Devices.c/Super_Capacitor.c **** #include "Super_Capacitor.h"
+  12:Devices/Devices.c/Super_Capacitor.c **** #include <stdio.h>
+  13:Devices/Devices.c/Super_Capacitor.c **** 
+  14:Devices/Devices.c/Super_Capacitor.c **** void Super_Capacitor_Get_Data(CAN_Export_Data_t RxMessage);
+  15:Devices/Devices.c/Super_Capacitor.c **** void Super_Capacitor_Send_Data(int16_t Target_Power);
+  16:Devices/Devices.c/Super_Capacitor.c **** void Check_Super_Capacitor(void);
+  17:Devices/Devices.c/Super_Capacitor.c **** 
+  18:Devices/Devices.c/Super_Capacitor.c **** Super_Capacitor_Func_t Super_Capacitor_Func = Super_Capacitor_Func_GroundInit;
+  19:Devices/Devices.c/Super_Capacitor.c **** #undef Super_Capacitor_Func_GroundInit
+  20:Devices/Devices.c/Super_Capacitor.c **** 
+  21:Devices/Devices.c/Super_Capacitor.c **** Super_Capacitor_t Super_Capacitor;
+  22:Devices/Devices.c/Super_Capacitor.c **** 
+  23:Devices/Devices.c/Super_Capacitor.c **** //Obtain super capacitor data from CAN
+  24:Devices/Devices.c/Super_Capacitor.c **** void Super_Capacitor_Get_Data(CAN_Export_Data_t RxMessage)
+  25:Devices/Devices.c/Super_Capacitor.c **** {
+  29              		.loc 1 25 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 36, pretend = 16, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s 			page 2
+
+
+  34 0000 84B0     		sub	sp, sp, #16
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 16
+  37 0002 8DE80F00 		stm	sp, {r0, r1, r2, r3}
+  26:Devices/Devices.c/Super_Capacitor.c **** 	Super_Capacitor.Input_Voltage = (int16_t)(RxMessage.CANx_Export_RxMessage[0] << 8 | RxMessage.CANx
+  38              		.loc 1 26 2 view .LVU1
+  39              		.loc 1 26 75 is_stmt 0 view .LVU2
+  40 0006 9DF81C20 		ldrb	r2, [sp, #28]	@ zero_extendqisi2
+  41              		.loc 1 26 117 view .LVU3
+  42 000a 9DF81D30 		ldrb	r3, [sp, #29]	@ zero_extendqisi2
+  43              		.loc 1 26 34 view .LVU4
+  44 000e 43EA0223 		orr	r3, r3, r2, lsl #8
+  45 0012 1BB2     		sxth	r3, r3
+  46              		.loc 1 26 32 view .LVU5
+  47 0014 194A     		ldr	r2, .L3
+  48 0016 07EE903A 		vmov	s15, r3	@ int
+  49 001a F8EEE77A 		vcvt.f32.s32	s15, s15
+  50 001e C2ED007A 		vstr.32	s15, [r2]
+  27:Devices/Devices.c/Super_Capacitor.c ****   Super_Capacitor.Capacitor_Voltage = (int16_t)(RxMessage.CANx_Export_RxMessage[2] << 8 | RxMessage
+  51              		.loc 1 27 3 is_stmt 1 view .LVU6
+  52              		.loc 1 27 80 is_stmt 0 view .LVU7
+  53 0022 9DF81E10 		ldrb	r1, [sp, #30]	@ zero_extendqisi2
+  54              		.loc 1 27 122 view .LVU8
+  55 0026 9DF81F30 		ldrb	r3, [sp, #31]	@ zero_extendqisi2
+  56              		.loc 1 27 39 view .LVU9
+  57 002a 43EA0123 		orr	r3, r3, r1, lsl #8
+  58 002e 1BB2     		sxth	r3, r3
+  59              		.loc 1 27 37 view .LVU10
+  60 0030 07EE903A 		vmov	s15, r3	@ int
+  61 0034 F8EEE77A 		vcvt.f32.s32	s15, s15
+  62 0038 C2ED017A 		vstr.32	s15, [r2, #4]
+  28:Devices/Devices.c/Super_Capacitor.c ****   Super_Capacitor.Input_Current = (int16_t)(RxMessage.CANx_Export_RxMessage[4] << 8 | RxMessage.CAN
+  63              		.loc 1 28 3 is_stmt 1 view .LVU11
+  64              		.loc 1 28 76 is_stmt 0 view .LVU12
+  65 003c 9DF82010 		ldrb	r1, [sp, #32]	@ zero_extendqisi2
+  66              		.loc 1 28 118 view .LVU13
+  67 0040 9DF82130 		ldrb	r3, [sp, #33]	@ zero_extendqisi2
+  68              		.loc 1 28 35 view .LVU14
+  69 0044 43EA0123 		orr	r3, r3, r1, lsl #8
+  70 0048 1BB2     		sxth	r3, r3
+  71              		.loc 1 28 33 view .LVU15
+  72 004a 07EE903A 		vmov	s15, r3	@ int
+  73 004e F8EEE77A 		vcvt.f32.s32	s15, s15
+  74 0052 C2ED027A 		vstr.32	s15, [r2, #8]
+  29:Devices/Devices.c/Super_Capacitor.c **** 	Super_Capacitor.Actual_Power = (int16_t)(RxMessage.CANx_Export_RxMessage[6] << 8 | RxMessage.CANx_
+  75              		.loc 1 29 2 is_stmt 1 view .LVU16
+  76              		.loc 1 29 74 is_stmt 0 view .LVU17
+  77 0056 9DF82210 		ldrb	r1, [sp, #34]	@ zero_extendqisi2
+  78              		.loc 1 29 116 view .LVU18
+  79 005a 9DF82330 		ldrb	r3, [sp, #35]	@ zero_extendqisi2
+  80              		.loc 1 29 33 view .LVU19
+  81 005e 43EA0123 		orr	r3, r3, r1, lsl #8
+  82 0062 1BB2     		sxth	r3, r3
+  83              		.loc 1 29 31 view .LVU20
+  84 0064 07EE903A 		vmov	s15, r3	@ int
+  85 0068 F8EEE77A 		vcvt.f32.s32	s15, s15
+  86 006c C2ED037A 		vstr.32	s15, [r2, #12]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s 			page 3
+
+
+  30:Devices/Devices.c/Super_Capacitor.c **** 	
+  31:Devices/Devices.c/Super_Capacitor.c **** 	Super_Capacitor.Info_Update_Frame++;
+  87              		.loc 1 31 2 is_stmt 1 view .LVU21
+  88              		.loc 1 31 17 is_stmt 0 view .LVU22
+  89 0070 938B     		ldrh	r3, [r2, #28]
+  90              		.loc 1 31 35 view .LVU23
+  91 0072 0133     		adds	r3, r3, #1
+  92 0074 9383     		strh	r3, [r2, #28]	@ movhi
+  32:Devices/Devices.c/Super_Capacitor.c **** }
+  93              		.loc 1 32 1 view .LVU24
+  94 0076 04B0     		add	sp, sp, #16
+  95              	.LCFI1:
+  96              		.cfi_def_cfa_offset 0
+  97 0078 7047     		bx	lr
+  98              	.L4:
+  99 007a 00BF     		.align	2
+ 100              	.L3:
+ 101 007c 00000000 		.word	Super_Capacitor
+ 102              		.cfi_endproc
+ 103              	.LFE138:
+ 105              		.section	.text.Super_Capacitor_Send_Data,"ax",%progbits
+ 106              		.align	1
+ 107              		.global	Super_Capacitor_Send_Data
+ 108              		.syntax unified
+ 109              		.thumb
+ 110              		.thumb_func
+ 112              	Super_Capacitor_Send_Data:
+ 113              	.LVL0:
+ 114              	.LFB139:
+  33:Devices/Devices.c/Super_Capacitor.c **** 
+  34:Devices/Devices.c/Super_Capacitor.c **** //Send super capacitor data through specified identifier
+  35:Devices/Devices.c/Super_Capacitor.c **** void Super_Capacitor_Send_Data(int16_t Target_Power)
+  36:Devices/Devices.c/Super_Capacitor.c **** {
+ 115              		.loc 1 36 1 is_stmt 1 view -0
+ 116              		.cfi_startproc
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              		.loc 1 36 1 is_stmt 0 view .LVU26
+ 120 0000 08B5     		push	{r3, lr}
+ 121              	.LCFI2:
+ 122              		.cfi_def_cfa_offset 8
+ 123              		.cfi_offset 3, -8
+ 124              		.cfi_offset 14, -4
+ 125 0002 0146     		mov	r1, r0
+  37:Devices/Devices.c/Super_Capacitor.c **** 	CAN_Func.CAN_0x210_Send_Data(&hcan1,Target_Power);
+ 126              		.loc 1 37 2 is_stmt 1 view .LVU27
+ 127              		.loc 1 37 10 is_stmt 0 view .LVU28
+ 128 0004 024B     		ldr	r3, .L7
+ 129 0006 9B69     		ldr	r3, [r3, #24]
+ 130              		.loc 1 37 2 view .LVU29
+ 131 0008 0248     		ldr	r0, .L7+4
+ 132              	.LVL1:
+ 133              		.loc 1 37 2 view .LVU30
+ 134 000a 9847     		blx	r3
+ 135              	.LVL2:
+  38:Devices/Devices.c/Super_Capacitor.c **** }
+ 136              		.loc 1 38 1 view .LVU31
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s 			page 4
+
+
+ 137 000c 08BD     		pop	{r3, pc}
+ 138              	.L8:
+ 139 000e 00BF     		.align	2
+ 140              	.L7:
+ 141 0010 00000000 		.word	CAN_Func
+ 142 0014 00000000 		.word	hcan1
+ 143              		.cfi_endproc
+ 144              	.LFE139:
+ 146              		.section	.text.Check_Super_Capacitor,"ax",%progbits
+ 147              		.align	1
+ 148              		.global	Check_Super_Capacitor
+ 149              		.syntax unified
+ 150              		.thumb
+ 151              		.thumb_func
+ 153              	Check_Super_Capacitor:
+ 154              	.LFB140:
+  39:Devices/Devices.c/Super_Capacitor.c **** 
+  40:Devices/Devices.c/Super_Capacitor.c **** void Check_Super_Capacitor(void)
+  41:Devices/Devices.c/Super_Capacitor.c **** {
+ 155              		.loc 1 41 1 is_stmt 1 view -0
+ 156              		.cfi_startproc
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159              		@ link register save eliminated.
+  42:Devices/Devices.c/Super_Capacitor.c **** 	if(Super_Capacitor.Info_Update_Frame < 1)
+ 160              		.loc 1 42 2 view .LVU33
+ 161              		.loc 1 42 20 is_stmt 0 view .LVU34
+ 162 0000 064B     		ldr	r3, .L12
+ 163 0002 9B8B     		ldrh	r3, [r3, #28]
+ 164              		.loc 1 42 4 view .LVU35
+ 165 0004 33B9     		cbnz	r3, .L10
+  43:Devices/Devices.c/Super_Capacitor.c **** 		Super_Capacitor.Offline_Flag = 1;
+ 166              		.loc 1 43 3 is_stmt 1 view .LVU36
+ 167              		.loc 1 43 32 is_stmt 0 view .LVU37
+ 168 0006 054B     		ldr	r3, .L12
+ 169 0008 0122     		movs	r2, #1
+ 170 000a 9A77     		strb	r2, [r3, #30]
+ 171              	.L11:
+  44:Devices/Devices.c/Super_Capacitor.c **** 	else
+  45:Devices/Devices.c/Super_Capacitor.c **** 		Super_Capacitor.Offline_Flag = 0;
+  46:Devices/Devices.c/Super_Capacitor.c **** 	Super_Capacitor.Info_Update_Frame = 0;
+ 172              		.loc 1 46 2 is_stmt 1 view .LVU38
+ 173              		.loc 1 46 36 is_stmt 0 view .LVU39
+ 174 000c 034B     		ldr	r3, .L12
+ 175 000e 0022     		movs	r2, #0
+ 176 0010 9A83     		strh	r2, [r3, #28]	@ movhi
+  47:Devices/Devices.c/Super_Capacitor.c **** }
+ 177              		.loc 1 47 1 view .LVU40
+ 178 0012 7047     		bx	lr
+ 179              	.L10:
+  45:Devices/Devices.c/Super_Capacitor.c **** 	Super_Capacitor.Info_Update_Frame = 0;
+ 180              		.loc 1 45 3 is_stmt 1 view .LVU41
+  45:Devices/Devices.c/Super_Capacitor.c **** 	Super_Capacitor.Info_Update_Frame = 0;
+ 181              		.loc 1 45 32 is_stmt 0 view .LVU42
+ 182 0014 014B     		ldr	r3, .L12
+ 183 0016 0022     		movs	r2, #0
+ 184 0018 9A77     		strb	r2, [r3, #30]
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s 			page 5
+
+
+ 185 001a F7E7     		b	.L11
+ 186              	.L13:
+ 187              		.align	2
+ 188              	.L12:
+ 189 001c 00000000 		.word	Super_Capacitor
+ 190              		.cfi_endproc
+ 191              	.LFE140:
+ 193              		.global	Super_Capacitor
+ 194              		.section	.bss.Super_Capacitor,"aw",%nobits
+ 195              		.align	2
+ 198              	Super_Capacitor:
+ 199 0000 00000000 		.space	32
+ 199      00000000 
+ 199      00000000 
+ 199      00000000 
+ 199      00000000 
+ 200              		.global	Super_Capacitor_Func
+ 201              		.section	.data.Super_Capacitor_Func,"aw"
+ 202              		.align	2
+ 205              	Super_Capacitor_Func:
+ 206 0000 00000000 		.word	Super_Capacitor_Get_Data
+ 207 0004 00000000 		.word	Super_Capacitor_Send_Data
+ 208 0008 00000000 		.word	Check_Super_Capacitor
+ 209              		.text
+ 210              	.Letext0:
+ 211              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 212              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 213              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 214              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h"
+ 215              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 216              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 217              		.file 8 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 218              		.file 9 "BSP/BSP.h/CAN_Setup.h"
+ 219              		.file 10 "Core/Inc/can.h"
+ 220              		.file 11 "Devices/Devices.h/Super_Capacitor.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Super_Capacitor.c
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:21     .text.Super_Capacitor_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:27     .text.Super_Capacitor_Get_Data:00000000 Super_Capacitor_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:101    .text.Super_Capacitor_Get_Data:0000007c $d
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:198    .bss.Super_Capacitor:00000000 Super_Capacitor
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:106    .text.Super_Capacitor_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:112    .text.Super_Capacitor_Send_Data:00000000 Super_Capacitor_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:141    .text.Super_Capacitor_Send_Data:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:147    .text.Check_Super_Capacitor:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:153    .text.Check_Super_Capacitor:00000000 Check_Super_Capacitor
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:189    .text.Check_Super_Capacitor:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:195    .bss.Super_Capacitor:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:205    .data.Super_Capacitor_Func:00000000 Super_Capacitor_Func
+C:\Users\purdu\AppData\Local\Temp\ccFIk4qk.s:202    .data.Super_Capacitor_Func:00000000 $d
+
+UNDEFINED SYMBOLS
+CAN_Func
+hcan1

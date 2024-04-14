@@ -1,0 +1,388 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Robot_Control.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "HigherLevelApps/HigherLevelApps.c/Robot_Control.c"
+  20              		.section	.text.Robot_Control_Start,"ax",%progbits
+  21              		.align	1
+  22              		.global	Robot_Control_Start
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Robot_Control_Start:
+  28              	.LFB162:
+   1:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** /**
+   2:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * @file Robot_Control.c
+   3:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * @author Leo Liu
+   4:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * @brief general robot control
+   5:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * @version 1.0
+   6:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * @date 2022-07-09
+   7:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * 
+   8:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * @copyright Copyright (c) 2022
+   9:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  * 
+  10:HigherLevelApps/HigherLevelApps.c/Robot_Control.c ****  */
+  11:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** #include "Robot_Control.h"
+  12:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 
+  13:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** void Robot_Control_Start(void); 
+  14:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** void Robot_Control_Send(void);
+  15:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** void Robot_Control_Disabled(void);
+  16:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 
+  17:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** Robot_Control_Func_t Robot_Control_Func = Robot_Control_Func_GroundInit;
+  18:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** #undef Robot_Control_Func_GroundInit
+  19:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 
+  20:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** //The function name tells you what it does
+  21:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** void Robot_Control_Start(void)
+  22:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** {
+  29              		.loc 1 22 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 38B5     		push	{r3, r4, r5, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 16
+  36              		.cfi_offset 3, -16
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s 			page 2
+
+
+  37              		.cfi_offset 4, -12
+  38              		.cfi_offset 5, -8
+  39              		.cfi_offset 14, -4
+  23:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	State_Machine_Func.Remote_Control_Update(); 
+  40              		.loc 1 23 2 view .LVU1
+  41              		.loc 1 23 20 is_stmt 0 view .LVU2
+  42 0002 134B     		ldr	r3, .L3
+  43 0004 1B68     		ldr	r3, [r3]
+  44              		.loc 1 23 2 view .LVU3
+  45 0006 9847     		blx	r3
+  46              	.LVL0:
+  24:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Referee_System_Func.Referee_Set_Robot_State();
+  47              		.loc 1 24 2 is_stmt 1 view .LVU4
+  48              		.loc 1 24 21 is_stmt 0 view .LVU5
+  49 0008 124B     		ldr	r3, .L3+4
+  50 000a DB68     		ldr	r3, [r3, #12]
+  51              		.loc 1 24 2 view .LVU6
+  52 000c 9847     		blx	r3
+  53              	.LVL1:
+  25:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Tx2_Func.Jetson_Tx2_Get_Data();
+  54              		.loc 1 25 2 is_stmt 1 view .LVU7
+  55              		.loc 1 25 10 is_stmt 0 view .LVU8
+  56 000e 124C     		ldr	r4, .L3+8
+  57 0010 6368     		ldr	r3, [r4, #4]
+  58              		.loc 1 25 2 view .LVU9
+  59 0012 9847     		blx	r3
+  60              	.LVL2:
+  26:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Tx2_Func.Jetson_Tx2_Send_Data();
+  61              		.loc 1 26 2 is_stmt 1 view .LVU10
+  62              		.loc 1 26 10 is_stmt 0 view .LVU11
+  63 0014 A368     		ldr	r3, [r4, #8]
+  64              		.loc 1 26 2 view .LVU12
+  65 0016 9847     		blx	r3
+  66              	.LVL3:
+  27:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	
+  28:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Chassis_Func.Chassis_Get_Data(&Chassis);
+  67              		.loc 1 28 2 is_stmt 1 view .LVU13
+  68              		.loc 1 28 14 is_stmt 0 view .LVU14
+  69 0018 104D     		ldr	r5, .L3+12
+  70 001a 2B68     		ldr	r3, [r5]
+  71              		.loc 1 28 2 view .LVU15
+  72 001c 104C     		ldr	r4, .L3+16
+  73 001e 2046     		mov	r0, r4
+  74 0020 9847     		blx	r3
+  75              	.LVL4:
+  29:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Chassis_Func.Chassis_Processing(&Chassis);
+  76              		.loc 1 29 2 is_stmt 1 view .LVU16
+  77              		.loc 1 29 14 is_stmt 0 view .LVU17
+  78 0022 AB68     		ldr	r3, [r5, #8]
+  79              		.loc 1 29 2 view .LVU18
+  80 0024 2046     		mov	r0, r4
+  81 0026 9847     		blx	r3
+  82              	.LVL5:
+  30:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	
+  31:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Gimbal_Func.Gimbal_Control_Get_Data(&Gimbal);
+  83              		.loc 1 31 2 is_stmt 1 view .LVU19
+  84              		.loc 1 31 13 is_stmt 0 view .LVU20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s 			page 3
+
+
+  85 0028 0E4D     		ldr	r5, .L3+20
+  86 002a 6B68     		ldr	r3, [r5, #4]
+  87              		.loc 1 31 2 view .LVU21
+  88 002c 0E4C     		ldr	r4, .L3+24
+  89 002e 2046     		mov	r0, r4
+  90 0030 9847     		blx	r3
+  91              	.LVL6:
+  32:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Gimbal_Func.Gimbal_Processing(&Gimbal);
+  92              		.loc 1 32 2 is_stmt 1 view .LVU22
+  93              		.loc 1 32 13 is_stmt 0 view .LVU23
+  94 0032 AB68     		ldr	r3, [r5, #8]
+  95              		.loc 1 32 2 view .LVU24
+  96 0034 2046     		mov	r0, r4
+  97 0036 9847     		blx	r3
+  98              	.LVL7:
+  33:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	
+  34:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Shooting_Func.Trigger_Get_Data(&Shooting);
+  99              		.loc 1 34 2 is_stmt 1 view .LVU25
+ 100              		.loc 1 34 15 is_stmt 0 view .LVU26
+ 101 0038 0C4D     		ldr	r5, .L3+28
+ 102 003a 6B68     		ldr	r3, [r5, #4]
+ 103              		.loc 1 34 2 view .LVU27
+ 104 003c 0C4C     		ldr	r4, .L3+32
+ 105 003e 2046     		mov	r0, r4
+ 106 0040 9847     		blx	r3
+ 107              	.LVL8:
+  35:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Shooting_Func.Shooting_Processing(&Shooting);
+ 108              		.loc 1 35 2 is_stmt 1 view .LVU28
+ 109              		.loc 1 35 15 is_stmt 0 view .LVU29
+ 110 0042 AB68     		ldr	r3, [r5, #8]
+ 111              		.loc 1 35 2 view .LVU30
+ 112 0044 2046     		mov	r0, r4
+ 113 0046 9847     		blx	r3
+ 114              	.LVL9:
+  36:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	
+  37:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Robot_Control_Func.Robot_Control_Send();
+ 115              		.loc 1 37 2 is_stmt 1 view .LVU31
+ 116              		.loc 1 37 20 is_stmt 0 view .LVU32
+ 117 0048 0A4B     		ldr	r3, .L3+36
+ 118 004a 5B68     		ldr	r3, [r3, #4]
+ 119              		.loc 1 37 2 view .LVU33
+ 120 004c 9847     		blx	r3
+ 121              	.LVL10:
+  38:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** }
+ 122              		.loc 1 38 1 view .LVU34
+ 123 004e 38BD     		pop	{r3, r4, r5, pc}
+ 124              	.L4:
+ 125              		.align	2
+ 126              	.L3:
+ 127 0050 00000000 		.word	State_Machine_Func
+ 128 0054 00000000 		.word	Referee_System_Func
+ 129 0058 00000000 		.word	Tx2_Func
+ 130 005c 00000000 		.word	Chassis_Func
+ 131 0060 00000000 		.word	Chassis
+ 132 0064 00000000 		.word	Gimbal_Func
+ 133 0068 00000000 		.word	Gimbal
+ 134 006c 00000000 		.word	Shooting_Func
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s 			page 4
+
+
+ 135 0070 00000000 		.word	Shooting
+ 136 0074 00000000 		.word	Robot_Control_Func
+ 137              		.cfi_endproc
+ 138              	.LFE162:
+ 140              		.section	.text.Robot_Control_Send,"ax",%progbits
+ 141              		.align	1
+ 142              		.global	Robot_Control_Send
+ 143              		.syntax unified
+ 144              		.thumb
+ 145              		.thumb_func
+ 147              	Robot_Control_Send:
+ 148              	.LFB163:
+  39:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 
+  40:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** void Robot_Control_Send(void)
+  41:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** {
+ 149              		.loc 1 41 1 is_stmt 1 view -0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 0
+ 152              		@ frame_needed = 0, uses_anonymous_args = 0
+ 153 0000 08B5     		push	{r3, lr}
+ 154              	.LCFI1:
+ 155              		.cfi_def_cfa_offset 8
+ 156              		.cfi_offset 3, -8
+ 157              		.cfi_offset 14, -4
+  42:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	MF9025_Func.MF9025_Chassis_Send_Data(-MF9025_Chassis[0].Target_Speed,-MF9025_Chassis[1].Target_Spe
+ 158              		.loc 1 42 2 view .LVU36
+ 159              		.loc 1 42 13 is_stmt 0 view .LVU37
+ 160 0002 104B     		ldr	r3, .L7
+ 161 0004 5A68     		ldr	r2, [r3, #4]
+ 162              		.loc 1 42 57 view .LVU38
+ 163 0006 104B     		ldr	r3, .L7+4
+ 164 0008 D869     		ldr	r0, [r3, #28]
+ 165              		.loc 1 42 89 view .LVU39
+ 166 000a 596D     		ldr	r1, [r3, #84]
+ 167              		.loc 1 42 2 view .LVU40
+ 168 000c 4942     		rsbs	r1, r1, #0
+ 169 000e 4042     		rsbs	r0, r0, #0
+ 170 0010 9047     		blx	r2
+ 171              	.LVL11:
+  43:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	M3508_Func.M3508_Fric_Wheel_Send_Data(M3508_Fric_Wheel[0].Output_Current,M3508_Fric_Wheel[1].Outpu
+ 172              		.loc 1 43 2 is_stmt 1 view .LVU41
+ 173              		.loc 1 43 12 is_stmt 0 view .LVU42
+ 174 0012 0E4B     		ldr	r3, .L7+8
+ 175 0014 DA68     		ldr	r2, [r3, #12]
+ 176              		.loc 1 43 2 view .LVU43
+ 177 0016 0E4B     		ldr	r3, .L7+12
+ 178 0018 B3F93A10 		ldrsh	r1, [r3, #58]
+ 179 001c B3F91A00 		ldrsh	r0, [r3, #26]
+ 180 0020 9047     		blx	r2
+ 181              	.LVL12:
+  44:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	GM6020_Func.GM6020_Gimbal_Send_Data(GM6020_Pitch.Output_Current, GM6020_Yaw.Output_Current);
+ 182              		.loc 1 44 2 is_stmt 1 view .LVU44
+ 183              		.loc 1 44 13 is_stmt 0 view .LVU45
+ 184 0022 0C4B     		ldr	r3, .L7+16
+ 185 0024 9B68     		ldr	r3, [r3, #8]
+ 186              		.loc 1 44 2 view .LVU46
+ 187 0026 0C4A     		ldr	r2, .L7+20
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s 			page 5
+
+
+ 188 0028 B2F91A10 		ldrsh	r1, [r2, #26]
+ 189 002c 0B4A     		ldr	r2, .L7+24
+ 190 002e B2F91A00 		ldrsh	r0, [r2, #26]
+ 191 0032 9847     		blx	r3
+ 192              	.LVL13:
+  45:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	M2006_Func.M2006_Trigger_Send_Data(M2006_Trigger.Output_Current);
+ 193              		.loc 1 45 2 is_stmt 1 view .LVU47
+ 194              		.loc 1 45 12 is_stmt 0 view .LVU48
+ 195 0034 0A4B     		ldr	r3, .L7+28
+ 196 0036 5B68     		ldr	r3, [r3, #4]
+ 197              		.loc 1 45 2 view .LVU49
+ 198 0038 0A4A     		ldr	r2, .L7+32
+ 199 003a B2F91A00 		ldrsh	r0, [r2, #26]
+ 200 003e 9847     		blx	r3
+ 201              	.LVL14:
+  46:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** }
+ 202              		.loc 1 46 1 view .LVU50
+ 203 0040 08BD     		pop	{r3, pc}
+ 204              	.L8:
+ 205 0042 00BF     		.align	2
+ 206              	.L7:
+ 207 0044 00000000 		.word	MF9025_Func
+ 208 0048 00000000 		.word	MF9025_Chassis
+ 209 004c 00000000 		.word	M3508_Func
+ 210 0050 00000000 		.word	M3508_Fric_Wheel
+ 211 0054 00000000 		.word	GM6020_Func
+ 212 0058 00000000 		.word	GM6020_Yaw
+ 213 005c 00000000 		.word	GM6020_Pitch
+ 214 0060 00000000 		.word	M2006_Func
+ 215 0064 00000000 		.word	M2006_Trigger
+ 216              		.cfi_endproc
+ 217              	.LFE163:
+ 219              		.section	.text.Robot_Control_Disabled,"ax",%progbits
+ 220              		.align	1
+ 221              		.global	Robot_Control_Disabled
+ 222              		.syntax unified
+ 223              		.thumb
+ 224              		.thumb_func
+ 226              	Robot_Control_Disabled:
+ 227              	.LFB164:
+  47:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 
+  48:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** void Robot_Control_Disabled(void)
+  49:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** {
+ 228              		.loc 1 49 1 is_stmt 1 view -0
+ 229              		.cfi_startproc
+ 230              		@ args = 0, pretend = 0, frame = 0
+ 231              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232 0000 08B5     		push	{r3, lr}
+ 233              	.LCFI2:
+ 234              		.cfi_def_cfa_offset 8
+ 235              		.cfi_offset 3, -8
+ 236              		.cfi_offset 14, -4
+  50:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	State_Machine.Mode = Disabled;
+ 237              		.loc 1 50 2 view .LVU52
+ 238              		.loc 1 50 21 is_stmt 0 view .LVU53
+ 239 0002 034B     		ldr	r3, .L11
+ 240 0004 0622     		movs	r2, #6
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s 			page 6
+
+
+ 241 0006 5A70     		strb	r2, [r3, #1]
+  51:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** 	Shooting_Func.Shooting_Disabled();
+ 242              		.loc 1 51 2 is_stmt 1 view .LVU54
+ 243              		.loc 1 51 15 is_stmt 0 view .LVU55
+ 244 0008 024B     		ldr	r3, .L11+4
+ 245 000a DB68     		ldr	r3, [r3, #12]
+ 246              		.loc 1 51 2 view .LVU56
+ 247 000c 9847     		blx	r3
+ 248              	.LVL15:
+  52:HigherLevelApps/HigherLevelApps.c/Robot_Control.c **** }
+ 249              		.loc 1 52 1 view .LVU57
+ 250 000e 08BD     		pop	{r3, pc}
+ 251              	.L12:
+ 252              		.align	2
+ 253              	.L11:
+ 254 0010 00000000 		.word	State_Machine
+ 255 0014 00000000 		.word	Shooting_Func
+ 256              		.cfi_endproc
+ 257              	.LFE164:
+ 259              		.global	Robot_Control_Func
+ 260              		.section	.data.Robot_Control_Func,"aw"
+ 261              		.align	2
+ 264              	Robot_Control_Func:
+ 265 0000 00000000 		.word	Robot_Control_Start
+ 266 0004 00000000 		.word	Robot_Control_Send
+ 267 0008 00000000 		.word	Robot_Control_Disabled
+ 268              		.text
+ 269              	.Letext0:
+ 270              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 271              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 272              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 273              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 274              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 275              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h"
+ 276              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 277              		.file 9 "BSP/BSP.h/CAN_Setup.h"
+ 278              		.file 10 "Devices/Devices.h/Motor_Init.h"
+ 279              		.file 11 "Devices/Devices.h/M3508_Motor.h"
+ 280              		.file 12 "Devices/Devices.h/GM6020_Motor.h"
+ 281              		.file 13 "Devices/Devices.h/M2006_Motor.h"
+ 282              		.file 14 "HigherLevelApps/HigherLevelApps.h/Shooting_Control.h"
+ 283              		.file 15 "HigherLevelApps/HigherLevelApps.h/State_Machine.h"
+ 284              		.file 16 "HigherLevelApps/HigherLevelApps.h/Gimbal_Control.h"
+ 285              		.file 17 "Devices/Devices.h/MF9025_Motor.h"
+ 286              		.file 18 "HigherLevelApps/HigherLevelApps.h/Chassis_Control.h"
+ 287              		.file 19 "Devices/Devices.h/Jetson_Tx2.h"
+ 288              		.file 20 "Devices/Devices.h/Referee_System.h"
+ 289              		.file 21 "HigherLevelApps/HigherLevelApps.h/Robot_Control.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Robot_Control.c
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:21     .text.Robot_Control_Start:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:27     .text.Robot_Control_Start:00000000 Robot_Control_Start
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:127    .text.Robot_Control_Start:00000050 $d
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:264    .data.Robot_Control_Func:00000000 Robot_Control_Func
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:141    .text.Robot_Control_Send:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:147    .text.Robot_Control_Send:00000000 Robot_Control_Send
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:207    .text.Robot_Control_Send:00000044 $d
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:220    .text.Robot_Control_Disabled:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:226    .text.Robot_Control_Disabled:00000000 Robot_Control_Disabled
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:254    .text.Robot_Control_Disabled:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\cc6zQLBx.s:261    .data.Robot_Control_Func:00000000 $d
+
+UNDEFINED SYMBOLS
+State_Machine_Func
+Referee_System_Func
+Tx2_Func
+Chassis_Func
+Chassis
+Gimbal_Func
+Gimbal
+Shooting_Func
+Shooting
+MF9025_Func
+MF9025_Chassis
+M3508_Func
+M3508_Fric_Wheel
+GM6020_Func
+GM6020_Yaw
+GM6020_Pitch
+M2006_Func
+M2006_Trigger
+State_Machine

@@ -1,0 +1,307 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"syscalls.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/syscalls.c"
+  20              		.section	.text._close,"ax",%progbits
+  21              		.align	1
+  22              		.global	_close
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	_close:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:Core/Src/syscalls.c **** #include <sys/stat.h>
+   2:Core/Src/syscalls.c **** #include <errno.h>
+   3:Core/Src/syscalls.c **** #undef errno
+   4:Core/Src/syscalls.c **** extern int errno;
+   5:Core/Src/syscalls.c **** 
+   6:Core/Src/syscalls.c **** int _close(int file) {
+  30              		.loc 1 6 22 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+   7:Core/Src/syscalls.c ****     return -1;
+  35              		.loc 1 7 5 view .LVU1
+   8:Core/Src/syscalls.c **** }
+  36              		.loc 1 8 1 is_stmt 0 view .LVU2
+  37 0000 4FF0FF30 		mov	r0, #-1
+  38              	.LVL1:
+  39              		.loc 1 8 1 view .LVU3
+  40 0004 7047     		bx	lr
+  41              		.cfi_endproc
+  42              	.LFE0:
+  44              		.section	.text._fstat,"ax",%progbits
+  45              		.align	1
+  46              		.global	_fstat
+  47              		.syntax unified
+  48              		.thumb
+  49              		.thumb_func
+  51              	_fstat:
+  52              	.LVL2:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 2
+
+
+  53              	.LFB1:
+   9:Core/Src/syscalls.c **** 
+  10:Core/Src/syscalls.c **** int _fstat(int file, struct stat *st) {
+  54              		.loc 1 10 39 is_stmt 1 view -0
+  55              		.cfi_startproc
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+  58              		@ link register save eliminated.
+  11:Core/Src/syscalls.c ****     st->st_mode = S_IFCHR;
+  59              		.loc 1 11 5 view .LVU5
+  60              		.loc 1 11 17 is_stmt 0 view .LVU6
+  61 0000 4FF40053 		mov	r3, #8192
+  62 0004 4B60     		str	r3, [r1, #4]
+  12:Core/Src/syscalls.c ****     return 0;
+  63              		.loc 1 12 5 is_stmt 1 view .LVU7
+  13:Core/Src/syscalls.c **** }
+  64              		.loc 1 13 1 is_stmt 0 view .LVU8
+  65 0006 0020     		movs	r0, #0
+  66              	.LVL3:
+  67              		.loc 1 13 1 view .LVU9
+  68 0008 7047     		bx	lr
+  69              		.cfi_endproc
+  70              	.LFE1:
+  72              		.section	.text._isatty,"ax",%progbits
+  73              		.align	1
+  74              		.global	_isatty
+  75              		.syntax unified
+  76              		.thumb
+  77              		.thumb_func
+  79              	_isatty:
+  80              	.LVL4:
+  81              	.LFB2:
+  14:Core/Src/syscalls.c **** 
+  15:Core/Src/syscalls.c **** int _isatty(int file) {
+  82              		.loc 1 15 23 is_stmt 1 view -0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  16:Core/Src/syscalls.c ****     return 1;
+  87              		.loc 1 16 5 view .LVU11
+  17:Core/Src/syscalls.c **** }
+  88              		.loc 1 17 1 is_stmt 0 view .LVU12
+  89 0000 0120     		movs	r0, #1
+  90              	.LVL5:
+  91              		.loc 1 17 1 view .LVU13
+  92 0002 7047     		bx	lr
+  93              		.cfi_endproc
+  94              	.LFE2:
+  96              		.section	.text._lseek,"ax",%progbits
+  97              		.align	1
+  98              		.global	_lseek
+  99              		.syntax unified
+ 100              		.thumb
+ 101              		.thumb_func
+ 103              	_lseek:
+ 104              	.LVL6:
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 3
+
+
+ 105              	.LFB3:
+  18:Core/Src/syscalls.c **** 
+  19:Core/Src/syscalls.c **** int _lseek(int file, int ptr, int dir) {
+ 106              		.loc 1 19 40 is_stmt 1 view -0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110              		@ link register save eliminated.
+  20:Core/Src/syscalls.c ****     return 0;
+ 111              		.loc 1 20 5 view .LVU15
+  21:Core/Src/syscalls.c **** }
+ 112              		.loc 1 21 1 is_stmt 0 view .LVU16
+ 113 0000 0020     		movs	r0, #0
+ 114              	.LVL7:
+ 115              		.loc 1 21 1 view .LVU17
+ 116 0002 7047     		bx	lr
+ 117              		.cfi_endproc
+ 118              	.LFE3:
+ 120              		.section	.text._read,"ax",%progbits
+ 121              		.align	1
+ 122              		.global	_read
+ 123              		.syntax unified
+ 124              		.thumb
+ 125              		.thumb_func
+ 127              	_read:
+ 128              	.LVL8:
+ 129              	.LFB4:
+  22:Core/Src/syscalls.c **** 
+  23:Core/Src/syscalls.c **** int _read(int file, char *ptr, int len) {
+ 130              		.loc 1 23 41 is_stmt 1 view -0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		@ link register save eliminated.
+  24:Core/Src/syscalls.c ****     return 0;
+ 135              		.loc 1 24 5 view .LVU19
+  25:Core/Src/syscalls.c **** }
+ 136              		.loc 1 25 1 is_stmt 0 view .LVU20
+ 137 0000 0020     		movs	r0, #0
+ 138              	.LVL9:
+ 139              		.loc 1 25 1 view .LVU21
+ 140 0002 7047     		bx	lr
+ 141              		.cfi_endproc
+ 142              	.LFE4:
+ 144              		.section	.text._write,"ax",%progbits
+ 145              		.align	1
+ 146              		.global	_write
+ 147              		.syntax unified
+ 148              		.thumb
+ 149              		.thumb_func
+ 151              	_write:
+ 152              	.LVL10:
+ 153              	.LFB5:
+  26:Core/Src/syscalls.c **** 
+  27:Core/Src/syscalls.c **** int _write(int file, char *ptr, int len) {
+ 154              		.loc 1 27 42 is_stmt 1 view -0
+ 155              		.cfi_startproc
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 4
+
+
+ 156              		@ args = 0, pretend = 0, frame = 0
+ 157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158              		@ link register save eliminated.
+  28:Core/Src/syscalls.c ****     return len;
+ 159              		.loc 1 28 5 view .LVU23
+  29:Core/Src/syscalls.c **** }
+ 160              		.loc 1 29 1 is_stmt 0 view .LVU24
+ 161 0000 1046     		mov	r0, r2
+ 162              	.LVL11:
+ 163              		.loc 1 29 1 view .LVU25
+ 164 0002 7047     		bx	lr
+ 165              		.cfi_endproc
+ 166              	.LFE5:
+ 168              		.section	.text._sbrk,"ax",%progbits
+ 169              		.align	1
+ 170              		.global	_sbrk
+ 171              		.syntax unified
+ 172              		.thumb
+ 173              		.thumb_func
+ 175              	_sbrk:
+ 176              	.LVL12:
+ 177              	.LFB6:
+  30:Core/Src/syscalls.c **** 
+  31:Core/Src/syscalls.c **** void *_sbrk(int incr) {
+ 178              		.loc 1 31 23 is_stmt 1 view -0
+ 179              		.cfi_startproc
+ 180              		@ args = 0, pretend = 0, frame = 0
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182              		@ link register save eliminated.
+ 183              		.loc 1 31 23 is_stmt 0 view .LVU27
+ 184 0000 0346     		mov	r3, r0
+  32:Core/Src/syscalls.c ****     extern char _end;        /* Defined by the linker */
+ 185              		.loc 1 32 5 is_stmt 1 view .LVU28
+  33:Core/Src/syscalls.c ****     static char *heap_end;
+ 186              		.loc 1 33 5 view .LVU29
+  34:Core/Src/syscalls.c ****     char *prev_heap_end;
+ 187              		.loc 1 34 5 view .LVU30
+  35:Core/Src/syscalls.c **** 
+  36:Core/Src/syscalls.c ****     if (heap_end == 0) {
+ 188              		.loc 1 36 5 view .LVU31
+ 189              		.loc 1 36 18 is_stmt 0 view .LVU32
+ 190 0002 064A     		ldr	r2, .L10
+ 191 0004 1268     		ldr	r2, [r2]
+ 192              		.loc 1 36 8 view .LVU33
+ 193 0006 22B1     		cbz	r2, .L9
+ 194              	.L8:
+  37:Core/Src/syscalls.c ****         heap_end = &_end;
+  38:Core/Src/syscalls.c ****     }
+  39:Core/Src/syscalls.c ****     prev_heap_end = heap_end;
+ 195              		.loc 1 39 5 is_stmt 1 view .LVU34
+ 196              		.loc 1 39 19 is_stmt 0 view .LVU35
+ 197 0008 044A     		ldr	r2, .L10
+ 198 000a 1068     		ldr	r0, [r2]
+ 199              	.LVL13:
+  40:Core/Src/syscalls.c ****     heap_end += incr;
+ 200              		.loc 1 40 5 is_stmt 1 view .LVU36
+ 201              		.loc 1 40 14 is_stmt 0 view .LVU37
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 5
+
+
+ 202 000c 0344     		add	r3, r3, r0
+ 203              	.LVL14:
+ 204              		.loc 1 40 14 view .LVU38
+ 205 000e 1360     		str	r3, [r2]
+  41:Core/Src/syscalls.c **** 
+  42:Core/Src/syscalls.c ****     return (void *)prev_heap_end;
+ 206              		.loc 1 42 5 is_stmt 1 view .LVU39
+  43:Core/Src/syscalls.c **** }...
+ 207              		.loc 1 43 1 is_stmt 0 view .LVU40
+ 208 0010 7047     		bx	lr
+ 209              	.LVL15:
+ 210              	.L9:
+  37:Core/Src/syscalls.c ****         heap_end = &_end;
+ 211              		.loc 1 37 9 is_stmt 1 view .LVU41
+  37:Core/Src/syscalls.c ****         heap_end = &_end;
+ 212              		.loc 1 37 18 is_stmt 0 view .LVU42
+ 213 0012 024A     		ldr	r2, .L10
+ 214 0014 0249     		ldr	r1, .L10+4
+ 215 0016 1160     		str	r1, [r2]
+ 216 0018 F6E7     		b	.L8
+ 217              	.L11:
+ 218 001a 00BF     		.align	2
+ 219              	.L10:
+ 220 001c 00000000 		.word	heap_end.0
+ 221 0020 00000000 		.word	_end
+ 222              		.cfi_endproc
+ 223              	.LFE6:
+ 225              		.section	.bss.heap_end.0,"aw",%nobits
+ 226              		.align	2
+ 229              	heap_end.0:
+ 230 0000 00000000 		.space	4
+ 231              		.text
+ 232              	.Letext0:
+ 233              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 234              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_types.h"
+ 235              		.file 4 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_timeval.h"
+ 236              		.file 5 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_timespec.h"
+ 237              		.file 6 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\types.h"
+ 238              		.file 7 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\stat.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 syscalls.c
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:21     .text._close:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:27     .text._close:00000000 _close
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:45     .text._fstat:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:51     .text._fstat:00000000 _fstat
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:73     .text._isatty:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:79     .text._isatty:00000000 _isatty
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:97     .text._lseek:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:103    .text._lseek:00000000 _lseek
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:121    .text._read:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:127    .text._read:00000000 _read
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:145    .text._write:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:151    .text._write:00000000 _write
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:169    .text._sbrk:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:175    .text._sbrk:00000000 _sbrk
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:220    .text._sbrk:0000001c $d
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:229    .bss.heap_end.0:00000000 heap_end.0
+C:\Users\purdu\AppData\Local\Temp\ccX8W6KX.s:226    .bss.heap_end.0:00000000 $d
+
+UNDEFINED SYMBOLS
+_end

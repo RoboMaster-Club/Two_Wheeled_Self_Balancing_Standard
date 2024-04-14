@@ -1,0 +1,625 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Jetson_Tx2.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Devices/Devices.c/Jetson_Tx2.c"
+  20              		.section	.text.Jetson_Tx2_Initialization,"ax",%progbits
+  21              		.align	1
+  22              		.global	Jetson_Tx2_Initialization
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Jetson_Tx2_Initialization:
+  28              	.LFB162:
+   1:Devices/Devices.c/Jetson_Tx2.c **** /**
+   2:Devices/Devices.c/Jetson_Tx2.c ****  * @file Jetson_Tx2.c
+   3:Devices/Devices.c/Jetson_Tx2.c ****  * @author Leo Liu
+   4:Devices/Devices.c/Jetson_Tx2.c ****  * @brief communicate and obtain data from Jetson
+   5:Devices/Devices.c/Jetson_Tx2.c ****  * @version 1.0
+   6:Devices/Devices.c/Jetson_Tx2.c ****  * @date 2022-10-07
+   7:Devices/Devices.c/Jetson_Tx2.c ****  * 
+   8:Devices/Devices.c/Jetson_Tx2.c ****  * @copyright Copyright (c) 2022
+   9:Devices/Devices.c/Jetson_Tx2.c ****  * 
+  10:Devices/Devices.c/Jetson_Tx2.c ****  */
+  11:Devices/Devices.c/Jetson_Tx2.c **** 
+  12:Devices/Devices.c/Jetson_Tx2.c **** #include "Jetson_Tx2.h"
+  13:Devices/Devices.c/Jetson_Tx2.c **** 
+  14:Devices/Devices.c/Jetson_Tx2.c **** void Jetson_Tx2_Initialization(void);
+  15:Devices/Devices.c/Jetson_Tx2.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+  16:Devices/Devices.c/Jetson_Tx2.c **** void Jetson_Tx2_Get_Data(void);
+  17:Devices/Devices.c/Jetson_Tx2.c **** void Jetson_Tx2_Send_Data(void);
+  18:Devices/Devices.c/Jetson_Tx2.c **** 
+  19:Devices/Devices.c/Jetson_Tx2.c **** Tx2_Func_t Tx2_Func = Tx2_Func_GroundInit;
+  20:Devices/Devices.c/Jetson_Tx2.c **** Tx2_Data_t Tx2_Data = {0};
+  21:Devices/Devices.c/Jetson_Tx2.c **** 
+  22:Devices/Devices.c/Jetson_Tx2.c **** #undef Tx2_Func_GroundInit
+  23:Devices/Devices.c/Jetson_Tx2.c **** 
+  24:Devices/Devices.c/Jetson_Tx2.c **** void Jetson_Tx2_Initialization(void)
+  25:Devices/Devices.c/Jetson_Tx2.c **** {
+  29              		.loc 1 25 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 38B5     		push	{r3, r4, r5, lr}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 2
+
+
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 16
+  36              		.cfi_offset 3, -16
+  37              		.cfi_offset 4, -12
+  38              		.cfi_offset 5, -8
+  39              		.cfi_offset 14, -4
+  26:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Receive_DMA(&huart8, Tx2_Data.Rx_Buffer, sizeof(Tx2_Data.Rx_Buffer));
+  40              		.loc 1 26 2 view .LVU1
+  41 0002 074D     		ldr	r5, .L3
+  42 0004 074C     		ldr	r4, .L3+4
+  43 0006 0C22     		movs	r2, #12
+  44 0008 2946     		mov	r1, r5
+  45 000a 2046     		mov	r0, r4
+  46 000c FFF7FEFF 		bl	HAL_UART_Receive_DMA
+  47              	.LVL0:
+  27:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Transmit_DMA(&huart8, Tx2_Data.Tx_Buffer, sizeof(Tx2_Data.Tx_Buffer));
+  48              		.loc 1 27 2 view .LVU2
+  49 0010 2822     		movs	r2, #40
+  50 0012 05F10C01 		add	r1, r5, #12
+  51 0016 2046     		mov	r0, r4
+  52 0018 FFF7FEFF 		bl	HAL_UART_Transmit_DMA
+  53              	.LVL1:
+  28:Devices/Devices.c/Jetson_Tx2.c **** }
+  54              		.loc 1 28 1 is_stmt 0 view .LVU3
+  55 001c 38BD     		pop	{r3, r4, r5, pc}
+  56              	.L4:
+  57 001e 00BF     		.align	2
+  58              	.L3:
+  59 0020 00000000 		.word	Tx2_Data
+  60 0024 00000000 		.word	huart8
+  61              		.cfi_endproc
+  62              	.LFE162:
+  64              		.section	.text.Jetson_Tx2_Get_Data,"ax",%progbits
+  65              		.align	1
+  66              		.global	Jetson_Tx2_Get_Data
+  67              		.syntax unified
+  68              		.thumb
+  69              		.thumb_func
+  71              	Jetson_Tx2_Get_Data:
+  72              	.LFB165:
+  29:Devices/Devices.c/Jetson_Tx2.c **** 
+  30:Devices/Devices.c/Jetson_Tx2.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+  31:Devices/Devices.c/Jetson_Tx2.c **** {
+  32:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Receive_DMA(&huart8, Tx2_Data.Rx_Buffer, sizeof(Tx2_Data.Rx_Buffer));
+  33:Devices/Devices.c/Jetson_Tx2.c **** }
+  34:Devices/Devices.c/Jetson_Tx2.c **** 
+  35:Devices/Devices.c/Jetson_Tx2.c **** void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+  36:Devices/Devices.c/Jetson_Tx2.c **** {
+  37:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Transmit_DMA(&huart8, Tx2_Data.Tx_Buffer, sizeof(Tx2_Data.Tx_Buffer));
+  38:Devices/Devices.c/Jetson_Tx2.c **** }
+  39:Devices/Devices.c/Jetson_Tx2.c **** 
+  40:Devices/Devices.c/Jetson_Tx2.c **** void Jetson_Tx2_Get_Data(void)
+  41:Devices/Devices.c/Jetson_Tx2.c **** {
+  73              		.loc 1 41 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 3
+
+
+  77              		@ link register save eliminated.
+  42:Devices/Devices.c/Jetson_Tx2.c **** 	if(Tx2_Data.Rx_Buffer[0] == 0xAA)
+  78              		.loc 1 42 2 view .LVU5
+  79              		.loc 1 42 23 is_stmt 0 view .LVU6
+  80 0000 314B     		ldr	r3, .L15
+  81 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  82              		.loc 1 42 4 view .LVU7
+  83 0004 AA2B     		cmp	r3, #170
+  84 0006 00D0     		beq	.L14
+  85              	.L5:
+  43:Devices/Devices.c/Jetson_Tx2.c **** 	{
+  44:Devices/Devices.c/Jetson_Tx2.c **** 		Tx2_Data.Receiving.Frame_ID = Tx2_Data.Rx_Buffer[0];
+  45:Devices/Devices.c/Jetson_Tx2.c **** 		Tx2_Data.Receiving.Frame_Type = Tx2_Data.Rx_Buffer[1];
+  46:Devices/Devices.c/Jetson_Tx2.c **** 		switch(Tx2_Data.Receiving.Frame_Type)
+  47:Devices/Devices.c/Jetson_Tx2.c **** 		{
+  48:Devices/Devices.c/Jetson_Tx2.c **** 			case 0:
+  49:Devices/Devices.c/Jetson_Tx2.c **** 				memcpy(&Tx2_Data.Receiving.Raw_Data.Data[0],&Tx2_Data.Rx_Buffer[4],8*sizeof(uint8_t));
+  50:Devices/Devices.c/Jetson_Tx2.c **** 				if(fabs(*(float*)&Tx2_Data.Receiving.Raw_Data.data[0]) > 0.01f)
+  51:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Yaw = *(float*)&Tx2_Data.Receiving.Raw_Data.data[0];
+  52:Devices/Devices.c/Jetson_Tx2.c **** 				if(fabs(*(float*)&Tx2_Data.Receiving.Raw_Data.data[1]) > 0.01f)
+  53:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Pitch = *(float*)&Tx2_Data.Receiving.Raw_Data.data[1];
+  54:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+  55:Devices/Devices.c/Jetson_Tx2.c **** 			
+  56:Devices/Devices.c/Jetson_Tx2.c **** 			case 1:
+  57:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.X_Vel = 0.1f * (int8_t)Tx2_Data.Rx_Buffer[2];
+  58:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Y_Vel = 0.1f * (int8_t)Tx2_Data.Rx_Buffer[3];
+  59:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Yaw_Angular_Rate = (int8_t)Tx2_Data.Rx_Buffer[4];
+  60:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.State = Tx2_Data.Rx_Buffer[5];
+  61:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+  62:Devices/Devices.c/Jetson_Tx2.c **** 			
+  63:Devices/Devices.c/Jetson_Tx2.c **** 			case 2:
+  64:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.a = Tx2_Data.Rx_Buffer[2];
+  65:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.b = Tx2_Data.Rx_Buffer[3];
+  66:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.c = Tx2_Data.Rx_Buffer[4];
+  67:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.d = Tx2_Data.Rx_Buffer[5];
+  68:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+  69:Devices/Devices.c/Jetson_Tx2.c **** 			
+  70:Devices/Devices.c/Jetson_Tx2.c **** 			default:
+  71:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+  72:Devices/Devices.c/Jetson_Tx2.c **** 		}
+  73:Devices/Devices.c/Jetson_Tx2.c **** 	}
+  74:Devices/Devices.c/Jetson_Tx2.c **** 	
+  75:Devices/Devices.c/Jetson_Tx2.c **** }
+  86              		.loc 1 75 1 view .LVU8
+  87 0008 7047     		bx	lr
+  88              	.L14:
+  44:Devices/Devices.c/Jetson_Tx2.c **** 		Tx2_Data.Receiving.Frame_Type = Tx2_Data.Rx_Buffer[1];
+  89              		.loc 1 44 3 is_stmt 1 view .LVU9
+  44:Devices/Devices.c/Jetson_Tx2.c **** 		Tx2_Data.Receiving.Frame_Type = Tx2_Data.Rx_Buffer[1];
+  90              		.loc 1 44 31 is_stmt 0 view .LVU10
+  91 000a 2F4A     		ldr	r2, .L15
+  92 000c 82F84430 		strb	r3, [r2, #68]
+  45:Devices/Devices.c/Jetson_Tx2.c **** 		switch(Tx2_Data.Receiving.Frame_Type)
+  93              		.loc 1 45 3 is_stmt 1 view .LVU11
+  45:Devices/Devices.c/Jetson_Tx2.c **** 		switch(Tx2_Data.Receiving.Frame_Type)
+  94              		.loc 1 45 53 is_stmt 0 view .LVU12
+  95 0010 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 4
+
+
+  45:Devices/Devices.c/Jetson_Tx2.c **** 		switch(Tx2_Data.Receiving.Frame_Type)
+  96              		.loc 1 45 33 view .LVU13
+  97 0012 82F84530 		strb	r3, [r2, #69]
+  46:Devices/Devices.c/Jetson_Tx2.c **** 		{
+  98              		.loc 1 46 3 is_stmt 1 view .LVU14
+  99 0016 012B     		cmp	r3, #1
+ 100 0018 28D0     		beq	.L7
+ 101 001a 022B     		cmp	r3, #2
+ 102 001c 45D0     		beq	.L8
+ 103 001e 002B     		cmp	r3, #0
+ 104 0020 F2D1     		bne	.L5
+  49:Devices/Devices.c/Jetson_Tx2.c **** 				if(fabs(*(float*)&Tx2_Data.Receiving.Raw_Data.data[0]) > 0.01f)
+ 105              		.loc 1 49 5 view .LVU15
+ 106 0022 02F16003 		add	r3, r2, #96
+ 107 0026 A3F15C02 		sub	r2, r3, #92
+ 108 002a 92E80300 		ldm	r2, {r0, r1}
+ 109 002e 83E80300 		stm	r3, {r0, r1}
+  50:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Yaw = *(float*)&Tx2_Data.Receiving.Raw_Data.data[0];
+ 110              		.loc 1 50 5 view .LVU16
+  50:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Yaw = *(float*)&Tx2_Data.Receiving.Raw_Data.data[0];
+ 111              		.loc 1 50 13 is_stmt 0 view .LVU17
+ 112 0032 D3ED007A 		vldr.32	s15, [r3]
+  50:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Yaw = *(float*)&Tx2_Data.Receiving.Raw_Data.data[0];
+ 113              		.loc 1 50 8 view .LVU18
+ 114 0036 F0EEE76A 		vabs.f32	s13, s15
+  50:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Yaw = *(float*)&Tx2_Data.Receiving.Raw_Data.data[0];
+ 115              		.loc 1 50 7 view .LVU19
+ 116 003a 9FED247A 		vldr.32	s14, .L15+4
+ 117 003e F4EEC76A 		vcmpe.f32	s13, s14
+ 118 0042 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 119 0046 02DD     		ble	.L9
+  51:Devices/Devices.c/Jetson_Tx2.c **** 				if(fabs(*(float*)&Tx2_Data.Receiving.Raw_Data.data[1]) > 0.01f)
+ 120              		.loc 1 51 6 is_stmt 1 view .LVU20
+  51:Devices/Devices.c/Jetson_Tx2.c **** 				if(fabs(*(float*)&Tx2_Data.Receiving.Raw_Data.data[1]) > 0.01f)
+ 121              		.loc 1 51 41 is_stmt 0 view .LVU21
+ 122 0048 603B     		subs	r3, r3, #96
+ 123 004a C3ED157A 		vstr.32	s15, [r3, #84]
+ 124              	.L9:
+  52:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Pitch = *(float*)&Tx2_Data.Receiving.Raw_Data.data[1];
+ 125              		.loc 1 52 5 is_stmt 1 view .LVU22
+  52:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Pitch = *(float*)&Tx2_Data.Receiving.Raw_Data.data[1];
+ 126              		.loc 1 52 13 is_stmt 0 view .LVU23
+ 127 004e 1E4B     		ldr	r3, .L15
+ 128 0050 D3ED197A 		vldr.32	s15, [r3, #100]
+  52:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Pitch = *(float*)&Tx2_Data.Receiving.Raw_Data.data[1];
+ 129              		.loc 1 52 8 view .LVU24
+ 130 0054 F0EEE76A 		vabs.f32	s13, s15
+  52:Devices/Devices.c/Jetson_Tx2.c **** 					Tx2_Data.Receiving.Auto_Aiming.Pitch = *(float*)&Tx2_Data.Receiving.Raw_Data.data[1];
+ 131              		.loc 1 52 7 view .LVU25
+ 132 0058 9FED1C7A 		vldr.32	s14, .L15+4
+ 133 005c F4EEC76A 		vcmpe.f32	s13, s14
+ 134 0060 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 135 0064 D0DD     		ble	.L5
+  53:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 136              		.loc 1 53 6 is_stmt 1 view .LVU26
+  53:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 137              		.loc 1 53 43 is_stmt 0 view .LVU27
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 5
+
+
+ 138 0066 C3ED167A 		vstr.32	s15, [r3, #88]
+ 139 006a 7047     		bx	lr
+ 140              	.L7:
+  57:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Y_Vel = 0.1f * (int8_t)Tx2_Data.Rx_Buffer[3];
+ 141              		.loc 1 57 5 is_stmt 1 view .LVU28
+  57:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Y_Vel = 0.1f * (int8_t)Tx2_Data.Rx_Buffer[3];
+ 142              		.loc 1 57 76 is_stmt 0 view .LVU29
+ 143 006c 164B     		ldr	r3, .L15
+  57:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Y_Vel = 0.1f * (int8_t)Tx2_Data.Rx_Buffer[3];
+ 144              		.loc 1 57 50 view .LVU30
+ 145 006e 93F90220 		ldrsb	r2, [r3, #2]
+ 146 0072 07EE902A 		vmov	s15, r2	@ int
+  57:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Y_Vel = 0.1f * (int8_t)Tx2_Data.Rx_Buffer[3];
+ 147              		.loc 1 57 48 view .LVU31
+ 148 0076 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 149 007a 9FED157A 		vldr.32	s14, .L15+8
+ 150 007e 67EE877A 		vmul.f32	s15, s15, s14
+  57:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Y_Vel = 0.1f * (int8_t)Tx2_Data.Rx_Buffer[3];
+ 151              		.loc 1 57 41 view .LVU32
+ 152 0082 C3ED127A 		vstr.32	s15, [r3, #72]
+  58:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Yaw_Angular_Rate = (int8_t)Tx2_Data.Rx_Buffer[4];
+ 153              		.loc 1 58 5 is_stmt 1 view .LVU33
+  58:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Yaw_Angular_Rate = (int8_t)Tx2_Data.Rx_Buffer[4];
+ 154              		.loc 1 58 50 is_stmt 0 view .LVU34
+ 155 0086 93F90320 		ldrsb	r2, [r3, #3]
+ 156 008a 07EE902A 		vmov	s15, r2	@ int
+  58:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Yaw_Angular_Rate = (int8_t)Tx2_Data.Rx_Buffer[4];
+ 157              		.loc 1 58 48 view .LVU35
+ 158 008e F8EEE77A 		vcvt.f32.s32	s15, s15
+ 159 0092 67EE877A 		vmul.f32	s15, s15, s14
+  58:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.Yaw_Angular_Rate = (int8_t)Tx2_Data.Rx_Buffer[4];
+ 160              		.loc 1 58 41 view .LVU36
+ 161 0096 C3ED137A 		vstr.32	s15, [r3, #76]
+  59:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.State = Tx2_Data.Rx_Buffer[5];
+ 162              		.loc 1 59 5 is_stmt 1 view .LVU37
+  59:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.State = Tx2_Data.Rx_Buffer[5];
+ 163              		.loc 1 59 54 is_stmt 0 view .LVU38
+ 164 009a 93F90420 		ldrsb	r2, [r3, #4]
+  59:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Navigation.State = Tx2_Data.Rx_Buffer[5];
+ 165              		.loc 1 59 52 view .LVU39
+ 166 009e 83F85020 		strb	r2, [r3, #80]
+  60:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 167              		.loc 1 60 5 is_stmt 1 view .LVU40
+  60:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 168              		.loc 1 60 61 is_stmt 0 view .LVU41
+ 169 00a2 5A79     		ldrb	r2, [r3, #5]	@ zero_extendqisi2
+  60:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 170              		.loc 1 60 41 view .LVU42
+ 171 00a4 83F85120 		strb	r2, [r3, #81]
+  61:Devices/Devices.c/Jetson_Tx2.c **** 			
+ 172              		.loc 1 61 5 is_stmt 1 view .LVU43
+ 173 00a8 7047     		bx	lr
+ 174              	.L8:
+  64:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.b = Tx2_Data.Rx_Buffer[3];
+ 175              		.loc 1 64 5 view .LVU44
+  64:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.b = Tx2_Data.Rx_Buffer[3];
+ 176              		.loc 1 64 57 is_stmt 0 view .LVU45
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 6
+
+
+ 177 00aa 074B     		ldr	r3, .L15
+ 178 00ac 9A78     		ldrb	r2, [r3, #2]	@ zero_extendqisi2
+  64:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.b = Tx2_Data.Rx_Buffer[3];
+ 179              		.loc 1 64 37 view .LVU46
+ 180 00ae 83F85C20 		strb	r2, [r3, #92]
+  65:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.c = Tx2_Data.Rx_Buffer[4];
+ 181              		.loc 1 65 5 is_stmt 1 view .LVU47
+  65:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.c = Tx2_Data.Rx_Buffer[4];
+ 182              		.loc 1 65 57 is_stmt 0 view .LVU48
+ 183 00b2 DA78     		ldrb	r2, [r3, #3]	@ zero_extendqisi2
+  65:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.c = Tx2_Data.Rx_Buffer[4];
+ 184              		.loc 1 65 37 view .LVU49
+ 185 00b4 83F85D20 		strb	r2, [r3, #93]
+  66:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.d = Tx2_Data.Rx_Buffer[5];
+ 186              		.loc 1 66 5 is_stmt 1 view .LVU50
+  66:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.d = Tx2_Data.Rx_Buffer[5];
+ 187              		.loc 1 66 57 is_stmt 0 view .LVU51
+ 188 00b8 1A79     		ldrb	r2, [r3, #4]	@ zero_extendqisi2
+  66:Devices/Devices.c/Jetson_Tx2.c **** 				Tx2_Data.Receiving.Heart_Beat.d = Tx2_Data.Rx_Buffer[5];
+ 189              		.loc 1 66 37 view .LVU52
+ 190 00ba 83F85E20 		strb	r2, [r3, #94]
+  67:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 191              		.loc 1 67 5 is_stmt 1 view .LVU53
+  67:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 192              		.loc 1 67 57 is_stmt 0 view .LVU54
+ 193 00be 5A79     		ldrb	r2, [r3, #5]	@ zero_extendqisi2
+  67:Devices/Devices.c/Jetson_Tx2.c **** 				break;
+ 194              		.loc 1 67 37 view .LVU55
+ 195 00c0 83F85F20 		strb	r2, [r3, #95]
+  68:Devices/Devices.c/Jetson_Tx2.c **** 			
+ 196              		.loc 1 68 5 is_stmt 1 view .LVU56
+ 197              		.loc 1 75 1 is_stmt 0 view .LVU57
+ 198 00c4 A0E7     		b	.L5
+ 199              	.L16:
+ 200 00c6 00BF     		.align	2
+ 201              	.L15:
+ 202 00c8 00000000 		.word	Tx2_Data
+ 203 00cc 0AD7233C 		.word	1008981770
+ 204 00d0 CDCCCC3D 		.word	1036831949
+ 205              		.cfi_endproc
+ 206              	.LFE165:
+ 208              		.section	.text.Jetson_Tx2_Send_Data,"ax",%progbits
+ 209              		.align	1
+ 210              		.global	Jetson_Tx2_Send_Data
+ 211              		.syntax unified
+ 212              		.thumb
+ 213              		.thumb_func
+ 215              	Jetson_Tx2_Send_Data:
+ 216              	.LFB166:
+  76:Devices/Devices.c/Jetson_Tx2.c **** 
+  77:Devices/Devices.c/Jetson_Tx2.c **** void Jetson_Tx2_Send_Data(void)
+  78:Devices/Devices.c/Jetson_Tx2.c **** {
+ 217              		.loc 1 78 1 is_stmt 1 view -0
+ 218              		.cfi_startproc
+ 219              		@ args = 0, pretend = 0, frame = 0
+ 220              		@ frame_needed = 0, uses_anonymous_args = 0
+ 221 0000 38B5     		push	{r3, r4, r5, lr}
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 7
+
+
+ 222              	.LCFI1:
+ 223              		.cfi_def_cfa_offset 16
+ 224              		.cfi_offset 3, -16
+ 225              		.cfi_offset 4, -12
+ 226              		.cfi_offset 5, -8
+ 227              		.cfi_offset 14, -4
+ 228 0002 2DED048B 		vpush.64	{d8, d9}
+ 229              	.LCFI2:
+ 230              		.cfi_def_cfa_offset 32
+ 231              		.cfi_offset 80, -32
+ 232              		.cfi_offset 81, -28
+ 233              		.cfi_offset 82, -24
+ 234              		.cfi_offset 83, -20
+  79:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Sending.Pitch_Angle = VAL_LIMIT(128 + Board_A_IMU.Export_Data.Pitch,255,0);
+ 235              		.loc 1 79 2 view .LVU59
+ 236              		.loc 1 79 72 is_stmt 0 view .LVU60
+ 237 0006 234D     		ldr	r5, .L19
+ 238 0008 95ED160A 		vldr.32	s0, [r5, #88]
+ 239              		.loc 1 79 33 view .LVU61
+ 240 000c 9FED229A 		vldr.32	s18, .L19+4
+ 241 0010 DFED228A 		vldr.32	s17, .L19+8
+ 242 0014 9FED228A 		vldr.32	s16, .L19+12
+ 243 0018 B0EE491A 		vmov.f32	s2, s18
+ 244 001c F0EE680A 		vmov.f32	s1, s17
+ 245 0020 30EE080A 		vadd.f32	s0, s0, s16
+ 246 0024 FFF7FEFF 		bl	VAL_LIMIT
+ 247              	.LVL2:
+ 248              		.loc 1 79 31 view .LVU62
+ 249 0028 1E4C     		ldr	r4, .L19+16
+ 250 002a 84ED0E0A 		vstr.32	s0, [r4, #56]
+  80:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Sending.Pitch_Angular_Rate = VAL_LIMIT(128 + Board_A_IMU.Export_Data.Gyro_Pitch,255,0);
+ 251              		.loc 1 80 2 is_stmt 1 view .LVU63
+ 252              		.loc 1 80 79 is_stmt 0 view .LVU64
+ 253 002e 95ED1C0A 		vldr.32	s0, [r5, #112]
+ 254              		.loc 1 80 40 view .LVU65
+ 255 0032 B0EE491A 		vmov.f32	s2, s18
+ 256 0036 F0EE680A 		vmov.f32	s1, s17
+ 257 003a 30EE080A 		vadd.f32	s0, s0, s16
+ 258 003e FFF7FEFF 		bl	VAL_LIMIT
+ 259              	.LVL3:
+ 260              		.loc 1 80 38 view .LVU66
+ 261 0042 84ED0F0A 		vstr.32	s0, [r4, #60]
+  81:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Sending.Yaw_Angular_Rate = VAL_LIMIT(128 + Board_A_IMU.Export_Data.Gyro_Yaw,255,0);
+ 262              		.loc 1 81 2 is_stmt 1 view .LVU67
+ 263              		.loc 1 81 77 is_stmt 0 view .LVU68
+ 264 0046 95ED1B0A 		vldr.32	s0, [r5, #108]
+ 265              		.loc 1 81 38 view .LVU69
+ 266 004a B0EE491A 		vmov.f32	s2, s18
+ 267 004e F0EE680A 		vmov.f32	s1, s17
+ 268 0052 30EE080A 		vadd.f32	s0, s0, s16
+ 269 0056 FFF7FEFF 		bl	VAL_LIMIT
+ 270              	.LVL4:
+ 271              		.loc 1 81 36 view .LVU70
+ 272 005a 84ED100A 		vstr.32	s0, [r4, #64]
+  82:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Tx_Buffer[0] = 0xAA;
+ 273              		.loc 1 82 2 is_stmt 1 view .LVU71
+ 274              		.loc 1 82 24 is_stmt 0 view .LVU72
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 8
+
+
+ 275 005e AA23     		movs	r3, #170
+ 276 0060 2373     		strb	r3, [r4, #12]
+  83:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Tx_Buffer[1] = (uint8_t)Tx2_Data.Sending.Pitch_Angle;
+ 277              		.loc 1 83 2 is_stmt 1 view .LVU73
+ 278              		.loc 1 83 51 is_stmt 0 view .LVU74
+ 279 0062 D4ED0E7A 		vldr.32	s15, [r4, #56]
+ 280              		.loc 1 83 26 view .LVU75
+ 281 0066 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 282 006a 17EE903A 		vmov	r3, s15	@ int
+ 283              		.loc 1 83 24 view .LVU76
+ 284 006e 6373     		strb	r3, [r4, #13]
+  84:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Tx_Buffer[2] = (uint8_t)Tx2_Data.Sending.Pitch_Angular_Rate;
+ 285              		.loc 1 84 2 is_stmt 1 view .LVU77
+ 286              		.loc 1 84 51 is_stmt 0 view .LVU78
+ 287 0070 D4ED0F7A 		vldr.32	s15, [r4, #60]
+ 288              		.loc 1 84 26 view .LVU79
+ 289 0074 FCEEE77A 		vcvt.u32.f32	s15, s15
+ 290 0078 17EE903A 		vmov	r3, s15	@ int
+ 291              		.loc 1 84 24 view .LVU80
+ 292 007c A373     		strb	r3, [r4, #14]
+  85:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Tx_Buffer[3] = (uint8_t)Tx2_Data.Sending.Yaw_Angular_Rate;
+ 293              		.loc 1 85 2 is_stmt 1 view .LVU81
+ 294              		.loc 1 85 26 is_stmt 0 view .LVU82
+ 295 007e FCEEC07A 		vcvt.u32.f32	s15, s0
+ 296 0082 17EE903A 		vmov	r3, s15	@ int
+ 297              		.loc 1 85 24 view .LVU83
+ 298 0086 E373     		strb	r3, [r4, #15]
+  86:Devices/Devices.c/Jetson_Tx2.c **** 	Tx2_Data.Tx_Buffer[4] = Tx2_Data.Sending.Team_Color;
+ 299              		.loc 1 86 2 is_stmt 1 view .LVU84
+ 300              		.loc 1 86 42 is_stmt 0 view .LVU85
+ 301 0088 94F83430 		ldrb	r3, [r4, #52]	@ zero_extendqisi2
+ 302              		.loc 1 86 24 view .LVU86
+ 303 008c 2374     		strb	r3, [r4, #16]
+  87:Devices/Devices.c/Jetson_Tx2.c **** }
+ 304              		.loc 1 87 1 view .LVU87
+ 305 008e BDEC048B 		vldm	sp!, {d8-d9}
+ 306              	.LCFI3:
+ 307              		.cfi_restore 82
+ 308              		.cfi_restore 83
+ 309              		.cfi_restore 80
+ 310              		.cfi_restore 81
+ 311              		.cfi_def_cfa_offset 16
+ 312 0092 38BD     		pop	{r3, r4, r5, pc}
+ 313              	.L20:
+ 314              		.align	2
+ 315              	.L19:
+ 316 0094 00000000 		.word	Board_A_IMU
+ 317 0098 00000000 		.word	0
+ 318 009c 00007F43 		.word	1132396544
+ 319 00a0 00000043 		.word	1124073472
+ 320 00a4 00000000 		.word	Tx2_Data
+ 321              		.cfi_endproc
+ 322              	.LFE166:
+ 324              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
+ 325              		.align	1
+ 326              		.global	HAL_UART_RxCpltCallback
+ 327              		.syntax unified
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 9
+
+
+ 328              		.thumb
+ 329              		.thumb_func
+ 331              	HAL_UART_RxCpltCallback:
+ 332              	.LVL5:
+ 333              	.LFB163:
+  31:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Receive_DMA(&huart8, Tx2_Data.Rx_Buffer, sizeof(Tx2_Data.Rx_Buffer));
+ 334              		.loc 1 31 1 is_stmt 1 view -0
+ 335              		.cfi_startproc
+ 336              		@ args = 0, pretend = 0, frame = 0
+ 337              		@ frame_needed = 0, uses_anonymous_args = 0
+  31:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Receive_DMA(&huart8, Tx2_Data.Rx_Buffer, sizeof(Tx2_Data.Rx_Buffer));
+ 338              		.loc 1 31 1 is_stmt 0 view .LVU89
+ 339 0000 08B5     		push	{r3, lr}
+ 340              	.LCFI4:
+ 341              		.cfi_def_cfa_offset 8
+ 342              		.cfi_offset 3, -8
+ 343              		.cfi_offset 14, -4
+  32:Devices/Devices.c/Jetson_Tx2.c **** }
+ 344              		.loc 1 32 2 is_stmt 1 view .LVU90
+ 345 0002 0C22     		movs	r2, #12
+ 346 0004 0249     		ldr	r1, .L23
+ 347 0006 0348     		ldr	r0, .L23+4
+ 348              	.LVL6:
+  32:Devices/Devices.c/Jetson_Tx2.c **** }
+ 349              		.loc 1 32 2 is_stmt 0 view .LVU91
+ 350 0008 FFF7FEFF 		bl	HAL_UART_Receive_DMA
+ 351              	.LVL7:
+  33:Devices/Devices.c/Jetson_Tx2.c **** 
+ 352              		.loc 1 33 1 view .LVU92
+ 353 000c 08BD     		pop	{r3, pc}
+ 354              	.L24:
+ 355 000e 00BF     		.align	2
+ 356              	.L23:
+ 357 0010 00000000 		.word	Tx2_Data
+ 358 0014 00000000 		.word	huart8
+ 359              		.cfi_endproc
+ 360              	.LFE163:
+ 362              		.section	.text.HAL_UART_TxCpltCallback,"ax",%progbits
+ 363              		.align	1
+ 364              		.global	HAL_UART_TxCpltCallback
+ 365              		.syntax unified
+ 366              		.thumb
+ 367              		.thumb_func
+ 369              	HAL_UART_TxCpltCallback:
+ 370              	.LVL8:
+ 371              	.LFB164:
+  36:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Transmit_DMA(&huart8, Tx2_Data.Tx_Buffer, sizeof(Tx2_Data.Tx_Buffer));
+ 372              		.loc 1 36 1 is_stmt 1 view -0
+ 373              		.cfi_startproc
+ 374              		@ args = 0, pretend = 0, frame = 0
+ 375              		@ frame_needed = 0, uses_anonymous_args = 0
+  36:Devices/Devices.c/Jetson_Tx2.c **** 	HAL_UART_Transmit_DMA(&huart8, Tx2_Data.Tx_Buffer, sizeof(Tx2_Data.Tx_Buffer));
+ 376              		.loc 1 36 1 is_stmt 0 view .LVU94
+ 377 0000 08B5     		push	{r3, lr}
+ 378              	.LCFI5:
+ 379              		.cfi_def_cfa_offset 8
+ 380              		.cfi_offset 3, -8
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 10
+
+
+ 381              		.cfi_offset 14, -4
+  37:Devices/Devices.c/Jetson_Tx2.c **** }
+ 382              		.loc 1 37 2 is_stmt 1 view .LVU95
+ 383 0002 2822     		movs	r2, #40
+ 384 0004 0249     		ldr	r1, .L27
+ 385 0006 0348     		ldr	r0, .L27+4
+ 386              	.LVL9:
+  37:Devices/Devices.c/Jetson_Tx2.c **** }
+ 387              		.loc 1 37 2 is_stmt 0 view .LVU96
+ 388 0008 FFF7FEFF 		bl	HAL_UART_Transmit_DMA
+ 389              	.LVL10:
+  38:Devices/Devices.c/Jetson_Tx2.c **** 
+ 390              		.loc 1 38 1 view .LVU97
+ 391 000c 08BD     		pop	{r3, pc}
+ 392              	.L28:
+ 393 000e 00BF     		.align	2
+ 394              	.L27:
+ 395 0010 0C000000 		.word	Tx2_Data+12
+ 396 0014 00000000 		.word	huart8
+ 397              		.cfi_endproc
+ 398              	.LFE164:
+ 400              		.global	Tx2_Data
+ 401              		.section	.bss.Tx2_Data,"aw",%nobits
+ 402              		.align	2
+ 405              	Tx2_Data:
+ 406 0000 00000000 		.space	104
+ 406      00000000 
+ 406      00000000 
+ 406      00000000 
+ 406      00000000 
+ 407              		.global	Tx2_Func
+ 408              		.section	.data.Tx2_Func,"aw"
+ 409              		.align	2
+ 412              	Tx2_Func:
+ 413 0000 00000000 		.word	Jetson_Tx2_Initialization
+ 414 0004 00000000 		.word	Jetson_Tx2_Get_Data
+ 415 0008 00000000 		.word	Jetson_Tx2_Send_Data
+ 416              		.text
+ 417              	.Letext0:
+ 418              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 419              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 420              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 421              		.file 5 "c:\\msys64\\mingw64\\lib\\gcc\\arm-none-eabi\\12.2.0\\include\\stddef.h"
+ 422              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 423              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 424              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 425              		.file 9 "Devices/Devices.h/Board_A_IMU.h"
+ 426              		.file 10 "Core/Inc/usart.h"
+ 427              		.file 11 "Devices/Devices.h/Jetson_Tx2.h"
+ 428              		.file 12 "Algorithms/Algorithms.h/User_Defined_Math.h"
+ 429              		.file 13 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\string.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Jetson_Tx2.c
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:21     .text.Jetson_Tx2_Initialization:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:27     .text.Jetson_Tx2_Initialization:00000000 Jetson_Tx2_Initialization
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:59     .text.Jetson_Tx2_Initialization:00000020 $d
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:405    .bss.Tx2_Data:00000000 Tx2_Data
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:65     .text.Jetson_Tx2_Get_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:71     .text.Jetson_Tx2_Get_Data:00000000 Jetson_Tx2_Get_Data
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:202    .text.Jetson_Tx2_Get_Data:000000c8 $d
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:209    .text.Jetson_Tx2_Send_Data:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:215    .text.Jetson_Tx2_Send_Data:00000000 Jetson_Tx2_Send_Data
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:316    .text.Jetson_Tx2_Send_Data:00000094 $d
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:325    .text.HAL_UART_RxCpltCallback:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:331    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:357    .text.HAL_UART_RxCpltCallback:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:363    .text.HAL_UART_TxCpltCallback:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:369    .text.HAL_UART_TxCpltCallback:00000000 HAL_UART_TxCpltCallback
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:395    .text.HAL_UART_TxCpltCallback:00000010 $d
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:402    .bss.Tx2_Data:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:412    .data.Tx2_Func:00000000 Tx2_Func
+C:\Users\purdu\AppData\Local\Temp\ccjz9W3S.s:409    .data.Tx2_Func:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Receive_DMA
+HAL_UART_Transmit_DMA
+huart8
+VAL_LIMIT
+Board_A_IMU

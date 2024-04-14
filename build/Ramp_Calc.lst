@@ -1,0 +1,233 @@
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"Ramp_Calc.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Algorithms/Algorithms.c/Ramp_Calc.c"
+  20              		.section	.text.Ramp_Up,"ax",%progbits
+  21              		.align	1
+  22              		.global	Ramp_Up
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	Ramp_Up:
+  28              	.LVL0:
+  29              	.LFB162:
+   1:Algorithms/Algorithms.c/Ramp_Calc.c **** /**
+   2:Algorithms/Algorithms.c/Ramp_Calc.c ****  * @file Ramp_Calc.c
+   3:Algorithms/Algorithms.c/Ramp_Calc.c ****  * @author Leo Liu
+   4:Algorithms/Algorithms.c/Ramp_Calc.c ****  * @brief ramp up or down calculation
+   5:Algorithms/Algorithms.c/Ramp_Calc.c ****  * @version 1.0
+   6:Algorithms/Algorithms.c/Ramp_Calc.c ****  * @date 2022-07-17
+   7:Algorithms/Algorithms.c/Ramp_Calc.c ****  * 
+   8:Algorithms/Algorithms.c/Ramp_Calc.c ****  * @copyright Copyright (c) 2022
+   9:Algorithms/Algorithms.c/Ramp_Calc.c ****  * 
+  10:Algorithms/Algorithms.c/Ramp_Calc.c ****  */
+  11:Algorithms/Algorithms.c/Ramp_Calc.c **** #include "Ramp_Calc.h"
+  12:Algorithms/Algorithms.c/Ramp_Calc.c **** 
+  13:Algorithms/Algorithms.c/Ramp_Calc.c **** Ramp_Calc_t Ramp_Calc;
+  14:Algorithms/Algorithms.c/Ramp_Calc.c **** 
+  15:Algorithms/Algorithms.c/Ramp_Calc.c **** float Ramp_Up(Ramp_Calc_t *Ramp_Calc, float Max_Value);
+  16:Algorithms/Algorithms.c/Ramp_Calc.c **** float Ramp_Down(Ramp_Calc_t *Ramp_Calc, float Min_Value);
+  17:Algorithms/Algorithms.c/Ramp_Calc.c **** void Clear_Ramp(Ramp_Calc_t *Ramp_Calc);
+  18:Algorithms/Algorithms.c/Ramp_Calc.c **** 
+  19:Algorithms/Algorithms.c/Ramp_Calc.c **** Ramp_Calc_Func_t Ramp_Calc_Func = Ramp_Calc_Func_GroundInit;
+  20:Algorithms/Algorithms.c/Ramp_Calc.c **** #undef Ramp_Calc_Func_GroundInit
+  21:Algorithms/Algorithms.c/Ramp_Calc.c **** 
+  22:Algorithms/Algorithms.c/Ramp_Calc.c **** //Slowly ramp up the given value to the maximum
+  23:Algorithms/Algorithms.c/Ramp_Calc.c **** float Ramp_Up(Ramp_Calc_t *Ramp_Calc, float Max_Value)
+  24:Algorithms/Algorithms.c/Ramp_Calc.c **** {
+  30              		.loc 1 24 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s 			page 2
+
+
+  35              		.loc 1 24 1 is_stmt 0 view .LVU1
+  36 0000 B0EE407A 		vmov.f32	s14, s0
+  25:Algorithms/Algorithms.c/Ramp_Calc.c **** 	Ramp_Calc->Current_Value += RAMP_RATE;
+  37              		.loc 1 25 2 is_stmt 1 view .LVU2
+  38              		.loc 1 25 11 is_stmt 0 view .LVU3
+  39 0004 D0ED007A 		vldr.32	s15, [r0]
+  40              		.loc 1 25 27 view .LVU4
+  41 0008 F6EE006A 		vmov.f32	s13, #5.0e-1
+  42 000c 37EEA60A 		vadd.f32	s0, s15, s13
+  43              	.LVL1:
+  44              		.loc 1 25 27 view .LVU5
+  45 0010 80ED000A 		vstr.32	s0, [r0]
+  26:Algorithms/Algorithms.c/Ramp_Calc.c **** 	Ramp_Calc->Current_Value = VAL_MAX(Ramp_Calc->Current_Value, Max_Value);
+  46              		.loc 1 26 2 is_stmt 1 view .LVU6
+  47              		.loc 1 26 29 is_stmt 0 view .LVU7
+  48 0014 B4EEC70A 		vcmpe.f32	s0, s14
+  49 0018 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  50 001c 01DD     		ble	.L2
+  51 001e B0EE470A 		vmov.f32	s0, s14
+  52              	.L2:
+  53              		.loc 1 26 27 discriminator 4 view .LVU8
+  54 0022 80ED000A 		vstr.32	s0, [r0]
+  27:Algorithms/Algorithms.c/Ramp_Calc.c **** 	
+  28:Algorithms/Algorithms.c/Ramp_Calc.c **** 	if(Ramp_Calc->Current_Value == Max_Value)
+  55              		.loc 1 28 2 is_stmt 1 discriminator 4 view .LVU9
+  56              		.loc 1 28 4 is_stmt 0 discriminator 4 view .LVU10
+  57 0026 B4EE470A 		vcmp.f32	s0, s14
+  58 002a F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+  59 002e 01D1     		bne	.L1
+  29:Algorithms/Algorithms.c/Ramp_Calc.c **** 		Ramp_Calc->Ramp_Finished_Flag = 1;
+  60              		.loc 1 29 3 is_stmt 1 view .LVU11
+  61              		.loc 1 29 33 is_stmt 0 view .LVU12
+  62 0030 0123     		movs	r3, #1
+  63 0032 0371     		strb	r3, [r0, #4]
+  30:Algorithms/Algorithms.c/Ramp_Calc.c **** 	
+  31:Algorithms/Algorithms.c/Ramp_Calc.c **** 	return Ramp_Calc->Current_Value;
+  64              		.loc 1 31 2 is_stmt 1 view .LVU13
+  65              	.L1:
+  32:Algorithms/Algorithms.c/Ramp_Calc.c **** }
+  66              		.loc 1 32 1 is_stmt 0 view .LVU14
+  67 0034 7047     		bx	lr
+  68              		.cfi_endproc
+  69              	.LFE162:
+  71              		.section	.text.Ramp_Down,"ax",%progbits
+  72              		.align	1
+  73              		.global	Ramp_Down
+  74              		.syntax unified
+  75              		.thumb
+  76              		.thumb_func
+  78              	Ramp_Down:
+  79              	.LVL2:
+  80              	.LFB163:
+  33:Algorithms/Algorithms.c/Ramp_Calc.c **** 
+  34:Algorithms/Algorithms.c/Ramp_Calc.c **** //Slowly ramp down the given value to the minimum
+  35:Algorithms/Algorithms.c/Ramp_Calc.c **** float Ramp_Down(Ramp_Calc_t *Ramp_Calc, float Min_Value)
+  36:Algorithms/Algorithms.c/Ramp_Calc.c **** {
+  81              		.loc 1 36 1 is_stmt 1 view -0
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s 			page 3
+
+
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		@ link register save eliminated.
+  86              		.loc 1 36 1 is_stmt 0 view .LVU16
+  87 0000 B0EE407A 		vmov.f32	s14, s0
+  37:Algorithms/Algorithms.c/Ramp_Calc.c **** 	Ramp_Calc->Current_Value -= RAMP_RATE;
+  88              		.loc 1 37 2 is_stmt 1 view .LVU17
+  89              		.loc 1 37 11 is_stmt 0 view .LVU18
+  90 0004 D0ED007A 		vldr.32	s15, [r0]
+  91              		.loc 1 37 27 view .LVU19
+  92 0008 F6EE006A 		vmov.f32	s13, #5.0e-1
+  93 000c 37EEE60A 		vsub.f32	s0, s15, s13
+  94              	.LVL3:
+  95              		.loc 1 37 27 view .LVU20
+  96 0010 80ED000A 		vstr.32	s0, [r0]
+  38:Algorithms/Algorithms.c/Ramp_Calc.c **** 	Ramp_Calc->Current_Value = VAL_MIN(Ramp_Calc->Current_Value, Min_Value);
+  97              		.loc 1 38 2 is_stmt 1 view .LVU21
+  98              		.loc 1 38 29 is_stmt 0 view .LVU22
+  99 0014 B4EEC70A 		vcmpe.f32	s0, s14
+ 100 0018 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 101 001c 01D5     		bpl	.L7
+ 102 001e B0EE470A 		vmov.f32	s0, s14
+ 103              	.L7:
+ 104              		.loc 1 38 27 discriminator 4 view .LVU23
+ 105 0022 80ED000A 		vstr.32	s0, [r0]
+  39:Algorithms/Algorithms.c/Ramp_Calc.c **** 	
+  40:Algorithms/Algorithms.c/Ramp_Calc.c **** 	Ramp_Calc->Ramp_Finished_Flag = 0;
+ 106              		.loc 1 40 2 is_stmt 1 discriminator 4 view .LVU24
+ 107              		.loc 1 40 32 is_stmt 0 discriminator 4 view .LVU25
+ 108 0026 0023     		movs	r3, #0
+ 109 0028 0371     		strb	r3, [r0, #4]
+  41:Algorithms/Algorithms.c/Ramp_Calc.c **** 	
+  42:Algorithms/Algorithms.c/Ramp_Calc.c **** 	return Ramp_Calc->Current_Value;
+ 110              		.loc 1 42 2 is_stmt 1 discriminator 4 view .LVU26
+  43:Algorithms/Algorithms.c/Ramp_Calc.c **** }
+ 111              		.loc 1 43 1 is_stmt 0 discriminator 4 view .LVU27
+ 112 002a 7047     		bx	lr
+ 113              		.cfi_endproc
+ 114              	.LFE163:
+ 116              		.section	.text.Clear_Ramp,"ax",%progbits
+ 117              		.align	1
+ 118              		.global	Clear_Ramp
+ 119              		.syntax unified
+ 120              		.thumb
+ 121              		.thumb_func
+ 123              	Clear_Ramp:
+ 124              	.LVL4:
+ 125              	.LFB164:
+  44:Algorithms/Algorithms.c/Ramp_Calc.c **** 
+  45:Algorithms/Algorithms.c/Ramp_Calc.c **** void Clear_Ramp(Ramp_Calc_t *Ramp_Calc)
+  46:Algorithms/Algorithms.c/Ramp_Calc.c **** {
+ 126              		.loc 1 46 1 is_stmt 1 view -0
+ 127              		.cfi_startproc
+ 128              		@ args = 0, pretend = 0, frame = 0
+ 129              		@ frame_needed = 0, uses_anonymous_args = 0
+ 130              		@ link register save eliminated.
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s 			page 4
+
+
+  47:Algorithms/Algorithms.c/Ramp_Calc.c **** 	Ramp_Calc->Current_Value = 0;
+ 131              		.loc 1 47 2 view .LVU29
+ 132              		.loc 1 47 27 is_stmt 0 view .LVU30
+ 133 0000 0023     		movs	r3, #0
+ 134 0002 0360     		str	r3, [r0]	@ float
+  48:Algorithms/Algorithms.c/Ramp_Calc.c **** 	Ramp_Calc->Ramp_Finished_Flag = 0;
+ 135              		.loc 1 48 2 is_stmt 1 view .LVU31
+ 136              		.loc 1 48 32 is_stmt 0 view .LVU32
+ 137 0004 0023     		movs	r3, #0
+ 138 0006 0371     		strb	r3, [r0, #4]
+  49:Algorithms/Algorithms.c/Ramp_Calc.c **** }
+ 139              		.loc 1 49 1 view .LVU33
+ 140 0008 7047     		bx	lr
+ 141              		.cfi_endproc
+ 142              	.LFE164:
+ 144              		.global	Ramp_Calc_Func
+ 145              		.section	.data.Ramp_Calc_Func,"aw"
+ 146              		.align	2
+ 149              	Ramp_Calc_Func:
+ 150 0000 00000000 		.word	Ramp_Up
+ 151 0004 00000000 		.word	Ramp_Down
+ 152 0008 00000000 		.word	Clear_Ramp
+ 153              		.global	Ramp_Calc
+ 154              		.section	.bss.Ramp_Calc,"aw",%nobits
+ 155              		.align	2
+ 158              	Ramp_Calc:
+ 159 0000 00000000 		.space	8
+ 159      00000000 
+ 160              		.text
+ 161              	.Letext0:
+ 162              		.file 2 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 163              		.file 3 "c:\\msys64\\mingw64\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 164              		.file 4 "Algorithms/Algorithms.h/Ramp_Calc.h"
+ARM GAS  C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 Ramp_Calc.c
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:21     .text.Ramp_Up:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:27     .text.Ramp_Up:00000000 Ramp_Up
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:72     .text.Ramp_Down:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:78     .text.Ramp_Down:00000000 Ramp_Down
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:117    .text.Clear_Ramp:00000000 $t
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:123    .text.Clear_Ramp:00000000 Clear_Ramp
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:149    .data.Ramp_Calc_Func:00000000 Ramp_Calc_Func
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:146    .data.Ramp_Calc_Func:00000000 $d
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:158    .bss.Ramp_Calc:00000000 Ramp_Calc
+C:\Users\purdu\AppData\Local\Temp\ccA3LOel.s:155    .bss.Ramp_Calc:00000000 $d
+
+NO UNDEFINED SYMBOLS
