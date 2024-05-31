@@ -22,8 +22,8 @@ void Robot_Control_Start(void)
 {
 	State_Machine_Func.Remote_Control_Update(); 
 	Referee_System_Func.Referee_Set_Robot_State();
-	Tx2_Func.Jetson_Tx2_Get_Data();
-	Tx2_Func.Jetson_Tx2_Send_Data();
+	//Tx2_Func.Jetson_Tx2_Get_Data();
+	//Tx2_Func.Jetson_Tx2_Send_Data();
 	
 	Chassis_Func.Chassis_Get_Data(&Chassis);
 	Chassis_Func.Chassis_Processing(&Chassis);

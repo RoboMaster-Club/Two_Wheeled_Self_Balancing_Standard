@@ -30,36 +30,30 @@
 
 typedef struct
 {
+	float Yaw;
+	float Roll;
+	float Pitch;
+	float Gyro_Yaw;
+	float Gyro_Pitch;
+	float Gyro_Roll;
+	float Accel_Y;
+} __attribute__ ((__packed__)) Board_A_Package_t;
+
+typedef struct
+{
 	struct
 	{
 		float Prev_Yaw;
-		float Prev_Pitch;
-		float Prev_Roll;
 		float Yaw;
 		float Roll;
 		float Pitch;
 		float Gyro_Yaw;
 		float Gyro_Pitch;
 		float Gyro_Roll;
+		float Accel_Y;
 		float Turn_Count;
 		float Total_Yaw;
 	}Rec;
-	
-	uint8_t Tx_Buffer[24];
-	uint8_t Rx_Buffer[24];
-	
-	union
-	{
-		float data;
-		uint8_t Data[4];
-	}IMU_Data_Send[6];
-	
-	union
-	{
-		uint32_t data[6];
-		uint8_t Data[24];
-	}IMU_Data_Rec;
-	
 }Control_Board_A_t;
 
 typedef struct

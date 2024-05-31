@@ -88,6 +88,10 @@ typedef struct
 			float Gyro_Pitch;
 			float Gyro_Roll;
 			
+			float Ax;
+			float Ay;
+			float Az;
+			
 			float Temperature;
 		}Export_Data;
 		

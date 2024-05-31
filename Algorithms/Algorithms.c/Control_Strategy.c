@@ -28,7 +28,7 @@ void Expert_PID_LQR_Combined(void)
 			 Chassis_Speed_PID.Ki = 30.0;
 			 Chassis_Speed_PID.I_Out_Max = 2000.0f;
 			 Chassis_Speed_PID.Output_Max = 10000.0f;
-			 Chassis.PID_Output.Speed_Loop = PID_Func.Positional_PID(&Chassis_Speed_PID, CHASSIS_TARGET_SPEED, Chassis.Chassis_Coord.Forward_Speed); 
+			 Chassis.PID_Output.Speed_Loop = PID_Func.Positional_PID(&Chassis_Speed_PID, CHASSIS_TARGET_SPEED, Chassis.Chassis_Coord.Forward_Speed_KF); 
 			 
 			 if(fabs(Chassis.Chassis_Coord.Pitch_Angle) < 15.0f)
 					Chassis.Chassis_Coord.Target_Pitch_Angle += (-Chassis.Chassis_Coord.Target_Pitch_Angle - Chassis.Chassis_Coord.Pitch_Angle)/500.0f;
@@ -48,7 +48,7 @@ void Expert_PID_LQR_Combined(void)
 		{
 			Chassis_Speed_PID.Kp = 1800.0f;
 			Chassis_Speed_PID.Output_Max = 10000.0f;
-			Chassis.PID_Output.Speed_Loop = PID_Func.Positional_PID(&Chassis_Speed_PID, Chassis.Chassis_Coord.Vy, Chassis.Chassis_Coord.Forward_Speed); 
+			Chassis.PID_Output.Speed_Loop = PID_Func.Positional_PID(&Chassis_Speed_PID, Chassis.Chassis_Coord.Vy, Chassis.Chassis_Coord.Forward_Speed_KF); 
 			
 			Chassis.PID_Output.Angle_Loop = 0.75f * (Chassis.Chassis_Coord.Pitch_Angle - Chassis.Chassis_Coord.Target_Pitch_Angle) * LQR_K_Matrix[2] + 3.5f * Chassis.Chassis_Coord.Pitch_Angular_Rate * LQR_K_Matrix[3];
 
@@ -68,7 +68,7 @@ void Expert_PID_LQR_Combined(void)
 			Chassis_Speed_PID.I_Out_Max = 6000.0f;
 			Chassis_Speed_PID.Output_Max = 10000.0f;
 
-			Chassis.PID_Output.Speed_Loop = PID_Func.Positional_PID(&Chassis_Speed_PID, CHASSIS_TARGET_SPEED, Chassis.Chassis_Coord.Forward_Speed); 
+			Chassis.PID_Output.Speed_Loop = PID_Func.Positional_PID(&Chassis_Speed_PID, CHASSIS_TARGET_SPEED, Chassis.Chassis_Coord.Forward_Speed_KF); 
 			Chassis.PID_Output.Angle_Loop = 0.9f * (Chassis.Chassis_Coord.Pitch_Angle - Chassis.Chassis_Coord.Target_Pitch_Angle) * LQR_K_Matrix[2] + 4.5f * Chassis.Chassis_Coord.Pitch_Angular_Rate * LQR_K_Matrix[3];
 			
 			Chassis_Turning_PID.Kp = 1.2f;

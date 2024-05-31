@@ -103,7 +103,6 @@ int main(void)
   MX_CAN2_Init();
   MX_UART8_Init();
   MX_USART6_UART_Init();
-  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

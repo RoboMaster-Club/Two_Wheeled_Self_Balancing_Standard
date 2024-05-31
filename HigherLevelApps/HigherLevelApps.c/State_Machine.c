@@ -181,11 +181,5 @@ void Computer_Update(void)
 			else 
 				Shooting.Fric_Wheel.Turned_On = 1;
 		}
-		
-		else if(DR16_Export_Data.Keyboard.Press_Z.Switch_Flag)
-		{
-			UI.Initialized_Flag = 0;
-			UI.Global_PacketNumber = 0;
-		}
 	}
 }

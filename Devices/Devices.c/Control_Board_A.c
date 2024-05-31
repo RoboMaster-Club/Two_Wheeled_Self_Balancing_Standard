@@ -19,44 +19,43 @@
  
  Control_Board_A_Func_t Control_Board_A_Func = Control_Board_A_Func_GroundInit;
  Control_Board_A_t Control_Board_A;
+ Board_A_Package_t Send_Package;
+ Board_A_Package_t Rec_Package;
  
  #undef Control_Board_A_Func_GroundInit
  
  void Board_A_Send_Data(void)
- {
-	 Control_Board_A.IMU_Data_Send[0].data = Board_A_IMU.Export_Data.Yaw;
-	 Control_Board_A.IMU_Data_Send[1].data = Board_A_IMU.Export_Data.Roll;
-	 Control_Board_A.IMU_Data_Send[2].data = Board_A_IMU.Export_Data.Pitch;
-	 Control_Board_A.IMU_Data_Send[3].data = Board_A_IMU.Export_Data.Gyro_Yaw;
-	 Control_Board_A.IMU_Data_Send[4].data = Board_A_IMU.Export_Data.Gyro_Roll;
-	 Control_Board_A.IMU_Data_Send[5].data = Board_A_IMU.Export_Data.Gyro_Pitch;
-	 
-	 memcpy(&Control_Board_A.Tx_Buffer[0],&Control_Board_A.IMU_Data_Send[0].Data[0],24*sizeof(uint8_t));
-	 HAL_UART_Transmit(&huart7, Control_Board_A.Tx_Buffer, sizeof(Control_Board_A.Tx_Buffer),10);
+ { 
+		Send_Package.Yaw = Board_A_IMU.Export_Data.Yaw;
+		Send_Package.Roll = Board_A_IMU.Export_Data.Roll;
+		Send_Package.Pitch = Board_A_IMU.Export_Data.Pitch;
+		Send_Package.Gyro_Yaw = Board_A_IMU.Export_Data.Gyro_Yaw;
+		Send_Package.Gyro_Roll = Board_A_IMU.Export_Data.Gyro_Roll;
+		Send_Package.Gyro_Pitch = Board_A_IMU.Export_Data.Gyro_Pitch;
+		Send_Package.Accel_Y = Board_A_IMU.Export_Data.Ay;
+
+		HAL_UART_Transmit(&huart7, (uint8_t*)&Send_Package, sizeof(Board_A_Package_t),10);
  }
  
  void Board_A_Rec_Data(void)
- {
-	 memcpy(&Control_Board_A.IMU_Data_Rec.Data[0],&Control_Board_A.Rx_Buffer[0],24*sizeof(uint8_t));
+ {	
+		Control_Board_A.Rec.Prev_Yaw = Control_Board_A.Rec.Yaw;
+		if (fabs(Rec_Package.Yaw) <= 180)
+		Control_Board_A.Rec.Yaw = Rec_Package.Yaw;
+		if (fabs(Rec_Package.Pitch) <= 180)
+		Control_Board_A.Rec.Roll = Rec_Package.Pitch;
+		if (fabs(Rec_Package.Roll) <= 180)
+		Control_Board_A.Rec.Pitch = Rec_Package.Roll;
+		Control_Board_A.Rec.Gyro_Yaw = Rec_Package.Gyro_Yaw;
+		Control_Board_A.Rec.Gyro_Pitch = Rec_Package.Gyro_Roll;
+		Control_Board_A.Rec.Gyro_Roll = Rec_Package.Gyro_Pitch;
+		Control_Board_A.Rec.Accel_Y = Rec_Package.Accel_Y - sin(Control_Board_A.Rec.Pitch/180*PI)*9.81f;
 	 
-	 Control_Board_A.Rec.Prev_Yaw = Control_Board_A.Rec.Yaw;
-	 Control_Board_A.Rec.Prev_Pitch = Control_Board_A.Rec.Roll;
-	 Control_Board_A.Rec.Prev_Roll = Control_Board_A.Rec.Pitch;
-	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[0]) <= 180)
-			Control_Board_A.Rec.Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[0];
-	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[1]) <= 180)
-			Control_Board_A.Rec.Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[1];
-	 if(fabs(*(float *)&Control_Board_A.IMU_Data_Rec.data[2]) <= 180)
-			Control_Board_A.Rec.Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[2];
-	 Control_Board_A.Rec.Gyro_Yaw = *(float *)&Control_Board_A.IMU_Data_Rec.data[3];
-	 Control_Board_A.Rec.Gyro_Pitch = *(float *)&Control_Board_A.IMU_Data_Rec.data[4];
-	 Control_Board_A.Rec.Gyro_Roll = *(float *)&Control_Board_A.IMU_Data_Rec.data[5];
-	 
-	 if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) < - 300)
-		Control_Board_A.Rec.Turn_Count++;
-	else if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) > 300)
-		Control_Board_A.Rec.Turn_Count--;
-	Control_Board_A.Rec.Total_Yaw = Control_Board_A.Rec.Yaw + 360.0f * Control_Board_A.Rec.Turn_Count;
+		if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) < - 300)
+			Control_Board_A.Rec.Turn_Count++;
+		else if((Control_Board_A.Rec.Yaw - Control_Board_A.Rec.Prev_Yaw) > 300)
+			Control_Board_A.Rec.Turn_Count--;
+		Control_Board_A.Rec.Total_Yaw = Control_Board_A.Rec.Yaw + 360.0f * Control_Board_A.Rec.Turn_Count;
  }
  
  static int USART_Receive_DMA_NO_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint32_t Size)
@@ -90,6 +89,6 @@
 	 __HAL_UART_CLEAR_IDLEFLAG(huartx);
 	 __HAL_UART_ENABLE(huartx);
 	 __HAL_UART_ENABLE_IT(huartx,UART_IT_IDLE);
-	 USART_Receive_DMA_NO_IT(huartx,Control_Board_A.Rx_Buffer,sizeof(Control_Board_A.Rx_Buffer));
+	 USART_Receive_DMA_NO_IT(huartx,(uint8_t*)&Rec_Package,sizeof(Board_A_Package_t));
  }
 

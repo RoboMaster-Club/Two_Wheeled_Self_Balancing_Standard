@@ -16,9 +16,10 @@
 #include "M2006_Motor.h"
 #include "Super_Capacitor.h"
 #include "Gimbal_Control.h"
+#include "arm_math.h"
 #include <stdio.h>
 
-#define PI 3.141592653589793238462643383279f
+//#define PI 3.141592653589793238462643383279f
 
 #define DEG_TO_RAD(DEG) (DEG * 0.0174532925199432957692369076848f)
 #define RAD_TO_DEG(RAD)	(RAD * 57.295779513082320876798154814105f)

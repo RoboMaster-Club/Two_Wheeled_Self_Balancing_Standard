@@ -37,8 +37,8 @@
 #include "Buzzer.h"
 #include "Referee_System.h"
 #include "Jetson_Tx2.h"
-#include "User_Interface.h"
 #include "Serial.h"
+#include "Kalman_Filter.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,8 +66,10 @@ osThreadId Task_CAN_SendHandle;
 osThreadId Task_CAN1_ReceiHandle;
 osThreadId Task_CAN2_ReceiHandle;
 osThreadId Robot_ControlHandle;
-osThreadId Task_UIHandle;
 osThreadId Task_SerialHandle;
+osThreadId Task_KFHandle;
+uint32_t Task_KFBuffer[ 600 ];
+osStaticThreadDef_t Task_KFControlBlock;
 osMessageQId CAN_SendHandle;
 osMessageQId CAN1_ReceiveHandle;
 osMessageQId CAN2_ReceiveHandle;
@@ -83,8 +85,8 @@ void CAN_Send_All(void const * argument);
 void CAN1_Rec(void const * argument);
 void CAN2_Rec(void const * argument);
 void Robot_Control_All(void const * argument);
-void UI_Draw(void const * argument);
 void Serial_Send(void const * argument);
+void Kalman_Filter(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -94,6 +96,7 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
 static StaticTask_t xIdleTaskTCBBuffer;
 static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+extern uint8_t Test_Receive_Buffer[35];
 
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
 {
@@ -168,13 +171,13 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(Robot_Control, Robot_Control_All, osPriorityRealtime, 0, 1000);
   Robot_ControlHandle = osThreadCreate(osThread(Robot_Control), NULL);
 
-  /* definition and creation of Task_UI */
-  osThreadDef(Task_UI, UI_Draw, osPriorityNormal, 0, 256);
-  Task_UIHandle = osThreadCreate(osThread(Task_UI), NULL);
-
   /* definition and creation of Task_Serial */
   osThreadDef(Task_Serial, Serial_Send, osPriorityNormal, 0, 128);
   Task_SerialHandle = osThreadCreate(osThread(Task_Serial), NULL);
+
+  /* definition and creation of Task_KF */
+  osThreadStaticDef(Task_KF, Kalman_Filter, osPriorityHigh, 0, 600, Task_KFBuffer, &Task_KFControlBlock);
+  Task_KFHandle = osThreadCreate(osThread(Task_KF), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -228,16 +231,14 @@ void General_Initialization(void const * argument)
 	DR16_Func.DR16_USART_Receive_DMA(&huart1);
 	Control_Board_A_Func.Board_A_USART_Receive_DMA(&huart7);
 	Referee_System_Func.Referee_UART_Receive_Interrupt(&huart6,Referee_System.Buffer,sizeof(Referee_System.Buffer));
-	UI_Initialization();
 	CAN_Func.CAN_IT_Init(&hcan1, CAN1_Type);
   CAN_Func.CAN_IT_Init(&hcan2, CAN2_Type);
-	Tx2_Func.Jetson_Tx2_Initialization();
+	//Tx2_Func.Jetson_Tx2_Initialization();
 	Gimbal_Func.Gimbal_Init();
 	Shooting_Func.Shooting_Init();
 	Chassis.Slip_Detection.Max_Speed_Left = 300000;
 	Chassis.Slip_Detection.Max_Speed_Right = 300000;
 	vTaskDelete(NULL);
-	
   /* USER CODE END General_Initialization */
 }
 
@@ -342,89 +343,6 @@ void Robot_Control_All(void const * argument)
   /* USER CODE END Robot_Control_All */
 }
 
-/* USER CODE BEGIN Header_UI_Draw */
-/**
-* @brief Function implementing the Task_UI thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_UI_Draw */
-void UI_Draw(void const * argument)
-{
-  /* USER CODE BEGIN UI_Draw */
-  portTickType xLastWakeTime;
-  xLastWakeTime = xTaskGetTickCount();
-  const TickType_t TimeIncrement = pdMS_TO_TICKS(5);
-  /* Infinite loop */
-  for(;;)
-  {
-		if(Referee_Robot_State.ID == 3)
-		{
-			UI.Pilot_ID = UI_Data_CilentID_RStandard1;
-			UI.Robot_ID = UI_Data_RobotID_RStandard1;
-		}
-		else if(Referee_Robot_State.ID == 103)
-		{
-			UI.Pilot_ID = UI_Data_CilentID_BStandard1;
-			UI.Robot_ID = UI_Data_RobotID_BStandard1;
-		}
-		if(UI.Initialized_Flag == 0)
-		{
-			UI_AimingSystem();
-			UI_GuidingSystem();
-			UI_TextSystem_Init();
-			UI.Initialized_Flag = 1;
-		}
-		osDelay (1000);
-//		memcpy (TextSystem.Text, "A_Test", 6);
-//		TextSystem.TextNumber = 6;
-//		UI_AutoText_Update();
-		switch(State_Machine.Mode)
-		{
-			case(Follow_Gimbal):
-				memcpy (TextSystem.Text, "FLGB", 4);
-				break;
-			case(Spin_Top):
-				memcpy (TextSystem.Text, "SPIN", 4);
-				break;
-			default:
-				memcpy (TextSystem.Text, "FLGB", 4);
-				break;
-		}
-		TextSystem.TextNumber = 4;
-		UI_StateText_Update();
-		
-		
-		if(Shooting.Fric_Wheel.Turned_On)
-		{
-			memcpy (TextSystem.Text, "FRIC ON", 7);
-			TextSystem.TextNumber = 7;
-			UI_AutoText_Update();
-		}
-		else if(Shooting.Fric_Wheel.Turned_On == 0)
-		{
-			memcpy (TextSystem.Text, "FRIC OFF", 8);
-			TextSystem.TextNumber = 8;
-			UI_AutoText_Update();
-		}
-		
-//		memcpy (TextSystem.Text, "A_Test2", 7);
-//		TextSystem.TextNumber = 7;
-//		UI_AutoText_Update();
-//		
-//		memcpy (TextSystem.Text, "C_Test2", 7);
-//		TextSystem.TextNumber = 7;
-//		UI_SuperCapText_Update();
-//		
-//		memcpy (TextSystem.Text, "S_Test2", 7);
-//		TextSystem.TextNumber = 7;
-//		UI_StateText_Update();
-		
-		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
-  }
-  /* USER CODE END UI_Draw */
-}
-
 /* USER CODE BEGIN Header_Serial_Send */
 /**
 * @brief Function implementing the Task_Serial thread.
@@ -438,17 +356,43 @@ void Serial_Send(void const * argument)
 	portTickType xLastWakeTime;
   xLastWakeTime = xTaskGetTickCount();
 
-  const TickType_t TimeIncrement = pdMS_TO_TICKS(10);
+  const TickType_t TimeIncrement = pdMS_TO_TICKS(100);
   /* Infinite loop */
   for(;;)
-  {	
-    printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Target_Pitch_Angle,Chassis.Chassis_Coord.Pitch_Angle);
+  {		
+//		printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Target_Pitch_Angle,Chassis.Chassis_Coord.Pitch_Angle);
 //		printf("/*%f,%f,%d,%d,%f,%f,%f,%f*/\n",Chassis.Slip_Detection.Friction_Force_Left,Chassis.Slip_Detection.Friction_Force_Right,
 //		MF9025_Chassis[0].Actual_Speed,MF9025_Chassis[1].Actual_Speed,MF9025_Chassis[0].Calculated_Current,MF9025_Chassis[1].Calculated_Current,
 //		MF9025_Chassis[0].Angular_Acceleration,MF9025_Chassis[1].Angular_Acceleration);
+		//printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Forward_Speed,Chassis.Chassis_Coord.Forward_Speed_KF);
+		printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Forward_Speed,Chassis.Chassis_Coord.Forward_Speed_KF);
 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
   }
   /* USER CODE END Serial_Send */
+}
+
+/* USER CODE BEGIN Header_Kalman_Filter */
+/**
+* @brief Function implementing the Task_KF thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Kalman_Filter */
+void Kalman_Filter(void const * argument)
+{
+  /* USER CODE BEGIN Kalman_Filter */
+	Kalman_Filter_Init();
+	portTickType xLastWakeTime;
+  xLastWakeTime = xTaskGetTickCount();
+
+  const TickType_t TimeIncrement = pdMS_TO_TICKS(2);
+  /* Infinite loop */
+  for(;;)
+  {
+		Kalman_Filter_Update();
+    vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
+  }
+  /* USER CODE END Kalman_Filter */
 }
 
 /* Private application code --------------------------------------------------*/

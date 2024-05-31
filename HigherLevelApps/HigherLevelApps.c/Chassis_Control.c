@@ -24,7 +24,7 @@ void Chassis_Get_Data(Chassis_t *Chassis)
 	{
 		Chassis->Gimbal_Coord.Vx = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 330.0f;
 		Chassis->Gimbal_Coord.Vy = DR16_Export_Data.Remote_Control.Joystick_Left_Vy / 330.0f;
-		Chassis->Gimbal_Coord.Wz = DR16_Export_Data.Remote_Control.Joystick_Left_Vx / 5.0f;
+		Chassis->Gimbal_Coord.Wz = 0;
 	}
 	else if(State_Machine.Control_Source == Computer)
 	{
@@ -36,6 +36,7 @@ void Chassis_Get_Data(Chassis_t *Chassis)
 	Chassis->Chassis_Coord.Prev_Forward_Speed = Chassis->Chassis_Coord.Forward_Speed;
 	Chassis->Chassis_Coord.Forward_Speed = (MF9025_Chassis[0].Actual_Speed - MF9025_Chassis[1].Actual_Speed) / 2.0f  / 360.0f * PI * WHEEL_DIAMETER;
 	Chassis->Chassis_Coord.Forward_Distance = (MF9025_Chassis[0].Total_Turn - MF9025_Chassis[1].Total_Turn) / 2.0f * PI * WHEEL_DIAMETER;
+	Chassis->Chassis_Coord.Forward_Acceleration = Control_Board_A.Rec.Accel_Y;
 	
 	Chassis->Chassis_Coord.Prev_Pitch_Angle = Chassis->Chassis_Coord.Pitch_Angle;
 	Chassis->Chassis_Coord.Pitch_Angle = Control_Board_A.Rec.Pitch;
@@ -64,7 +65,7 @@ void Chassis_State_Update(Chassis_t *Chassis)
 				PID_Func.Clear_PID_Data(&Chassis_Turning_PID);
 				break;
 			}
-			else if(fabs(Chassis->Chassis_Coord.Forward_Speed) > 0.5f) 
+			else if(fabs(Chassis->Chassis_Coord.Forward_Speed_KF) > 0.5f) 
 			{
 				Chassis->Current_State = Braking;
 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
@@ -76,7 +77,7 @@ void Chassis_State_Update(Chassis_t *Chassis)
 				if((abs(MF9025_Chassis[0].Actual_Speed) > 2000 || abs(MF9025_Chassis[1].Actual_Speed) > 2000) && Chassis->Off_Ground_Detection.Off_Ground_Flag == 0)
 					Chassis->Off_Ground_Detection.Counter++;
 				
-				if(Chassis->Off_Ground_Detection.Counter > 50)
+				if(Chassis->Off_Ground_Detection.Counter > 20)
 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
 				break;
 			}
@@ -109,7 +110,7 @@ void Chassis_State_Update(Chassis_t *Chassis)
 				break;
 			}
 			
-			if(fabs(Chassis->Chassis_Coord.Forward_Speed) < 0.2f)
+			if(fabs(Chassis->Chassis_Coord.Forward_Speed_KF) < 0.2f)
 			{
 				Chassis->Current_State = Balancing;
 				PID_Func.Clear_PID_Data(&Chassis_Speed_PID);
@@ -124,7 +125,7 @@ void Chassis_State_Update(Chassis_t *Chassis)
 				if((abs(MF9025_Chassis[0].Actual_Speed) > 2000 || abs(MF9025_Chassis[1].Actual_Speed) > 2000) && Chassis->Off_Ground_Detection.Off_Ground_Flag == 0)
 					Chassis->Off_Ground_Detection.Counter++;
 				
-				if(Chassis->Off_Ground_Detection.Counter > 50)
+				if(Chassis->Off_Ground_Detection.Counter > 20)
 					Chassis->Off_Ground_Detection.Off_Ground_Flag = 1;
 				break;
 			}
@@ -146,28 +147,6 @@ void Chassis_Processing(Chassis_t *Chassis)
 				Chassis->Chassis_Coord.Wz = 0;
 			Chassis_Func.Chassis_State_Update(Chassis);
 			Control_Strategy_Func.Expert_PID_LQR_Combined();
-			
-			if(fabs(Chassis->Slip_Detection.Friction_Force_Left) > 100)
-				Chassis->Slip_Detection.Left_Counter = 250;
-	
-			if(fabs(Chassis->Slip_Detection.Friction_Force_Right) > 100)
-				Chassis->Slip_Detection.Right_Counter = 250;
-			
-			if(Chassis->Slip_Detection.Left_Counter > 0)
-			{
-				Chassis->Slip_Detection.Max_Speed_Left = 100000;
-				Chassis->Slip_Detection.Left_Counter--;
-			}
-			else
-				Chassis->Slip_Detection.Max_Speed_Left = 300000;
-			
-			if(Chassis->Slip_Detection.Right_Counter > 0)
-			{
-				Chassis->Slip_Detection.Max_Speed_Right = 100000;
-				Chassis->Slip_Detection.Right_Counter--;
-			}
-			else
-				Chassis->Slip_Detection.Max_Speed_Right = 300000;
 			
 			if(Chassis->Off_Ground_Detection.Off_Ground_Flag)
 			{
@@ -191,30 +170,11 @@ void Chassis_Processing(Chassis_t *Chassis)
 				
 				if(State_Machine.Swing_Flag && Chassis->Chassis_Coord.Vy == 0)
 					State_Machine.Mode = Swing;
-				else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0 && Chassis->Current_State == Balancing && 
-				fabs(Chassis->Chassis_Coord.Pitch_Angle - CHASSIS_TARGET_ANGLE) < 1.0f && Chassis->Chassis_Coord.Yaw_Angular_Rate < 1.0f)
+				else if(State_Machine.Spin_Top_Flag && Chassis->Chassis_Coord.Vy == 0 && Chassis->Current_State == Balancing)
 					State_Machine.Mode = Spin_Top;
 				else if(State_Machine.Follow_Wheel_Flag && Chassis->Chassis_Coord.Vy == 0)
 					State_Machine.Mode = Follow_Wheel;
 			}
-			
-//			Chassis->Open_Loop_Speed = 10000;
-//			
-//			if((Chassis->Chassis_Coord.Pitch_Angle + CHASSIS_TARGET_ANGLE) < -3.0f)
-//			{
-//				MF9025_Chassis[0].Target_Speed = -Chassis->Open_Loop_Speed;
-//				MF9025_Chassis[1].Target_Speed = Chassis->Open_Loop_Speed;;
-//			}
-//			else if((Chassis->Chassis_Coord.Pitch_Angle + CHASSIS_TARGET_ANGLE) > 3.0f)
-//			{
-//				MF9025_Chassis[0].Target_Speed = Chassis->Open_Loop_Speed;;
-//				MF9025_Chassis[1].Target_Speed = -Chassis->Open_Loop_Speed;;
-//			}
-//			else
-//			{
-//				MF9025_Chassis[0].Target_Speed = 0;
-//				MF9025_Chassis[1].Target_Speed = 0;
-//			}
 			break;
 		}	
 		

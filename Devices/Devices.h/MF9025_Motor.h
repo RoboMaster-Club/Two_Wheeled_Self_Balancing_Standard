@@ -35,7 +35,7 @@ typedef struct
 {
 	 uint16_t Actual_Angle;
 	 uint16_t Prev_Angle;
-	 int16_t Actual_Speed;
+	 int16_t Actual_Speed; //dps
 	 int16_t Prev_Speed;
 	 int16_t Actual_Current;
 	 float Calculated_Current;

@@ -55,9 +55,11 @@ typedef struct
 		float Vx;
 		float Vy;
 		float Wz;
+		float Forward_Acceleration;
 		float Forward_Speed; //m/s
 		float Prev_Forward_Speed; //m/s
 		float Forward_Distance;	//m
+		float Forward_Speed_KF;
 		float Target_Pitch_Angle; //degree
 		float Pitch_Angle;	//degree
 		float Prev_Pitch_Angle; //degree

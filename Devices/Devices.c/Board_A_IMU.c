@@ -319,8 +319,10 @@ void Board_A_IMU_Calc_Angle(Board_A_IMU_t *Board_A_IMU)
 	Board_A_IMU->Export_Data.Gyro_Yaw = Board_A_IMU->Calc_Data.Gz / 6.0f; // degree/s to RPM
 	Board_A_IMU->Export_Data.Gyro_Pitch = Board_A_IMU->Calc_Data.Gy / 6.0f; // degree/s to RPM
 	Board_A_IMU->Export_Data.Gyro_Roll = Board_A_IMU->Calc_Data.Gx / 6.0f; // degree/s to RPM
+	Board_A_IMU->Export_Data.Ax = Board_A_IMU->Calc_Data.Ax;
+	Board_A_IMU->Export_Data.Ay = Board_A_IMU->Calc_Data.Ay;
+	Board_A_IMU->Export_Data.Az = Board_A_IMU->Calc_Data.Az - 9.81f;
 	Board_A_IMU->Export_Data.Temperature = Board_A_IMU->Calc_Data.Temperature;
-	
 	//Record number of turns
 	if((Board_A_IMU->Export_Data.Yaw - Board_A_IMU->Export_Data.Prev_Yaw) < - 300)
 		Board_A_IMU->Export_Data.Turn_Count++;
