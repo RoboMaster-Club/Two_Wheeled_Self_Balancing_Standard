@@ -22,7 +22,7 @@
 #define MF9025_CHASSIS_LEFT_ID 0x01 //Starting ID for chassis motors
 #define MF9025_CHASSIS_RIGHT_ID	0x02 //Ending ID for chassis motors
 #define MF9025_MECH_ANGLE_MAX 65536.0f //16 bit encoder
-#define MF9025_SPEED_MAX 300000.0f //MF9025 maximum speed (0.01 degree per second)
+#define MF9025_SPEED_MAX 200000.0f //MF9025 maximum speed (0.01 degree per second)
 
 #define MF9025_Func_GroundInit					    \
 		{																	   		\

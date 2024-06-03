@@ -26,7 +26,7 @@ void _ui_init_indicator_0_2() {
     ui_indicator_0_2.option.color = 1;
     ui_indicator_0_2.option.str_length = 7;
     ui_indicator_0_2.option.width = 2;
-    strcpy(ui_indicator_0_Autoaim_Text->string, "AUTOAIM");
+    strcpy(ui_indicator_0_Autoaim_Text->string, "FOLLOW_W");
 
     ui_proc_string_frame(&ui_indicator_0_2);
     SEND_MESSAGE((uint8_t *) &ui_indicator_0_2, sizeof(ui_indicator_0_2));

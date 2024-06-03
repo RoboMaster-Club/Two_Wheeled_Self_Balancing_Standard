@@ -37,19 +37,13 @@ typedef struct
 	enum
 	{
 		Follow_Gimbal,
-		Not_Follow_Gimbal,
 		Spin_Top,
 		Follow_Wheel,
-		Swing,
 		Escape,
 		Disabled,
 	}Mode;
 
-	
-	uint8_t Spin_Top_Flag;
-	uint8_t Swing_Flag;
-	uint8_t Follow_Wheel_Flag;
-	
+	uint8_t	UI_Enabled_Flag;
 	uint8_t Initialized_Flag;
 }State_Machine_t;
 

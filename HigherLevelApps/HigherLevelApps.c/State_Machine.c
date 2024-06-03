@@ -24,7 +24,7 @@ void Remote_Control_Update(void)
 	Both switches down for disabling the robot
 	Also disable the robot if remote control receives no data 
 	*/
-	if((DR16_Export_Data.Remote_Control.Left_Switch == SWITCH_DOWN && DR16_Export_Data.Remote_Control.Right_Switch == SWITCH_DOWN) 
+	if((DR16_Export_Data.Remote_Control.Right_Switch == SWITCH_DOWN) 
 		|| (DR16_Export_Data.Info_Update_Frame < 1))
 	{
 		Robot_Control_Func.Robot_Control_Disabled();
@@ -44,23 +44,22 @@ void Remote_Control_Update(void)
 			case(SWITCH_DOWN):
 			{
 				State_Machine.Mode = Follow_Gimbal;
-				State_Machine.Spin_Top_Flag = 0;
-				State_Machine.Swing_Flag = 0;
-				State_Machine.Follow_Wheel_Flag = 0;
 				break;
 			}
 			case(SWITCH_MID):
 			{
-				State_Machine.Follow_Wheel_Flag = 1;
-				State_Machine.Spin_Top_Flag = 0;
-				State_Machine.Swing_Flag = 0;
+				if(Chassis.Chassis_Coord.Vy != 0)
+					State_Machine.Mode = Follow_Gimbal;
+				else
+					State_Machine.Mode = Follow_Wheel;
 				break;
 			}
 			case(SWITCH_UP):
 			{
-				State_Machine.Spin_Top_Flag = 1;
-				State_Machine.Swing_Flag = 0;
-				State_Machine.Follow_Wheel_Flag = 0;
+				if(Chassis.Chassis_Coord.Vy != 0)
+					State_Machine.Mode = Follow_Gimbal;
+				else
+					State_Machine.Mode = Spin_Top;
 				break;
 			}
 		}
@@ -108,41 +107,20 @@ void Computer_Update(void)
 	*/
 	if(State_Machine.Control_Source == Computer)
 	{
-		if(DR16_Export_Data.Keyboard.Press_R.Switch_Flag)
+		if(DR16_Export_Data.Keyboard.Press_R.Switch_Flag || Chassis.Chassis_Coord.Vy != 0)
 		{
-			State_Machine.Spin_Top_Flag = 0;
-			State_Machine.Swing_Flag = 0;
 			State_Machine.Mode = Follow_Gimbal;
 		}
-		
-		else if(DR16_Export_Data.Keyboard.Press_F.Switch_Flag)
-		{
-			if(State_Machine.Mode == Swing)
-			{
-				State_Machine.Swing_Flag = 0;
-				State_Machine.Mode = Follow_Gimbal;
-			}
-			else
-			{
-				State_Machine.Swing_Flag = 1;
-				State_Machine.Spin_Top_Flag = 0;
-				Chassis.Chassis_Coord.Swing_Target_Angle = YAW_SWING_LOWER_ANGLE;
-				State_Machine.Mode = Swing;
-			}
-		}
+
 		
 		else if(DR16_Export_Data.Keyboard.Press_E.Switch_Flag)
 		{
 			if(State_Machine.Mode == Follow_Wheel)
 			{
-				State_Machine.Follow_Wheel_Flag = 0;
 				State_Machine.Mode = Follow_Gimbal;
 			}
 			else
 			{
-				State_Machine.Follow_Wheel_Flag = 1;
-				State_Machine.Spin_Top_Flag = 0;
-				State_Machine.Swing_Flag = 0;
 				State_Machine.Mode = Follow_Wheel;
 			}
 		}
@@ -163,13 +141,10 @@ void Computer_Update(void)
 		{
 			if(State_Machine.Mode == Spin_Top)
 			{
-				State_Machine.Spin_Top_Flag = 0;
 				State_Machine.Mode = Follow_Gimbal;
 			}
 			else
 			{
-				State_Machine.Spin_Top_Flag = 1;
-				State_Machine.Swing_Flag = 0;
 				State_Machine.Mode = Spin_Top;
 			}
 		}
@@ -180,6 +155,11 @@ void Computer_Update(void)
 				Shooting.Fric_Wheel.Turned_On = 0;
 			else 
 				Shooting.Fric_Wheel.Turned_On = 1;
+		}
+		else if(DR16_Export_Data.Keyboard.Press_Z.Hold_Flag)
+		{
+			if(State_Machine.UI_Enabled_Flag)
+				State_Machine.UI_Enabled_Flag = 0;
 		}
 	}
 }

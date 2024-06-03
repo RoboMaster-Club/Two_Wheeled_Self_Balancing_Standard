@@ -27,16 +27,6 @@ void Jetson_Tx2_Initialization(void)
 	HAL_UART_Transmit_DMA(&huart8, Tx2_Data.Tx_Buffer, sizeof(Tx2_Data.Tx_Buffer));
 }
 
-//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-//{
-//	HAL_UART_Receive_DMA(&huart8, Tx2_Data.Rx_Buffer, sizeof(Tx2_Data.Rx_Buffer));
-//}
-
-//void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-//{
-//	HAL_UART_Transmit_DMA(&huart8, Tx2_Data.Tx_Buffer, sizeof(Tx2_Data.Tx_Buffer));
-//}
-
 void Jetson_Tx2_Get_Data(void)
 {
 	if(Tx2_Data.Rx_Buffer[0] == 0xAA)

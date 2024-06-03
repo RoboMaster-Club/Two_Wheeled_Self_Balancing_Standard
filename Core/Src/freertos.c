@@ -39,6 +39,7 @@
 #include "Jetson_Tx2.h"
 #include "Serial.h"
 #include "Kalman_Filter.h"
+#include "ui.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,6 +71,7 @@ osThreadId Task_SerialHandle;
 osThreadId Task_KFHandle;
 uint32_t Task_KFBuffer[ 600 ];
 osStaticThreadDef_t Task_KFControlBlock;
+osThreadId Task_UIHandle;
 osMessageQId CAN_SendHandle;
 osMessageQId CAN1_ReceiveHandle;
 osMessageQId CAN2_ReceiveHandle;
@@ -87,6 +89,7 @@ void CAN2_Rec(void const * argument);
 void Robot_Control_All(void const * argument);
 void Serial_Send(void const * argument);
 void Kalman_Filter(void const * argument);
+void UI_Draw(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -96,7 +99,6 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
 static StaticTask_t xIdleTaskTCBBuffer;
 static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
-extern uint8_t Test_Receive_Buffer[35];
 
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
 {
@@ -179,6 +181,10 @@ void MX_FREERTOS_Init(void) {
   osThreadStaticDef(Task_KF, Kalman_Filter, osPriorityHigh, 0, 600, Task_KFBuffer, &Task_KFControlBlock);
   Task_KFHandle = osThreadCreate(osThread(Task_KF), NULL);
 
+  /* definition and creation of Task_UI */
+  osThreadDef(Task_UI, UI_Draw, osPriorityAboveNormal, 0, 128);
+  Task_UIHandle = osThreadCreate(osThread(Task_UI), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -236,8 +242,6 @@ void General_Initialization(void const * argument)
 	//Tx2_Func.Jetson_Tx2_Initialization();
 	Gimbal_Func.Gimbal_Init();
 	Shooting_Func.Shooting_Init();
-	Chassis.Slip_Detection.Max_Speed_Left = 300000;
-	Chassis.Slip_Detection.Max_Speed_Right = 300000;
 	vTaskDelete(NULL);
   /* USER CODE END General_Initialization */
 }
@@ -360,12 +364,7 @@ void Serial_Send(void const * argument)
   /* Infinite loop */
   for(;;)
   {		
-//		printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Target_Pitch_Angle,Chassis.Chassis_Coord.Pitch_Angle);
-//		printf("/*%f,%f,%d,%d,%f,%f,%f,%f*/\n",Chassis.Slip_Detection.Friction_Force_Left,Chassis.Slip_Detection.Friction_Force_Right,
-//		MF9025_Chassis[0].Actual_Speed,MF9025_Chassis[1].Actual_Speed,MF9025_Chassis[0].Calculated_Current,MF9025_Chassis[1].Calculated_Current,
-//		MF9025_Chassis[0].Angular_Acceleration,MF9025_Chassis[1].Angular_Acceleration);
-		//printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Forward_Speed,Chassis.Chassis_Coord.Forward_Speed_KF);
-		printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Forward_Speed,Chassis.Chassis_Coord.Forward_Speed_KF);
+		printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Vy,Chassis.Chassis_Coord.Forward_Speed_KF);
 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
   }
   /* USER CODE END Serial_Send */
@@ -393,6 +392,85 @@ void Kalman_Filter(void const * argument)
     vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
   }
   /* USER CODE END Kalman_Filter */
+}
+
+/* USER CODE BEGIN Header_UI_Draw */
+/**
+* @brief Function implementing the Task_UI thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_UI_Draw */
+void UI_Draw(void const * argument)
+{
+  /* USER CODE BEGIN UI_Draw */
+	portTickType xLastWakeTime;
+  xLastWakeTime = xTaskGetTickCount();
+	
+	const TickType_t TimeIncrement = pdMS_TO_TICKS(100);
+  /* Infinite loop */
+  for(;;)
+  {
+		ui_self_id = Referee_Robot_State.ID;
+    if (!State_Machine.UI_Enabled_Flag)
+    {
+        ui_remove_indicator_0();
+        ui_init_indicator_0();
+        ui_remove_indicator_1();
+        ui_init_indicator_1();
+        State_Machine.UI_Enabled_Flag = 1;
+    }
+    if (Shooting.Fric_Wheel.Turned_On)
+    {
+        ui_indicator_1_Flywheel_Select->start_x = 270;
+        ui_indicator_1_Flywheel_Select->end_x = 320;
+    }
+    else
+    {
+        ui_indicator_1_Flywheel_Select->start_x = 335;
+        ui_indicator_1_Flywheel_Select->end_x = 385;
+    }
+    if (State_Machine.Mode == Spin_Top)
+    {
+        ui_indicator_1_Spintop_Select->start_x = 270;
+        ui_indicator_1_Spintop_Select->end_x = 320;
+    }
+    else
+    {
+        ui_indicator_1_Spintop_Select->start_x = 335;
+        ui_indicator_1_Spintop_Select->end_x = 385;
+    }
+    if (State_Machine.Mode == Follow_Wheel)
+    {
+        ui_indicator_1_Autoaim_Select->start_x = 270;
+        ui_indicator_1_Autoaim_Select->end_x = 320;
+        ui_indicator_1_Aim_H_Line->color = 2;
+        ui_indicator_1_Aim_V_Line->color = 2;
+    }
+    else
+    {
+        ui_indicator_1_Autoaim_Select->start_x = 335;
+        ui_indicator_1_Autoaim_Select->end_x = 385;
+        ui_indicator_1_Aim_H_Line->color = 3;
+        ui_indicator_1_Aim_V_Line->color = 3;
+    }
+    if (ui_indicator_1_Supercap->number>=99)
+    {
+        ui_indicator_1_Supercap->number = 0;
+    }
+    if(Referee_System.Online_Flag)
+    {
+        ui_indicator_1_Level_Indicator->number = Referee_Robot_State.Level;
+    }
+    else
+    {
+        ui_indicator_1_Level_Indicator->number = Referee_Robot_State.Manual_Level;
+    }
+    ui_indicator_1_Supercap->number++;
+    ui_update_indicator_1();
+    vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
+  }
+  /* USER CODE END UI_Draw */
 }
 
 /* Private application code --------------------------------------------------*/

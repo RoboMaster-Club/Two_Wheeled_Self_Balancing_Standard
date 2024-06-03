@@ -341,7 +341,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F427xx,ARM_MATH_CM4,ARM_MATH_DSP</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Devices/Devices.h;../Algorithms/Algorithms.h;../BSP/BSP.h;../HigherLevelApps/HigherLevelApps.h</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Devices/Devices.h;../Algorithms/Algorithms.h;../BSP/BSP.h;../HigherLevelApps/HigherLevelApps.h;../ui/inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2030,6 +2030,81 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>UI</GroupName>
+          <Files>
+            <File>
+              <FileName>ui_indicator_0_0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_0.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_1.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_2.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_3.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_4.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_4.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_5.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_6.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_6.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_7.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_7.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_8.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_9.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_9.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_10.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_10.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_0_11.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_0_11.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_indicator_1_0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_1_0.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_interface.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
@@ -2061,5 +2136,14 @@
       </file>
     </files>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Self Balancing Standard Robot 2022 Leo</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

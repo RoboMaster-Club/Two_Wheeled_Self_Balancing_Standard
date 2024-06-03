@@ -6,7 +6,7 @@
 #include <string.h>
 
 uint8_t seq = 0;
-int ui_self_id = 3;
+int ui_self_id;
 
 const unsigned char CRC8_TAB1[256] = {
     0x00, 0x5e, 0xbc, 0xe2, 0x61, 0x3f, 0xdd, 0x83, 0xc2, 0x9c, 0x7e, 0x20, 0xa3, 0xfd, 0x1f, 0x41,
@@ -89,20 +89,14 @@ uint16_t calc_crc16(uint8_t *pchMessage, uint32_t dwLength)
 }
 
 void print_message(const uint8_t *message, const int length) {
-		 for (int i = 0; i < length; i++) {
-				 printf("%02x",message[i]);
-		 }
-		 printf("\n\n");
-		 
-		 char test[200];
-		 memcpy(&test,message,length);
-		 test[length-1	] = '\0';
-		 printf("%s",test);
-		 
-		 
-//    for (int i = 0; i < length; i++) {
-//        HAL_UART_Transmit(&huart1,&message[i],sizeof(uint8_t),500);
-//    }
+    // for (int i = 0; i < length; i++) {
+    //     DEBUG_PRINTF(&huart6, "%02x",message[i]);
+    // }
+    // DEBUG_PRINTF(&huart6, "\n\n");
+    
+    for (int i = 0; i < length; i++) {
+        HAL_UART_Transmit(&huart6,&message[i],sizeof(uint8_t),500);
+    }
 }
 
 #define DEFINE_FRAME_PROC(num, id)                          \

@@ -22,12 +22,8 @@
 
 #define WHEEL_DIAMETER 0.22f //m
 #define TIME_INTERVAL 0.002f //s
-#define YAW_SWING_LOWER_ANGLE 4570
-#define YAW_SWING_UPPER_ANGLE 340
-#define CHASSIS_SPINTOP_RATE_POWER_60 150.0f //Chassis spintop rate
-#define CHASSIS_SPINTOP_RATE_POWER_80 200.0f //Chassis spintop rate
-#define CHASSIS_SPINTOP_RATE_POWER_100 250.0f //Chassis spintop rate
-#define CHASSIS_SPINTOP_RATE_POWER_150 300.0f //Chassis spintop rate
+#define CHASSIS_SPINTOP_RATE_POWER_45 60.0f //Chassis spintop rate
+#define CHASSIS_SPINTOP_RATE_POWER_80 120.0f //Chassis spintop rate
 #define CHASSIS_TARGET_SPEED 0.0f //Balance speed
 #define CHASSIS_TARGET_ANGLE 0.0f //Balance angle
 
@@ -90,24 +86,18 @@ typedef struct
 	struct
 	{
 		float Position_Loop;
-		float Prev_Position_Loop;
 		float Angle_Loop;
 		float Speed_Loop;
 		float Turning_Loop;
+		float Spintop_Compensate_Loop;
 	}PID_Output;
-
-	int Open_Loop_Speed;
-
+	
 	uint8_t Chassis_Offline_Flag;
 	
 	struct
 	{
 		float Friction_Force_Left;
 		float Friction_Force_Right;
-		uint16_t Left_Counter;
-		uint16_t Right_Counter;
-		int Max_Speed_Left;
-		int Max_Speed_Right;
 	}Slip_Detection;
 	
 	struct

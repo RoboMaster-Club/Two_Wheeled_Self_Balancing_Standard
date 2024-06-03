@@ -4,6 +4,7 @@
 
 #ifndef SERIAL_TEST_UI_TYPES_H
 #define SERIAL_TEST_UI_TYPES_H
+
 #define __GNUC__
 #ifdef __GNUC__
 #define MESSAGE_PACKED __attribute__((packed))

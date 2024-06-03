@@ -70,15 +70,6 @@ void Gimbal_Processing(Gimbal_t *Gimbal)
 			break;
 		}
 		
-		case(Not_Follow_Gimbal):
-		{
-			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Current_Yaw);
-			
-			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal->Current_Pitch);
-			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,Board_A_IMU.Export_Data.Gyro_Pitch);
-			break;
-		}
-		
 		case(Spin_Top):
 		{	
 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Current_Yaw);
@@ -89,15 +80,6 @@ void Gimbal_Processing(Gimbal_t *Gimbal)
 		}
 		
 		case(Follow_Wheel):
-		{
-			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Current_Yaw);
-			
-			Gimbal->Pitch_Angle_Loop = PID_Func.Positional_PID(&Pitch_Angle_PID,Gimbal->Target_Pitch,Gimbal->Current_Pitch);
-			GM6020_Pitch.Output_Current = PID_Func.Positional_PID(&Pitch_Speed_PID,Gimbal->Pitch_Angle_Loop,Board_A_IMU.Export_Data.Gyro_Pitch);
-			break;
-		}
-		
-		case(Swing):
 		{
 			GM6020_Yaw.Output_Current = PID_Func.Positional_PID(&Yaw_Angle_PID,Gimbal->Target_Yaw,Gimbal->Current_Yaw);
 			
