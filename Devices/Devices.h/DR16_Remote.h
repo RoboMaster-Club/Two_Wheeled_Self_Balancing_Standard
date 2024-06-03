@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include "Kalman_Filter.h"
 
 #define DR16_BUFFER_NUMBER 22 //Total buffer number
 #define DR16_BUFFER_TRUE_NUMBER 18 //Useful data
@@ -81,6 +82,9 @@ typedef struct
 	{
 		int16_t x;
 		int16_t y;
+		int16_t x_kf;
+		int16_t y_kf;
+	
 		bool Left_Click;
 		bool Right_Click;
 		int16_t Click_Counter;

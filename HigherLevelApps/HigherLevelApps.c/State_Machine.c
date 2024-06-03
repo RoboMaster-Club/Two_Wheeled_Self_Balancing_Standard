@@ -100,29 +100,19 @@ void Remote_Control_Update(void)
 void Computer_Update(void)
 {
 	/*
-	Press R for follow gimbal mode, default mode is follow gimbal mode
-	Press F for turn on/off not follow gimbal mode
 	Press G for turn on/off spintop mode
 	Press B for turn on/off friction wheel
 	*/
 	if(State_Machine.Control_Source == Computer)
 	{
-		if(DR16_Export_Data.Keyboard.Press_R.Switch_Flag || Chassis.Chassis_Coord.Vy != 0)
+		if(Chassis.Chassis_Coord.Vy != 0)
 		{
 			State_Machine.Mode = Follow_Gimbal;
 		}
 
-		
-		else if(DR16_Export_Data.Keyboard.Press_E.Switch_Flag)
+		else if(Chassis.Chassis_Coord.Vx != 0)
 		{
-			if(State_Machine.Mode == Follow_Wheel)
-			{
-				State_Machine.Mode = Follow_Gimbal;
-			}
-			else
-			{
-				State_Machine.Mode = Follow_Wheel;
-			}
+			State_Machine.Mode = Follow_Wheel;
 		}
 		
 		else if(DR16_Export_Data.Keyboard.Press_Q.Switch_Flag)
@@ -156,6 +146,7 @@ void Computer_Update(void)
 			else 
 				Shooting.Fric_Wheel.Turned_On = 1;
 		}
+		
 		else if(DR16_Export_Data.Keyboard.Press_Z.Hold_Flag)
 		{
 			if(State_Machine.UI_Enabled_Flag)

@@ -24,7 +24,7 @@ void Expert_PID_LQR_Combined(void)
 	{
 		case Balancing:
 		{
-			 Chassis_Speed_PID.Kp = 1000.0f;
+			 Chassis_Speed_PID.Kp = 3000.0f;
 			 Chassis_Speed_PID.Ki = 10.0f;
 			 Chassis_Speed_PID.I_Out_Max = 3000.0f;
 			 Chassis_Speed_PID.Output_Max = 10000.0f;
@@ -44,10 +44,10 @@ void Expert_PID_LQR_Combined(void)
 					Chassis.Chassis_Coord.Target_Pitch_Angle += (-Chassis.Chassis_Coord.Target_Pitch_Angle - Chassis.Chassis_Coord.Pitch_Angle)/500.0f;
 			 Chassis.PID_Output.Angle_Loop = 0.75f * (Chassis.Chassis_Coord.Pitch_Angle - Chassis.Chassis_Coord.Target_Pitch_Angle) * LQR_K_Matrix[2] + 3.5f * Chassis.Chassis_Coord.Pitch_Angular_Rate * LQR_K_Matrix[3];
 			 
-			 Chassis_Turning_PID.Kp = 3.0f;
+			 Chassis_Turning_PID.Kp = 5.0f;
 			 Chassis_Turning_PID.Ki = 0.02f;
 			 Chassis_Turning_PID.Output_Max = 10000.0f;
-			 Chassis_Turning_PID.I_Out_Max = 3000.0f;
+			 Chassis_Turning_PID.I_Out_Max = 1000.0f;
 			 Chassis.PID_Output.Turning_Loop = PID_Func.Positional_PID(&Chassis_Turning_PID, Chassis.Chassis_Coord.Wz,-Chassis.Chassis_Coord.Yaw_Angular_Rate);
 			
 			 Chassis.Target.Left_Wheel = Chassis.PID_Output.Speed_Loop + Chassis.PID_Output.Angle_Loop - Chassis.PID_Output.Turning_Loop + Chassis.PID_Output.Spintop_Compensate_Loop; //Left Wheel

@@ -364,7 +364,7 @@ void Serial_Send(void const * argument)
   /* Infinite loop */
   for(;;)
   {		
-		printf("/*%f,%f*/\n",Chassis.Chassis_Coord.Vy,Chassis.Chassis_Coord.Forward_Speed_KF);
+		printf("/*%d,%d,%d,%d*/\n",DR16_Export_Data.Mouse.x,DR16_Export_Data.Mouse.x_kf,DR16_Export_Data.Mouse.y,DR16_Export_Data.Mouse.y_kf);
 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
   }
   /* USER CODE END Serial_Send */

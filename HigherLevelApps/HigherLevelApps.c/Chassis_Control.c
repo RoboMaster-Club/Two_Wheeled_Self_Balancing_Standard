@@ -143,6 +143,7 @@ void Chassis_Processing(Chassis_t *Chassis)
 		{
 			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_MID_MECH_ANGLE) * GM6020_ANGLE_CONVERT);
 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy;
+			Chassis->Chassis_Coord.Vx = Chassis->Gimbal_Coord.Vx;
 			Chassis->Chassis_Coord.Wz = PID_Func.Positional_PID(&Chassis_Angle_PID,0,Gimbal.Angle_Difference);
 			if(fabs(Chassis->Chassis_Coord.Wz) < 10.0f)
 				Chassis->Chassis_Coord.Wz = 0;
@@ -171,6 +172,7 @@ void Chassis_Processing(Chassis_t *Chassis)
 		case(Spin_Top):
 		{
 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy;
+			Chassis->Chassis_Coord.Vx = Chassis->Gimbal_Coord.Vx;
 			Chassis->Chassis_Coord.Wz = Chassis->Chassis_Coord.Spin_Rate; //This is where you control how fast the spintop spins
 			Chassis_Func.Chassis_State_Update(Chassis);
 			Control_Strategy_Func.Expert_PID_LQR_Combined();

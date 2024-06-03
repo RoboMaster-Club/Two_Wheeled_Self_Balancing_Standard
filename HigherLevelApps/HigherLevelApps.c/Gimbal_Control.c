@@ -46,7 +46,7 @@ void Gimbal_Control_Get_Data(Gimbal_t *Gimbal)
 	else if(State_Machine.Control_Source == Computer)
 	{
 		Gimbal->Current_Yaw = YAW_DIRECTION * Board_A_IMU.Export_Data.Total_Yaw;
-		Gimbal->Target_Yaw -= 0.01f * (float)DR16_Export_Data.Mouse.x;
+		Gimbal->Target_Yaw -= 0.01f * (float)DR16_Export_Data.Mouse.x_kf;
 		
 		Gimbal->Current_Pitch = PITCH_DIRECTION * Board_A_IMU.Export_Data.Pitch;
 		if((Gimbal->Current_Pitch > PITCH_LOWER_LIMIT && Gimbal->Current_Pitch < PITCH_UPPER_LIMIT) || \
