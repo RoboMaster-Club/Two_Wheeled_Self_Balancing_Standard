@@ -2098,6 +2098,11 @@
               <FilePath>..\ui\src\ui_indicator_1_0.c</FilePath>
             </File>
             <File>
+              <FileName>ui_indicator_1_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ui\src\ui_indicator_1_1.c</FilePath>
+            </File>
+            <File>
               <FileName>ui_interface.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\ui\src\ui_interface.c</FilePath>

@@ -7,13 +7,14 @@
 #define FRAME_ID 1
 #define GROUP_ID 0
 #define START_ID 10
-#define OBJ_NUM 2
-#define FRAME_OBJ_NUM 2
+#define OBJ_NUM 3
+#define FRAME_OBJ_NUM 5
 
 CAT(ui_, CAT(FRAME_OBJ_NUM, _frame_t)) ui_indicator_0_10;
 
 ui_interface_line_t *ui_indicator_0_Pathway_Left = (ui_interface_line_t *)&(ui_indicator_0_10.data[0]);
 ui_interface_line_t *ui_indicator_0_Pathway_Right = (ui_interface_line_t *)&(ui_indicator_0_10.data[1]);
+ui_interface_round_t *ui_indicator_0_Orientation_Circle = (ui_interface_round_t *)&(ui_indicator_0_10.data[2]);
 
 void _ui_init_indicator_0_10() {
     for (int i = 0; i < OBJ_NUM; i++) {
@@ -43,6 +44,14 @@ void _ui_init_indicator_0_10() {
     ui_indicator_0_Pathway_Right->end_y = 350;
     ui_indicator_0_Pathway_Right->color = 1;
     ui_indicator_0_Pathway_Right->width = 4;
+		
+		ui_indicator_0_Orientation_Circle->figure_tpye = 2;
+    ui_indicator_0_Orientation_Circle->layer = 0;
+    ui_indicator_0_Orientation_Circle->r = 140;
+    ui_indicator_0_Orientation_Circle->start_x = 1700;
+    ui_indicator_0_Orientation_Circle->start_y = 480;
+    ui_indicator_0_Orientation_Circle->color = 1;
+    ui_indicator_0_Orientation_Circle->width = 4;
 
     CAT(ui_proc_, CAT(FRAME_OBJ_NUM, _frame))(&ui_indicator_0_10);
     SEND_MESSAGE((uint8_t *) &ui_indicator_0_10, sizeof(ui_indicator_0_10));

@@ -7,7 +7,7 @@
 
 #define FRAME_ID 1
 #define GROUP_ID 0
-#define START_ID 12
+#define START_ID 13
 
 ui_string_frame_t ui_indicator_0_11;
 

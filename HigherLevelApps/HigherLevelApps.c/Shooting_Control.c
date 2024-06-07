@@ -169,8 +169,7 @@ void Turn_Friction_Wheel_On(void)
 	M3508_Fric_Wheel[0].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[0].Target_Speed, M3508_Fric_Wheel[0].Actual_Speed);
 	M3508_Fric_Wheel[1].Output_Current = PID_Func.Positional_PID(&Fric_Wheel_PID, M3508_Fric_Wheel[1].Target_Speed, M3508_Fric_Wheel[1].Actual_Speed);
 	
-	if(Fric_Wheel_Ramp.Ramp_Finished_Flag)	
-		Shooting.Fric_Wheel_Ready_Flag = 1;
+	Shooting.Fric_Wheel_Ready_Flag = 1;
 }
 
 void Turn_Friction_Wheel_Off(void)

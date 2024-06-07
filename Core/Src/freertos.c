@@ -59,7 +59,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+float Chassis_Orientation;
 /* USER CODE END Variables */
 osThreadId Task_IMUHandle;
 osThreadId InitializationHandle;
@@ -407,7 +407,7 @@ void UI_Draw(void const * argument)
 	portTickType xLastWakeTime;
   xLastWakeTime = xTaskGetTickCount();
 	
-	const TickType_t TimeIncrement = pdMS_TO_TICKS(100);
+	const TickType_t TimeIncrement = pdMS_TO_TICKS(1);
   /* Infinite loop */
   for(;;)
   {
@@ -466,6 +466,11 @@ void UI_Draw(void const * argument)
     {
         ui_indicator_1_Level_Indicator->number = Referee_Robot_State.Manual_Level;
     }
+		Chassis_Orientation = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_MID_MECH_ANGLE) * GM6020_ANGLE_CONVERT);
+		ui_indicator_1_Orientation_Line->start_x = 1700.0f + sinf(Chassis_Orientation)*140.0f;
+		ui_indicator_1_Orientation_Line->start_y = 480.0f - cosf(Chassis_Orientation)*140.0f;
+		ui_indicator_1_Orientation_Line->end_x = 1700.0f - sinf(Chassis_Orientation)*140.0f;
+		ui_indicator_1_Orientation_Line->end_y = 480.0f + cosf(Chassis_Orientation)*140.0f;
     ui_indicator_1_Supercap->number++;
     ui_update_indicator_1();
     vTaskDelayUntil(&xLastWakeTime, TimeIncrement);

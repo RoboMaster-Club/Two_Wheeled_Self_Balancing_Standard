@@ -44,7 +44,7 @@ void Expert_PID_LQR_Combined(void)
 					Chassis.Chassis_Coord.Target_Pitch_Angle += (-Chassis.Chassis_Coord.Target_Pitch_Angle - Chassis.Chassis_Coord.Pitch_Angle)/500.0f;
 			 Chassis.PID_Output.Angle_Loop = 0.75f * (Chassis.Chassis_Coord.Pitch_Angle - Chassis.Chassis_Coord.Target_Pitch_Angle) * LQR_K_Matrix[2] + 3.5f * Chassis.Chassis_Coord.Pitch_Angular_Rate * LQR_K_Matrix[3];
 			 
-			 Chassis_Turning_PID.Kp = 5.0f;
+			 Chassis_Turning_PID.Kp = 2.0f;
 			 Chassis_Turning_PID.Ki = 0.02f;
 			 Chassis_Turning_PID.Output_Max = 10000.0f;
 			 Chassis_Turning_PID.I_Out_Max = 1000.0f;

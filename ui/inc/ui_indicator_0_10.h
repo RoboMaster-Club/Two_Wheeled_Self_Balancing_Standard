@@ -9,6 +9,7 @@
 
 extern ui_interface_line_t *ui_indicator_0_Pathway_Left;
 extern ui_interface_line_t *ui_indicator_0_Pathway_Right;
+extern ui_interface_round_t *ui_indicator_0_Orientation_Circle;
 
 void _ui_init_indicator_0_10();
 void _ui_update_indicator_0_10();
