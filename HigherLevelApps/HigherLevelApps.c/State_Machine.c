@@ -139,6 +139,12 @@ void Computer_Update(void)
 			}
 		}
 		
+		else if(DR16_Export_Data.Keyboard.Press_E.Switch_Flag)
+		{
+			Gimbal.Target_Yaw -= 25.0f;
+			Gimbal.Yaw_Reverse_Flag = !Gimbal.Yaw_Reverse_Flag;
+		}
+		
 		else if(DR16_Export_Data.Keyboard.Press_B.Switch_Flag)
 		{
 			if(Shooting.Fric_Wheel.Turned_On)

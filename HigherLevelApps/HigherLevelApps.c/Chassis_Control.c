@@ -31,6 +31,12 @@ void Chassis_Get_Data(Chassis_t *Chassis)
 		Chassis->Gimbal_Coord.Vx = 1.5f*(DR16_Export_Data.Keyboard.Press_D.Hold_Flag - DR16_Export_Data.Keyboard.Press_A.Hold_Flag);
 		Chassis->Gimbal_Coord.Vy = 1.5f*(DR16_Export_Data.Keyboard.Press_W.Hold_Flag - DR16_Export_Data.Keyboard.Press_S.Hold_Flag);
 		Chassis->Gimbal_Coord.Wz = 0;
+		if(Gimbal.Yaw_Reverse_Flag)
+		{
+			Chassis->Gimbal_Coord.Vx *= -1;
+			Chassis->Gimbal_Coord.Vy *= -1;
+			Chassis->Gimbal_Coord.Wz *= -1;
+		}
 	}
 	
 	Chassis->Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_45;
@@ -141,7 +147,7 @@ void Chassis_Processing(Chassis_t *Chassis)
 	{
 		case(Follow_Gimbal):
 		{
-			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_MID_MECH_ANGLE) * GM6020_ANGLE_CONVERT);
+			Gimbal.Angle_Difference = DEG_TO_RAD(Find_Gimbal_Min_Angle(GM6020_Yaw.Actual_Angle - YAW_MID_MECH_ANGLE - Gimbal.Yaw_Reverse_Flag*GM6020_MECH_ANGLE_MAX/2) * GM6020_ANGLE_CONVERT);
 			Chassis->Chassis_Coord.Vy = Chassis->Gimbal_Coord.Vy;
 			Chassis->Chassis_Coord.Vx = Chassis->Gimbal_Coord.Vx;
 			Chassis->Chassis_Coord.Wz = PID_Func.Positional_PID(&Chassis_Angle_PID,0,Gimbal.Angle_Difference);

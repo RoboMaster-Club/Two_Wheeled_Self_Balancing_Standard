@@ -27,9 +27,9 @@ float VAL_LIMIT(float Value, float Upper_Limit, float Lower_Limit)
 //Find the minimum rotation angle for gimbal
 float Find_Gimbal_Min_Angle(float Angle)
 {
-	if(Angle > (GM6020_MECH_ANGLE_MAX/2))
+	while(Angle > (GM6020_MECH_ANGLE_MAX/2))
 		Angle -= GM6020_MECH_ANGLE_MAX;
-	else if(Angle < -(GM6020_MECH_ANGLE_MAX/2))
+	while(Angle < -(GM6020_MECH_ANGLE_MAX/2))
 		Angle += GM6020_MECH_ANGLE_MAX;
 	
 	return Angle;
