@@ -45,6 +45,7 @@ void Trigger_Get_Data(Shooting_t *Shooting)
 		{
 			Shooting->Type.Single_Fire_Flag = 0;
 			Shooting->Type.Burst_Flag = 1;
+			Shooting->Heat_Regulation.Launch_Freq_Count++;
 		}
 		
 		//Return to middle for reset
@@ -53,6 +54,8 @@ void Trigger_Get_Data(Shooting_t *Shooting)
 			Shooting->Type.Single_Fire_Flag = 0;
 			Shooting->Type.Burst_Flag = 0;
 			Shooting->Type.Single_Fired_Flag = 0;
+			Shooting->Heat_Regulation.Launch_Freq_Count = 0;
+			Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
 		}
 	}
 	
@@ -63,16 +66,17 @@ void Trigger_Get_Data(Shooting_t *Shooting)
 		{
 			DR16_Export_Data.Mouse.Click_Counter++;
 			
-			if(DR16_Export_Data.Mouse.Click_Counter < 10)
+			if(DR16_Export_Data.Mouse.Click_Counter < 2)
 			{
 				Shooting->Type.Single_Fire_Flag = 1;
 				Shooting->Type.Burst_Flag = 0;
 			}
 			
-			else if(DR16_Export_Data.Mouse.Click_Counter >= 10)
+			else if(DR16_Export_Data.Mouse.Click_Counter >= 2)
 			{
 				Shooting->Type.Single_Fire_Flag = 0;
 				Shooting->Type.Burst_Flag = 1;
+				Shooting->Heat_Regulation.Launch_Freq_Count++;
 			}
 		}
 		
@@ -81,6 +85,8 @@ void Trigger_Get_Data(Shooting_t *Shooting)
 			DR16_Export_Data.Mouse.Click_Counter = 0;
 			Shooting->Type.Single_Fire_Flag = 0;
 			Shooting->Type.Burst_Flag = 0;
+			Shooting->Heat_Regulation.Launch_Freq_Count = 0;
+			Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
 		}
 	}
 }
@@ -91,12 +97,15 @@ void Shooting_Processing(Shooting_t *Shooting)
 		Turn_Friction_Wheel_On();
 	else
 		Turn_Friction_Wheel_Off();
-	
+	Shooting->Heat_Regulation.Heat_Count++;
+	if (Shooting->Heat_Regulation.Heat_Count*2 % 100 == 0)
+	{
+			Shooting->Heat_Regulation.Calculated_Heat -= Referee_Robot_State.Cooling_Rate/10;
+			Shooting->Heat_Regulation.Calculated_Heat = VAL_LIMIT(Shooting->Heat_Regulation.Calculated_Heat,Referee_Robot_State.Heat_Max,0);
+	}
 	//Friction wheel has to reach maximum speed before it's allowed to fire
 	if(Shooting->Fric_Wheel_Ready_Flag)
 	{
-		if(abs(Referee_Robot_State.Heat_Max - Referee_Robot_State.Shooter_Heat_1) > 40)
-		{
 			if(State_Machine.Control_Source == Remote_Control)
 			{
 				//First calculate target angle for single fire
@@ -109,15 +118,24 @@ void Shooting_Processing(Shooting_t *Shooting)
 				//Then fire this
 				else if(Shooting->Type.Single_Fire_Flag && Shooting->Type.Single_Fired_Flag)
 				{
-					Shooting->Trigger.Target_Speed = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger.Target_Angle, M2006_Trigger.Total_Angle);
-					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.Target_Speed, M2006_Trigger.Actual_Speed);
+					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger.Target_Angle, M2006_Trigger.Total_Angle);
 				}
 				
 				else if(Shooting->Type.Burst_Flag)
 				{
-					M2006_Trigger.Output_Current = 0;
-					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determines the frequency of bursting
-					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.Target_Speed, M2006_Trigger.Actual_Speed);
+//					M2006_Trigger.Output_Current = 0;
+//					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determines the frequency of bursting
+//					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.Target_Speed, M2006_Trigger.Actual_Speed);
+					if (Shooting->Heat_Regulation.Launch_Freq_Count*2 > LAUNCH_PERIOD)
+					{
+							Shooting->Heat_Regulation.Launch_Freq_Count = 0;
+							if((Referee_Robot_State.Heat_Max - Shooting->Heat_Regulation.Calculated_Heat) > 20)
+							{
+									Shooting->Heat_Regulation.Calculated_Heat += 10;
+									Shooting->Trigger.Target_Angle += TRIGGER_DIRECTION*M2006_ANGLE_1_BULLET;
+							}
+					}
+					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger.Target_Angle, M2006_Trigger.Total_Angle);
 				}
 			
 				else
@@ -136,26 +154,30 @@ void Shooting_Processing(Shooting_t *Shooting)
 				//Then fire this
 				else if(Shooting->Type.Single_Fired_Flag && !Shooting->Type.Burst_Flag)
 				{
-					Shooting->Trigger.Target_Speed = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger.Target_Angle, M2006_Trigger.Total_Angle);
-					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.Target_Speed, M2006_Trigger.Actual_Speed);
-					if(fabs(Shooting->Trigger.Target_Angle - M2006_Trigger.Total_Angle) < 100)
-						Shooting->Type.Single_Fired_Flag = 0;
+					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger.Target_Angle, M2006_Trigger.Total_Angle);
 				}
 				
 				else if(Shooting->Type.Burst_Flag)
 				{
-					M2006_Trigger.Output_Current = 0;
-					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determines the frequency of bursting
-					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.Target_Speed, M2006_Trigger.Actual_Speed);
-					Shooting->Trigger.Target_Angle = M2006_Trigger.Total_Angle;
+//					M2006_Trigger.Output_Current = 0;
+//					Shooting->Trigger.Target_Speed = TRIGGER_DIRECTION * 5000; //The multiplying constant determines the frequency of bursting
+//					M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Speed_PID, Shooting->Trigger.Target_Speed, M2006_Trigger.Actual_Speed);
+					
+						if (Shooting->Heat_Regulation.Launch_Freq_Count*2 > LAUNCH_PERIOD)
+						{
+								Shooting->Heat_Regulation.Launch_Freq_Count = 0;
+								if((Referee_Robot_State.Heat_Max - Shooting->Heat_Regulation.Calculated_Heat) > 20)
+								{
+										Shooting->Heat_Regulation.Calculated_Heat += 10;
+										Shooting->Trigger.Target_Angle += TRIGGER_DIRECTION*M2006_ANGLE_1_BULLET;
+								}
+						}
+						M2006_Trigger.Output_Current = PID_Func.Positional_PID(&Trigger_Angle_PID, Shooting->Trigger.Target_Angle, M2006_Trigger.Total_Angle);
 				}
 				else
 					M2006_Trigger.Output_Current = 0;
 			}
 		}
-		else
-			M2006_Trigger.Output_Current = 0;
-	}
 }
 
 void Turn_Friction_Wheel_On(void)

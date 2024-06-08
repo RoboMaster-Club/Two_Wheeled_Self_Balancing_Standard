@@ -16,14 +16,13 @@
 #include "State_Machine.h"
 #include "DR16_Remote.h"
 #include "Ramp_Calc.h"
-
-#define FRIC_SPEED_10 7200 
-#define FRIC_SPEED_15 7200 //4400 //Tested value for 15m/s
-#define FRIC_SPEED_18	7200 //3000 //4900 //Tested value for 18m/s 
-#define FRIC_SPEED_30 8200 //Tested value for 30m/s
+ 
+#define FRIC_SPEED_30 7600 //Tested value for 30m/s
 #define TRIGGER_DIRECTION 1 //Trigger motor direction
 #define FRIC_LEFT_DIRECTION -1 //Left friction wheel motor direction
 #define FRIC_RIGHT_DIRECTION 1 //Right friction wheel motor direction
+#define LAUNCH_FREQUENCY (15)
+#define LAUNCH_PERIOD (1000.0f/LAUNCH_FREQUENCY)
 
 #define Shooting_Func_GroundInit	\
 {																	\
@@ -53,6 +52,13 @@ typedef struct
 		uint16_t Target_Speed;
 		uint8_t Turned_On;
 	}Fric_Wheel;
+	
+	struct
+	{
+		uint16_t Heat_Count;
+		int16_t Calculated_Heat;
+		uint16_t Launch_Freq_Count;
+	}Heat_Regulation;
 	
 	uint8_t Fric_Wheel_Ready_Flag;
 }Shooting_t;

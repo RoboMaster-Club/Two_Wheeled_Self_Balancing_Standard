@@ -364,7 +364,7 @@ void Serial_Send(void const * argument)
   /* Infinite loop */
   for(;;)
   {		
-		printf("/*%d,%d,%d,%d*/\n",DR16_Export_Data.Mouse.x,DR16_Export_Data.Mouse.x_kf,DR16_Export_Data.Mouse.y,DR16_Export_Data.Mouse.y_kf);
+		printf("/*%d,%d*/\n",Shooting.Heat_Regulation.Calculated_Heat,Referee_Robot_State.Shooter_Heat_1);
 		vTaskDelayUntil(&xLastWakeTime, TimeIncrement);
   }
   /* USER CODE END Serial_Send */
