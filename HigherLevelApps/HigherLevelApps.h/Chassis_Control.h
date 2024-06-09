@@ -23,7 +23,7 @@
 #define WHEEL_DIAMETER 0.22f //m
 #define TIME_INTERVAL 0.002f //s
 #define CHASSIS_SPINTOP_RATE_POWER_45 60.0f //Chassis spintop rate
-#define CHASSIS_SPINTOP_RATE_POWER_80 120.0f //Chassis spintop rate
+#define CHASSIS_SPINTOP_RATE_POWER_80 150.0f //Chassis spintop rate
 #define CHASSIS_TARGET_SPEED 0.0f //Balance speed
 #define CHASSIS_TARGET_ANGLE 0.0f //Balance angle
 

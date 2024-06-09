@@ -68,19 +68,19 @@ void _ui_init_indicator_1_0() {
 
     ui_indicator_1_Aim_V_Line->figure_tpye = 0;
     ui_indicator_1_Aim_V_Line->layer = 0;
-    ui_indicator_1_Aim_V_Line->start_x = 925;
-    ui_indicator_1_Aim_V_Line->start_y = 455;
-    ui_indicator_1_Aim_V_Line->end_x = 925;
-    ui_indicator_1_Aim_V_Line->end_y = 485;
+    ui_indicator_1_Aim_V_Line->start_x = 960;
+    ui_indicator_1_Aim_V_Line->start_y = 600;
+    ui_indicator_1_Aim_V_Line->end_x = 960;
+    ui_indicator_1_Aim_V_Line->end_y = 630;
     ui_indicator_1_Aim_V_Line->color = 3;
     ui_indicator_1_Aim_V_Line->width = 2;
 
     ui_indicator_1_Aim_H_Line->figure_tpye = 0;
     ui_indicator_1_Aim_H_Line->layer = 0;
-    ui_indicator_1_Aim_H_Line->start_x = 910;
-    ui_indicator_1_Aim_H_Line->start_y = 470;
-    ui_indicator_1_Aim_H_Line->end_x = 940;
-    ui_indicator_1_Aim_H_Line->end_y = 470;
+    ui_indicator_1_Aim_H_Line->start_x = 945;
+    ui_indicator_1_Aim_H_Line->start_y = 615;
+    ui_indicator_1_Aim_H_Line->end_x = 975;
+    ui_indicator_1_Aim_H_Line->end_y = 615;
     ui_indicator_1_Aim_H_Line->color = 3;
     ui_indicator_1_Aim_H_Line->width = 2;
     

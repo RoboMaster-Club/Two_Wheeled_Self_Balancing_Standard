@@ -39,7 +39,7 @@ void Chassis_Get_Data(Chassis_t *Chassis)
 		}
 	}
 	
-	Chassis->Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_45;
+	Chassis->Chassis_Coord.Spin_Rate = CHASSIS_SPINTOP_RATE_POWER_80;
 	Chassis->Chassis_Coord.Prev_Forward_Speed = Chassis->Chassis_Coord.Forward_Speed;
 	Chassis->Chassis_Coord.Forward_Speed = (MF9025_Chassis[0].Actual_Speed - MF9025_Chassis[1].Actual_Speed) / 2.0f  / 360.0f * PI * WHEEL_DIAMETER;
 	Chassis->Chassis_Coord.Forward_Distance = (MF9025_Chassis[0].Total_Turn - MF9025_Chassis[1].Total_Turn) / 2.0f * PI * WHEEL_DIAMETER;
