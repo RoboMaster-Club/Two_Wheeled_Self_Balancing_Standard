@@ -103,6 +103,8 @@ void Shooting_Processing(Shooting_t *Shooting)
 			Shooting->Heat_Regulation.Calculated_Heat -= Referee_Robot_State.Cooling_Rate/10;
 			Shooting->Heat_Regulation.Calculated_Heat = VAL_LIMIT(Shooting->Heat_Regulation.Calculated_Heat,Referee_Robot_State.Heat_Max,0);
 	}
+	if(DR16_Export_Data.Mouse.Right_Click)
+		Shooting->Heat_Regulation.Calculated_Heat = Referee_Robot_State.Shooter_Heat_1;
 	//Friction wheel has to reach maximum speed before it's allowed to fire
 	if(Shooting->Fric_Wheel_Ready_Flag)
 	{

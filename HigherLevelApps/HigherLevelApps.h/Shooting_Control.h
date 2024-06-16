@@ -17,7 +17,7 @@
 #include "DR16_Remote.h"
 #include "Ramp_Calc.h"
  
-#define FRIC_SPEED_30 7600 //Tested value for 30m/s
+#define FRIC_SPEED_30 7600	//Tested value for 30m/s
 #define TRIGGER_DIRECTION 1 //Trigger motor direction
 #define FRIC_LEFT_DIRECTION -1 //Left friction wheel motor direction
 #define FRIC_RIGHT_DIRECTION 1 //Right friction wheel motor direction

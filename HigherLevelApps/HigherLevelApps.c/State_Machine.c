@@ -153,10 +153,13 @@ void Computer_Update(void)
 				Shooting.Fric_Wheel.Turned_On = 1;
 		}
 		
-		else if(DR16_Export_Data.Keyboard.Press_Z.Hold_Flag)
+		else if(DR16_Export_Data.Keyboard.Press_V.Hold_Flag)
 		{
 			if(State_Machine.UI_Enabled_Flag)
 				State_Machine.UI_Enabled_Flag = 0;
 		}
+		
+		if((State_Machine.Mode != Spin_Top) && (DR16_Export_Data.Mouse.Left_Click))
+			State_Machine.Mode = Follow_Wheel;
 	}
 }
